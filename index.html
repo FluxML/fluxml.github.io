@@ -1,1 +1,161 @@
-Hello World
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Global Site Tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-36890222-9"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-36890222-9');
+    </script>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link rel="stylesheet" href="./script/default.css">
+    <link rel="stylesheet" href="./site.css">
+    <title>Flux</title>
+  </head>
+  <body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark container lighter">
+      <a class="navbar-brand" href="#">Flux</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="Flux.jl">Docs</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://discourse.julialang.org/c/domain/ML">Discuss</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://github.com/FluxML/Flux.jl">Source</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Header -->
+    <div class="jumbotron jumbotron-fluid">
+      <div class="container" style="text-align:center">
+        <h1 class="display-3">Flux</h1>
+        <h2>The <i>Elegant</i> Machine Learning Stack</h2>
+        <hr class="my-4">
+        <p class="lighter">
+          Models that look like pseudocode. Seamless derivatives, GPU training and deployment. A set of small, nimble tools that each do one thing and do it well.
+        </p>
+        <p class="lead">
+          <a class="btn btn-primary btn-lg" href="Flux.jl" role="button">Try It Out</a>
+        </p>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="bg-light">
+      <!-- Installation -->
+      <div class="feature">
+        <div class="container">
+          <div class="row">
+            <div class="col">
+                <p>
+                  Installation? What installation? Just use Julia's package manager and you're done.
+                </p>
+            </div>
+            <div class="col">
+              <pre><code class="julia">Pkg.add("Flux")</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Models -->
+      <div class="feature">
+        <div class="container">
+          <div class="row">
+            <div class="col">
+<pre><code class="julia">using Flux
+
+W = randn(2, 10)
+b = randn(2)
+
+y = σ(W * x .+ b)</code></pre>
+            </div>
+            <div class="col">
+                <p>
+                  Python is executable pseudocode, but Julia is executable math. Models look just like the description in the paper, and you have the full power and simplicity of the Julia language (including control flow, multiple dispatch and macros).
+                </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Hackability -->
+      <div class="feature">
+        <div class="container">
+          <div class="row">
+            <div class="col">
+                <p>
+                  Flux is lightweight, and hackable to the core. The whole stack – including automatic differentiation and GPU kernels – is only a few thousand lines of clean Julia code. There's no monolithic C++ underbelly, so it's easy to use custom components and push the state of the art.
+                </p>
+            </div>
+            <div class="col">
+              <pre><code class="julia">function gpu_add(a, b, c)
+    i = (blockIdx().x-1) * blockDim().x + threadIdx().x
+    c[i] = a[i] + b[i]
+
+    return nothing
+end</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Compilation -->
+      <div class="feature">
+        <div class="container">
+          <div class="row">
+            <div class="col">
+<pre><code class="julia">model = Chain(
+  Dense(10, 5, σ),
+  Dense(5, 2),
+  softmax)
+
+model_ludicrous_speed = compile(model)</code></pre>
+            </div>
+            <div class="col">
+                <p>
+                  Despite being simple and flexible, Flux has street smarts. The tools are graph-aware and can make smart optimisations to speed and memory usage, previously only possible in clunky "define before run" frameworks.
+                </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container call">
+        <p class="lead">If your appettite is whet, <a href="Flux.jl">check out the docs</a> to get going.</p>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="container footer lighter">
+      <p>this footer isn't really necessary, but it looks nice.</p>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="http://junolab.org/js/docs.min.js"></script>
+    <script src="./script/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </body>
+</html>

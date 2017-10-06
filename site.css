@@ -1,0 +1,102 @@
+body {
+  background: rgb(40, 130, 40);
+  font-family: "Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+
+.lighter {
+  font-weight: 300;
+  letter-spacing: 1px;
+}
+
+/* Header */
+
+.jumbotron {
+  background-color: black;
+  background: url("bg.jpg");
+  background-position: center;
+  background-size: cover;
+  margin-bottom: 0;
+  color: white;
+  text-shadow: 0px 0px 5px black;
+}
+
+.jumbotron .container {
+  max-width: 750px;
+  box-shadow: 2px;
+}
+
+.jumbotron hr {
+  border-top: 1px solid rgba(255,255,255,.5);
+}
+
+/* Tag line */
+.jumbotron h2 {
+  font-family: Bookman;
+}
+
+/* Description */
+.jumbotron p {
+  color: rgb(240, 240, 240);
+  font-size: 1.1em;
+  margin-bottom: 1.5rem;
+}
+
+.btn-primary {
+  border-color: rgb(60, 150, 60);
+  background: none;
+  border-width: 2px;
+}
+
+.jumbotron .btn-primary:hover {
+  border-color: rgb(60, 255, 60);
+  background: none;
+  border-width: 2px;
+}
+
+/*Links*/
+a, a:visited { color: rgb(0, 120, 0); }
+p a { border-bottom: 1px solid rgb(200, 230, 200); }
+a:hover, a:visited:hover { color: rgb(0, 80, 0); text-decoration: none; }
+
+/*Features*/
+.feature {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  letter-spacing: 0.1px;
+  color: rgb(50, 50, 50);
+}
+.feature:nth-child(2n) {
+  background: rgb(235, 245, 235);
+}
+.feature:nth-child(2n) pre code.hljs {
+  background: white;
+}
+.feature .container p:last-child {
+  margin-bottom: 0;
+}
+
+/*Footer*/
+.call {
+  padding-top: 2em;
+  padding-bottom: 2em;
+  text-align: center;
+}
+.call p:last-child {
+  margin: 0;
+}
+.footer {
+  margin-top: 1.5rem;
+  margin-bottom: 3rem;
+  color: white;
+}
+
+/*Code*/
+pre {
+  margin: 0;
+}
+pre code.hljs {
+  background: rgb(240, 245, 240);
+  border-radius: 5px;
+  padding-left: 1em;
+  padding-right: 1em;
+}
