@@ -54,9 +54,11 @@ body {
 }
 
 /*Links*/
-a, a:visited { color: rgb(0, 120, 0); }
-p a { border-bottom: 1px solid rgb(200, 230, 200); }
-a:hover, a:visited:hover { color: rgb(0, 80, 0); text-decoration: none; }
+p a, p a:visited { border-bottom: 1px solid rgb(200, 230, 200); }
+p a:hover, p a:visited:hover { color: rgb(0, 120, 0); text-decoration: none; }
+
+p a, p a:visited { color: rgb(0, 120, 0); }
+p a:hover { border-bottom: 1px solid rgb(150, 200, 150); }
 
 /*Features*/
 .feature {
