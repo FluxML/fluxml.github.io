@@ -3,54 +3,17 @@ body {
   font-family: "Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
 }
 
+.content {
+  background: rgb(235, 245, 235);
+}
+
+.content .container {
+  background: white;
+}
+
 .lighter {
   font-weight: 300;
   letter-spacing: 1px;
-}
-
-/* Header */
-
-.jumbotron {
-  background-color: black;
-  background: url("bg.jpg");
-  background-position: center;
-  background-size: cover;
-  margin-bottom: 0;
-  color: white;
-  text-shadow: 0px 0px 5px black;
-}
-
-.jumbotron .container {
-  max-width: 750px;
-  box-shadow: 2px;
-}
-
-.jumbotron hr {
-  border-top: 1px solid rgba(255,255,255,.5);
-}
-
-/* Tag line */
-.jumbotron h2 {
-  font-family: Bookman;
-}
-
-/* Description */
-.jumbotron p {
-  color: rgb(240, 240, 240);
-  font-size: 1.1em;
-  margin-bottom: 1.5rem;
-}
-
-.btn-primary {
-  border-color: rgb(60, 150, 60);
-  background: none;
-  border-width: 2px;
-}
-
-.jumbotron .btn-primary:hover {
-  border-color: rgb(60, 255, 60);
-  background: none;
-  border-width: 2px;
 }
 
 /*Links*/
@@ -59,23 +22,6 @@ p a:hover, p a:visited:hover { color: rgb(0, 120, 0); text-decoration: none; }
 
 p a, p a:visited { color: rgb(0, 120, 0); }
 p a:hover { border-bottom: 1px solid rgb(150, 200, 150); }
-
-/*Features*/
-.feature {
-  padding-top: 2rem;
-  padding-bottom: 2rem;
-  letter-spacing: 0.1px;
-  color: rgb(50, 50, 50);
-}
-.feature:nth-child(2n) {
-  background: rgb(235, 245, 235);
-}
-.feature:nth-child(2n) pre code.hljs {
-  background: white;
-}
-.feature .container p:last-child {
-  margin-bottom: 0;
-}
 
 /*Footer*/
 .call {
