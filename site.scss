@@ -1,16 +1,28 @@
 ---
 ---
+
+$light-green: rgb(235, 245, 235);
+
 body {
   background: rgb(40, 130, 40);
   font-family: "Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
 }
 
 .content {
-  background: rgb(235, 245, 235);
-}
+  background: $light-green;
 
-.content .container {
-  background: white;
+  .container {
+    background: white;
+    padding-top: 2em;
+    padding-bottom: 2em;
+  }
+
+  h1 {
+    font-size: 20pt;
+    padding-bottom: 0.2em;
+    border-bottom: 3px solid $light-green;
+    text-align: center;
+  }
 }
 
 .lighter {
