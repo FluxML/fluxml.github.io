@@ -1,0 +1,96 @@
+/* basic styles */
+*{
+	margin: 0;
+	padding: 0;
+	
+}
+
+.heading{
+	font-size: 30px;
+	background: #555;
+	color: #fff;
+	padding: 30px 50px;
+	z-index: 3;
+	box-shadow: 0 3px 5px #aaa;
+	height: 11vh;
+	box-sizing: border-box;
+}
+
+.options{
+	display: flex;
+	-webkit-flex-direction: row;
+	-ms-flex-direction: row;
+	flex-direction: row;
+}
+
+/*body{
+	background: #f7f7f7;
+	height: 100vh;
+	font-family: arial, verdana;
+	
+}*/
+
+/*.content{	
+	flex-wrap: wrap;
+	width: 100vw;
+}*/
+
+.demo_wrapper{
+	display: flex;
+}
+
+#number{
+	transform: scale(1);
+	margin: 20px 0;
+
+}
+#editor{
+	border: 16px solid #777;
+	margin: 50px 0 0 0;
+	background: #fff;
+}
+.render_editor, .render_image{
+	/*width: 50vw;*/
+	/*height: 89vh;*/
+	flex:1;
+	padding: 50px;
+	box-sizing: border-box;
+	position:relative;
+}
+
+.render_image{
+	/*background: #eee;*/
+	/*width: 20vw;*/
+	border-left: 1px solid #d8d7d7;
+}
+
+.options button{
+	font-size: 16px;
+	margin: 30px 0;
+	margin-right: 10px;
+	padding: 10px 20px;
+	border-radius: 6px;
+	background: #fff;
+	color: #000;
+	cursor: pointer;
+	border: none;
+	box-shadow: 0 5px 10px #777;
+	transition: all .5s linear;
+}
+
+.options button:active{
+	box-shadow: 0 2px 0 #777;	
+	transform: translateY(3px);
+}
+
+.render_editor h1, .render_image h1{
+	/*padding: 30px 0;*/
+    /*border-bottom: 1px solid #000;*/
+}
+
+@media only screen and (max-width: 768px){
+	.render_editor, .render_image{
+		width: 100vw;
+		height: auto;
+	}
+}
