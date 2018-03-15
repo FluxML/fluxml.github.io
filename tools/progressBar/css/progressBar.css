@@ -23,6 +23,7 @@
 
 .progress-lightbox h3{
 	color: #555;
+	font-size: 1em;
 }
 
 .progress-bar-fill{
@@ -41,4 +42,5 @@
     position: relative;
     height: 5px;
     margin: 20px 0;
+    background: #FFF;
 }

@@ -22,7 +22,6 @@
 		drawImage(document.querySelector('#number'), input.map((_, i)=>input[transpose(i, 28, 28)]))
 		
 		var tensor = dl.tensor(input);	
-
 		var output = this.model(tensor);
 
 		output.data().then(function(val){
@@ -42,25 +41,7 @@
 	}
 
 	Model.prototype.showResult = function(val){
-		console.log(val)
 		this.result.update(val)
 	}
 
 })(window)
-
-function invertColor(color){
-	return 255 - color
-}
-
-function reduceToGrayScale(i){
-	return i/255;
-}
-
-function transpose(i, row, col){
-	return ((i%col)*row + Math.floor(i/row))
-}
-
-function reverse(i, size){
-	return size - i - 1;
-}
-

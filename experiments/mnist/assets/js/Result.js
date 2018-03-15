@@ -4,7 +4,7 @@ Object.assign(window, {Result});
 
 function Result (ele, 
 	{	
-		labels,
+		labels=[...Array(10).keys()],  // default labels from 0 to 9
 		max=1,
 		maxHeight=100,
 		barWidth=10,
@@ -18,16 +18,8 @@ function Result (ele,
 {
 	this.canvas = ele;
 	this.ctx = this.canvas.getContext('2d');
-	if(labels == undefined){
-		labels = [];
-		(new Array(10)).fill(0).forEach((e, i)=>{
-			labels.push(i);
-		})
-	}
-
 	this.labels = labels;
 	this.max = max;
-	
 	this.maxHeight = maxHeight;
 	this.barWidth = barWidth;
 	this.horizontalSpacing = horizontalSpacing;
@@ -51,11 +43,12 @@ Result.prototype.setUp = function(){
 }
 
 Result.prototype.update = function(values){
-	this.setUp();
+	this.setUp();	// write the labels again ( remove highlighting )
 
 	var scope = this;
 	var max_i = 0;
 	
+	// draw as histogram
 	values.forEach((val, i)=>{
 		fill(val, i, scope.color);
 		if(val> values[max_i]){
@@ -63,14 +56,15 @@ Result.prototype.update = function(values){
 		}
 	})
 
+	// highlight highest bar
 	fill(values[max_i], max_i, scope.highlight);
-
 	var labelTopOffset = this.maxHeight + this.verticalSpacing;
 	var labelLeftOffset = max_i * ( this.barWidth + this.horizontalSpacing );
 	this.ctx.fillStyle = this.highlight;
 	this.ctx.font = this.fontSize + "px " + this.fontFamily;
 	this.ctx.fillText(this.labels[max_i], labelLeftOffset, labelTopOffset);
 
+	// for filling each bar
 	function fill(val, i, color){	
 		var height = scope.maxHeight * (val/scope.max);
 		var leftOffset = i*(scope.horizontalSpacing + scope.barWidth);
@@ -79,7 +73,6 @@ Result.prototype.update = function(values){
 		scope.ctx.fillStyle = color;
 		scope.ctx.fillRect(leftOffset, topOffset, scope.barWidth, height);
 	}
-
 }
 
 })(window)

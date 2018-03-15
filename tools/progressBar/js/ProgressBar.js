@@ -28,13 +28,11 @@
 		</div>')
 
 		this.backdrop = backdrop;
-		
-		
-
 		this.container.appendChild(backdrop);
 		this.fill = backdrop.querySelector('.progress-bar-fill');
 		this.status = backdrop.querySelector('.progress-status');
 	}
+
 
 	ProgressBar.prototype.update = function(frac){
 		this.total = this.backdrop.querySelector('.progress-bar').getClientRects()[0].width;

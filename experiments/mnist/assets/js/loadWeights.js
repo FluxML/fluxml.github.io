@@ -8,9 +8,10 @@ let Buffer = new BSON().serialize({}).constructor
 
 // send an xhr Request so as to show event progress
 var weightsRequest = new XMLHttpRequest();
-weightsRequest.open('GET', '/script/demos/mnist/bson/mnist-mlp.bson');
+weightsRequest.open('GET', 'assets/bson/mnist-mlp.bson');
 weightsRequest.responseType = "arraybuffer";
 
+// initialise progress bar
 var pbar = new ProgressBar({
 	xhr: weightsRequest,
 	container: document.querySelector('.render_editor'),
@@ -19,7 +20,6 @@ var pbar = new ProgressBar({
 			var response = new Buffer(res.currentTarget.response);
 			var data = new BSON().deserialize(response);
 			model.weights = flux.convertArrays_(data).weights;
-			console.log(model.weights)
 		}
 		__init__()
 	},

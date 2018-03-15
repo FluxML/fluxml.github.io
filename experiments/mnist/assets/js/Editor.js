@@ -3,7 +3,14 @@
 Object.assign(window, {Editor})
 
 // editor 
-function Editor(ele, {strokeWidth=15, color="#000", scale=1, background="#fff"}={}){
+function Editor(ele, 
+	{
+		strokeWidth=15,
+		color="#000",
+		scale=1,
+		background="#fff"
+	}={})
+{
 	this.canvas = ele;
 	this.ctx = ele.getContext('2d');
 	this.strokeWidth = strokeWidth;
@@ -19,7 +26,7 @@ function Editor(ele, {strokeWidth=15, color="#000", scale=1, background="#fff"}=
 Editor.prototype = Object.create(EventTarget.prototype)
 
 Editor.prototype.draw = function({clientX, clientY}={}){
-	// event end might trigger
+	// event end might trigger clientX = 0 and clientY = 0
 	if(clientX == 0 && clientY == 0)return;
 	
 	var editorOffsets = this.canvas.getClientRects()[0];
@@ -34,7 +41,6 @@ Editor.prototype.draw = function({clientX, clientY}={}){
       	var yc = (this.prevPoint.dy + dy) / 2;
 		this.ctx.quadraticCurveTo(xc, yc, dx, dy);
 		this.ctx.stroke();
-
 		this.ctx.beginPath();
 		this.ctx.fillStyle = this.color;
 		this.ctx.arc(dx, dy, this.strokeWidth*.5, 0, Math.PI * 2, true);
@@ -106,9 +112,7 @@ Editor.prototype.getImage = function() {
 	hiddenCanvas.width = 28;
 	hiddenCanvas.height = 28;
 	var hctx = hiddenCanvas.getContext('2d');
-	
 	hctx.drawImage(this.canvas,0, 0, this.canvas.width, this.canvas.height,0, 0, 28, 28);
-	// document.body.appendChild(hiddenCanvas)
 	return hctx.getImageData(0, 0, 28, 28)
 };
 
