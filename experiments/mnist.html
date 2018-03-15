@@ -1,8 +1,44 @@
 ---
 layout: default
 ---
+
+<link rel="stylesheet" href="/script/demos/mnist/css/style.css">
+<link rel="stylesheet" href="/script/demos/mnist/css/progressBar.css">
+<script src="https://unpkg.com/deeplearn"></script>
+<script src="https://unpkg.com/bson/browser_build/bson.js"></script>
+<script src="/script/demos/mnist/js/flux.js"></script>
+
 <div class="content">
-  <div class="container">
-    <h1>Flux Experiment: MNIST Classifier</h1>
-  </div>
+	<div class="container">
+		<h1>Flux Experiment: MNIST Classifier</h1>
+		<div class="demo_wrapper">
+			<div class="render_editor">
+				<!-- <h1>Editor</h1> -->
+				<div>
+					<div>				
+						<canvas width="240" height="240" id="editor"></canvas>
+						<div class="options">
+							<button id="clearEditor">Clear</button>
+							<!-- <button id="getImage">get Image</button>-->
+						</div>
+					</div>
+					<div>
+						<canvas width=200 height=200 id="result"></canvas>
+					</div>
+				</div>
+			</div>
+			<div class="render_image">
+				<h2>Input</h2>
+				<canvas width=28 height=28 id="number"></canvas>
+			</div>
+		</div>
+	</div>
 </div>
+
+<script src="/script/demos/mnist/js/mnist-mlp.js"></script>
+<script src="/script/demos/mnist/js/Editor.js"></script>
+<script src="/script/demos/mnist/js/Result.js"></script>
+<script src="/script/demos/mnist/js/Model.js"></script>
+<script src="/script/demos/mnist/js/ProgressBar.js"></script>
+<script src="/script/demos/mnist/js/script.js"></script>
+<script src="/script/demos/mnist/js/loadWeights.js"></script>
