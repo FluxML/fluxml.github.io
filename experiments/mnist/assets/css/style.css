@@ -46,7 +46,7 @@
 }
 #editor{
 	border: 16px solid #777;
-	margin: 50px 0 0 0;
+	/*margin: 50px 0 0 0;*/
 	background: #fff;
 }
 .render_editor, .render_image{
@@ -88,13 +88,20 @@
     /*border-bottom: 1px solid #000;*/
 }
 
+.render_editor > div{
+	display: flex;
+	justify-content: space-around;
+}
+
+#result{
+	margin-top:145px;
+}
+
 @media only screen and (max-width: 768px){
-	.render_editor, .render_image{
+	.render_editor{
 		/*width: 100vw;*/
 		height: auto;
-	}
-	.render_image{
-		border: none;
+		padding: 20px 0;
 	}
 
 	.demo_wrapper{
@@ -105,4 +112,15 @@
 	.options button{
 		margin: 30px auto;
 	}
+
+	.render_editor > div{
+		flex-direction:column;
+	}
+
+	#result{
+		margin-top:0px;
+	}
+	
 }
+
+

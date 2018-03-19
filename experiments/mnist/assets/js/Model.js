@@ -19,8 +19,6 @@
 		var scope = this;
 		var input = this.blackAndWhite(image.data);
 		
-		drawImage(document.querySelector('#number'), input.map((_, i)=>input[transpose(i, 28, 28)]))
-		
 		var tensor = dl.tensor(input);	
 		var output = this.model(tensor);
 
