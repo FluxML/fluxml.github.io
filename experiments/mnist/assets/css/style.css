@@ -90,7 +90,19 @@
 
 @media only screen and (max-width: 768px){
 	.render_editor, .render_image{
-		width: 100vw;
+		/*width: 100vw;*/
 		height: auto;
+	}
+	.render_image{
+		border: none;
+	}
+
+	.demo_wrapper{
+		flex-direction: column;
+		text-align: center;
+	}
+
+	.options button{
+		margin: 30px auto;
 	}
 }
