@@ -15,12 +15,3 @@ let model = (function () {
   model.weights = [];
   return model;
 })();
-// flux.fetchWeights("assets/bson/dqn.bson").then((function (ws) {
-//   console.log("weights Fetched")
-  
-//   model.weights = ws;
-//   __init__();
-// }));
-
-
-loadWeights("assets/bson/dqn.bson", document.querySelector('.board'), __init__);

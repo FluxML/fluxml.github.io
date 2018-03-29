@@ -3,44 +3,74 @@
 	Object.assign(obj, {Game})
 
 	// interact with env
-	function Game(cartPole){
+	function Game(env, out, model){
 		var state = "";
 		var newAction = 0;
 
 		this.setState = function(newState){
-			cartPole.reset();
-			cartPole.display();
+			this.reset();
 			state = newState;
-			if(state == "computer"){
-				cartPole.start();
-			}else if(state == "human"){
-				newAction = 0;
-				this.play();
-			}
+			this.play();
 		}
 
 		this.action = function(a){
-			if(state == "human"){
-				newAction = a;
-			}else if(state == "computer"){
-				cartPole.step(a);	// apply a jolt
-				cartPole.display();	
+			switch(state){
+				case "human":
+					newAction = a;
+					break;
+				case "computer":
+					this.move(a);	// apply a jolt
+					this.display();	
+					break;
 			}
 		}
 
 		this.play = function(){
+			if(env.done())return;
 
-			if(state != "human")return;
+			switch(state){
+				case "human":
+					this.move(newAction);
+					this.display();
+					newAction = 0;
 
-			cartPole.step(newAction);
-			cartPole.display();
-			newAction = 0;
-
-			if(!cartPole.done()){
-				var play = this.play.bind(this);
-				setTimeout(play, 100);
+					if(!env.done()){
+						var play = this.play.bind(this);
+						setTimeout(play, 20);
+					}
+					break;
+				case "computer":
+					this.predict(env.state(), (a)=>{
+						action = a[0] > a[1]? 1 : 2;
+						this.move(action);
+						this.display();
+						
+						if(!env.done()){
+							var play = this.play.bind(this);
+							setTimeout(play, 20)
+						}
+					})
+					break;
+				default:
+					console.log("Invalid state", state);
 			}
 		}
 
+		this.display = function(){
+			out.render(env.config());
+		}
+		this.move = function(a){
+			env.step(a);
+		}
+		this.predict = function(state, callback=console.log){
+			({ x, xvel , theta, thetavel } = state);
+			var output = model(dl.tensor([x, xvel, theta, thetavel]));
+			output.data().then(callback)
+		}
+		this.reset = function(){
+			env.reset();
+			newAction = 0;
+			this.display();
+		}
 	}
 })(window);

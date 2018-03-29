@@ -64,3 +64,11 @@
 .keyboard .highlight{
   background: #fff;
 }
+
+.keyboard .highlight[data-key="left"]:before{
+  border-right-color: #288228;
+}
+
+.keyboard .highlight[data-key="right"]:before{
+  border-left-color: #288228;
+}

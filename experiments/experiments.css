@@ -8,9 +8,26 @@ body{
 	flex:2;
 	display: flex;
 }
+.content ul{
+	padding: 10px;
+}
 
 ul *{
 	list-style: none;
 	text-decoration: none;
 	color: inherit;
+}
+
+.content li{
+	background: #ebf5eb;
+	margin: 20px 0;
+	padding: 20px;
+}
+
+.content li p{
+	margin: 0;
+}
+
+.content li p a{
+	border-bottom: none;
 }

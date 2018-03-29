@@ -1,12 +1,11 @@
-// Game -> CartPole -> Board --> Keyboard
+// Game -> CartPole , ( Board --> Keyboard )
 
 var board = new Board(document.querySelector('.board'))
 
 function __init__(){
-	var cp = new CartPole(board.render.bind(board), model);
-	cp.display();
 
-	var game = new Game(cp);
+	var cp = new CartPole();
+	var game = new Game(cp, board, model);
 	game.setState("human");
 
 	var options = document.querySelector('.options');
@@ -41,5 +40,6 @@ function __init__(){
 	})
 }
 
+loadWeights("assets/bson/dqn.bson", document.querySelector('.board'), __init__);
 
 

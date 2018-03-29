@@ -1,9 +1,5 @@
 #playground{
-  background: linear-gradient(to bottom right,#33332f, #352be0);
-  border-bottom-left-radius: 6px;
-  border-bottom-right-radius: 6px;
-  border: 1px solid #41822a;
-  background: #777;
+  background: linear-gradient(to bottom right,#41822a, #5f924d, #41822a); 
   margin-bottom: 10px;
 }
 
@@ -20,7 +16,9 @@ div{
 }
 
 #playground, .board{
-  height: 200px;
+  min-height: 200px;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
 }
 
 .demo_wrapper{
