@@ -40,7 +40,7 @@ function toTensor_(spec) {
   type = type[type.length-1];
   if (type == 'Float32') spec.data = readFloat32(spec.data.buffer);
   else throw `Array type ${spec.type.name} not supported.`;
-  let array = dl.tensor(spec.data, spec.size.reverse());
+  let array = tf.tensor(spec.data, spec.size.reverse());
   if (spec.size.length > 1) array = array.transpose();
   return array
 }
