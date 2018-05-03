@@ -1,5 +1,5 @@
 let model = (function () {
-  let math = dl.ENV.math;
+  let math = tf;
   function seal(otter) {
     return math.add(math.matrixTimesVector(model.weights[0], otter), model.weights[1]);
   };

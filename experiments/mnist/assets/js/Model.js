@@ -19,7 +19,7 @@
 		var scope = this;
 		var input = this.blackAndWhite(image.data);
 		
-		var tensor = dl.tensor(input);	
+		var tensor = tf.tensor(input);	
 		var output = this.model(tensor);
 
 		output.data().then(function(val){
