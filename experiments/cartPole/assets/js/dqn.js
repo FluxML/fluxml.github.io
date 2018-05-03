@@ -1,5 +1,5 @@
 let model = (function () {
-  let math = dl.ENV.math;
+  let math = tf;
   function komodo(komodo) {
     return math.add(math.matrixTimesVector(model.weights[0], komodo), model.weights[1]);
   };

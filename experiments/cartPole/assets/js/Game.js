@@ -15,7 +15,6 @@
 		}
 
 		this.action = function(a){
-			console.log(gameOver)
 			if(gameOver){
 				this.setState(state);
 				return;
@@ -39,7 +38,7 @@
 				case "human":
 					this.move(newAction);
 					this.display();
-					// newAction = 0;
+					// newAction = 0; 
 
 					if(!env.done()){
 						var play = this.play.bind(this);
@@ -79,7 +78,7 @@
 		}
 		this.predict = function(state, callback=console.log){
 			({ x, xvel , theta, thetavel } = state);
-			var output = model(dl.tensor([x, xvel, theta, thetavel]));
+			var output = model(tf.tensor([x, xvel, theta, thetavel]));
 			output.data().then(callback)
 		}
 		this.reset = function(){
