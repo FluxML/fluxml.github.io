@@ -6,6 +6,7 @@
 	function Game(env, out, model){
 		var state = "";
 		var newAction = 0;
+		var gameOver = false;
 
 		this.setState = function(newState){
 			this.reset();
@@ -14,6 +15,12 @@
 		}
 
 		this.action = function(a){
+			console.log(gameOver)
+			if(gameOver){
+				this.setState(state);
+				return;
+			}
+
 			switch(state){
 				case "human":
 					newAction = a;
@@ -32,11 +39,15 @@
 				case "human":
 					this.move(newAction);
 					this.display();
-					newAction = 0;
+					// newAction = 0;
 
 					if(!env.done()){
 						var play = this.play.bind(this);
 						setTimeout(play, 20);
+					}else{
+						setTimeout(()=>{
+							gameOver = true;	// wait 400 ms before resetting
+						}, 400)
 					}
 					break;
 				case "computer":
@@ -48,6 +59,10 @@
 						if(!env.done()){
 							var play = this.play.bind(this);
 							setTimeout(play, 20)
+						}else{
+							setTimeout(()=>{
+								gameOver = true;
+							}, 400)
 						}
 					})
 					break;
@@ -70,6 +85,7 @@
 		this.reset = function(){
 			env.reset();
 			newAction = 0;
+			gameOver = false;
 			this.display();
 		}
 	}

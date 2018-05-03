@@ -30,4 +30,5 @@ ul *{
 
 .content li p a{
 	border-bottom: none;
+	font-weight: 600;
 }
