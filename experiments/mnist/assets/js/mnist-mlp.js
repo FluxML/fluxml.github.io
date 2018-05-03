@@ -12,3 +12,5 @@ let model = (function () {
   model.weights = [];
   return model;
 })();
+
+loadWeights('assets/bson/mnist-mlp.bson', document.querySelector('.render_editor'), __init__)
