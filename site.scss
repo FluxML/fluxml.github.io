@@ -3,9 +3,19 @@
 
 $light-green: rgb(235, 245, 235);
 
+@import url('https://fonts.googleapis.com/css?family=Lato:400,400i');
+
 body {
   background: rgb(40, 130, 40);
-  font-family: "Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  font-family: Lato, "Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+
+.logo {
+  font-style: italic;
+}
+
+.navbar .logo {
+  text-shadow: 2px 2px 5px rgba(0,0,0,0.2);
 }
 
 .content {
