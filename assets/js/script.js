@@ -2,7 +2,7 @@ var init = function (){
 	var canvas = document.querySelector("#cppn"),
 	ctx = canvas.getContext('2d'),
 	{width, height} = canvas.getBoundingClientRect(),
-	w = 64, h = 64, i = 0, j = 0, z;
+	w = 128, h = 128, i = 0, j = 0, z, z_dim = 2;
 
 	// if(width > height){
 	// 	h = Math.floor(height*w/width);
@@ -29,29 +29,29 @@ var init = function (){
 		return collection;
 	}
 
-	function getColorAt(i, j, factor, z){
-		// console.log(i, j)
-		var x = (i/factor) - 0.5;
-		var y = (j/factor) - 0.5;
-		r = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)) 
-		var input = tf.tensor([x, y, r].concat(...z, 1));
-		model(input).data().then(([v])=>{
-			console.log(i, j, v*255)
-		})	
-	}
+	// function getColorAt(i, j, factor, z){
+	// 	// console.log(i, j)
+	// 	var x = (i/factor) - 0.5;
+	// 	var y = (j/factor) - 0.5;
+	// 	r = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)) 
+	// 	var input = tf.tensor([x, y, r].concat(...z, 1));
+	// 	model(input).data().then(([v])=>{
+	// 		console.log(i, j, v*255)
+	// 	})	
+	// }
 
 	
-	function animate(){
-		getColorAt(i, j, factor, z);
-		j++;
-		if(j == h){
-			j = 0;
-			i++;
-		}
-		if(i == w)return;
+	// function animate(){
+	// 	getColorAt(i, j, factor, z);
+	// 	j++;
+	// 	if(j == h){
+	// 		j = 0;
+	// 		i++;
+	// 	}
+	// 	if(i == w)return;
 
-		requestAnimationFrame(animate)
-	}
+	// 	requestAnimationFrame(animate)
+	// }
 	
 	// Promise.all([tf.randomUniform([8]).data(), tf.randomUniform([8]).data()]).then((_z)=>{
 	// 	var z1 = _z[0],
@@ -114,17 +114,18 @@ var init = function (){
 	var coords = getCoords(w, h)
 	function draw(z){
 		console.log(z)
-		var collection = coords.map(point=>point.concat(...z, 1));
-		model(tf.transpose(tf.tensor(collection, [w*h, 12]))).data().then((img)=>{
+		var collection = coords.map(point=>point.concat(...z));
+		// console.log(collection)
+		model(tf.transpose(tf.tensor(collection, [w*h, 3 + z_dim]))).data().then((img)=>{
 			drawImage(canvas, img, {width: w, height: h});
 			_z = z.map(e=> {
 				// if(Math.floor(e) == 1)k = -1;
-				return e + (0.5000 - e)/(1020)
+				return (e + (0.5000 - e)/(102))
 			});
-			requestAnimationFrame(()=>{draw(_z)});
+			requestAnimationFrame(()=>{tf.tidy(()=>draw(_z))});
 		})
 	}
-	tf.randomUniform([8]).data().then((z)=>{
-		requestAnimationFrame(()=>{draw(z)});
+	tf.randomUniform([z_dim]).data().then((z)=>{
+		requestAnimationFrame(()=>{tf.tidy(()=>draw(z))});
 	})
 }
