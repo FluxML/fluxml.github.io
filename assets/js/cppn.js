@@ -46,7 +46,11 @@ let model = (function () {
   function model(ant) {
     return snail(
       // monkey(walrus(buffalo(partridge
-        (gaur(cockroach(eel(shark(gnat(ram(vicuña(hawk(chough(ant))))))))))
+        (gaur(cockroach(eel(shark(gnat(ram
+          // (vicuña(hawk
+            (chough(ant))
+            // ))
+          ))))))
         // )))
       );
   };

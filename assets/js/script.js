@@ -133,6 +133,7 @@ var init = function (){
 		})
 	}
 	tf.randomUniform([z_dim]).data().then((z)=>{
+		counter = z.map(e=>Math.sinh(e));
 		requestAnimationFrame(()=>{tf.tidy(()=>draw(z))});
 	})
 }
