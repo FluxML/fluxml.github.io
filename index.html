@@ -13,11 +13,13 @@ layout: default
   margin-bottom: 0;
   color: white;
   text-shadow: 0px 0px 5px black;
+  position: relative;
 }
 
 .jumbotron .container {
   max-width: 750px;
   box-shadow: 2px;
+  position: relative;
 }
 
 .jumbotron hr {
@@ -66,8 +68,14 @@ layout: default
 }
 </style>
 
+<link rel="stylesheet" href="assets/css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.9.0"> </script>
+<script src="https://unpkg.com/bson/browser_build/bson.js"></script>
+<script src="/tools/fluxjs/flux.js"></script>
+
 <!-- Header -->
 <div class="jumbotron jumbotron-fluid">
+  <canvas id="cppn"></canvas>
   <div class="container" style="text-align:center">
     <h1 class="display-3">flux</h1>
     <h2>The <i>Elegant</i> Machine Learning Stack</h2>
@@ -156,3 +164,7 @@ end</code></pre>
     <p class="lead">If your appetite is whet, <a href="Flux.jl">check out the docs</a> to get going.</p>
   </div>
 </div>
+<script src="/tools/images/process.js"></script>
+<script src="assets/js/script.js"></script>
+<script src="assets/js/cppn.js"></script>
+
