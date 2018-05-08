@@ -111,6 +111,8 @@ var init = function (){
 	// 	})
 	// })
 
+	var counter = (new Array(z_dim)).fill(0);
+
 	var coords = getCoords(w, h)
 	function draw(z){
 		console.log(z)
@@ -118,10 +120,15 @@ var init = function (){
 		// console.log(collection)
 		model(tf.transpose(tf.tensor(collection, [w*h, 3 + z_dim]))).data().then((img)=>{
 			drawImage(canvas, img, {width: w, height: h});
-			_z = z.map(e=> {
-				// if(Math.floor(e) == 1)k = -1;
-				return (e + (0.5000 - e)/(102))
-			});
+			// _z = z.map((e, o)=> {
+			// 	// if(Math.floor(e) == 1)k = -1;
+			// 	_e = Math.cos(e + 1/102) ;
+			// 	diff[o] = _e - e;
+			// 	return _e;
+			// });
+
+			counter  = counter.map(e => (e + 1/102));
+			_z = counter.map(e=>Math.sin(e));
 			requestAnimationFrame(()=>{tf.tidy(()=>draw(_z))});
 		})
 	}
