@@ -115,7 +115,7 @@ var init = function (){
 
 	var coords = getCoords(w, h)
 	function draw(z){
-		console.log(z)
+		// console.log(z)
 		var collection = coords.map(point=>point.concat(...z));
 		// console.log(collection)
 		model(tf.transpose(tf.tensor(collection, [w*h, 3 + z_dim]))).data().then((img)=>{
