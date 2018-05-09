@@ -58,7 +58,6 @@ let model = (function () {
   return model;
 })();
 flux.fetchWeights("assets/bson/cppn.bson").then((function (ws) {
-  console.log(ws)
   model.weights = ws;
-  init();
+  __init__();
 }));
