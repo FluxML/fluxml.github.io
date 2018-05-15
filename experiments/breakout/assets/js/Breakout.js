@@ -75,7 +75,7 @@ function Breakout(canvas,{width=500, height=400, brick_height=20, brick_width=50
 	this.movePaddle = ()=> components.paddle.move();
 
 	this.action = (dir)=>{
-		components.paddle.setDirection(dir);	
+		components.paddle.setDirection(dir);
 	}
 
 	this.reset = function(){

@@ -1,8 +1,9 @@
-function Paddle(pos, {color="#f00", width=50, height=10, total_width}={}){
+function Paddle(pos, {color="#f00", width=50, height=10, total_width, total_height}={}){
 	this.pos = pos;
 	this.dir = 0;
 
 	this.total_width = total_width;
+	this.total_height = total_height;
 	this.width = width;
 	this.height = height;
 	this.color= color;
@@ -32,6 +33,7 @@ Paddle.prototype.setDirection = function (d) {this.dir = d;}
 Paddle.prototype.rebound = function (ball) {
 	var diff = this.pos.x + width/2 - ball.pos.x;
 	var DX = Math.floor((diff/width)*5 + 0.5);
-	if (DX == 0) DX = Math.random()*0.5;
+	if (DX == 0) DX = 1;
 	ball.rebound([DX, -1]);
+	
 }
