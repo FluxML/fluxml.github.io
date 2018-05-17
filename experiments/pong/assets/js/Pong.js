@@ -3,7 +3,7 @@
 Pong Game
 =======================================================
 ******************************************************/
-function Pong(canvas,{width=500, height=400, paddle_width=20, paddle_height=50, ball_radius=10}={}){
+function Pong(canvas,{width=500, height=400, paddle_width=10, paddle_height=50, ball_radius=5}={}){
 	var score = 0;
 	canvas.width = width;
 	canvas.height = height;
@@ -19,7 +19,7 @@ function Pong(canvas,{width=500, height=400, paddle_width=20, paddle_height=50, 
 			total_height: height,
 			color: "#fff"
 		}),
-		ball: new Ball(new Vector(Math.floor(width/2), Math.floor(height/2)), new Vector(10, -1), {radius:ball_radius, color: "#fff"})
+		ball: new Ball(new Vector(Math.floor(width/2), Math.floor(height/2)), new Vector(1, 0), {radius:ball_radius, color: "#fff"})
 	}
 
 	var paddleController = new PaddleController(components.paddles.collection[0]);
@@ -102,8 +102,10 @@ function Pong(canvas,{width=500, height=400, paddle_width=20, paddle_height=50, 
 
 	this.reset = () => {
 		components.ball.pos.x = Math.floor(width/2);
-		components.ball.pos.y = Math.floor(Math.random()*height/2) + height/4;
-		components.ball.speed.y = Math.random()*4 - 2;
-		components.ball.speed.x = Math.sign(components.ball.speed.x)*10;
+		components.ball.pos.y = Math.floor(height/2);
+
+		components.ball.speed.x = Math.sign(components.ball.speed.x)*5;
+
+		components.ball.speed.y = 0;
 	}
 }

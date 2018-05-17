@@ -1,26 +1,27 @@
 function Game(env, model){
 	var state = "human";
 	var gameOver = true;
-	var newAction = 0;
 
 	this.setState = function(newState){
 		this.reset();
-		state = newState;
 		this.play();
 	}
 
 
 	this.action = function(a){
+
+		switch(state){
+			case "human":
+				env.action(1, a);
+				break;
+		}
+		
 		if(gameOver){
 			this.setState(state);
 			return;
 		}
 
-		switch(state){
-			case "human":
-				newAction = a;
-				break;
-		}
+		
 	}
 
 	this.play = function(){
@@ -28,7 +29,7 @@ function Game(env, model){
 
 		switch(state){
 			case "human":
-				this.move(newAction);
+				this.move();
 
 				if(!env.done()){
 					var play = this.play.bind(this);
@@ -59,8 +60,7 @@ function Game(env, model){
 		}
 	}
 
-	this.move = function(a){
-		env.action(1, a);
+	this.move = function(){
 		env.step();
 	}
 	
@@ -72,7 +72,6 @@ function Game(env, model){
 
 	this.reset = function(){
 		env.reset();
-		newAction = 0;
 		gameOver = false;
 	}
 

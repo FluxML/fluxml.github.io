@@ -52,7 +52,7 @@ Ball.prototype.detectCollision = function(width, height) { // with top & bottom 
 };
 
 Paddle.prototype.move = function (){
-	this.pos.add(new Vector(0, this.dir*20));
+	this.pos.add(new Vector(0, this.dir*10));
 	if(this.pos.y < 0)this.pos.y = 0;
 	else if(this.pos.y + this.height > this.total_height) this.pos.y = this.total_height - this.height;
 }
@@ -66,12 +66,9 @@ Paddle.prototype.detectCollision = function (ball) {
 
 Paddle.prototype.rebound = function (ball){
 	var diff = this.pos.y + this.height/2 - ball.pos.y;
-	var DY = Math.floor((diff/this.height)*5);
-	// if (DY == 0) DY = Math.random()*0.5;
 	ball.rebound([-1, 1]);
 	ball.speed.x += Math.sign(ball.speed.x);
-	ball.speed.y = DY;
-
+	ball.speed.y = ball.speed.x*diff/this.height;
 }
 
 Paddle.prototype.score = 0;
