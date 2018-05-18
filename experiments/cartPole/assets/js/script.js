@@ -13,12 +13,7 @@ function __init__(){
 		el.addEventListener('click', function(event){
 			game.setState(el.getAttribute('data-state'));
 
-			var old = options.querySelector('.selected');
-			if( old != el){
-				if(old)
-					old.className = old.className.replace("selected", "");
-				el.className += " selected";
-			}
+			highlight(el, options);		
 			
 		})
 	})

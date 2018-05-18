@@ -63,9 +63,19 @@ Game.prototype.gameOverHandler = function(){
 	this.setState(this.state);
 }
 
+Game.prototype.isValidAction = function(action){
+	return true;
+}
+
+Game.prototype.turn = function(string){
+	return this.state == this.states[string];
+}
+
 Game.prototype.action = function(a){
 	if(this.gameOver)
 		return this.gameOverHandler();
+
+	if(!this.isValidAction(a))return false;
 
 	switch(this.state){
 		case this.states.H:
@@ -76,7 +86,8 @@ Game.prototype.action = function(a){
 			break;
 	}
 
-	if(typeof(this.callBacks.action) == "function")this.callBacks.action(a);
+	if(typeof(this.callBacks.action) == "function")return this.callBacks.action(a);
+	return true;
 }
 
 Game.prototype.play = function(){

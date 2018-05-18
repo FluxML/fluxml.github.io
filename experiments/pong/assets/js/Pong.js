@@ -99,7 +99,7 @@ function Pong(canvas,{width=500, height=400, paddle_width=10, paddle_height=50, 
 	this.movePaddles = ()=> components.paddles.move();
 
 	this.action = (id, dir)=>{
-		console.log(id, dir)
+		// console.log(id, dir)
 		components.paddles.setDirection(id, dir);	
 	}
 

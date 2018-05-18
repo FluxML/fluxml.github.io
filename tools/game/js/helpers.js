@@ -26,3 +26,12 @@ function hide(ele){
 }
 
 var $$ = (s)=>document.querySelector(s);
+
+function highlight(el, container){
+	var old = container.querySelector('.selected');
+	if( old != el){
+		if(old)
+			old.className = old.className.replace("selected", "");
+		el.className += " selected";
+	}
+}

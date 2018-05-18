@@ -36,12 +36,3 @@ div{
     width: 90vw;
   }
 }
-
-.instructions{
-  margin: 40px 0 0 0;
-  background: #ebf5eb;
-  padding: 10px 20px;
-  border-radius: 6px;
-  /* box-sizing: border-box; */
-  text-align: justify;
-}

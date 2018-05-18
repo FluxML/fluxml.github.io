@@ -31,7 +31,7 @@ Paddle.prototype.detectCollision = function(ball){
 Paddle.prototype.setDirection = function (d) {this.dir = d;}
 
 Paddle.prototype.rebound = function (ball) {
-	var diff = this.pos.x + width/2 - ball.pos.x;
+	var diff = this.pos.x + this.width/2 - ball.pos.x;
 	ball.rebound([-1, 1]);
 	ball.speed.y += Math.sign(ball.speed.y);
 	ball.speed.x = ball.speed.y*diff/this.width;
