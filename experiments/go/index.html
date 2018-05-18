@@ -10,6 +10,41 @@ layout: default
 		border-radius: 6px; 
 		overflow: hidden;
 	}
+	.pass{
+		margin: 0 15px;
+	    border: 1px solid #41822a;
+	    border-radius: 3px;
+	    padding: 3px 15px;
+	    cursor: pointer
+	}
+	.overlay > * {
+		top:0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		background: rgba(0, 0,0, .4);
+		transition: all .5s linear;
+		opacity: 1;
+		z-index: 999;
+		pointer-events: none;
+	}
+	#gameOver{
+		display: flex;
+		-webkit-justify-content: center;
+		        justify-content: center;
+		align-items: center;
+		flex-direction: column;
+	}
+
+	#overlay p{
+		height: fit-content;
+		font-size: 28px;
+	}
+
+	.hidden{
+		opacity: 0;
+		pointer-events: none;
+	}
 </style>
 <link rel="stylesheet" href="../experiments.css">
 <link rel="stylesheet" href="/tools/game/css/controls.css">
@@ -25,21 +60,35 @@ layout: default
 
 <div class="content">
 	<div class="container">
-		<h1>Flux Experiment: Pong Game</h1>
+		<h1>Flux Experiment: Go Game</h1>
 		<div class="demo_wrapper">
 			<div id="game">
 				<div id="controls">
-					<div class="heading">Cartpole</div>
+					<div class="heading">Go</div>
 					<div class="options">
+						<div class="pass button">Pass</div>
 						<div class="human option selected" data-state="human"></div>
 						<div class="comp option" data-state="computer"></div>
 					</div>
 				</div>
-				<div class="board" style="width: 500px;">
+				<div class="board">
+					<div id="playground" style="width: 500px;">
+						
+					</div>
+					<div class="overlay">
+						<div id="gameOver" class="screen hidden">
+							<h1> Game Over</h1>
+							<p>Click to play again</p>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
 
+<script src="/tools/game/js/helpers.js"></script>
+<script src="assets/js/Board.js"></script>
+<script src="/tools/game/js/Game.js"></script>
+<script src="assets/js/extensions.js"></script>
 <script src="assets/js/script.js"></script>

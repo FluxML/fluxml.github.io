@@ -1,5 +1,3 @@
-var $$ = (s)=>document.querySelector(s);
-
 function Board(container, {env}={}){
 	this.container = container
 	this.render	= ()=>{
@@ -13,17 +11,5 @@ function Board(container, {env}={}){
 
 	this.removeStartScreen = ()=>{
 		hide($$(".overlay #start"));
-	}
-}
-
-function show(ele){
-	if(ele.className.match(" hidden") != null){
-		ele.className = ele.className.replace(" hidden", "");
-	}
-}
-
-function hide(ele){
-	if(ele.className.match(" hidden") == null){
-		ele.className += " hidden";
 	}
 }
