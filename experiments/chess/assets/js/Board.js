@@ -8,7 +8,10 @@ function Board(id, config){
 		action,
 		turn
 	}){
-		this.board.move(action);
+		var fen = state.split(" ")[0];
+		if(this.board.fen().valueOf() == fen.valueOf())
+			this.board.position(fen, true);
+
 		var ele = $$("." + (turn=="b"?"comp":"human"));
 		highlight(ele, $$(".options"))
 

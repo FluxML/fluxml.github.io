@@ -9,11 +9,22 @@
 .instructions{
   margin: 40px 0 0 0;
   background: #ebf5eb;
-  padding: 10px 20px;
+  padding: 20px;
   border-radius: 6px;
   /* box-sizing: border-box; */
   text-align: justify;
   width: 100%;
+}
+
+.code_link{
+    width: fit-content;
+    /* background: #ffffff; */
+    border: 1px solid;
+    padding: 5px 10px;
+    border-radius: 3px;
+    color: #41822a;
+    float: right;
+    font-weight: 900;
 }
 
 .board{

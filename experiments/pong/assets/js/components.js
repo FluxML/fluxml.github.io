@@ -35,7 +35,8 @@ function PaddleCollection(positions, config){
 function PaddleController(paddle){
 	
 	this.next = (ball)=>{
-		if(Math.sign(ball.pos.x - paddle.pos.x) == Math.sign(ball.speed.x))return;
+		if(Math.sign(ball.pos.x - paddle.pos.x) == Math.sign(ball.speed.x))return;  // ball is moving away
+
 		if(ball.pos.y >= paddle.pos.y && ball.pos.y <= paddle.pos.y + paddle.height)return;
 		
 		var dir = Math.sign(ball.pos.y - paddle.height/2 - paddle.pos.y);

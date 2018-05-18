@@ -10,9 +10,8 @@ Game.prototype.isValidAction = function(action){
 	}
 
 	var res = this.env.chess.move(action);
-	console.log(this.env.chess.turn());
 	if(res)this.env.chess.undo();
-	console.log(this.env.chess.turn());
+	
 	return res != null;
 }
 

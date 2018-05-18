@@ -2,7 +2,7 @@
 WGo.Game.prototype.passes = [];
 
 WGo.Game.prototype.config = function(){
-    return {state:getState(this), done: this.done()}
+    return {state:getState(this), done: this.done(), turn: this.turn}
 }
 
 WGo.Board.prototype.render = function(config){
