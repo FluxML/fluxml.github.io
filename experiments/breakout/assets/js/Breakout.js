@@ -40,9 +40,12 @@ function Breakout(canvas,{width=500, height=400, brick_height=20, brick_width=50
 			requestAnimationFrame(this.play);
 	}
 
-	this.step = ()=>{
+	this.step = (dir)=>{
 		components.ball.move();
+		
+		this.action(dir);
 		this.movePaddle();
+		
 		var reward = this.collisionDetector();
 		score += reward;
 		this.draw();
@@ -84,4 +87,8 @@ function Breakout(canvas,{width=500, height=400, brick_height=20, brick_width=50
 		components.bricks.activateAll();
 		score = 0;
 	}
+
+
+	this.render = this.draw;
+	this.config = ()=>{return null};
 }

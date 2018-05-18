@@ -19,7 +19,7 @@ function Pong(canvas,{width=500, height=400, paddle_width=10, paddle_height=50, 
 			total_height: height,
 			color: "#fff"
 		}),
-		ball: new Ball(new Vector(Math.floor(width/2), Math.floor(height/2)), new Vector(1, 0), {radius:ball_radius, color: "#fff"})
+		ball: new Ball(new Vector(Math.floor(width/2), Math.floor(height/2)), new Vector(5, 0), {radius:ball_radius, color: "#fff"})
 	}
 
 	var paddleController = new PaddleController(components.paddles.collection[0]);
@@ -58,10 +58,13 @@ function Pong(canvas,{width=500, height=400, paddle_width=10, paddle_height=50, 
 			requestAnimationFrame(this.play);
 	}
 
-	this.step = ()=>{
+	this.step = (dir)=>{
 		components.ball.move();
+		
+		this.action(1, dir);
 		paddleController.next(components.ball);
 		this.movePaddles();
+		
 		this.collisionDetector();
 		this.draw();
 		
@@ -103,9 +106,10 @@ function Pong(canvas,{width=500, height=400, paddle_width=10, paddle_height=50, 
 	this.reset = () => {
 		components.ball.pos.x = Math.floor(width/2);
 		components.ball.pos.y = Math.floor(height/2);
-
 		components.ball.speed.x = Math.sign(components.ball.speed.x)*5;
-
 		components.ball.speed.y = 0;
 	}
+
+	this.render = this.draw;
+	this.config = ()=>{return null};
 }

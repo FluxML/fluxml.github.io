@@ -11,6 +11,33 @@ layout: default
 		border-radius: 6px; 
 		overflow: hidden;
 	}
+	.overlay > * {
+		top:0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		background: rgba(0, 0,0, .4);
+		transition: all .5s linear;
+		opacity: 1;
+	}
+
+	#start, #gameOver{
+		display: flex;
+		-webkit-justify-content: center;
+		        justify-content: center;
+		align-items: center;
+		flex-direction: column;
+	}
+
+	#overlay p{
+		height: fit-content;
+		font-size: 28px;
+	}
+
+	.hidden{
+		opacity: 0;
+		pointer-events: none;
+	}
 </style>
 <link rel="stylesheet" href="../experiments.css">
 <link rel="stylesheet" href="/tools/game/css/controls.css">
@@ -36,6 +63,15 @@ layout: default
 
 				<div class="board">
 					<canvas id="playground"></canvas>
+					<div class="overlay">
+						<div id="start" class="screen">
+							<h2>Press [Enter] to start</h2>
+						</div>
+						<div id="gameOver" class="screen hidden">
+							<h1> Game Over</h1>
+							<p>Press [Up arrow key] or [Down arrow key] to play again</p>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -47,5 +83,6 @@ layout: default
 <script src="/tools/game/js/Paddle.js"></script>
 <script src="assets/js/components.js"></script>
 <script src="assets/js/Pong.js"></script>
-<script src="assets/js/Game.js"></script>
+<script src="assets/js/Board.js"></script>
+<script src="/tools/game/js/Game.js"></script>
 <script src="assets/js/script.js"></script>

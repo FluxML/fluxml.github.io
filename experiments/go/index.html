@@ -1,0 +1,45 @@
+---
+layout: default
+---
+<style>
+	.board { height: 500px; }
+	#game { 
+		width: 500px; 
+		margin: 30px auto; 
+		box-shadow: 2px 3px 5px #aaa; 
+		border-radius: 6px; 
+		overflow: hidden;
+	}
+</style>
+<link rel="stylesheet" href="../experiments.css">
+<link rel="stylesheet" href="/tools/game/css/controls.css">
+<link rel="stylesheet" href="/tools/game/css/board.css">
+<link rel="stylesheet" href="/tools/progressBar/css/progressBar.css">
+<link rel="stylesheet" href="assets/wgo/wgo.player.css">
+
+<script src="assets/wgo/wgo.min.js"></script>
+<script src="assets/wgo/wgo.player.min.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.9.0"> </script>
+<script src="https://unpkg.com/bson/browser_build/bson.js"></script> -->
+<!-- <script src="/tools/fluxjs/flux.js"></script> -->
+
+<div class="content">
+	<div class="container">
+		<h1>Flux Experiment: Pong Game</h1>
+		<div class="demo_wrapper">
+			<div id="game">
+				<div id="controls">
+					<div class="heading">Cartpole</div>
+					<div class="options">
+						<div class="human option selected" data-state="human"></div>
+						<div class="comp option" data-state="computer"></div>
+					</div>
+				</div>
+				<div class="board" style="width: 500px;">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="assets/js/script.js"></script>
