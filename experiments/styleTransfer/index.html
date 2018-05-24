@@ -13,9 +13,7 @@ layout: default
 	<div class="container">
 		<h1>Flux Experiment: Style Transfer Demo</h1>
 		<div class="demo_wrapper">
-			<!-- <video id="screenshot-video" autoplay></video>
-			<button id="screenshot-button">Capture!</button>
-			<img id="screenshot-img"> -->
+			
 			<div class="tree">
 				<div class="level">
 					<div class="sibling w-50">
@@ -23,14 +21,14 @@ layout: default
 							<div class="element w-50">
 								<div class="pane webcam_input">
 									<video autoplay height="200" width="200" id="screenshot-video" alt="camera access is blocked"></video>
-									<button class="pretty_button" id="screenshot-button">Capture Image</button>
+									<button class="pretty_button down" id="screenshot-button">Capture Image</button>
 								</div>
 								
 							</div>
 							<div class="element w-50">
 								<div class="pane w-100">
 									<button class="pretty_button" id="upload_button">Upload Image </button>
-									<input type="file" hidden accept=".png, .jpg, .jpeg" onchange="getImage()" id="imageReader">
+									<input type="file" hidden accept=".png, .jpg, .jpeg" id="imageReader">
 								</div>
 							</div>
 						</div>
@@ -44,12 +42,10 @@ layout: default
 					<div class="sibling w-50">
 						<div class="level">
 							<div class="element w-50">
-								<div class="pane select_style">
+								<div class="pane select_style w-100">
 									<ul>
-										<li><img src="../../bg.jpg" img-id="1"></li>
-										<li><img src="../../bg.jpg" img-id="2"></li>
-										<li><img src="../../bg.jpg" img-id="3"></li>
-										<li><img src="../../bg.jpg" img-id="4"></li>
+										<li><img src="assets/img/starry-night.jpg" img-id="1"></li>
+										<li><img src="assets/img/weeping-woman.jpg" img-id="2"></li>
 
 									</ul>
 								</div>
@@ -86,18 +82,24 @@ layout: default
 						<div class="pane">
 							<h4>Stylized Content</h4>
 							<img id="output-img">
-							<button class="pretty_button" id="generate">Generate</button>
+							<button class="pretty_button down" id="generate">Generate</button>
 						</div>
 						
 
 					</div>
 				</div>
 			</div>
+			<div class="msg alert alert-danger fade">
+				gvjhk
+			</div>
 		</div>
 	</div>
 </div>
 
 <script src="/tools/progressBar/js/ProgressBar.js"></script>
+<script src="./assets/js/helpers.js"></script>
+<script src="./assets/js/model.js"></script>
+<script src="./assets/js/mediaStream.js"></script>
 <script src="./assets/js/script.js"></script>
 <script src="/tools/loadWeights/loadWeights.js"></script>
 

@@ -1,3 +1,7 @@
+.tree{
+    margin: 20px;
+}
+
 .level{
 	/*min-height: 100px;*/
     /*background: #ebf5eb;*/
@@ -8,6 +12,18 @@
     
     /*height: 50%;*/
 }
+
+.tree .level:nth-of-type(2) img,
+.tree .level:nth-of-type(4) img{
+    width: 200px;
+    height: 200px;
+    border: none;
+    box-shadow: none;
+    outline: none;
+    background: #ddd;
+    border-radius: 3px;
+}
+
 .element{
 	min-height: 300px;
     /*min-width: 300px;*/
@@ -20,6 +36,13 @@
     align-items: center;
 }
 
+.sibling{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+
 .connector{
 	min-height: 100px;
 	position:relative;
@@ -29,7 +52,7 @@
 
 .connector *{
 	position: absolute;	
-	background: #aaa;
+    background: #aaa;
 }
 
 .connector.two div:first-child{
@@ -67,40 +90,34 @@
     top: 0;	
 }
 
-.sibling{
-	display: flex;
-    flex-direction: column;
-    justify-content: center;
-
-}
 
 .select_style ul{
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
+    -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
     flex-wrap: wrap;
     padding: 0;
     margin: 0;
 }
 
 .select_style li{
-    margin: 5px 0;
+    margin: 5px 3px;
     padding:0;
     flex: 1;
     text-align: center;
     background: transparent;
     cursor: pointer;
+    width: fit-content;
 }
 
 .select_style img{
-    width: inherit;
-    max-width: 100px;
-    height: 100px;
+    width: 70px;
+    height: 70px;
     /*border: 5px solid transparent;*/
 }
 
-.tree{
-    margin: 20px;
-}
 
 .pane{
     display: flex;
@@ -113,7 +130,11 @@
             align-items: center;
     height: 100%;
     padding: 20px;
-    background: #eee;
+    background: #ebf5eb;
+}
+
+.pane.disabled {
+    background: #dddddd;
 }
 
 .pretty_button{
@@ -121,41 +142,38 @@
     border: none;
     background: #fff;
     margin: 10px 0;
-    
     padding: 10px;
-    cursor: pointer;
-    
+    cursor: pointer;   
 }
 
-.pretty_button,
+.pretty_button:not(.disabled),
 .select_style img{
     transition: all .4s linear;
     box-shadow: 2px 2px 5px #333;
 }
 
-.pretty_button:active,
-.pretty_button:focus{
+.pretty_button:not(.disabled):active,
+.pretty_button:not(.disabled):focus{
     outline: none;
     border: none;
     box-shadow: none;
 }
 
-.pretty_button:hover,
+.pretty_button:not(.disabled):hover,
 .select_style li:hover img{
     box-shadow: 0px 0px 0px #333;
     transform: translate(2px, 2px);
 }
 
-.tree .level:nth-of-type(2) img,
-.tree .level:nth-of-type(4) img{
-    width: 200px;
-    height: 200px;
-    border: none;
-    box-shadow: none;
-    outline: none;
-    background: #ddd;
-    border-radius: 3px;
+
+.down{
+    margin: 30px 0 10px !important;
 }
 
+.fade.in{
+    opacity: 1;
+}
 
-
+.msg{
+    text-align: center;
+}
