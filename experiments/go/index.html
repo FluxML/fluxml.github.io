@@ -3,13 +3,6 @@ layout: default
 ---
 <style>
 	.board { height: 500px; }
-	#game { 
-		width: 500px; 
-		margin: 30px auto; 
-		box-shadow: 2px 3px 5px #aaa; 
-		border-radius: 6px; 
-		overflow: hidden;
-	}
 	.pass{
 		margin: 0 15px;
 	    border: 1px solid #41822a;
@@ -17,37 +10,10 @@ layout: default
 	    padding: 3px 15px;
 	    cursor: pointer
 	}
-	.overlay > * {
-		top:0;
-		bottom: 0;
-		left: 0;
-		right: 0;
-		background: rgba(0, 0,0, .4);
-		transition: all .5s linear;
-		opacity: 1;
-		z-index: 999;
-		pointer-events: none;
-	}
-	#gameOver{
-		display: flex;
-		-webkit-justify-content: center;
-		        justify-content: center;
-		align-items: center;
-		flex-direction: column;
-	}
-
-	#overlay p{
-		height: fit-content;
-		font-size: 28px;
-	}
-
-	.hidden{
-		opacity: 0;
-		pointer-events: none;
-	}
 </style>
 <link rel="stylesheet" href="../experiments.css">
 <link rel="stylesheet" href="/tools/game/css/style.css">
+<link rel="stylesheet" href="/tools/game/css/overlay.css">
 <link rel="stylesheet" href="/tools/progressBar/css/progressBar.css">
 <link rel="stylesheet" href="assets/wgo/wgo.player.css">
 
@@ -85,6 +51,20 @@ layout: default
 			<div class="instructions">
 				<h3>Instructions</h3>
 				<p class="">Human plays black, computer plays white. Two consecutive passes result in a game over.</p>
+
+				<h4>Rules</h4>
+				<ul>
+					<li>The board is empty at the onset of the game (unless players agree to place a handicap).</li>
+					<li>Black makes the first move, after which White and Black alternate.</li>
+					<li>A move consists of placing one stone of one's own color on an empty intersection on the board.</li>
+					<li>A player may pass their turn at any time.</li>
+					<li>A stone or solidly connected group of stones of one color is captured and removed from the board when all the intersections directly adjacent to it are occupied by the enemy. (Capture of the enemy takes precedence over self-capture.)</li>
+					<li>No stone may be played so as to recreate a former board position.</li>
+					<li>Two consecutive passes end the game.</li>
+					<li>A player's area consists of all the points the player has either occupied or surrounded.</li>
+					<li>The player with more area wins.</li>
+				</ul>
+				
 				<a href="#"><div class="code_link">See code</div></a>
 			</div>
 		</div>

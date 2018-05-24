@@ -37,7 +37,8 @@ function PaddleController(paddle){
 	this.next = (ball)=>{
 		if(Math.sign(ball.pos.x - paddle.pos.x) == Math.sign(ball.speed.x))return;  // ball is moving away
 
-		if(ball.pos.y >= paddle.pos.y && ball.pos.y <= paddle.pos.y + paddle.height)return;
+		if(ball.pos.y >= paddle.pos.y && ball.pos.y <= paddle.pos.y + paddle.height)
+			return paddle.setDirection(0)	
 		
 		var dir = Math.sign(ball.pos.y - paddle.height/2 - paddle.pos.y);
 		paddle.setDirection(dir);
@@ -53,7 +54,7 @@ Ball.prototype.detectCollision = function(width, height) { // with top & bottom 
 };
 
 Paddle.prototype.move = function (){
-	this.pos.add(new Vector(0, this.dir*10));
+	this.pos.add(new Vector(0, this.dir*5));
 	if(this.pos.y < 0)this.pos.y = 0;
 	else if(this.pos.y + this.height > this.total_height) this.pos.y = this.total_height - this.height;
 }

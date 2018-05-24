@@ -5,6 +5,7 @@
 	var game = new Game(env, board, null);
 
 	document.addEventListener('keydown', event => {
+
 		var code = event.keyCode;
 		
 		if(code == 13){
@@ -13,6 +14,7 @@
 		}
 
 		if(code == 38 || code == 40){
+			event.preventDefault();
 			game.action(code - 39);
 			return;
 		}

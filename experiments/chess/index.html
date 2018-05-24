@@ -3,55 +3,11 @@ layout: default
 ---
 <style>
 	.board { height: 500px; }
-	#game { 
-		width: 500px; 
-		margin: 30px auto; 
-		box-shadow: 2px 3px 5px #aaa; 
-		border-radius: 6px; 
-		overflow: hidden;
-	}
-	.pass{
-		margin: 0 15px;
-	    border: 1px solid #41822a;
-	    border-radius: 3px;
-	    padding: 3px 15px;
-	    cursor: pointer
-	}
 
-	.overlay{
-		pointer-events: none;
-	}
-	.overlay > * {
-		top:0;
-		bottom: 0;
-		left: 0;
-		right: 0;
-		background: rgba(0, 0,0, .4);
-		transition: all .5s linear;
-		opacity: 1;
-		z-index: 999;
-		pointer-events: none;
-	}
-	#gameOver{
-		display: flex;
-		-webkit-justify-content: center;
-		        justify-content: center;
-		align-items: center;
-		flex-direction: column;
-	}
-
-	#overlay p{
-		height: fit-content;
-		font-size: 28px;
-	}
-
-	.hidden{
-		opacity: 0;
-		pointer-events: none;
-	}
 </style>
 <link rel="stylesheet" href="../experiments.css">
 <link rel="stylesheet" href="/tools/game/css/style.css">
+<link rel="stylesheet" href="/tools/game/css/overlay.css">
 <link rel="stylesheet" href="/tools/progressBar/css/progressBar.css">
 <link rel="stylesheet" href="assets/chessboardjs/css/chessboard-0.3.0.min.css">
 
@@ -89,7 +45,18 @@ layout: default
 			</div>
 			<div class="instructions">
 				<h3>Instructions</h3>
-				<p class=""> Human plays white, computer plays black. Drag and drop to move pieces. Standard rules apply</p>
+				<p class=""> Human plays white, computer plays black. Drag and drop to move pieces. Standard rules apply
+				</p>
+				<h4>Moves</h4>
+				<ul>
+					<li>The king moves exactly one square horizontally, vertically, or diagonally. A special move with the king known as castling is allowed only once per player, per game (see below).</li>
+					<li>A rook moves any number of vacant squares in a horizontal or vertical direction. It also is moved when castling.</li>
+					<li>A bishop moves any number of vacant squares in any diagonal direction.</li>
+					<li>The queen moves any number of vacant squares in a horizontal, vertical, or diagonal direction.</li>
+					<li>A knight moves to the nearest square not on the same rank, file, or diagonal. (This can be thought of as moving two squares horizontally then one square vertically, or moving one square horizontally then two squares vertically—i.e. in an "L" pattern.) The knight is not blocked by other pieces: it jumps to the new location.</li>
+					<li>A pawn moves straight forward one square, if that square is vacant. If it has not yet moved, a pawn also has the option of moving two squares straight forward, provided both squares are vacant. Pawns cannot move backwards.</li>
+					<li>Pawns are the only pieces that capture differently from how they move. A pawn can capture an enemy piece on either of the two squares diagonally in front of the pawn (but cannot move to those squares if they are vacant).</li>
+				</ul>
 				<a href="#"><div class="code_link">See code</div></a>
 			</div>
 		</div>

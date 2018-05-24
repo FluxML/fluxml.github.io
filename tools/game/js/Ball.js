@@ -19,8 +19,8 @@ Ball.prototype.move = function () {
 
 Ball.prototype.detectCollision = function (width, height) { // with top, left & right walls
 	var collisions = [];
-	if(this.pos.x - this.radius < 0 || this.pos.x + this.radius > width)collisions.push([-1, 1]);
-	if(this.pos.y - this.radius < 0)collisions.push([1, -1]);
+	if(this.pos.x - this.radius <= 0 || this.pos.x + this.radius >= width)collisions.push([-1, 1]);
+	if(this.pos.y - this.radius <= 0)collisions.push([1, -1]);
 
 	return collisions;
 }

@@ -4,43 +4,11 @@ layout: default
 <style>
 	canvas { background: #eee; }
 	.board { height: 400px; }
-	#game { 
-		width: 500px; 
-		margin: 30px auto; 
-		box-shadow: 2px 3px 5px #aaa; 
-		border-radius: 6px; 
-		overflow: hidden;
-	}
-	.overlay > * {
-		top:0;
-		bottom: 0;
-		left: 0;
-		right: 0;
-		background: rgba(0, 0,0, .4);
-		transition: all .5s linear;
-		opacity: 1;
-	}
-
-	#start, #gameOver{
-		display: flex;
-		-webkit-justify-content: center;
-		        justify-content: center;
-		align-items: center;
-		flex-direction: column;
-	}
-
-	#overlay p{
-		height: fit-content;
-		font-size: 28px;
-	}
-
-	.hidden{
-		opacity: 0;
-		pointer-events: none;
-	}
+	
 </style>
 <link rel="stylesheet" href="../experiments.css">
 <link rel="stylesheet" href="/tools/game/css/style.css">
+<link rel="stylesheet" href="/tools/game/css/overlay.css">
 <link rel="stylesheet" href="/tools/progressBar/css/progressBar.css">
 
 
@@ -69,7 +37,7 @@ layout: default
 						</div>
 						<div id="gameOver" class="screen hidden">
 							<h1> Game Over</h1>
-							<p>Press [Enter] to play again</p>
+							<p>Press [Left Arrow] or [Right Arrow] keys to play again</p>
 						</div>
 					</div>
 				</div>

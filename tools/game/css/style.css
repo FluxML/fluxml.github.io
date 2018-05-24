@@ -128,3 +128,11 @@
 #controls .options .selected{
   background-color: #41822a;
 }
+
+#game { 
+  width: 500px; 
+  margin: 30px auto; 
+  box-shadow: 2px 3px 5px #aaa; 
+  border-radius: 6px; 
+  overflow: hidden;
+}

@@ -3,7 +3,7 @@
 Pong Game
 =======================================================
 ******************************************************/
-function Pong(canvas,{width=500, height=400, paddle_width=10, paddle_height=50, ball_radius=5}={}){
+function Pong(canvas,{width=250, height=200, paddle_width=10, paddle_height=50, ball_radius=5}={}){
 	var score = 0;
 	canvas.width = width;
 	canvas.height = height;
