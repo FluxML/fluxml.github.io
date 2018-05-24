@@ -1,0 +1,103 @@
+---
+layout: default
+---
+
+<link rel="stylesheet" href="../experiments.css">
+<link rel="stylesheet" href="./assets/css/style.css">
+<link rel="stylesheet" href="/tools/progressBar/css/progressBar.css">
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.9.0"> </script>
+<script src="https://unpkg.com/bson/browser_build/bson.js"></script>
+<script src="/tools/fluxjs/flux.js"></script>
+
+<div class="content">
+	<div class="container">
+		<h1>Flux Experiment: Style Transfer Demo</h1>
+		<div class="demo_wrapper">
+			<!-- <video id="screenshot-video" autoplay></video>
+			<button id="screenshot-button">Capture!</button>
+			<img id="screenshot-img"> -->
+			<div class="tree">
+				<div class="level">
+					<div class="sibling w-50">
+						<div class="level">
+							<div class="element w-50">
+								<div class="pane webcam_input">
+									<video autoplay height="200" width="200" id="screenshot-video" alt="camera access is blocked"></video>
+									<button class="pretty_button" id="screenshot-button">Capture Image</button>
+								</div>
+								
+							</div>
+							<div class="element w-50">
+								<div class="pane w-100">
+									<button class="pretty_button" id="upload_button">Upload Image </button>
+									<input type="file" hidden accept=".png, .jpg, .jpeg" onchange="getImage()" id="imageReader">
+								</div>
+							</div>
+						</div>
+						<div class="connector two">
+							<div></div>
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+					</div>
+					<div class="sibling w-50">
+						<div class="level">
+							<div class="element w-50">
+								<div class="pane select_style">
+									<ul>
+										<li><img src="../../bg.jpg" img-id="1"></li>
+										<li><img src="../../bg.jpg" img-id="2"></li>
+										<li><img src="../../bg.jpg" img-id="3"></li>
+										<li><img src="../../bg.jpg" img-id="4"></li>
+
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="connector one">
+							<div></div>
+						</div>
+					</div>
+				</div>
+				<div class="level">
+					<div class="element w-50">
+						<div class="pane">
+							<h4>Content Image</h4>
+							<img id="content-img">
+						</div>
+					</div>
+					<div class="element w-50">
+						<div class="pane">
+							<h4>Style Image</h4>
+							<img id="style-img">
+						</div>
+					</div>
+				</div>
+				<div class="connector two">
+					<div></div>
+					<div></div>
+					<div></div>
+					<div></div>
+				</div>
+
+				<div class="level">
+					<div class="element w-50">
+						<div class="pane">
+							<h4>Stylized Content</h4>
+							<img id="output-img">
+							<button class="pretty_button" id="generate">Generate</button>
+						</div>
+						
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="/tools/progressBar/js/ProgressBar.js"></script>
+<script src="./assets/js/script.js"></script>
+<script src="/tools/loadWeights/loadWeights.js"></script>
+

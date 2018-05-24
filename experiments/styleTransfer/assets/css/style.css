@@ -1,0 +1,161 @@
+.level{
+	/*min-height: 100px;*/
+    /*background: #ebf5eb;*/
+    margin: 0 10px;
+   	display: flex;
+   	-webkit-justify-content: center;
+   	        justify-content: center;
+    
+    /*height: 50%;*/
+}
+.element{
+	min-height: 300px;
+    /*min-width: 300px;*/
+	
+	margin: 0 10px;
+	border-radius: 6px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.connector{
+	min-height: 100px;
+	position:relative;
+	margin: 0 10px;
+    flex:2;
+}
+
+.connector *{
+	position: absolute;	
+	background: #aaa;
+}
+
+.connector.two div:first-child{
+	width: 50%;
+    height: 2px;
+    left: 25%;
+    top: 50%;
+}
+
+.connector.two div:nth-child(2){
+	width: 2px;
+    height: 50%;
+    left: 25%;
+    top: 0;	
+}
+
+.connector.two div:nth-child(3){
+	width: 2px;
+    height: 50%;
+    left: 75%;
+    top: 0;	
+}
+
+.connector.two div:nth-child(4){
+	width: 2px;
+    height: 50%;
+    left: 50%;
+    top: 50%;	
+}
+
+.connector.one div{
+	width: 2px;
+    height: 100%;
+    left: 50%;
+    top: 0;	
+}
+
+.sibling{
+	display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+
+.select_style ul{
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    padding: 0;
+    margin: 0;
+}
+
+.select_style li{
+    margin: 5px 0;
+    padding:0;
+    flex: 1;
+    text-align: center;
+    background: transparent;
+    cursor: pointer;
+}
+
+.select_style img{
+    width: inherit;
+    max-width: 100px;
+    height: 100px;
+    /*border: 5px solid transparent;*/
+}
+
+.tree{
+    margin: 20px;
+}
+
+.pane{
+    display: flex;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-justify-content: center;
+            justify-content: center;
+    -webkit-align-items: center;
+            align-items: center;
+    height: 100%;
+    padding: 20px;
+    background: #eee;
+}
+
+.pretty_button{
+    border-radius: 3px;
+    border: none;
+    background: #fff;
+    margin: 10px 0;
+    
+    padding: 10px;
+    cursor: pointer;
+    
+}
+
+.pretty_button,
+.select_style img{
+    transition: all .4s linear;
+    box-shadow: 2px 2px 5px #333;
+}
+
+.pretty_button:active,
+.pretty_button:focus{
+    outline: none;
+    border: none;
+    box-shadow: none;
+}
+
+.pretty_button:hover,
+.select_style li:hover img{
+    box-shadow: 0px 0px 0px #333;
+    transform: translate(2px, 2px);
+}
+
+.tree .level:nth-of-type(2) img,
+.tree .level:nth-of-type(4) img{
+    width: 200px;
+    height: 200px;
+    border: none;
+    box-shadow: none;
+    outline: none;
+    background: #ddd;
+    border-radius: 3px;
+}
+
+
+
