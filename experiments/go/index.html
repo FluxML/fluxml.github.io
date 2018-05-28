@@ -1,5 +1,6 @@
 ---
 layout: default
+game: go
 ---
 <style>
 	.board { height: 500px; }
@@ -11,68 +12,17 @@ layout: default
 	    cursor: pointer
 	}
 </style>
-<link rel="stylesheet" href="../experiments.css">
-<link rel="stylesheet" href="/tools/game/css/style.css">
-<link rel="stylesheet" href="/tools/game/css/overlay.css">
-<link rel="stylesheet" href="/tools/progressBar/css/progressBar.css">
+{% include experiments/game/headers.html %}
 <link rel="stylesheet" href="assets/wgo/wgo.player.css">
 
 <script src="assets/wgo/wgo.min.js"></script>
 <script src="assets/wgo/wgo.player.min.js"></script>
-<!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.9.0"> </script>
-<script src="https://unpkg.com/bson/browser_build/bson.js"></script> -->
-<!-- <script src="/tools/fluxjs/flux.js"></script> -->
 
-<div class="content">
-	<div class="container">
-		<h1>Flux Experiment: Go Game</h1>
-		<div class="demo_wrapper">
-			<div id="game">
-				<div id="controls">
-					<div class="heading">Go</div>
-					<div class="options">
-						<div class="pass button">Pass</div>
-						<div class="human option selected" data-state="human"></div>
-						<div class="comp option" data-state="computer"></div>
-					</div>
-				</div>
-				<div class="board">
-					<div id="playground" style="width: 500px;">
-						
-					</div>
-					<div class="overlay">
-						<div id="gameOver" class="screen hidden">
-							<h1> Game Over</h1>
-							<p>Click to play again</p>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="instructions">
-				<h3>Instructions</h3>
-				<p class="">Human plays black, computer plays white. Two consecutive passes result in a game over.</p>
+{% assign game = site.data.experiments[page.game] %}
+{% include experiments/game/content.html game=game %}
 
-				<h4>Rules</h4>
-				<ul>
-					<li>The board is empty at the onset of the game (unless players agree to place a handicap).</li>
-					<li>Black makes the first move, after which White and Black alternate.</li>
-					<li>A move consists of placing one stone of one's own color on an empty intersection on the board.</li>
-					<li>A player may pass their turn at any time.</li>
-					<li>A stone or solidly connected group of stones of one color is captured and removed from the board when all the intersections directly adjacent to it are occupied by the enemy. (Capture of the enemy takes precedence over self-capture.)</li>
-					<li>No stone may be played so as to recreate a former board position.</li>
-					<li>Two consecutive passes end the game.</li>
-					<li>A player's area consists of all the points the player has either occupied or surrounded.</li>
-					<li>The player with more area wins.</li>
-				</ul>
-				
-				<a href="#"><div class="code_link">See code</div></a>
-			</div>
-		</div>
-	</div>
-</div>
 
-<script src="/tools/game/js/helpers.js"></script>
+{% include experiments/game/footer.html %}
 <script src="assets/js/Board.js"></script>
-<script src="/tools/game/js/Game.js"></script>
 <script src="assets/js/extensions.js"></script>
 <script src="assets/js/script.js"></script>

@@ -63,4 +63,4 @@ var __init__ = function(){
     board.addCustomObject(coordinates);
 }
 
-__init__();
+window.onload = __init__;

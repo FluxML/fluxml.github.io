@@ -1,62 +1,21 @@
 ---
 layout: default
+game: breakout
 ---
 <style>
 	canvas { background: #eee; }
 	.board { height: 400px; }
 	
 </style>
-<link rel="stylesheet" href="../experiments.css">
-<link rel="stylesheet" href="/tools/game/css/style.css">
-<link rel="stylesheet" href="/tools/game/css/overlay.css">
-<link rel="stylesheet" href="/tools/progressBar/css/progressBar.css">
+{% include experiments/game/headers.html %}
 
+{% assign game = site.data.experiments[page.game] %}
+{% include experiments/game/content.html game=game %}
 
-<!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.9.0"> </script>
-<script src="https://unpkg.com/bson/browser_build/bson.js"></script> -->
-<!-- <script src="/tools/fluxjs/flux.js"></script> -->
-
-<div class="content">
-	<div class="container">
-		<h1>Flux Experiment: Breakout Game</h1>
-		<div class="demo_wrapper">
-			<div id="game">
-				<div id="controls">
-					<div class="heading">Breakout</div>
-					<div class="options">
-						<div class="human option selected" data-state="human"></div>
-						<div class="comp option" data-state="computer"></div>
-					</div>
-				</div>
-
-				<div class="board">
-					<canvas id="playground"></canvas>
-					<div class="overlay">
-						<div id="start" class="screen">
-							<h2>Press [Enter] to start</h2>
-						</div>
-						<div id="gameOver" class="screen hidden">
-							<h1> Game Over</h1>
-							<p>Press [Left Arrow] or [Right Arrow] keys to play again</p>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="instructions">
-				<h3>Instructions</h3>
-				<p class=""> Use arrow keys to move the paddle</p>
-				<a href="#"><div class="code_link">See code</div></a>
-			</div>
-		</div>
-	</div>
-</div>
-
-<script src="/tools/game/js/helpers.js"></script>
+{% include experiments/game/footer.html %}
 <script src="/tools/game/js/Ball.js"></script>
 <script src="/tools/game/js/Paddle.js"></script>
 <script src="assets/js/components.js"></script>
 <script src="assets/js/Breakout.js"></script>
 <script src="assets/js/Board.js"></script>
-<!-- <script src="assets/js/Game.js"></script> -->
-<script src="/tools/game/js/Game.js"></script>
 <script src="assets/js/script.js"></script>

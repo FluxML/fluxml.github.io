@@ -24,4 +24,4 @@ var __init__ = (function(){
 	env.draw();
 })
 
-__init__();
+window.onload = __init__;
