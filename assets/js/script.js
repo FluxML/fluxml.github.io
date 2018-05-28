@@ -1,4 +1,4 @@
-function CPPN(model, canvas, {z_dim=2, w=128, h=128}={}){
+function CPPN(model, canvas, {z_dim=2, w=105, h=105}={}){
 	canvas.width = w;
 	canvas.height = h;
 
@@ -14,6 +14,8 @@ function CPPN(model, canvas, {z_dim=2, w=128, h=128}={}){
 		}
 		return collection;
 	}
+	
+	var next = z => requestAnimationFrame( call( tf.tidy, call( draw, z)));
 
 	var draw = function(z){
 		var collection = coords.map(point=>point.concat(...z));
@@ -21,7 +23,7 @@ function CPPN(model, canvas, {z_dim=2, w=128, h=128}={}){
 			drawImage(canvas, img, {width: w, height: h});
 			counter  = counter.map(e => (e + 1/102));
 			_z = counter.map(e=>Math.sin(e));
-			requestAnimationFrame(()=>{tf.tidy(()=>draw(_z))});
+			next(_z);
 		})
 	}
 
@@ -32,7 +34,7 @@ function CPPN(model, canvas, {z_dim=2, w=128, h=128}={}){
 	this.start = function(){
 		tf.randomUniform([z_dim]).data().then((z)=>{
 			counter = z.map(e=>Math.sinh(e));
-			requestAnimationFrame(()=>{tf.tidy(()=>draw(z))});
+			next(z);
 		})
 	}
 }
@@ -41,4 +43,11 @@ var __init__ = function (){
 	var canvas = document.querySelector("#cppn");
 	var cppn = new CPPN(model, canvas);
 	cppn.start();
+}
+
+
+function call(f){
+	var f_ = f;
+	arguments[0] = this
+	return ()=> f_.call(...Array.from(arguments));
 }
