@@ -14,7 +14,10 @@ let model = (function () {
     return math.maxPool(weasel, [2, 2], [2, 2], 0);
   };
   function model(coati) {
-    return math.softmax(flux.coat(kangaroo(mammoth(seal(math.relu(flux.add(math.conv2d(lemur(math.relu(flux.add(math.conv2d(coati, model.weights[0], [1, 1], 0), model.weights[1]))), model.weights[2], [1, 1], 0), model.weights[3])))))));
+    var int1 = math.relu(flux.add(math.conv2d(coati, model.weights[0], [1, 1], 0), model.weights[1]))
+    return math.softmax(flux.coat(kangaroo(mammoth(seal(
+      math.relu(flux.add(math.conv2d(
+        lemur(int1), model.weights[2], [1, 1], 0), model.weights[3])))))));
   };
   model.weights = [];
   return model;
