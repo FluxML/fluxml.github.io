@@ -6,9 +6,9 @@ Object.assign(window, {Editor})
 function Editor(ele, 
 	{
 		strokeWidth=15,
-		color="#000",
+		color="#555",
 		scale=1,
-		background="#fff"
+		background="#fcfcfc"
 	}={})
 {
 	this.canvas = ele;
@@ -16,6 +16,7 @@ function Editor(ele,
 	this.strokeWidth = strokeWidth;
 	this.color = color;
 	this.prevPoint = null;
+	this.background = background;
 
 	this.ctx.scale(scale, scale);
 	this.ctx.fillStyle = background;
@@ -50,6 +51,7 @@ Editor.prototype.draw = function({clientX, clientY}={}){
 }
 
 Editor.prototype.handleDrawEvent = function(event){
+	event.preventDefault();
 	var scope = this;
 	if(event instanceof MouseEvent){
 		this.draw(event);
@@ -98,7 +100,7 @@ Editor.prototype.drawEnd = function(){
 Editor.prototype.clear = function(){
 	var scope = this;
 	scope.ctx.beginPath();
-	scope.ctx.fillStyle = "#fff";
+	scope.ctx.fillStyle = this.background;
 	scope.ctx.rect(0, 0, scope.canvas.width, scope.canvas.height);
 	scope.ctx.fill();
 	scope.prevPoint =  null;

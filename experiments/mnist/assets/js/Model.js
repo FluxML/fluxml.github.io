@@ -17,7 +17,7 @@
 
 	Model.prototype.findResult = function(image){
 		var scope = this;
-		var input = this.blackAndWhite(image.data);
+		var input = this.blackAndWhite(image.data).group(1).group(28).group(28);
 		
 		var tensor = tf.tensor(input);	
 		var output = this.model(tensor);
@@ -31,7 +31,8 @@
 	Model.prototype.blackAndWhite = function(imageData){
 		return (
 			(new Float32Array(784)).fill(0.0)
-			.map((_, i)=> transpose(i, 28, 28))
+			// .map((_, i)=> transpose(i, 28, 28))
+			.map((_, i)=>i)
 			.map(i => imageData[i*4])
 			.map(invertColor)
 			.map(reduceToGrayScale)
@@ -43,3 +44,15 @@
 	}
 
 })(window)
+
+
+Float32Array.prototype.group = Array.prototype.group = function group(size){
+	return this.reduce((acc, e)=>{
+		acc.a.push(e);
+		if(acc.a.length == size){
+			acc.b.push(acc.a);
+			acc.a = []
+		}
+		return acc
+	}, {a:[], b:[]}).b
+}
