@@ -25,6 +25,7 @@ function drawImage(numberCanvas, data){
 		imgData.data[i] = rgbaArray[i];
 	})
 	ctx.putImageData(imgData, 0, 0);
+	return [imgData.width, imgData.height];
 }
 
 //convert float array into rgba Unit8ClampedArray

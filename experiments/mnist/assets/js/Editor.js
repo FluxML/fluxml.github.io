@@ -151,7 +151,6 @@ function cropToCenter(imgSrc) {
 		ymin -= half
 		heightNew = ymax - ymin + 1
 	}
-
 	var dataNew = new Uint8ClampedArray(widthNew * heightNew * 4)
 	for (var i = xmin; i <= xmax; i++) {
 		for (var j = ymin; j <= ymax; j++) {
