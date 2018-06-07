@@ -37,7 +37,6 @@ function setWeights(){
   weights.push(createWeight([net_size, 3 + z_dim]));
   
   for(var i =0; i< net_depth; i++){
-    console.log(i)
     weights.push(createWeight([net_size]));
     weights.push(createWeight([net_size, net_size]));
     
@@ -50,7 +49,7 @@ function setWeights(){
 }
 
 function createWeight(shape){
-  return tf.randomNormal(shape);
+  return tf.randomNormal(shape, 0, 1);
 }
 
 setWeights();

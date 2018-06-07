@@ -23,18 +23,6 @@
 	flex-direction: row;
 }
 
-/*body{
-	background: #f7f7f7;
-	height: 100vh;
-	font-family: arial, verdana;
-	
-}*/
-
-/*.content{	
-	flex-wrap: wrap;
-	width: 100vw;
-}*/
-
 .demo_wrapper{
 	display: flex;
 }
@@ -46,22 +34,14 @@
 }
 #editor{
 	border: 16px solid #777;
-	/*margin: 50px 0 0 0;*/
-	background: #fff;
+	background: #fafafa;
 }
-.render_editor, .render_image{
-	/*width: 50vw;*/
-	/*height: 89vh;*/
+
+.render_editor{
 	flex:1;
 	padding: 50px;
 	box-sizing: border-box;
 	position:relative;
-}
-
-.render_image{
-	/*background: #eee;*/
-	/*width: 20vw;*/
-	border-left: 1px solid #d8d7d7;
 }
 
 .options button{
@@ -70,17 +50,21 @@
 	margin-right: 10px;
 	padding: 10px 20px;
 	border-radius: 6px;
-	background: #fff;
+	background: #fafafa;
 	color: #000;
 	cursor: pointer;
-	border: none;
-	box-shadow: 0 5px 10px #777;
+	border: 2px solid #777;
 	transition: all .5s linear;
+	width: 110px;
 }
 
-.options button:active{
-	box-shadow: 0 2px 0 #777;	
-	transform: translateY(3px);
+.options button:hover{
+	background: #eee;
+}
+
+.options button:active, 
+.options button:focus{
+	outline: none;
 }
 
 .render_editor h1, .render_image h1{
@@ -90,11 +74,11 @@
 
 .render_editor > div{
 	display: flex;
-	justify-content: space-around;
+	justify-content: center;
 }
 
-#result{
-	margin-top:145px;
+.render_editor > div > div{
+	margin: 0 50px;
 }
 
 @media only screen and (max-width: 768px){
