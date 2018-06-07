@@ -13,7 +13,8 @@ function Result (ele,
 		fontSize=16,  
 		fontFamily="arial",
 		verticalSpacing=20,
-		highlight="#555"
+		highlight="#555",
+		padding=20
     }={})
 {
 	this.canvas = ele;
@@ -28,11 +29,13 @@ function Result (ele,
 	this.fontFamily = fontFamily;
 	this.verticalSpacing = verticalSpacing;
 	this.highlight = highlight;
+	this.padding = padding;
+	this.topMargin = this.canvas.height - (2*this.padding + this.fontSize + this.maxHeight + this.verticalSpacing);
 }
 
 Result.prototype.setUp = function(){
-	var labelTopOffset = this.maxHeight + this.verticalSpacing;
-	var labelLeftOffset = 0;
+	var labelTopOffset = this.topMargin + this.maxHeight + this.verticalSpacing + this.padding;
+	var labelLeftOffset = this.padding;
 	this.ctx.fillStyle = this.color;
 	this.ctx.font = this.fontSize + "px " + this.fontFamily;
 	
@@ -43,11 +46,12 @@ Result.prototype.setUp = function(){
 }
 
 Result.prototype.update = function(values){
-	this.setUp();	// write the labels again ( remove highlighting )
-
 	var scope = this;
 	var max_i = 0;
-	
+
+	scope.ctx.clearRect(0, 0, scope.canvas.width, scope.canvas.height);
+	this.setUp();	// write the labels again ( remove highlighting )
+
 	// draw as histogram
 	values.forEach((val, i)=>{
 		fill(val, i, scope.color);
@@ -58,8 +62,8 @@ Result.prototype.update = function(values){
 
 	// highlight highest bar
 	fill(values[max_i], max_i, scope.highlight);
-	var labelTopOffset = this.maxHeight + this.verticalSpacing;
-	var labelLeftOffset = max_i * ( this.barWidth + this.horizontalSpacing );
+	var labelTopOffset = this.topMargin + this.maxHeight + this.verticalSpacing + this.padding;
+	var labelLeftOffset = max_i * ( this.barWidth + this.horizontalSpacing ) + this.padding;
 	this.ctx.fillStyle = this.highlight;
 	this.ctx.font = this.fontSize + "px " + this.fontFamily;
 	this.ctx.fillText(this.labels[max_i], labelLeftOffset, labelTopOffset);
@@ -67,9 +71,9 @@ Result.prototype.update = function(values){
 	// for filling each bar
 	function fill(val, i, color){	
 		var height = scope.maxHeight * (val/scope.max);
-		var leftOffset = i*(scope.horizontalSpacing + scope.barWidth);
-		var topOffset = (scope.maxHeight - height);
-		scope.ctx.clearRect(leftOffset, 0, scope.barWidth, scope.maxHeight);
+		var leftOffset = i*(scope.horizontalSpacing + scope.barWidth) + scope.padding;
+		var topOffset = scope.topMargin + (scope.maxHeight - height) + scope.padding;
+		
 		scope.ctx.fillStyle = color;
 		scope.ctx.fillRect(leftOffset, topOffset, scope.barWidth, height);
 	}

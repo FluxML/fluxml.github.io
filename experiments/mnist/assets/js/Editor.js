@@ -6,9 +6,8 @@ Object.assign(window, {Editor})
 function Editor(ele, 
 	{
 		strokeWidth=15,
-		color="#000",
-		scale=1,
-		background="#fff"
+		color="#555",
+		scale=1
 	}={})
 {
 	this.canvas = ele;
@@ -18,8 +17,7 @@ function Editor(ele,
 	this.prevPoint = null;
 
 	this.ctx.scale(scale, scale);
-	this.ctx.fillStyle = background;
-	this.ctx.fillRect(0,0, this.canvas.width, this.canvas.height);
+	this.ctx.clearRect(0,0, this.canvas.width, this.canvas.height);
 	this.callback = null;
 }
 
@@ -50,6 +48,7 @@ Editor.prototype.draw = function({clientX, clientY}={}){
 }
 
 Editor.prototype.handleDrawEvent = function(event){
+	event.preventDefault();
 	var scope = this;
 	if(event instanceof MouseEvent){
 		this.draw(event);
@@ -97,25 +96,79 @@ Editor.prototype.drawEnd = function(){
 
 Editor.prototype.clear = function(){
 	var scope = this;
-	scope.ctx.beginPath();
-	scope.ctx.fillStyle = "#fff";
-	scope.ctx.rect(0, 0, scope.canvas.width, scope.canvas.height);
-	scope.ctx.fill();
+	scope.ctx.clearRect(0, 0, scope.canvas.width, scope.canvas.height);
 	scope.prevPoint =  null;
 }
 
 Editor.prototype.getImage = function() {
-	var imgData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
-	
-	// create a hidden canvas, render the image as 28*28 and then extract data
-	var hiddenCanvas  = document.createElement('canvas');
-	hiddenCanvas.width = 28;
-	hiddenCanvas.height = 28;
-	var hctx = hiddenCanvas.getContext('2d');
-	hctx.drawImage(this.canvas,0, 0, this.canvas.width, this.canvas.height,0, 0, 28, 28);
-	return hctx.getImageData(0, 0, 28, 28)
+	var cropped = cropToCenter(this.canvas);
+	return scale(cropped, 28, 28);
 };
 
+function scale(imgSrc, nwidth, nheight){
+	// create a hidden canvas, render the image as 28*28 and then extract data
+	var hiddenCanvas  = document.createElement('canvas');
+	hiddenCanvas.width = nwidth;
+	hiddenCanvas.height = nheight;
+	var hctx = hiddenCanvas.getContext('2d');
+	hctx.drawImage(imgSrc,0, 0, imgSrc.width, imgSrc.height,0, 0, nwidth, nheight);
+	return hctx.getImageData(0, 0, nwidth, nheight);
+}
 
+
+function cropToCenter(imgSrc) {
+	var imgData = imgSrc.getContext("2d").getImageData(0, 0, imgSrc.width, imgSrc.height)
+	var { data, width, height } = imgData
+
+	let [xmin, ymin] = [width, height]
+	let [xmax, ymax] = [-1, -1]
+	for (var i = 0; i < width; i++) {
+		for (var j = 0; j < height; j++) {
+			var idx = i + j * width
+			if (data[4 * idx + 3] > 0) {
+				if (i < xmin) xmin = i
+				if (i > xmax) xmax = i
+				if (j < ymin) ymin = j
+				if (j > ymax) ymax = j
+			}
+		}
+	}
+
+	xmin -= 10
+	xmax += 10
+	ymin -= 10
+	ymax += 10
+
+	let [widthNew, heightNew] = [xmax - xmin + 1, ymax - ymin + 1]
+	if (widthNew < heightNew) {
+		var half = Math.floor((heightNew - widthNew) / 2)
+		xmax += heightNew - widthNew - half
+		xmin -= half
+		widthNew = xmax - xmin + 1
+	} else if (widthNew > heightNew) {
+		var half = Math.floor((widthNew - heightNew) / 2)
+		ymax += widthNew - heightNew - half
+		ymin -= half
+		heightNew = ymax - ymin + 1
+	}
+	var dataNew = new Uint8ClampedArray(widthNew * heightNew * 4)
+	for (var i = xmin; i <= xmax; i++) {
+		for (var j = ymin; j <= ymax; j++) {
+			if (i >= 0 && i < width && j >= 0 && j < height) {
+				var idx = i + j * width
+				var idxNew = i - xmin + (j - ymin) * widthNew
+				dataNew[4 * idxNew + 3] = data[4 * idx + 3]
+			}
+		}
+	}
+
+	var nImgData = new ImageData(dataNew, widthNew, heightNew)
+	var nImgSrc = document.createElement("canvas");
+	nImgSrc.height = nImgData.height;
+	nImgSrc.width = nImgData.width;
+	nImgSrc.getContext("2d").putImageData(nImgData, 0, 0);
+	return nImgSrc;
+
+}
 
 })(window);

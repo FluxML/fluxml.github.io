@@ -67,6 +67,17 @@ async function fetchWeights(url) {
   return ws.weights;
 }
 
-return {fetchData, fetchWeights, fetchBlob, convertArrays_};
+const apply = (obj, func) => func.apply(obj);
+const getProp = (obj, prop) => obj[prop];
+
+const coat = (t) => {
+  if(t.shape.length < 2) return t;
+  return tf.transpose(t);
+}
+
+// julia broadcast == (js transposed broadcast) transposed
+const add = (a, b) => coat(tf.add(coat(a), coat(b)));
+
+return {fetchData, fetchWeights, fetchBlob, convertArrays_, apply, add, coat};
 
 })();
