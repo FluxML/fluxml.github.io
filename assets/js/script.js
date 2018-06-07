@@ -22,6 +22,9 @@ function Screen(ele, w, h){
 
 	this.draw_ = function(){
 		if(this.isDrawing || this.frames.length == 0)return;
+
+		if(this.frames.length > 5)show(canvas) // smoother transition
+
 		this.isDrawing = true;
 		var data = this.frames[this.index];
 		
@@ -44,7 +47,7 @@ function Screen(ele, w, h){
 }
 
 
-function CPPN(canvas, {z_dim=2, w=150, h=150, rate=1, max=1, frames = 500, func=Math.sin}={}){
+function CPPN(canvas, {z_dim=2, w=164, h=164, rate=1, max=1, frames = 1000, func=Math.sin}={}){
 	canvas.width = w;
 	canvas.height = h;
 
@@ -125,6 +128,7 @@ function CPPN(canvas, {z_dim=2, w=150, h=150, rate=1, max=1, frames = 500, func=
 
 	this.start = function(model){
 		model_ = e => tf.tidy(() => model(e));
+
 		next();
 	}
 }
@@ -136,6 +140,11 @@ function call(f){
 	var f_ = f;
 	arguments[0] = this
 	return ()=> f_.call(...Array.from(arguments));
+}
+
+function show(e){
+	if(e.className.match("hidden") == null)return;
+	e.className = e.className.replace("hidden", "");
 }
 
 

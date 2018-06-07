@@ -4,5 +4,10 @@
 	bottom:0;
 	height: 100%;
     width: 100vw;
-    /*background: #000;*/
+    opacity: 0.3;
+    transition: all 1s linear;
+}
+
+.hidden{
+	opacity: 0 !important;
 }

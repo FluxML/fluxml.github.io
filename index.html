@@ -12,8 +12,7 @@ layout: default
   background-size: cover;
   margin-bottom: 0;
   color: white;
-  /* outline text to be visible on white background */
-  text-shadow: -1px -1px 2px #000, 1px -1px 8px #000, -1px 1px 8px #000, 1px 1px 2px #000;
+  text-shadow: -1px 1px 8px #000;
   position: relative;
 }
 
@@ -67,6 +66,18 @@ layout: default
 .feature .container p:last-child {
   margin-bottom: 0;
 }
+.info{
+  font-size: .8em;
+  text-shadow: none;
+  position: absolute;
+  padding: 5px 10px;
+  margin: 5px;
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.3);
+}
+.bottom{ bottom: 0; }
+.right{ right: 0 }
+.white{ color: #fff; }
 </style>
 
 <link rel="stylesheet" href="assets/css/style.css">
@@ -76,7 +87,7 @@ layout: default
 
 <!-- Header -->
 <div class="jumbotron jumbotron-fluid">
-  <canvas id="cppn"></canvas>
+  <canvas id="cppn" class="hidden"></canvas>
   <div class="container" style="text-align:center">
     <h1 class="display-3">flux</h1>
     <h2>The <i>Elegant</i> Machine Learning Stack</h2>
@@ -86,6 +97,7 @@ layout: default
     </p>
     <a class="btn btn-primary btn-lg" href="Flux.jl" role="button">Try It Out</a>
   </div>
+  <a href="http://blog.otoro.net/2016/03/25/generating-abstract-patterns-with-tensorflow/"><div class="info bottom right white"> Blog Post</div></a>
 </div>
 
 <!-- Main Content -->

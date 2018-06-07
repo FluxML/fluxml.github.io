@@ -27,7 +27,31 @@ let model = (function () {
   model.weights = [];
   return model;
 })();
-flux.fetchWeights("./assets/bson/cppn.bson").then((function (ws) {
-  model.weights = ws;
-  __init__();
-}));
+
+function setWeights(){
+  var z_dim = 2;
+  var net_size = 15;
+  var net_depth = 5;
+  var weights = [];
+  weights.push(createWeight([net_size]));
+  weights.push(createWeight([net_size, 3 + z_dim]));
+  
+  for(var i =0; i< net_depth; i++){
+    console.log(i)
+    weights.push(createWeight([net_size]));
+    weights.push(createWeight([net_size, net_size]));
+    
+  }
+  weights.push(createWeight([1]));
+  weights.push(createWeight([1, net_size]));
+  
+
+  model.weights = weights.reverse();
+}
+
+function createWeight(shape){
+  return tf.randomNormal(shape);
+}
+
+setWeights();
+__init__();
