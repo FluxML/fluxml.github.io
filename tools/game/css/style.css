@@ -1,0 +1,138 @@
+.demo_wrapper {
+    margin: 0px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.instructions{
+  margin: 40px 0 0 0;
+  background: #ebf5eb;
+  padding: 20px;
+  border-radius: 6px;
+  /* box-sizing: border-box; */
+  text-align: justify;
+  width: 100%;
+}
+
+.code_link{
+    width: fit-content;
+    /* background: #ffffff; */
+    border: 1px solid;
+    padding: 5px 10px;
+    border-radius: 3px;
+    color: #41822a;
+    float: right;
+    font-weight: 900;
+}
+
+.board{
+  position: relative;
+  color: #fff;
+}
+
+.board > *, .overlay > *{
+  position: absolute;
+}
+
+.board > *, .game-over{
+  top:0;
+  left:0;
+  right: 0;
+  bottom: 0;
+}
+
+.overlay .score{
+  padding: 20px;
+}
+
+.overlay .keyboard{
+
+  right: 10px !important;
+  top: 10px;
+  width: 100px;
+  height: 50px;
+
+}
+
+.game-over{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.7);
+    transition: all .4s linear;
+    opacity: 1;
+}
+
+.hidden-screen{
+  opacity: 0;
+}
+
+.game-over p{
+  font-size: 2em;
+}
+
+#controls{
+  background: #ebf5eb;
+  color: #41822a;
+  /*margin: 10px;*/
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+
+  box-sizing: border-box;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+
+}
+
+#controls .heading{
+  padding: 20px;
+}
+
+#controls .options{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+#controls .comp{
+  background: url("../img/comp.png") 0 0 no-repeat; 
+  background-size: 20px;
+}
+
+#controls .human{
+  background: url("../img/human.png") 0 0 no-repeat;
+  background-size: 20px;
+}
+
+#controls .comp, #controls .human{
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  margin: 10px 20px 10px 0;
+  background-position: center;  
+  /*border-left: 1px solid #aaa;*/
+}
+
+#controls .option{
+  border-radius: 50%;
+  background-color: #777;
+}
+
+#controls .options .selected{
+  background-color: #41822a;
+}
+
+#game { 
+  width: 500px; 
+  margin: 30px auto; 
+  box-shadow: 2px 3px 5px #aaa; 
+  border-radius: 6px; 
+  overflow: hidden;
+}

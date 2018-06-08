@@ -1,0 +1,28 @@
+---
+layout: default
+game: go
+---
+<style>
+	.board { height: 500px; }
+	.pass{
+		margin: 0 15px;
+	    border: 1px solid #41822a;
+	    border-radius: 3px;
+	    padding: 3px 15px;
+	    cursor: pointer
+	}
+</style>
+{% include experiments/game/headers.html %}
+<link rel="stylesheet" href="assets/wgo/wgo.player.css">
+
+<script src="assets/wgo/wgo.min.js"></script>
+<script src="assets/wgo/wgo.player.min.js"></script>
+
+{% assign game = site.data.experiments[page.game] %}
+{% include experiments/game/content.html game=game %}
+
+
+{% include experiments/game/footer.html %}
+<script src="assets/js/Board.js"></script>
+<script src="assets/js/extensions.js"></script>
+<script src="assets/js/script.js"></script>
