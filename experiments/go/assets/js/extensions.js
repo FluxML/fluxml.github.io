@@ -30,10 +30,10 @@ WGo.Game.prototype.reset = function(){
     this.passes = [];
 }
 
-// Game.prototype.nextGameState = function(curr){
-//     if(this.env.turn == WGo.B)return this.states.H;
-//     else return this.states.B;
-// }
+Game.prototype.nextGameState = function(curr){
+    if(this.env.turn == WGo.B)return this.states.H;
+    return this.states.C;
+}
 
 
 function getState(env){

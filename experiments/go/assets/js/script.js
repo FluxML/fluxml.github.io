@@ -1,5 +1,8 @@
 var __init__ = function(){
 
+    var $$ = (e)=> document.querySelector(e);
+    var game;
+    
     var board = new WGo.Board(document.querySelector("#playground"), {
         width: 500,
         section: {
@@ -11,21 +14,24 @@ var __init__ = function(){
     });
 
     var env = new WGo.Game(19, "KO");
-    var game = new Game(env, new Board(board), null, {
-        mode: "async"
-    })
 
-    board.addEventListener("click", function(x, y){
-        game.action({type: "stone", x, y, c: WGo.B});
-    })
+    var model = new Model(WGo.W, "http://0.0.0.0:8000")
 
-    k = -1;
-    var $$ = (e)=> document.querySelector(e);
-    $$("#controls .pass").addEventListener("click", function(event){
-        // game.action({type: "pass", c:WGo.b})
-        k = (k + 3)%4 - 1
-        game.action({type: "pass", c:k})
-    })
+    model.getMCTSPlayer().then(()=>{
+        game = new Game(env, new Board(board), model, {
+            mode: "async"
+        })
+
+        board.addEventListener("click", function(x, y){
+            if(env.turn == WGo.B){
+                game.action({type: "stone", x, y, c: WGo.B});
+            }
+        })
+        
+        $$("#controls .pass").addEventListener("click", function(event){
+            game.action({type: "pass", c:WGo.b})
+        })
+    });
 
     var coordinates = {
         // draw on grid layer
