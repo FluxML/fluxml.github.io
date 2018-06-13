@@ -3,11 +3,5 @@
 	top:0;
 	bottom:0;
 	height: 100%;
-    width: 100vw;
-    opacity: 0.3;
-    transition: all 1s linear;
-}
-
-.hidden{
-	opacity: 0 !important;
+  width: 100vw;
 }

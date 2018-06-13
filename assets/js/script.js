@@ -2,7 +2,7 @@
 function Screen(ele, w, h){
 	this.frames = [];
 	this.isDrawing = false;
-	
+
 	this.index = 0;
 	var l = w*h;
 	var canvas = ele;
@@ -13,21 +13,19 @@ function Screen(ele, w, h){
 
 	this.next = function(){
 		if(this.frames.length ==0) return;
-		
+
 		this.index = Math.floor((this.index + 1)%(this.frames.length));
 		if(!this.isDrawing)
 			requestAnimationFrame(this.draw_);
 	}
-	
+
 
 	this.draw_ = function(){
 		if(this.isDrawing || this.frames.length == 0)return;
 
-		if(this.frames.length > 5)show(canvas) // smoother transition
-
 		this.isDrawing = true;
 		var data = this.frames[this.index];
-		
+
 		var img = [];
 		for(var i = 0; i< w*h; i++){
 			c = data[i]*255;
@@ -59,7 +57,7 @@ function CPPN(canvas, {z_dim=2, w=164, h=164, rate=1, max=1, frames = 1000, func
 	canvas.style.transform = "scaleX("+ scaleX +") scaleY(" + scaleY +")";
 	canvas.style.transformOrigin = "0 0";
 
-	
+
 	var screen = new Screen(canvas, w, h);
 	var model_ = null;
 
@@ -94,7 +92,7 @@ function CPPN(canvas, {z_dim=2, w=164, h=164, rate=1, max=1, frames = 1000, func
 		}
 		return collection;
 	}
-	
+
 	var next = z => requestAnimationFrame( call( draw, z));
 
 	var draw = function(){
@@ -104,25 +102,24 @@ function CPPN(canvas, {z_dim=2, w=164, h=164, rate=1, max=1, frames = 1000, func
 			return next();
 		}
 		var index = screen.frameCount();
-		
+
 		var l = coords.length
 		var collection = new Array(l);
-		
+
 
 		var z = zArr[index];
 		for(var j = 0; j< l; j++){
 			collection[j] = coords[j].concat(z);
-			
 		}
-		
+
 		var input = tf.transpose(tf.tensor(collection, [l, 3 + z_dim]));
 		var output = model_(input);
-	
+
 		output.data().then(r=>{
 			screen.addFrame(r);
 			screen.next();
 		})
-			
+
         next();
 	}
 
@@ -141,12 +138,6 @@ function call(f){
 	arguments[0] = this
 	return ()=> f_.call(...Array.from(arguments));
 }
-
-function show(e){
-	if(e.className.match("hidden") == null)return;
-	e.className = e.className.replace("hidden", "");
-}
-
 
 window.__init__ = ()=> cppn.start(model);
 })();
