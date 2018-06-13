@@ -45,7 +45,7 @@ function Screen(ele, w, h){
 }
 
 
-function CPPN(canvas, {z_dim=2, w=164, h=164, rate=1, max=1, frames = 1000, func=Math.sin}={}){
+function CPPN(canvas, {z_dim=2, w=100, h=100, rate=1, max=1, frames = 1000, func=Math.sin}={}){
 	canvas.width = w;
 	canvas.height = h;
 
@@ -77,7 +77,6 @@ function CPPN(canvas, {z_dim=2, w=164, h=164, rate=1, max=1, frames = 1000, func
 			}
 			zArr[i] = z_;
 		}
-
 	})
 
 	function getCoords(){

@@ -35,15 +35,15 @@ function setWeights(){
   var weights = [];
   weights.push(createWeight([net_size]));
   weights.push(createWeight([net_size, 3 + z_dim]));
-  
+
   for(var i =0; i< net_depth; i++){
     weights.push(createWeight([net_size]));
     weights.push(createWeight([net_size, net_size]));
-    
+
   }
   weights.push(createWeight([1]));
   weights.push(createWeight([1, net_size]));
-  
+
 
   model.weights = weights.reverse();
 }
