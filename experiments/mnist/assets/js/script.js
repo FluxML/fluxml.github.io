@@ -60,4 +60,3 @@ function transpose(i, row, col){
 function reverse(i, size){
 	return size - i - 1;
 }
-
