@@ -21,8 +21,12 @@ layout: default
   box-shadow: 2px;
   position: relative;
   background: rgba(0, 0, 0, 0.5);
-  border-radius: 6px;
-  padding: 30px 15px
+  padding: calc(2rem + 30px) 15px;
+}
+
+@media (min-width: 576px){
+.jumbotron .container{
+    padding: calc(4rem + 30px) 15px;
 }
 
 .jumbotron hr {
@@ -81,6 +85,7 @@ layout: default
 .bottom{ bottom: 0; }
 .right{ right: 0 }
 .white{ color: #fff; }
+.no-pad{ padding: 0 !important }
 </style>
 
 <link rel="stylesheet" href="assets/css/style.css">
@@ -89,7 +94,7 @@ layout: default
 <script src="/tools/fluxjs/flux.js"></script>
 
 <!-- Header -->
-<div class="jumbotron jumbotron-fluid">
+<div class="jumbotron jumbotron-fluid no-pad">
   <canvas id="cppn" class="hidden"></canvas>
   <div class="container" style="text-align:center">
     <h1 class="display-3">flux</h1>
