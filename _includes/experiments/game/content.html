@@ -5,13 +5,15 @@
 			<div id="game">
 				<div id="controls">
 					<div class="heading">{{ include.game.name }}</div>
-					<div class="options">
-						{% if include.game.pass_option %}
-							<div class="pass button">Pass</div>
-						{% endif %}
-						<div class="human option selected" data-state="human"></div>
-						<div class="comp option" data-state="computer"></div>
-					</div>
+					{% if include.game.no_options == false %}
+						<div class="options">
+							{% if include.game.pass_option %}
+								<div class="pass button">Pass</div>
+							{% endif %}
+							<div class="human option selected" data-state="human"></div>
+							<div class="comp option" data-state="computer"></div>
+						</div>
+					{% endif %}
 				</div>
 				<div class="board">
 					{% if include.game.canvas %}

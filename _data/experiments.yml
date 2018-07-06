@@ -6,6 +6,7 @@ go :
   instructions_page: experiments/game/instructions/go.html
   code_link: "#"
   canvas: false
+  no_options: false
 chess:
   name: Chess
   pass_option: false
@@ -14,6 +15,7 @@ chess:
   instructions_page: experiments/game/instructions/chess.html
   code_link: "#"
   canvas: false
+  no_options: false
 breakout:
   name: Breakout
   pass_option: false
@@ -23,6 +25,7 @@ breakout:
   instructions_page: experiments/game/instructions/breakout.html
   code_link: "#"
   canvas: true
+  no_options: false
 pong:
   name: Pong
   pass_option: false
@@ -31,4 +34,5 @@ pong:
   game_over_message: Press [Up arrow key] or [Down arrow key] to play again
   instructions_page: experiments/game/instructions/pong.html
   code_link: "#"
-  canvas: true
+  canvas: false
+  no_options: true

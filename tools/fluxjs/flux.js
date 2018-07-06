@@ -41,7 +41,6 @@ function toTensor_(spec) {
   if (type == 'Float32') spec.data = readFloat32(spec.data.buffer);
   else throw `Array type ${spec.type.name} not supported.`;
   let array = tf.tensor(spec.data, spec.size.reverse());
-  if (spec.size.length > 1) array = array.transpose();
   return array
 }
 
@@ -67,17 +66,12 @@ async function fetchWeights(url) {
   return ws.weights;
 }
 
-const apply = (obj, func) => func.apply(obj);
-const getProp = (obj, prop) => obj[prop];
+const add = (a, b) => a + b;
+const sub = (a, b) => a - b;
+const mul = (a, b) => a * b;
+const div = (a, b) => a / b;
+const _data = t => (t instanceof tf.Tensor)? t.dataSync(): t;
 
-const coat = (t) => {
-  if(t.shape.length < 2) return t;
-  return tf.transpose(t);
-}
-
-// julia broadcast == (js transposed broadcast) transposed
-const add = (a, b) => coat(tf.add(coat(a), coat(b)));
-
-return {fetchData, fetchWeights, fetchBlob, convertArrays_, apply, add, coat};
+return {fetchData, fetchWeights, fetchBlob, convertArrays_, add, sub, mul, div, data: _data};
 
 })();

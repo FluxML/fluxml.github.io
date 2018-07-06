@@ -29,15 +29,16 @@ function Game(env, out, model, {
 		transform={
 			state: function(state){
 				({ x, xvel , theta, thetavel } = state);
+				console.log(state);
 				return tf.tensor([x, xvel, theta, thetavel])
 			},
 			action: function(a){
-				return a[0] > a[1]? 1 : 2;
+				return tf.argMax(a).data().then(d => d[0]);
 			}
-		}
+		},
+		autoReset=false
 	}={}){ 
 	this.state = state;
-	this.newAction = 0;
 	this.gameOver = false;
 	this.env = env;
 	this.out = out;
@@ -53,6 +54,8 @@ function Game(env, out, model, {
 		"computer": 1
 	};
 	this.playTimeout = null;
+	this.newAction = this.defaultAction();
+	this.autoReset = autoReset;
 }
 
 Game.prototype.nextGameState = function(curr){
@@ -77,9 +80,9 @@ Game.prototype.action = function(a){
 
 	if(!this.isValidAction(a))return false;
 
+	this.newAction = a;
 	switch(this.state){
 		case this.states.H:
-			this.newAction = a;
 			if(this.mode == "async")this.move(this.newAction);	// action initiates a move
 			break;
 		case this.states.C:
@@ -90,7 +93,7 @@ Game.prototype.action = function(a){
 	return true;
 }
 
-Game.prototype.play = function(){
+Game.prototype.play = async function(){
 	clearTimeout(this.playTimeout);
 	if(this.env.done())return;
 
@@ -101,10 +104,9 @@ Game.prototype.play = function(){
 			// newAction = 0; 
 			break;
 		case this.states.C:
-			this.predict(this.env.state()).then((a)=>{
-				var action = this.transform.action(a);
-				this.move(action);
-			})
+			var a = await this.predict(this.env.state())
+			var action = await this.transform.action(a);
+			this.move(action);
 			break;
 		default:
 			console.log("Invalid state", this.state);
@@ -119,9 +121,12 @@ Game.prototype.next = function(){
 			this.playTimeout = setTimeout(play, this.timeInt);
 	}else{
 		var scope = this;
-		setTimeout(()=>{
-			scope.gameOver = true;	// wait 400 ms before resetting
-		}, 400)
+		if(this.autoReset)this.gameOverHandler();
+		else{
+			setTimeout(()=>{
+				scope.gameOver = true;	// wait 400 ms before resetting
+			}, 400)
+		}
 	}
 	
 }
@@ -129,6 +134,7 @@ Game.prototype.next = function(){
 Game.prototype.display = function(){
 	this.out.render(this.env.config());
 }
+
 Game.prototype.move = function(a){
 	this.env.step(a);
 	this.display();
@@ -137,11 +143,11 @@ Game.prototype.move = function(a){
 Game.prototype.predict = function(state){
 	var input = this.transform.state(state);
 	var output = this.model(input);
-	return output.data()
+	return output;
 }
 Game.prototype.reset = function(){
 	this.env.reset();
-	this.newAction = 0;
+	this.newAction = this.defaultAction();
 	this.gameOver = false;
 	this.display();
 }
@@ -153,4 +159,8 @@ Game.prototype.setState = function(newState){
 	else
 		this.state = newState;
 	this.play();
+}
+
+Game.prototype.defaultAction = function(){
+	return 0;
 }
