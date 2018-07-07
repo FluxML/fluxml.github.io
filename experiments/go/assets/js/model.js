@@ -1,18 +1,30 @@
 function Model(model){
-	var mctsPlayer = new MCTS.Player(this);
+	this.mctsPlayer = new MCTS.Player(this);
 
-	this.predict = (input)=>{
-		var nn_in = tf.stack(input.map(p => p.get_feats()));
-		
-		common_out = model.base_net(nn_in)  //  transpose ??????
-		var [pi, val] = [model.policy(common_out), model.value(common_out)]
-		
-		return { move_probs: pi, values: val };
+	this.model = model;
+
+	this.predict = async function(){
+		console.log(this)
+		return this.mctsPlayer.suggest_move();
 	}
+	this.predict = this.predict.bind(this)
+}
 
-	this.play_move = mctsPlayer.play_move.bind(mctsPlayer);
+Model.prototype.process = function(input){
+	console.log(input)
+	var nn_in = tf.stack(input.map(p => p.get_feats()));
+	
+	console.log(nn_in.shape);
+	common_out = this.model.base_net(nn_in)  //  transpose ??????
+	var [pi, val] = [this.model.policy(common_out), this.model.value(common_out)]
+	
+	return { move_probs: pi, values: val };
+}
 
-	return () => {
-		return mctsPlayer.suggestMove();
-	}
+Model.prototype.play_move = function(){
+	return this.mctsPlayer.play_move.bind(this.mctsPlayer);
+}
+
+Model.prototype.__init__ = function (env){
+	return this.mctsPlayer.__init__(new MCTS.Position(env, env.stack(), [], env.turn()));
 }

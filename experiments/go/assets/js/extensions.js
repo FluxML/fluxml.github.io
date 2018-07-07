@@ -3,24 +3,18 @@ WGo.Board.prototype.render = function(config){
 }
 
 Game.prototype.nextGameState = function(curr){
-    if(this.env.turn == WGo.B)return this.states.H;
+    console.log("turn....", this.env.turn())
+    if(this.env.turn() == WGo.B)return this.states.H;
     return this.states.C;
 }
 
 
-function getState(env){
-    console.log(env, env.size)
-    l = {
-        "objects": env.position.schema.reduce((acc, curr)=>{
-            acc.tail = acc.tail.concat(curr);
-            if(acc.tail.length == env.size){
-                acc.list.push(acc.tail);
-                acc.tail = []
-            }
-            return acc
-        }, {list:[], tail:[]}).list.map((a, i)=> a.map((b, j)=>{f = []; if(b != 0)f.push({x: i, y: j, c: b}); return f }))
-    }
 
-    console.log(l)
+function getState(env){
+    var k = partition(env.position.schema.slice(), 9);
+
+    var l = {
+        "objects": k.map((a, i)=> a.map((b, j)=>{f = []; if(b != 0)f.push({x: i, y: j, c: b}); return f }))
+    }
     return l;
 }

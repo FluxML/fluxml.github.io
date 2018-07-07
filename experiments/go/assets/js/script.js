@@ -1,10 +1,23 @@
 var model = { policy, value, base_net }
 var env, board, game
 
+function partition(array, n){
+    return partition_(array.slice(),n)
+}
+
+function partition_ (array, n){
+    if(isNaN(n))debugger
+   return array.length ? [array.splice(0, n)].concat(partition_(array, n)) : [];
+}
+
+function searchsortedfirst (arr, x){
+    return arr.findIndex(e => e > x)
+}
+
 var __init__ = function(){
 
     var $$ = (e)=> document.querySelector(e);
-    var game;
+    var doNothing = async function (e){ return e};
     
     board = new WGo.Board(document.querySelector("#playground"), {
         width: 500,
@@ -20,10 +33,15 @@ var __init__ = function(){
     env = new Env(9, "KO");
     model = new Model(model);
 
-    env.setCallbacks({step: model.play_move(a)})
+    env.setModel(model);
+    env.reset();
 
-    game = new Game(env, new Board(board), null, {
-        mode: "async"
+    game = new Game(env, new Board(board), model.predict.bind(this), {
+        mode: "async",
+        transform: {
+            state: doNothing,
+            action: doNothing
+        }
     })
 
     board.addEventListener("click", function(x, y){
@@ -75,7 +93,7 @@ var __init__ = function(){
 }
 
 var modelArr = [policy, value, base_net];
-Promise.all(["./assets/bson/policy.bson", "./assets/bson/value.bson", "./assets/bson/base_net.bson"])
+Promise.all([flux.fetchWeights("./assets/bson/policy.bson"), flux.fetchWeights("./assets/bson/value.bson"), flux.fetchWeights("./assets/bson/base_net.bson")])
 .then((res)=>{
     res.forEach((e,i)=>{
         modelArr[i].weights = e;

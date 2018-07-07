@@ -13,8 +13,10 @@ Object.assign(obj.MCTS, {Player})
 
 var MCTS = obj.MCTS;
 
-function Player(network, { num_readouts = 800, two_player_mode = false, resign_threshold = -0.9, board_size=9}={}){
-	this.board_size = this.board_size;
+var safe_div = (n, d) => d == 0? n*1000/Math.random() : n/d;
+
+function Player(network, { num_readouts = 1, two_player_mode = false, resign_threshold = -0.9, board_size = 9}={}){
+	this.board_size = board_size;
     this.tau_threshold = two_player_mode ? -1 : (board_size * board_size / 12) / 2 * 2
     this.network = network;
     this.num_readouts = num_readouts;
@@ -38,19 +40,22 @@ player.__init__ = function(pos){
 }
 
 player.suggest_move = function(){
-  var current_readouts = this.root.N();
-  while (this.root.N() < current_readouts + this.num_readouts){
-  	this.tree_search();
-  }
+	console.log("suggest move")
+	var current_readouts = this.root.N();
+	console.log(current_readouts);
+	while (this.root.N() < current_readouts + this.num_readouts){
+		this.tree_search();
+	}
 
-  return this.pick_move();
+	return this.pick_move();
 }
 
 player.tree_search = function(parallel_readouts = 8){
+	console.log("Tree search ....")
 	var leaves = [];
 	var failsafe = 0;
 
-	while (leaves.length() < parallel_readouts && failsafe < 2 * parallel_readouts){
+	while (leaves.length < parallel_readouts && failsafe < 2 * parallel_readouts){
 	    failsafe += 1
 	    var leaf = this.root.select_leaf()
 	    // if game is over, override the value estimate with the true score
@@ -63,11 +68,13 @@ player.tree_search = function(parallel_readouts = 8){
 	    leaves.push(leaf)
   	}
 
-  	if(leaves.length() == 0) return leaves;
+  	if(leaves.length == 0) return leaves;
 
-	var { move_probs, values } = this.network.predict(leaves.map(l=>l.position))
+	var { move_probs, values } = this.network.process(leaves.map(l=>l.position))
 	
-	move_probs = tf.layers.flatten.apply(move_probs).dataSync();
+	var len = this.board_size*this.board_size + 1
+	console.log(len)
+	move_probs = partition(Array.from(move_probs.dataSync()),len);
 	values = values.dataSync();
 	for (var i in leaves){
 		var leaf = leaves[i];
@@ -91,11 +98,14 @@ player.pick_move = function(){
 	}else{
 		var cdf = tf.cumsum(tf.tensor(this.root.child_N)).dataSync();
 		var n = cdf.slice(-2)[0];
-		cdf = cdf.map(c => c/n)
+		cdf = cdf.map(c => safe_div(c/n))
 		selection = Math.random()
-		fcoord = searchsortedfirst(cdf, selection)
-	}
+		var m = searchsortedfirst(cdf, selection);
+		m = m == -1 ? Math.floor(Math.random()*this.board_size* this.board_size): m
+		fcoord =  m + 1
 
+	}
+	console.log("fcoord....", fcoord)
 	return MCTS.to_obj(fcoord, this.root.position.to_play, this.board_size);
 }
 

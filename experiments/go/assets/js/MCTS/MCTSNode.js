@@ -16,12 +16,19 @@ var c_puct = 0.96;
 var zeros = (n) => new Array(n).fill(0);
 var ones = (n) => new Array(n).fill(1);
 var val = (n, v) => new Array(n).fill(v);
+var defObj = (n) => ({...zeros(n), "null":0});
 
-function DummyNode(){}
+function DummyNode(n){
+	this.parent = null;
+	this.child_N = defObj(n*n + 2)
+	this.child_W = defObj(n*n + 2);
+}
 
-function Node(position, {parent=(new DummyNode()), fmove=null, board_size=9}={}){
+function Node(position, {parent, fmove=null, board_size=9, max_game_length}={}){
+	
+	this.max_game_length = max_game_length || (Math.pow(board_size,2) * 7) / 5
+	this.parent = parent || new DummyNode(board_size);
 	this.board_size = board_size;
-	this.parent = parent;
 	this.position = position;
 	this.fmove = fmove;
 	this.is_expanded = false;
@@ -55,6 +62,7 @@ node.set_W = function(value){
 }
 
 node.select_leaf = function(){
+	console.log("select leaf ....")
 	var current = this;
 	var pass_move = this.board_size * this.board_size + 1;
 	while (true){
@@ -64,7 +72,7 @@ node.select_leaf = function(){
     	if (!current.is_expanded)
       		break;
 
-	    if (current.position.recent.length() != 0
+	    if (current.position.recent.length != 0
 	      && current.position.recent.slice(-1)[0] == pass_move
 	      && current.child_N[pass_move] == 0){
 	      current = current.maybe_add_child(pass_move)
@@ -100,8 +108,9 @@ node.child_Q = function(){
 }
 
 node.child_U = function(){
-	var d = c_puct * Math.sqrt(1 + this.N())/(1 + x.child_N);
-	return this.child_prior.map(e=> e * d);
+	var scope = this
+	var d = c_puct * Math.sqrt(1 + this.N());
+	return this.child_prior.map((e, i) => (e * d)/(1 + scope.child_N[i]));
 }
 
 node.legal_moves = function () { return this.position.legal_moves() };
@@ -116,7 +125,7 @@ node.add_virtual_loss = function(root_){
 	this.losses_applied += 1;
 	var loss = this.position.to_play
   	this.set_W(this.W() + loss)
-  	if (mcts_node.parent == nothing || mcts_node == up_to) return;
+  	if (this.parent == null || this == root_) return;
 	this.parent.add_virtual_loss(root_)
 }
 
@@ -137,7 +146,8 @@ node.incorporate_results = function(move_probs, value, up_to){
 	this.original_prior = move_probs.slice();
 	this.child_prior = move_probs.slice();
 
-	this.child_W = val(go.N * go.N + 1, value)
+	var len = this.board_size * this.board_size + 1
+	this.child_W = val(len, value)
 	this.backup_value(value, up_to)
 }
 
@@ -160,5 +170,10 @@ node.children_as_pi = function(squash=false){
 node.Q = function(){
 	return this.W() / (1 + this.N());
 }
+
+node.is_done = function(){
+	return this.position.done || this.position.n >= this.max_game_length
+}
+
 
 })(window);

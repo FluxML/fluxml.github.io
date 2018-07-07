@@ -1,35 +1,33 @@
 (function(obj){
+
 obj.MCTS = obj.MCTS || {}
 
 Object.assign(obj.MCTS, {Position})
 
 var MCTS = obj.MCTS
 
-var partition = (array, n) =>
-   array.length ? [array.splice(0, n)].concat(partition(array, n)) : [];
-
-var pos_to_board = (pos, n) => partition(pos.schema, n)
+var pos_to_board = (pos, n) => partition(pos.schema.slice(), n)
 
 // MCTS's representation of env
-function Position(env, moves){
-	var position = env.getPosition();
+function Position(env, stack, moves, turn){
+	var position = stack.slice(-1)[0];
 
-	var l = env.lastMove();
+	var last_move = moves.slice(-1)[0];
 	var n = env.size();
 	
 	// flattened along col with 1-based indexing
-	var last_move = MCTS.to_flat(l, n)
-
-	this.stack = this.env.stack().slice()
+	this.stack = stack.slice();
 	this.size = n;
-	this.to_play = env.turn(),
-	this.board = pos_to_board(position, env.size());
-	this.n = moves.length,
-	this.recent = moves.slice(),
-	this.last_move = last_move,
+
+	this.to_play = turn;
+	this.board = pos_to_board(position, n);
+	this.n = moves.length;
+	this.recent = moves.slice();
+	this.last_move = last_move;
+	
 	// doesn't affect the real environment
 	this.play_move = (f) => {
-		return new Position(env.next(this.stack, MCTS.to_obj(f, this.to_play, n)), moves.concat(f))
+		return new Position(env, env.next(this.stack, MCTS.to_obj(f, this.to_play, n)).stack, moves.concat(f), -turn)
 	};
 
 	this.store = {}
@@ -47,7 +45,7 @@ function Position(env, moves){
 }
 
 Position.prototype.get_feats = function(){
-	return tf.concat(this.stone_features(), this.color_to_play_feature())
+	return tf.concat([this.stone_features(), this.color_to_play_feature()])
 }
 
 Position.prototype.stone_features = function(){
@@ -79,4 +77,4 @@ Position.prototype.color_to_play_feature = function() {
 	return tf.ones([1, this.size, this.size]);
 };
 
-})
+})(window)

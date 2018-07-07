@@ -6,40 +6,47 @@ function Env(size=9, repeat="KO"){
 	this.size = size;
 	this.repeat = repeat;
 	this.env = new WGo.Game(size, repeat);
-	console.log(this.env)
 
-	this.turn = () => this.env.turn;
+	
 	this.size = () => this.env.size;
 	this.n_moves = () => this.env.stack.length - 1;
 	this.moves = [];
 
-	this.callbacks = {};
+	this.model = null;
 }
 
 Env.prototype.passes = [];
 
+Env.prototype.turn = function(){
+	return this.env.turn;
+}
+
 Env.prototype.state = function(){return getState(this.env)}
 
 Env.prototype.config = function(){
+
     return {state: this.state(), done: this.done(), turn: this.turn()}
 }
 
-Env.prototype.setCallbacks = (cb) =>{
-	this.callbacks = cb;
+Env.prototype.setModel = function (m){
+	this.model = m;
 }
 
 Env.prototype.step = function(a){
+	console.log(a, "action")
 	this.moves.push(a)
     if(a.type== "stone"){
         this.passes = [];
+        console.log(this.turn(), "eeeeeeee....")
         this.env.play(a.x, a.y, a.k);
+        console.log(this.turn(), "e....")
     }
     else if(a.type == "pass"){
         if(this.passes.indexOf(a.c) == -1)this.passes.push(a.c);
         this.env.pass(a.c);
     }
 
-    this.callbacks["step"](a);
+    this.model.play_move(a);
 }
 
 Env.prototype.next = function(stack, action){
@@ -53,13 +60,21 @@ Env.prototype.done = function(){
 }
 
 Env.prototype.reset = function(){
+	console.log(this.env.stack[0])
     this.env.firstPosition();
-    this.turn = 1;
+    console.log(this.env.stack[0])
     this.passes = [];
+    this.model.__init__(this)
+    console.log(this.env.stack[0])
 }
 
 Env.prototype.stack = function(){
+	console.log(this.env.stack[0])
 	return this.env.stack;
+}
+
+Env.prototype.getPosition = function(){
+	return this.env.getPosition();
 }
 
 Env.prototype.new_env = function(stack){
