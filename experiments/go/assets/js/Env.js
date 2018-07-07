@@ -11,7 +11,9 @@ function Env(size=9, repeat="KO"){
 	this.turn = () => this.env.turn;
 	this.size = () => this.env.size;
 	this.n_moves = () => this.env.stack.length - 1;
-	this.last_move = {type: "null", x: -1, y: -1, c: 0};
+	this.moves = [];
+
+	this.callbacks = {};
 }
 
 Env.prototype.passes = [];
@@ -22,8 +24,12 @@ Env.prototype.config = function(){
     return {state: this.state(), done: this.done(), turn: this.turn()}
 }
 
+Env.prototype.setCallbacks = (cb) =>{
+	this.callbacks = cb;
+}
+
 Env.prototype.step = function(a){
-	this.last_move = a;
+	this.moves.push(a)
     if(a.type== "stone"){
         this.passes = [];
         this.env.play(a.x, a.y, a.k);
@@ -32,6 +38,8 @@ Env.prototype.step = function(a){
         if(this.passes.indexOf(a.c) == -1)this.passes.push(a.c);
         this.env.pass(a.c);
     }
+
+    this.callbacks["step"](a);
 }
 
 Env.prototype.next = function(stack, action){
@@ -81,6 +89,10 @@ Env.prototype.check_if_done = function(moves){
 Env.prototype.find_score = function({capCount}={}){
 	var score = capCount.black - capCount.white;
 	return {black: score, white: -1 * score};
+}
+
+Env.prototype.lastMove = function(){
+	return this.moves.slice(-1);
 }
 
 })(window);

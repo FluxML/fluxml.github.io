@@ -66,12 +66,10 @@ async function fetchWeights(url) {
   return ws.weights;
 }
 
-const add = (a, b) => a + b;
-const sub = (a, b) => a - b;
-const mul = (a, b) => a * b;
-const div = (a, b) => a / b;
 const _data = t => (t instanceof tf.Tensor)? t.dataSync(): t;
+const slice = t => (t instanceof tf.Tensor)? t.clone():(
+  t instanceof Array ? t.slice() : t );
 
-return {fetchData, fetchWeights, fetchBlob, convertArrays_, add, sub, mul, div, data: _data};
+return {fetchData, fetchWeights, fetchBlob, convertArrays_, data: _data, slice};
 
 })();

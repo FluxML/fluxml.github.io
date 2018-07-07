@@ -59,14 +59,11 @@ node.select_leaf = function(){
 	var pass_move = this.board_size * this.board_size + 1;
 	while (true){
 		var current_new_N = current.N() + 1
-	
     	current.set_N(current_new_N)
-    	// if a node has never been evaluated, we have no basis to select a child.
-    	if !current.is_expanded
+    	
+    	if (!current.is_expanded)
       		break;
-		
-	    // HACK: if last move was a pass, always investigate double-pass first
-	    // to avoid situations where we auto-lose by passing too early.
+
 	    if (current.position.recent.length() != 0
 	      && current.position.recent.slice(-1)[0] == pass_move
 	      && current.child_N[pass_move] == 0){
@@ -94,7 +91,7 @@ node.child_action_score = function(){
 	var qarr = this.child_Q();
 	var uarr = this.child_U();
 	var res = zeros(this.board_size * this.board_size + 1)
-	return res.map((_,i) => qarr[i] * this.position.to_play .+ uarr[i] - 1000 * (1 - larr[i]);
+	return res.map((_,i) => qarr[i] * this.position.to_play + uarr[i] - 1000 * (1 - larr[i]));
 }
 
 node.child_Q = function(){
@@ -118,7 +115,7 @@ node.backup_value = function(value, root_){
 node.add_virtual_loss = function(root_){
 	this.losses_applied += 1;
 	var loss = this.position.to_play
-  	this.set_W!(this.W() + loss)
+  	this.set_W(this.W() + loss)
   	if (mcts_node.parent == nothing || mcts_node == up_to) return;
 	this.parent.add_virtual_loss(root_)
 }
@@ -147,8 +144,21 @@ node.incorporate_results = function(move_probs, value, up_to){
 
 node.revert_visits = function(up_to){
 	this.set_N(this.N() - 1)
-	if this.parent == null || this == up_to return;
+	if (this.parent == null || this == up_to )return;
 	this.parent.revert_visits(up_to);
+}
+
+node.children_as_pi = function(squash=false){
+	probs = this.child_N
+	if(squash)
+		probs = probs.map(e => Math.pow(e, 0.98));
+	
+	var sum = probs.reduce((acc, e) => e + acc, 0)
+	return probs.map(e => e/sum);
+}
+
+node.Q = function(){
+	return this.W() / (1 + this.N());
 }
 
 })(window);

@@ -1,7 +1,6 @@
-
-var model = (x) => x
-
+var model = { policy, value, base_net }
 var env, board, game
+
 var __init__ = function(){
 
     var $$ = (e)=> document.querySelector(e);
@@ -19,6 +18,9 @@ var __init__ = function(){
     board.setSize(9)
 
     env = new Env(9, "KO");
+    model = new Model(model);
+
+    env.setCallbacks({step: model.play_move(a)})
 
     game = new Game(env, new Board(board), null, {
         mode: "async"
@@ -72,4 +74,11 @@ var __init__ = function(){
     board.addCustomObject(coordinates);
 }
 
-window.onload = __init__;
+var modelArr = [policy, value, base_net];
+Promise.all(["./assets/bson/policy.bson", "./assets/bson/value.bson", "./assets/bson/base_net.bson"])
+.then((res)=>{
+    res.forEach((e,i)=>{
+        modelArr[i].weights = e;
+    })
+    __init__();
+})
