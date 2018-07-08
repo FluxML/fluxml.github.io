@@ -18,7 +18,6 @@ let base_net = (function () {
     return llama;
   };
   function heron(grasshopper) {
-    console.log(grasshopper)
     let whale = math.add(math.transpose(math.conv2d(math.transpose(flux.slice(grasshopper), [0, 2, 3, 1]), model.weights[6], [1, 1], 1), [0, 3, 1, 2]), model.weights[7]);
     let ram = mole(whale);
     let alpaca = math.add(math.transpose(math.conv2d(math.transpose(math.relu(math.add(math.mul(math.div(math.sub(whale, math.reshape(model.weights[8], [ram[3], ram[2], ram[1], ram[0]])), math.reshape(model.weights[9], [ram[3], ram[2], ram[1], ram[0]])), math.reshape(model.weights[10], [ram[3], ram[2], ram[1], ram[0]])), math.reshape(model.weights[11], [ram[3], ram[2], ram[1], ram[0]]))), [0, 2, 3, 1]), model.weights[12], [1, 1], 1), [0, 3, 1, 2]), model.weights[13]);

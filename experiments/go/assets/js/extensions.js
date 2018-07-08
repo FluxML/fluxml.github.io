@@ -11,10 +11,19 @@ Game.prototype.nextGameState = function(curr){
 
 
 function getState(env){
-    var k = partition(env.position.schema.slice(), 9);
+    var n = env.size;
+    var k = env.position.schema.slice();
 
-    var l = {
-        "objects": k.map((a, i)=> a.map((b, j)=>{f = []; if(b != 0)f.push({x: i, y: j, c: b}); return f }))
+    var objects = [];
+    for(var i = 0; i< n; i++){
+        var o = [];
+        for(var j = 0; j< n; j++){
+            var c = k[i*n + j];
+            if(c != 0)o.push([{x: i, y: j, c }])
+            else o.push([])
+        }
+        objects.push(o);
     }
-    return l;
+
+    return ({ objects });
 }

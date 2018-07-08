@@ -16,7 +16,7 @@ var c_puct = 0.96;
 var zeros = (n) => new Array(n).fill(0);
 var ones = (n) => new Array(n).fill(1);
 var val = (n, v) => new Array(n).fill(v);
-var defObj = (n) => ({...zeros(n), "null":0});
+var defObj = (n) => ({...zeros(n), "null":0, "-1":0});
 
 function DummyNode(n){
 	this.parent = null;
@@ -25,7 +25,6 @@ function DummyNode(n){
 }
 
 function Node(position, {parent, fmove=null, board_size=9, max_game_length}={}){
-	
 	this.max_game_length = max_game_length || (Math.pow(board_size,2) * 7) / 5
 	this.parent = parent || new DummyNode(board_size);
 	this.board_size = board_size;
@@ -46,25 +45,25 @@ function Node(position, {parent, fmove=null, board_size=9, max_game_length}={}){
 var node = Node.prototype;
 
 node.N = function(){
-	return this.parent.child_N[this.fmove];
+	return this.parent.child_N[this.fmove - 1];
 }
 
 node.set_N = function(value){
-	this.parent.child_N[this.fmove] = value;
+	this.parent.child_N[this.fmove - 1] = value;
 }
 
 node.W = function(){
-	return this.parent.child_W[this.fmove];
+	return this.parent.child_W[this.fmove - 1];
 }
 
 node.set_W = function(value){
-	this.parent.child_W[this.fmove] = value;
+	this.parent.child_W[this.fmove - 1] = value;
 }
 
 node.select_leaf = function(){
-	console.log("select leaf ....")
 	var current = this;
-	var pass_move = this.board_size * this.board_size + 1;
+	var n = this.board_size;
+	var pass_move = n * n + 1;
 	while (true){
 		var current_new_N = current.N() + 1
     	current.set_N(current_new_N)
@@ -98,19 +97,31 @@ node.child_action_score = function(){
 	var larr = this.legal_moves();
 	var qarr = this.child_Q();
 	var uarr = this.child_U();
-	var res = zeros(this.board_size * this.board_size + 1)
-	return res.map((_,i) => qarr[i] * this.position.to_play + uarr[i] - 1000 * (1 - larr[i]));
+	var l = this.board_size * this.board_size + 1;
+	var res = zeros(l);
+	for(var i=0; i< l; i++){
+		res[i] = qarr[i] * this.position.to_play + uarr[i] - 1000 * (1 - larr[i]);
+	}
+	return res;
 }
 
 node.child_Q = function(){
-	var d = 1 + this.child_N;
-	return this.child_W.map(e => e/d);
+	var l = this.child_W.length;
+	var res = new Array(l);
+	for(var i=0; i< l; i++){
+		res[i] = (this.child_W[i])/(1 + this.child_N[i])
+	}
+	return res;
 }
 
 node.child_U = function(){
-	var scope = this
 	var d = c_puct * Math.sqrt(1 + this.N());
-	return this.child_prior.map((e, i) => (e * d)/(1 + scope.child_N[i]));
+	var l = this.child_prior.length;
+	var res = new Array(l);
+	for(var i=0; i< l; i++){
+		res[i] = (this.child_prior[i] * d)/(1 + this.child_N[i])
+	}
+	return res;
 }
 
 node.legal_moves = function () { return this.position.legal_moves() };
@@ -159,12 +170,22 @@ node.revert_visits = function(up_to){
 }
 
 node.children_as_pi = function(squash=false){
-	probs = this.child_N
-	if(squash)
-		probs = probs.map(e => Math.pow(e, 0.98));
-	
-	var sum = probs.reduce((acc, e) => e + acc, 0)
-	return probs.map(e => e/sum);
+	var probs = this.child_N;
+	var l = probs.length;
+	if(squash){
+		
+		for(var i = 0; i< l; i++){
+			probs[i]= Math.pow(probs[i], 0.98)
+		}
+	}
+	var sum = 0;
+	for(var i = 0; i<l; i++){
+		sum += probs[i]
+	}
+	for(var i = 0; i<l; i++){
+		probs[i] = probs[i]/sum;
+	}
+	return probs;
 }
 
 node.Q = function(){

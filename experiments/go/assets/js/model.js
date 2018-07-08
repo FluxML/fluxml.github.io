@@ -1,20 +1,20 @@
-function Model(model){
-	this.mctsPlayer = new MCTS.Player(this);
+function Model(model, config){
+	this.mctsPlayer = new MCTS.Player(this, config);
 
 	this.model = model;
 
 	this.predict = async function(){
-		console.log(this)
 		return this.mctsPlayer.suggest_move();
 	}
 	this.predict = this.predict.bind(this)
 }
 
 Model.prototype.process = function(input){
-	console.log(input)
-	var nn_in = tf.stack(input.map(p => p.get_feats()));
+	var l= input.length;
+	var p = new Array(l);
+	for(var i=0; i<l; i++){ p[i] = input[i].get_feats()}
+	var nn_in = tf.stack(p);
 	
-	console.log(nn_in.shape);
 	common_out = this.model.base_net(nn_in)  //  transpose ??????
 	var [pi, val] = [this.model.policy(common_out), this.model.value(common_out)]
 	

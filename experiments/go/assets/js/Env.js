@@ -5,13 +5,10 @@ Object.assign(obj, {Env})
 function Env(size=9, repeat="KO"){
 	this.size = size;
 	this.repeat = repeat;
-	this.env = new WGo.Game(size, repeat);
-
-	
+	this.env = new WGo.Game(size, repeat);	
 	this.size = () => this.env.size;
 	this.n_moves = () => this.env.stack.length - 1;
 	this.moves = [];
-
 	this.model = null;
 }
 

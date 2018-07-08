@@ -55,22 +55,28 @@ Position.prototype.stone_features = function(){
 	}
 
 	var scope = this;
-	var player = last_eight.map(l => {
-		return l.schema.map(e => e == scope.to_play ? 1 : 0)
-	})
-
-	var opponent = last_eight.map(l => {
-		return l.schema.map(e => e == -scope.to_play ? 1 : 0)
-	})
-
+	var board = null, s, p_board, o_board;
 	var features = new Array(16);
-	for(var i = 0; i< 8; i++){
-		features[i*2] = player[i]
-		features[i*2 + 1] = opponent[i]
+	var n = scope.size;
+	for(var i in last_eight){
+		board = last_eight[i].schema
+		p_board = board.slice();
+		o_board = board.slice();
+		for(var j in board){
+			if(board[j] == 0){
+				p_board[j] = 0
+				o_board[j] = 0
+			}else{
+				s = (board[j] == this.to_play);
+				p_board[j] = s + 0;
+				o_board[j] = !s + 0;
+			}
+		}
+		features[i*2] = partition(p_board, n);
+		features[i*2 + 1] = partition(o_board, n);
 	}
 
-
-	return tf.tensor(features.map(l => partition(l, scope.size)), [16, this.size, this.size]);
+	return tf.tensor(features, [16, n, n]);
 }
 
 Position.prototype.color_to_play_feature = function() {

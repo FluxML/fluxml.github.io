@@ -15,7 +15,7 @@ var MCTS = obj.MCTS;
 
 var safe_div = (n, d) => d == 0? n*1000/Math.random() : n/d;
 
-function Player(network, { num_readouts = 1, two_player_mode = false, resign_threshold = -0.9, board_size = 9}={}){
+function Player(network, { num_readouts = 1, two_player_mode = false, resign_threshold = -0.9, board_size = 9, max_game_length}={}){
 	this.board_size = board_size;
     this.tau_threshold = two_player_mode ? -1 : (board_size * board_size / 12) / 2 * 2
     this.network = network;
@@ -28,12 +28,16 @@ function Player(network, { num_readouts = 1, two_player_mode = false, resign_thr
     this.root = null
     this.resign_threshold = resign_threshold;
     this.position = null;
+    this.max_game_length = max_game_length;
 }
 
 var player = Player.prototype;
 
 player.__init__ = function(pos){
-  this.root = new MCTS.Node(pos);
+  this.root = new MCTS.Node(pos, {
+  	max_game_length: this.max_game_length, 
+  	board_size: this.board_size
+  });
   this.result = 0
   this.searches_pi = [];
   this.qs = [];
@@ -51,7 +55,6 @@ player.suggest_move = function(){
 }
 
 player.tree_search = function(parallel_readouts = 8){
-	console.log("Tree search ....")
 	var leaves = [];
 	var failsafe = 0;
 
@@ -70,10 +73,13 @@ player.tree_search = function(parallel_readouts = 8){
 
   	if(leaves.length == 0) return leaves;
 
-	var { move_probs, values } = this.network.process(leaves.map(l=>l.position))
+  	var l = leaves.length;
+  	var p = new Array(p);
+  	for(var i=0; i<l; i++){ p[i] = leaves[i].position}
+	var { move_probs, values } = this.network.process(p)
 	
 	var len = this.board_size*this.board_size + 1
-	console.log(len)
+	
 	move_probs = partition(Array.from(move_probs.dataSync()),len);
 	values = values.dataSync();
 	for (var i in leaves){
@@ -98,10 +104,14 @@ player.pick_move = function(){
 	}else{
 		var cdf = tf.cumsum(tf.tensor(this.root.child_N)).dataSync();
 		var n = cdf.slice(-2)[0];
-		cdf = cdf.map(c => safe_div(c/n))
+		var o = cdf.length
+		for(var i =0; i< o; i++){
+			cdf[i] = safe_div(cdf[i], n);
+		}
 		selection = Math.random()
 		var m = searchsortedfirst(cdf, selection);
-		m = m == -1 ? Math.floor(Math.random()*this.board_size* this.board_size): m
+		var l = this.board_size* this.board_size;
+		m = m == -1 || m >= l ? Math.floor(Math.random()*l): m
 		fcoord =  m + 1
 
 	}
