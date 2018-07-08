@@ -12,6 +12,8 @@ obj.MCTS = obj.MCTS || {}
 
 Object.assign(obj.MCTS, {Node, DummyNode})
 
+var MCTS = obj.MCTS;
+
 var c_puct = 0.96;
 var zeros = (n) => new Array(n).fill(0);
 var ones = (n) => new Array(n).fill(1);
@@ -171,6 +173,7 @@ node.revert_visits = function(up_to){
 
 node.children_as_pi = function(squash=false){
 	var probs = this.child_N;
+	
 	var l = probs.length;
 	if(squash){
 		
@@ -183,7 +186,7 @@ node.children_as_pi = function(squash=false){
 		sum += probs[i]
 	}
 	for(var i = 0; i<l; i++){
-		probs[i] = probs[i]/sum;
+		probs[i] = MCTS.safe_div(probs[i],sum);
 	}
 	return probs;
 }

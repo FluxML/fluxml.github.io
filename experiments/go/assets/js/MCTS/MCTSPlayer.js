@@ -13,7 +13,7 @@ Object.assign(obj.MCTS, {Player})
 
 var MCTS = obj.MCTS;
 
-var safe_div = (n, d) => d == 0? n*1000/Math.random() : n/d;
+
 
 function Player(network, { num_readouts = 1, two_player_mode = false, resign_threshold = -0.9, board_size = 9, max_game_length}={}){
 	this.board_size = board_size;
@@ -106,7 +106,7 @@ player.pick_move = function(){
 		var n = cdf.slice(-2)[0];
 		var o = cdf.length
 		for(var i =0; i< o; i++){
-			cdf[i] = safe_div(cdf[i], n);
+			cdf[i] = MCTS.safe_div(cdf[i], n);
 		}
 		selection = Math.random()
 		var m = searchsortedfirst(cdf, selection);
@@ -120,6 +120,7 @@ player.pick_move = function(){
 }
 
 player.play_move = function(c){
+	console.log(c);
 	c = MCTS.to_flat(c, this.board_size);
 	if (!this.two_player_mode){
 		this.searches_pi.push(
@@ -128,7 +129,6 @@ player.play_move = function(c){
 	this.qs.push(this.root.Q())
 	
 	this.root = this.root.maybe_add_child(c);
-	
 	this.position = this.root.position
 	this.root.parent.children = {}
 	return true

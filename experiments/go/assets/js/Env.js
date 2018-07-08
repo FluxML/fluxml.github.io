@@ -21,7 +21,6 @@ Env.prototype.turn = function(){
 Env.prototype.state = function(){return getState(this.env)}
 
 Env.prototype.config = function(){
-
     return {state: this.state(), done: this.done(), turn: this.turn()}
 }
 
@@ -34,9 +33,7 @@ Env.prototype.step = function(a){
 	this.moves.push(a)
     if(a.type== "stone"){
         this.passes = [];
-        console.log(this.turn(), "eeeeeeee....")
         this.env.play(a.x, a.y, a.k);
-        console.log(this.turn(), "e....")
     }
     else if(a.type == "pass"){
         if(this.passes.indexOf(a.c) == -1)this.passes.push(a.c);
@@ -57,16 +54,12 @@ Env.prototype.done = function(){
 }
 
 Env.prototype.reset = function(){
-	console.log(this.env.stack[0])
     this.env.firstPosition();
-    console.log(this.env.stack[0])
     this.passes = [];
     this.model.__init__(this)
-    console.log(this.env.stack[0])
 }
 
 Env.prototype.stack = function(){
-	console.log(this.env.stack[0])
 	return this.env.stack;
 }
 

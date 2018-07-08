@@ -21,8 +21,8 @@ Model.prototype.process = function(input){
 	return { move_probs: pi, values: val };
 }
 
-Model.prototype.play_move = function(){
-	return this.mctsPlayer.play_move.bind(this.mctsPlayer);
+Model.prototype.play_move = function(a){
+	return this.mctsPlayer.play_move(a);
 }
 
 Model.prototype.__init__ = function (env){
