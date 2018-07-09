@@ -80,7 +80,7 @@ Position.prototype.stone_features = function(){
 }
 
 Position.prototype.color_to_play_feature = function() {
-	return tf.ones([1, this.size, this.size]);
+	return tf.fill([1, this.size, this.size], this.to_play);
 };
 
 })(window)

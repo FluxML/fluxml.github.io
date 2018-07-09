@@ -45,9 +45,9 @@ player.__init__ = function(pos){
 }
 
 player.suggest_move = function(){
-	console.log("suggest move")
+	// console.log("suggest move")
 	var current_readouts = this.root.N();
-	console.log(current_readouts);
+	// console.log(current_readouts);
 	while (this.root.N() < current_readouts + this.num_readouts){
 		
 		this.tree_search();
@@ -56,7 +56,7 @@ player.suggest_move = function(){
 	return this.pick_move();
 }
 
-player.tree_search = function(parallel_readouts = 8){
+player.tree_search = function(parallel_readouts=8){
 	var leaves = [];
 	var failsafe = 0;
 
@@ -64,7 +64,7 @@ player.tree_search = function(parallel_readouts = 8){
 	    failsafe += 1
 	    var leaf = this.root.select_leaf()
 	    
-	    console.log(leaf)
+	    // console.log(leaf)
 	    if (leaf.is_done()){
 	      value = leaf.position.score() > 0 ? 1 : -1
 	      leaf.backup_value(value, this.root)
@@ -119,12 +119,12 @@ player.pick_move = function(){
 		fcoord =  m + 1
 
 	}
-	console.log("fcoord....", fcoord)
+	// console.log("fcoord....", fcoord)
 	return MCTS.to_obj(fcoord, this.root.position.to_play, this.board_size);
 }
 
 player.play_move = function(c){
-	console.log(c);
+	// console.log(c);
 	c = MCTS.to_flat(c, this.board_size);
 	if (!this.two_player_mode){
 		this.searches_pi.push(

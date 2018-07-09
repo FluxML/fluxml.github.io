@@ -24,7 +24,7 @@ function Board(board){
 			setTimeout(()=>{
 				var n = $$(".pass").className;
 				if(n.match("active") != null) $$(".pass").className = n.replace(" active", "");
-			}, 400)
+			}, 1000)
 		}
 
 		if(config.done){

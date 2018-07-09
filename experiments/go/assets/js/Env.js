@@ -31,7 +31,7 @@ Env.prototype.setModel = function (m){
 }
 
 Env.prototype.step = function(a){
-	console.log(a, "action")
+	// console.log(a, "action")
 	this.moves.push(a)
     if(a.type== "stone"){
         this.passes = [];
@@ -90,7 +90,8 @@ Env.prototype.all_legal_moves = function(stack){
 
 Env.prototype.check_if_done = function(moves){
 	var pass = this.env.size() * this.env.size() + 1;
-	return this.moves.slice(-2).reduce((acc,e) => acc && e == pass, true)
+	console.log(moves)
+	return moves.length >= 2 && moves.slice(-2).reduce((acc,e) => acc && e == pass, true)
 
 }
 

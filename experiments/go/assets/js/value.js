@@ -32,4 +32,3 @@ let value = (function () {
   model.weights = [];
   return model;
 })();
-

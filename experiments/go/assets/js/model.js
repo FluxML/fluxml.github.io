@@ -13,6 +13,8 @@ Model.prototype.process = function(input){
 	var l= input.length;
 	var p = new Array(l);
 	for(var i=0; i<l; i++){ p[i] = input[i].get_feats()}
+	// console.log("input ,,,", p)
+	// debugger
 	var nn_in = tf.stack(p);
 	
 	common_out = this.model.base_net(nn_in)  //  transpose ??????

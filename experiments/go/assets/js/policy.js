@@ -32,4 +32,3 @@ let policy = (function () {
   model.weights = [];
   return model;
 })();
-

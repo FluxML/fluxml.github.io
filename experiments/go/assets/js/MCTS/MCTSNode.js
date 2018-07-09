@@ -68,14 +68,16 @@ node.select_leaf = function(){
 	var n = this.board_size;
 	var pass_move = n * n + 1;
 	while (true){
-		console.log("select_move", current.fmove)
+		// console.log("select_move", current.fmove)
 		var current_new_N = current.N() + 1
     	current.set_N(current_new_N)
     	
+    	console.log(current.fmove)
     	if (!current.is_expanded){
-    		console.log("break", current.fmove)
+    		console.log("break")
       		break;
     	}
+
 
 	    if (current.position.recent.length != 0
 	      && current.position.recent.slice(-1)[0] == pass_move
@@ -85,14 +87,15 @@ node.select_leaf = function(){
 		}
     	cas = current.child_action_score()
     	best_move = cas.indexOf(Math.max(...cas)) + 1
-    	console.log(best_move)
+    	// console.log(best_move)
     	current = current.maybe_add_child(best_move)
 	}
+	// console.log("select_move", current.fmove)
   	return current
 }
 
 node.maybe_add_child = function(move){
-	console.log("maybe_add_child", move)
+	// console.log("maybe_add_child", move)
 	
 	if(!this.children[move]){
 		var new_pos = this.position.play_move(move);
@@ -158,12 +161,12 @@ node.revert_virtual_loss = function(root_){
 }
 
 node.incorporate_results = function(move_probs, value, up_to){
-	console.log("incorporate_results")
-	debugger
+	// console.log("incorporate_results")
 	if (this.is_expanded){
 		this.revert_visits(up_to)
 		return
 	}
+	// console.log(move_probs)
 	this.is_expanded = true
 	this.original_prior = move_probs.slice();
 	this.child_prior = move_probs.slice();
