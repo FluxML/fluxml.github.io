@@ -34,6 +34,7 @@ function Player(network, { num_readouts = 1, two_player_mode = false, resign_thr
 var player = Player.prototype;
 
 player.__init__ = function(pos){
+	console.log(this.max_game_length)
   this.root = new MCTS.Node(pos, {
   	max_game_length: this.max_game_length, 
   	board_size: this.board_size
@@ -48,6 +49,7 @@ player.suggest_move = function(){
 	var current_readouts = this.root.N();
 	console.log(current_readouts);
 	while (this.root.N() < current_readouts + this.num_readouts){
+		
 		this.tree_search();
 	}
 
@@ -61,7 +63,8 @@ player.tree_search = function(parallel_readouts = 8){
 	while (leaves.length < parallel_readouts && failsafe < 2 * parallel_readouts){
 	    failsafe += 1
 	    var leaf = this.root.select_leaf()
-	    // if game is over, override the value estimate with the true score
+	    
+	    console.log(leaf)
 	    if (leaf.is_done()){
 	      value = leaf.position.score() > 0 ? 1 : -1
 	      leaf.backup_value(value, this.root)
@@ -71,7 +74,7 @@ player.tree_search = function(parallel_readouts = 8){
 	    leaves.push(leaf)
   	}
 
-  	if(leaves.length == 0) return leaves;
+  	if(leaves.length == 0) return [];
 
   	var l = leaves.length;
   	var p = new Array(p);
@@ -100,6 +103,7 @@ player.get_feats = function(){
 player.pick_move = function(){
 	var fcoord;
 	if (this.root.position.n >= this.tau_threshold){
+		
 		fcoord = this.root.child_N.indexOf(Math.max(...this.root.child_N)) + 1;
 	}else{
 		var cdf = tf.cumsum(tf.tensor(this.root.child_N)).dataSync();
@@ -129,6 +133,7 @@ player.play_move = function(c){
 	this.qs.push(this.root.Q())
 	
 	this.root = this.root.maybe_add_child(c);
+	
 	this.position = this.root.position
 	this.root.parent.children = {}
 	return true

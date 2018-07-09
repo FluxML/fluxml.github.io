@@ -32,6 +32,7 @@ function __init__(){
         }
     })
 
+
     board.addEventListener("click", function(x, y){
         console.log(x, y, env.turn())
         if(env.turn() == WGo.B){
@@ -44,6 +45,7 @@ function __init__(){
     })
     
     drawCoords(board);
+    game.display();
 }
 
 var modelArr = [policy, value, base_net];
@@ -99,8 +101,8 @@ function partition(array, n){
 }
 
 function partition_ (array, n){
-    if(isNaN(n))debugger
-
+    if(isNaN(n))debugger;
+    
     var l = array.length;
     var m = l/n 
     if(m != Math.floor(m)) throw Error("Invalid partition size")

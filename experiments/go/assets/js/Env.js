@@ -2,17 +2,16 @@
 
 Object.assign(obj, {Env})
 
-function Env(size=9, repeat="KO"){
-	this.size = size;
+function Env(s=9, repeat="KO"){
+	this.s = s;
 	this.repeat = repeat;
-	this.env = new WGo.Game(size, repeat);	
+	this.env = new WGo.Game(s, repeat);	
 	this.size = () => this.env.size;
 	this.n_moves = () => this.env.stack.length - 1;
 	this.moves = [];
 	this.model = null;
+	this.passes = [];
 }
-
-Env.prototype.passes = [];
 
 Env.prototype.turn = function(){
 	return this.env.turn;
@@ -21,7 +20,10 @@ Env.prototype.turn = function(){
 Env.prototype.state = function(){return getState(this.env)}
 
 Env.prototype.config = function(){
-    return {state: this.state(), done: this.done(), turn: this.turn()}
+	var capCount = {};
+	capCount[WGo.W] = this.env.getCaptureCount(WGo.W);
+	capCount[WGo.B] = this.env.getCaptureCount(WGo.B);
+    return {state: this.state(), done: this.done(), turn: this.turn(), capCount, lastMove: this.moves.slice(-1)[0]}
 }
 
 Env.prototype.setModel = function (m){
@@ -45,6 +47,7 @@ Env.prototype.step = function(a){
 
 Env.prototype.next = function(stack, action){
 	var n = this.new_env(stack)
+	;
 	n.play(action.x, action.y, action.c);
 	return n;
 }
@@ -68,14 +71,14 @@ Env.prototype.getPosition = function(){
 }
 
 Env.prototype.new_env = function(stack){
-	var n = new WGo.Game(this.size, this.repeat)
+	var n = new WGo.Game(this.s, this.repeat)
 	n.stack = stack;
 	return n;
 }
 
 Env.prototype.all_legal_moves = function(stack){
 	var n = this.new_env(stack)
-	var s = n.size();
+	var s = n.size;
 	var legal = new Array(s * s + 1).fill(1)
 	for(var x = 0; x< s; x++){
 		for(var y = 0; y < s; y++){

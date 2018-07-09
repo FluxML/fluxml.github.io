@@ -8,6 +8,7 @@ Game.prototype.nextGameState = function(curr){
     return this.states.C;
 }
 
+Game.prototype.defaultAction = () => ({x: -1, y: -1, c: 1, type:"stone"})
 
 
 function getState(env){
