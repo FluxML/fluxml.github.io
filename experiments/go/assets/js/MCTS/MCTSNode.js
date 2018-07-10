@@ -15,9 +15,9 @@ Object.assign(obj.MCTS, {Node, DummyNode})
 var MCTS = obj.MCTS;
 
 var c_puct = 0.96;
-var zeros = (n) => new Array(n).fill(0);
-var ones = (n) => new Array(n).fill(1);
 var val = (n, v) => new Array(n).fill(v);
+var zeros = (n) => val(n, 0);
+var ones = (n) => val(n, 1);
 var defObj = (n) => ({...zeros(n), "null":0, "-1":0});
 
 function DummyNode(n){
@@ -68,25 +68,22 @@ node.select_leaf = function(){
 	var n = this.board_size;
 	var pass_move = n * n + 1;
 	while (true){
-		// console.log("select_move", current.fmove)
+		// console.log("select_move", current.fmove, this.child_W.slice(), this.child_prior.slice())
 		var current_new_N = current.N() + 1
     	current.set_N(current_new_N)
     	
-    	console.log(current.fmove)
     	if (!current.is_expanded){
-    		console.log("break")
       		break;
     	}
 
-
-	    if (current.position.recent.length != 0
-	      && current.position.recent.slice(-1)[0] == pass_move
-	      && current.child_N[pass_move] == 0){
-	      current = current.maybe_add_child(pass_move)
-	      continue;
-		}
+	 //    if (current.position.recent.length != 0
+	 //      && current.position.recent.slice(-1)[0] == pass_move
+	 //      && current.child_N[pass_move] == 0){
+	 //      current = current.maybe_add_child(pass_move)
+	 //      continue;
+		// }
     	cas = current.child_action_score()
-    	best_move = cas.indexOf(Math.max(...cas)) + 1
+    	best_move = MCTS.argMax(cas) + 1
     	// console.log(best_move)
     	current = current.maybe_add_child(best_move)
 	}
@@ -131,7 +128,7 @@ node.child_U = function(){
 	var l = this.child_prior.length;
 	var res = new Array(l);
 	for(var i=0; i< l; i++){
-		res[i] = (this.child_prior[i] * d)/(1 + this.child_N[i])
+		res[i] = d * (this.child_prior[i])/(1 + this.child_N[i])
 	}
 	return res;
 }
@@ -154,7 +151,7 @@ node.add_virtual_loss = function(root_){
 
 node.revert_virtual_loss = function(root_){
 	this.losses_applied -= 1
-  	var revert = - this.position.to_play;
+  	var revert = -1 * this.position.to_play;
 	this.set_W(this.W() + revert)
   	if (this.parent == null || this == root_) return;
   	this.parent.revert_virtual_loss(root_)
@@ -162,6 +159,7 @@ node.revert_virtual_loss = function(root_){
 
 node.incorporate_results = function(move_probs, value, up_to){
 	// console.log("incorporate_results")
+	console.log(value, move_probs[0], this.fmove, this.is_done(), this.N() )
 	if (this.is_expanded){
 		this.revert_visits(up_to)
 		return
@@ -185,10 +183,8 @@ node.revert_visits = function(up_to){
 
 node.children_as_pi = function(squash=false){
 	var probs = this.child_N;
-	
 	var l = probs.length;
 	if(squash){
-		
 		for(var i = 0; i< l; i++){
 			probs[i]= Math.pow(probs[i], 0.98)
 		}

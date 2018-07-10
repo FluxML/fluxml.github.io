@@ -6,7 +6,27 @@ Object.assign(obj.MCTS, {Position})
 
 var MCTS = obj.MCTS
 
+var deepcopy = (s) => MCTS.deepcopy(s)
+
 var pos_to_board = (pos, n) => partition(pos.schema.slice(), n)
+
+function scatter(array, n){
+	if(isNaN(n))debugger;
+    
+    var l = array.length;
+    var m = l/n 
+    if(m != Math.floor(m)) throw Error("Invalid partition size")
+    var res = new Array(m);
+    var acc;
+    for(var i = 0; i<l; i++){
+    	var j = Math.floor(i/n);
+    	if(!res[j])res[j] = []
+
+    	acc = res[j];
+        acc.push(array[i]);
+    }
+    return res;
+}
 
 // MCTS's representation of env
 function Position(env, stack, moves, turn){
@@ -27,7 +47,9 @@ function Position(env, stack, moves, turn){
 	
 	// doesn't affect the real environment
 	this.play_move = (f) => {
-		return new Position(env, env.next(this.stack, MCTS.to_obj(f, this.to_play, n)).stack, moves.concat(f), -turn)
+		var k = env.next(this.stack, MCTS.to_obj(f, this.to_play, n));
+
+		return new Position(env, k.stack, moves.concat(f), k.turn)
 	};
 
 	this.store = {}
@@ -45,42 +67,30 @@ function Position(env, stack, moves, turn){
 }
 
 Position.prototype.get_feats = function(){
-	return tf.concat([this.stone_features(), this.color_to_play_feature()])
+	return tf.concat([this.stone_features(),this.color_to_play_feature()])
 }
 
 Position.prototype.stone_features = function(){
-	var last_eight = this.stack.slice(-8).reverse(); // newest first order;
+	var last_eight = deepcopy(this.stack.slice(-8).map(e => e.schema).reverse());
 	while(last_eight.length < 8){
 		last_eight.push(last_eight.slice(-1)[0]);
 	}
-
-	var scope = this;
-	var board = null, s, p_board, o_board;
-	var features = new Array(16);
-	var n = scope.size;
-	for(var i in last_eight){
-		board = last_eight[i].schema
-		p_board = board.slice();
-		o_board = board.slice();
-		for(var j in board){
-			if(board[j] == 0){
-				p_board[j] = 0
-				o_board[j] = 0
-			}else{
-				s = (board[j] == this.to_play);
-				p_board[j] = s + 0;
-				o_board[j] = !s + 0;
-			}
-		}
-		features[i*2] = partition(p_board, n);
-		features[i*2 + 1] = partition(o_board, n);
-	}
-
-	return tf.tensor(features, [16, n, n]);
+	var features = last_eight.reduce((acc, e) =>{
+		var p = e.slice();
+		var o = e.slice();
+		p = p.map(f => (f == this.to_play) + 0);
+		o = o.map(f => (f == -1 * this.to_play) + 0);
+		// console.log("acc",acc)
+		acc.push(p, o)
+		return acc
+	}, [])
+	
+	return tf.tensor(features, [16, 81]).reshape([16, 9, 9])
 }
 
 Position.prototype.color_to_play_feature = function() {
 	return tf.fill([1, this.size, this.size], this.to_play);
 };
+
 
 })(window)

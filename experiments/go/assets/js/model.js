@@ -1,6 +1,5 @@
 function Model(model, config){
 	this.mctsPlayer = new MCTS.Player(this, config);
-
 	this.model = model;
 
 	this.predict = async function(){
@@ -14,9 +13,8 @@ Model.prototype.process = function(input){
 	var p = new Array(l);
 	for(var i=0; i<l; i++){ p[i] = input[i].get_feats()}
 	// console.log("input ,,,", p)
-	// debugger
-	var nn_in = tf.stack(p);
 	
+	var nn_in = tf.stack(p);
 	common_out = this.model.base_net(nn_in)  //  transpose ??????
 	var [pi, val] = [this.model.policy(common_out), this.model.value(common_out)]
 	

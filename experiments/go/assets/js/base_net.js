@@ -1,136 +1,147 @@
 let base_net = (function () {
   let math = tf;
-  function weasel(newt) {
-    return newt;
+  function porcupine(hummingbird) {
+    return hummingbird;
   };
-  function donkey(lark) {
-    let flamingo = lark[String("shape")][String("length")];
-    let guanaco = flux.data(tf.ones([flamingo], String("int32")));
-    let lobster = lark[String("shape")];
-    guanaco[flamingo - 2] = lobster[lobster[String("length")] - (flamingo - 1)];
-    return guanaco;
+  function okapi(cod) {
+    let monkey = cod[String("shape")][String("length")];
+    let mink = flux.data(tf.ones([monkey], String("int32")));
+    let mammoth = cod[String("shape")];
+    mink[monkey - 2] = mammoth[mammoth[String("length")] - (monkey - 1)];
+    return math.add(math.mul(math.div(math.sub(cod, math.reshape(model.weights[0], [mink[3], mink[2], mink[1], mink[0]])), math.reshape(model.weights[1], [mink[3], mink[2], mink[1], mink[0]])), math.reshape(model.weights[2], [mink[3], mink[2], mink[1], mink[0]])), math.reshape(model.weights[3], [mink[3], mink[2], mink[1], mink[0]]));
   };
-  function guineafowl(lyrebird) {
-    let wombat = lyrebird[String("shape")][String("length")];
-    let fish = flux.data(tf.ones([wombat], String("int32")));
-    let porcupine = lyrebird[String("shape")];
-    fish[wombat - 2] = porcupine[porcupine[String("length")] - (wombat - 1)];
-    return fish;
+  function kinkajou(porpoise) {
+    return math.add(math.transpose(math.conv2d(math.transpose(porpoise, [0, 2, 3, 1]), math.reverse(math.transpose(model.weights[4], [2, 3, 1, 0], porpoise), [0, 1]), [1, 1], 1), [0, 3, 1, 2]), model.weights[5]);
   };
-  function ibex(heron) {
-    let mandrill = math.add(math.transpose(math.conv2d(math.transpose(flux.slice(heron), [0, 2, 3, 1]), model.weights[6], [1, 1], 1), [0, 3, 1, 2]), model.weights[7]);
-    let salamander = donkey(mandrill);
-    let sanddollar = math.add(math.transpose(math.conv2d(math.transpose(math.relu(math.add(math.mul(math.div(math.sub(mandrill, math.reshape(model.weights[8], [salamander[3], salamander[2], salamander[1], salamander[0]])), math.reshape(model.weights[9], [salamander[3], salamander[2], salamander[1], salamander[0]])), math.reshape(model.weights[10], [salamander[3], salamander[2], salamander[1], salamander[0]])), math.reshape(model.weights[11], [salamander[3], salamander[2], salamander[1], salamander[0]]))), [0, 2, 3, 1]), model.weights[12], [1, 1], 1), [0, 3, 1, 2]), model.weights[13]);
-    let coyote = guineafowl(sanddollar);
-    return math.relu(math.add(weasel(heron), math.add(math.mul(math.div(math.sub(sanddollar, math.reshape(model.weights[14], [coyote[3], coyote[2], coyote[1], coyote[0]])), math.reshape(model.weights[15], [coyote[3], coyote[2], coyote[1], coyote[0]])), math.reshape(model.weights[16], [coyote[3], coyote[2], coyote[1], coyote[0]])), math.reshape(model.weights[17], [coyote[3], coyote[2], coyote[1], coyote[0]]))));
+  function snake(caterpillar) {
+    let camel = caterpillar[String("shape")][String("length")];
+    let raven = flux.data(tf.ones([camel], String("int32")));
+    let snail = caterpillar[String("shape")];
+    raven[camel - 2] = snail[snail[String("length")] - (camel - 1)];
+    return math.add(math.mul(math.div(math.sub(caterpillar, math.reshape(model.weights[6], [raven[3], raven[2], raven[1], raven[0]])), math.reshape(model.weights[7], [raven[3], raven[2], raven[1], raven[0]])), math.reshape(model.weights[8], [raven[3], raven[2], raven[1], raven[0]])), math.reshape(model.weights[9], [raven[3], raven[2], raven[1], raven[0]]));
   };
-  function gnat(reindeer) {
-    return reindeer;
+  function crab(pig) {
+    return math.add(math.transpose(math.conv2d(math.transpose(pig, [0, 2, 3, 1]), math.reverse(math.transpose(model.weights[10], [2, 3, 1, 0], pig), [0, 1]), [1, 1], 1), [0, 3, 1, 2]), model.weights[11]);
   };
-  function yak(barracuda) {
-    let gorilla = barracuda[String("shape")][String("length")];
-    let horse = flux.data(tf.ones([gorilla], String("int32")));
-    let sheep = barracuda[String("shape")];
-    horse[gorilla - 2] = sheep[sheep[String("length")] - (gorilla - 1)];
-    return horse;
+  function cattle(sealion) {
+    return math.relu(math.add(porcupine(sealion), okapi(kinkajou(math.relu(snake(crab(flux.slice(sealion))))))));
   };
-  function otter(goosander) {
-    let cormorant = goosander[String("shape")][String("length")];
-    let ape = flux.data(tf.ones([cormorant], String("int32")));
-    let deer = goosander[String("shape")];
-    ape[cormorant - 2] = deer[deer[String("length")] - (cormorant - 1)];
-    return ape;
+  function ape(eagle) {
+    return eagle;
   };
-  function partridge(jay) {
-    let reddeer = math.add(math.transpose(math.conv2d(math.transpose(flux.slice(jay), [0, 2, 3, 1]), model.weights[18], [1, 1], 1), [0, 3, 1, 2]), model.weights[19]);
-    let peafowl = yak(reddeer);
-    let chamois = math.add(math.transpose(math.conv2d(math.transpose(math.relu(math.add(math.mul(math.div(math.sub(reddeer, math.reshape(model.weights[20], [peafowl[3], peafowl[2], peafowl[1], peafowl[0]])), math.reshape(model.weights[21], [peafowl[3], peafowl[2], peafowl[1], peafowl[0]])), math.reshape(model.weights[22], [peafowl[3], peafowl[2], peafowl[1], peafowl[0]])), math.reshape(model.weights[23], [peafowl[3], peafowl[2], peafowl[1], peafowl[0]]))), [0, 2, 3, 1]), model.weights[24], [1, 1], 1), [0, 3, 1, 2]), model.weights[25]);
-    let alligator = otter(chamois);
-    return math.relu(math.add(gnat(jay), math.add(math.mul(math.div(math.sub(chamois, math.reshape(model.weights[26], [alligator[3], alligator[2], alligator[1], alligator[0]])), math.reshape(model.weights[27], [alligator[3], alligator[2], alligator[1], alligator[0]])), math.reshape(model.weights[28], [alligator[3], alligator[2], alligator[1], alligator[0]])), math.reshape(model.weights[29], [alligator[3], alligator[2], alligator[1], alligator[0]]))));
+  function bison(jellyfish) {
+    let mandrill = jellyfish[String("shape")][String("length")];
+    let ferret = flux.data(tf.ones([mandrill], String("int32")));
+    let shrew = jellyfish[String("shape")];
+    ferret[mandrill - 2] = shrew[shrew[String("length")] - (mandrill - 1)];
+    return math.add(math.mul(math.div(math.sub(jellyfish, math.reshape(model.weights[12], [ferret[3], ferret[2], ferret[1], ferret[0]])), math.reshape(model.weights[13], [ferret[3], ferret[2], ferret[1], ferret[0]])), math.reshape(model.weights[14], [ferret[3], ferret[2], ferret[1], ferret[0]])), math.reshape(model.weights[15], [ferret[3], ferret[2], ferret[1], ferret[0]]));
   };
-  function eland(dotterel) {
-    return dotterel;
+  function dogfish(redpanda) {
+    return math.add(math.transpose(math.conv2d(math.transpose(redpanda, [0, 2, 3, 1]), math.reverse(math.transpose(model.weights[16], [2, 3, 1, 0], redpanda), [0, 1]), [1, 1], 1), [0, 3, 1, 2]), model.weights[17]);
   };
-  function panther(ostrich) {
-    let dog = ostrich[String("shape")][String("length")];
-    let wolverine = flux.data(tf.ones([dog], String("int32")));
-    let louse = ostrich[String("shape")];
-    wolverine[dog - 2] = louse[louse[String("length")] - (dog - 1)];
-    return wolverine;
+  function toad(aardvark) {
+    let badger = aardvark[String("shape")][String("length")];
+    let gnat = flux.data(tf.ones([badger], String("int32")));
+    let sandpiper = aardvark[String("shape")];
+    gnat[badger - 2] = sandpiper[sandpiper[String("length")] - (badger - 1)];
+    return math.add(math.mul(math.div(math.sub(aardvark, math.reshape(model.weights[18], [gnat[3], gnat[2], gnat[1], gnat[0]])), math.reshape(model.weights[19], [gnat[3], gnat[2], gnat[1], gnat[0]])), math.reshape(model.weights[20], [gnat[3], gnat[2], gnat[1], gnat[0]])), math.reshape(model.weights[21], [gnat[3], gnat[2], gnat[1], gnat[0]]));
   };
-  function raven(eel) {
-    let butterfly = eel[String("shape")][String("length")];
-    let gazelle = flux.data(tf.ones([butterfly], String("int32")));
-    let camel = eel[String("shape")];
-    gazelle[butterfly - 2] = camel[camel[String("length")] - (butterfly - 1)];
-    return gazelle;
+  function beaver(dunlin) {
+    return math.add(math.transpose(math.conv2d(math.transpose(dunlin, [0, 2, 3, 1]), math.reverse(math.transpose(model.weights[22], [2, 3, 1, 0], dunlin), [0, 1]), [1, 1], 1), [0, 3, 1, 2]), model.weights[23]);
   };
-  function panda(badger) {
-    let owl = math.add(math.transpose(math.conv2d(math.transpose(flux.slice(badger), [0, 2, 3, 1]), model.weights[30], [1, 1], 1), [0, 3, 1, 2]), model.weights[31]);
-    let mongoose = panther(owl);
-    let snail = math.add(math.transpose(math.conv2d(math.transpose(math.relu(math.add(math.mul(math.div(math.sub(owl, math.reshape(model.weights[32], [mongoose[3], mongoose[2], mongoose[1], mongoose[0]])), math.reshape(model.weights[33], [mongoose[3], mongoose[2], mongoose[1], mongoose[0]])), math.reshape(model.weights[34], [mongoose[3], mongoose[2], mongoose[1], mongoose[0]])), math.reshape(model.weights[35], [mongoose[3], mongoose[2], mongoose[1], mongoose[0]]))), [0, 2, 3, 1]), model.weights[36], [1, 1], 1), [0, 3, 1, 2]), model.weights[37]);
-    let rat = raven(snail);
-    return math.relu(math.add(eland(badger), math.add(math.mul(math.div(math.sub(snail, math.reshape(model.weights[38], [rat[3], rat[2], rat[1], rat[0]])), math.reshape(model.weights[39], [rat[3], rat[2], rat[1], rat[0]])), math.reshape(model.weights[40], [rat[3], rat[2], rat[1], rat[0]])), math.reshape(model.weights[41], [rat[3], rat[2], rat[1], rat[0]]))));
+  function kouprey(tapir) {
+    return math.relu(math.add(ape(tapir), bison(dogfish(math.relu(toad(beaver(flux.slice(tapir))))))));
   };
-  function emu(koala) {
-    return koala;
+  function oyster(yak) {
+    return yak;
   };
-  function jellyfish(locust) {
-    let bison = locust[String("shape")][String("length")];
-    let lapwing = flux.data(tf.ones([bison], String("int32")));
-    let baboon = locust[String("shape")];
-    lapwing[bison - 2] = baboon[baboon[String("length")] - (bison - 1)];
-    return lapwing;
+  function dog(reddeer) {
+    let ibex = reddeer[String("shape")][String("length")];
+    let wombat = flux.data(tf.ones([ibex], String("int32")));
+    let dragonfly = reddeer[String("shape")];
+    wombat[ibex - 2] = dragonfly[dragonfly[String("length")] - (ibex - 1)];
+    return math.add(math.mul(math.div(math.sub(reddeer, math.reshape(model.weights[24], [wombat[3], wombat[2], wombat[1], wombat[0]])), math.reshape(model.weights[25], [wombat[3], wombat[2], wombat[1], wombat[0]])), math.reshape(model.weights[26], [wombat[3], wombat[2], wombat[1], wombat[0]])), math.reshape(model.weights[27], [wombat[3], wombat[2], wombat[1], wombat[0]]));
   };
-  function grouse(wasp) {
-    let quetzal = wasp[String("shape")][String("length")];
-    let magpie = flux.data(tf.ones([quetzal], String("int32")));
-    let komodo = wasp[String("shape")];
-    magpie[quetzal - 2] = komodo[komodo[String("length")] - (quetzal - 1)];
-    return magpie;
+  function cockroach(tarsier) {
+    return math.add(math.transpose(math.conv2d(math.transpose(tarsier, [0, 2, 3, 1]), math.reverse(math.transpose(model.weights[28], [2, 3, 1, 0], tarsier), [0, 1]), [1, 1], 1), [0, 3, 1, 2]), model.weights[29]);
   };
-  function cheetah(raccoon) {
-    let monkey = math.add(math.transpose(math.conv2d(math.transpose(flux.slice(raccoon), [0, 2, 3, 1]), model.weights[42], [1, 1], 1), [0, 3, 1, 2]), model.weights[43]);
-    let cat = jellyfish(monkey);
-    let rook = math.add(math.transpose(math.conv2d(math.transpose(math.relu(math.add(math.mul(math.div(math.sub(monkey, math.reshape(model.weights[44], [cat[3], cat[2], cat[1], cat[0]])), math.reshape(model.weights[45], [cat[3], cat[2], cat[1], cat[0]])), math.reshape(model.weights[46], [cat[3], cat[2], cat[1], cat[0]])), math.reshape(model.weights[47], [cat[3], cat[2], cat[1], cat[0]]))), [0, 2, 3, 1]), model.weights[48], [1, 1], 1), [0, 3, 1, 2]), model.weights[49]);
-    let tarsier = grouse(rook);
-    return math.relu(math.add(emu(raccoon), math.add(math.mul(math.div(math.sub(rook, math.reshape(model.weights[50], [tarsier[3], tarsier[2], tarsier[1], tarsier[0]])), math.reshape(model.weights[51], [tarsier[3], tarsier[2], tarsier[1], tarsier[0]])), math.reshape(model.weights[52], [tarsier[3], tarsier[2], tarsier[1], tarsier[0]])), math.reshape(model.weights[53], [tarsier[3], tarsier[2], tarsier[1], tarsier[0]]))));
+  function alpaca(kudu) {
+    let komodo = kudu[String("shape")][String("length")];
+    let narwhal = flux.data(tf.ones([komodo], String("int32")));
+    let crow = kudu[String("shape")];
+    narwhal[komodo - 2] = crow[crow[String("length")] - (komodo - 1)];
+    return math.add(math.mul(math.div(math.sub(kudu, math.reshape(model.weights[30], [narwhal[3], narwhal[2], narwhal[1], narwhal[0]])), math.reshape(model.weights[31], [narwhal[3], narwhal[2], narwhal[1], narwhal[0]])), math.reshape(model.weights[32], [narwhal[3], narwhal[2], narwhal[1], narwhal[0]])), math.reshape(model.weights[33], [narwhal[3], narwhal[2], narwhal[1], narwhal[0]]));
   };
-  function wildebeest(vicuña) {
-    return vicuña;
+  function guineapig(grouse) {
+    return math.add(math.transpose(math.conv2d(math.transpose(grouse, [0, 2, 3, 1]), math.reverse(math.transpose(model.weights[34], [2, 3, 1, 0], grouse), [0, 1]), [1, 1], 1), [0, 3, 1, 2]), model.weights[35]);
   };
-  function mole(chinchilla) {
-    let squirrel = chinchilla[String("shape")][String("length")];
-    let goose = flux.data(tf.ones([squirrel], String("int32")));
-    let shrew = chinchilla[String("shape")];
-    goose[squirrel - 2] = shrew[shrew[String("length")] - (squirrel - 1)];
-    return goose;
+  function chinchilla(lark) {
+    return math.relu(math.add(oyster(lark), dog(cockroach(math.relu(alpaca(guineapig(flux.slice(lark))))))));
   };
-  function sloth(ferret) {
-    let wren = ferret[String("shape")][String("length")];
-    let kangaroo = flux.data(tf.ones([wren], String("int32")));
-    let prairiedog = ferret[String("shape")];
-    kangaroo[wren - 2] = prairiedog[prairiedog[String("length")] - (wren - 1)];
-    return kangaroo;
+  function spider(albatross) {
+    return albatross;
   };
-  function seahorse(hedgehog) {
-    let ibis = math.add(math.transpose(math.conv2d(math.transpose(flux.slice(hedgehog), [0, 2, 3, 1]), model.weights[54], [1, 1], 1), [0, 3, 1, 2]), model.weights[55]);
-    let armadillo = mole(ibis);
-    let falcon = math.add(math.transpose(math.conv2d(math.transpose(math.relu(math.add(math.mul(math.div(math.sub(ibis, math.reshape(model.weights[56], [armadillo[3], armadillo[2], armadillo[1], armadillo[0]])), math.reshape(model.weights[57], [armadillo[3], armadillo[2], armadillo[1], armadillo[0]])), math.reshape(model.weights[58], [armadillo[3], armadillo[2], armadillo[1], armadillo[0]])), math.reshape(model.weights[59], [armadillo[3], armadillo[2], armadillo[1], armadillo[0]]))), [0, 2, 3, 1]), model.weights[60], [1, 1], 1), [0, 3, 1, 2]), model.weights[61]);
-    let donkey = sloth(falcon);
-    return math.relu(math.add(wildebeest(hedgehog), math.add(math.mul(math.div(math.sub(falcon, math.reshape(model.weights[62], [donkey[3], donkey[2], donkey[1], donkey[0]])), math.reshape(model.weights[63], [donkey[3], donkey[2], donkey[1], donkey[0]])), math.reshape(model.weights[64], [donkey[3], donkey[2], donkey[1], donkey[0]])), math.reshape(model.weights[65], [donkey[3], donkey[2], donkey[1], donkey[0]]))));
+  function cobra(lion) {
+    let panther = lion[String("shape")][String("length")];
+    let partridge = flux.data(tf.ones([panther], String("int32")));
+    let chamois = lion[String("shape")];
+    partridge[panther - 2] = chamois[chamois[String("length")] - (panther - 1)];
+    return math.add(math.mul(math.div(math.sub(lion, math.reshape(model.weights[36], [partridge[3], partridge[2], partridge[1], partridge[0]])), math.reshape(model.weights[37], [partridge[3], partridge[2], partridge[1], partridge[0]])), math.reshape(model.weights[38], [partridge[3], partridge[2], partridge[1], partridge[0]])), math.reshape(model.weights[39], [partridge[3], partridge[2], partridge[1], partridge[0]]));
   };
-  function fly(swan) {
-    let caterpillar = swan[String("shape")][String("length")];
-    let lion = flux.data(tf.ones([caterpillar], String("int32")));
-    let snake = swan[String("shape")];
-    lion[caterpillar - 2] = snake[snake[String("length")] - (caterpillar - 1)];
-    return lion;
+  function pony(chough) {
+    return math.add(math.transpose(math.conv2d(math.transpose(chough, [0, 2, 3, 1]), math.reverse(math.transpose(model.weights[40], [2, 3, 1, 0], chough), [0, 1]), [1, 1], 1), [0, 3, 1, 2]), model.weights[41]);
   };
-  function model(duck) {
-    let bee = math.add(math.transpose(math.conv2d(math.transpose(duck, [0, 2, 3, 1]), model.weights[0], [1, 1], 1), [0, 3, 1, 2]), model.weights[1]);
-    let dragonfly = fly(bee);
-    return ibex(partridge(panda(cheetah(seahorse(math.relu(math.add(math.mul(math.div(math.sub(bee, math.reshape(model.weights[2], [dragonfly[3], dragonfly[2], dragonfly[1], dragonfly[0]])), math.reshape(model.weights[3], [dragonfly[3], dragonfly[2], dragonfly[1], dragonfly[0]])), math.reshape(model.weights[4], [dragonfly[3], dragonfly[2], dragonfly[1], dragonfly[0]])), math.reshape(model.weights[5], [dragonfly[3], dragonfly[2], dragonfly[1], dragonfly[0]]))))))));
+  function lemur(wren) {
+    let rhinoceros = wren[String("shape")][String("length")];
+    let cheetah = flux.data(tf.ones([rhinoceros], String("int32")));
+    let wildebeest = wren[String("shape")];
+    cheetah[rhinoceros - 2] = wildebeest[wildebeest[String("length")] - (rhinoceros - 1)];
+    return math.add(math.mul(math.div(math.sub(wren, math.reshape(model.weights[42], [cheetah[3], cheetah[2], cheetah[1], cheetah[0]])), math.reshape(model.weights[43], [cheetah[3], cheetah[2], cheetah[1], cheetah[0]])), math.reshape(model.weights[44], [cheetah[3], cheetah[2], cheetah[1], cheetah[0]])), math.reshape(model.weights[45], [cheetah[3], cheetah[2], cheetah[1], cheetah[0]]));
+  };
+  function magpie(dove) {
+    return math.add(math.transpose(math.conv2d(math.transpose(dove, [0, 2, 3, 1]), math.reverse(math.transpose(model.weights[46], [2, 3, 1, 0], dove), [0, 1]), [1, 1], 1), [0, 3, 1, 2]), model.weights[47]);
+  };
+  function hare(antelope) {
+    return math.relu(math.add(spider(antelope), cobra(pony(math.relu(lemur(magpie(flux.slice(antelope))))))));
+  };
+  function elk(moose) {
+    return moose;
+  };
+  function gaur(curlew) {
+    let anteater = curlew[String("shape")][String("length")];
+    let cassowary = flux.data(tf.ones([anteater], String("int32")));
+    let swan = curlew[String("shape")];
+    cassowary[anteater - 2] = swan[swan[String("length")] - (anteater - 1)];
+    return math.add(math.mul(math.div(math.sub(curlew, math.reshape(model.weights[48], [cassowary[3], cassowary[2], cassowary[1], cassowary[0]])), math.reshape(model.weights[49], [cassowary[3], cassowary[2], cassowary[1], cassowary[0]])), math.reshape(model.weights[50], [cassowary[3], cassowary[2], cassowary[1], cassowary[0]])), math.reshape(model.weights[51], [cassowary[3], cassowary[2], cassowary[1], cassowary[0]]));
+  };
+  function lapwing(goosander) {
+    return math.add(math.transpose(math.conv2d(math.transpose(goosander, [0, 2, 3, 1]), math.reverse(math.transpose(model.weights[52], [2, 3, 1, 0], goosander), [0, 1]), [1, 1], 1), [0, 3, 1, 2]), model.weights[53]);
+  };
+  function jaguar(rook) {
+    let emu = rook[String("shape")][String("length")];
+    let wolverine = flux.data(tf.ones([emu], String("int32")));
+    let locust = rook[String("shape")];
+    wolverine[emu - 2] = locust[locust[String("length")] - (emu - 1)];
+    return math.add(math.mul(math.div(math.sub(rook, math.reshape(model.weights[54], [wolverine[3], wolverine[2], wolverine[1], wolverine[0]])), math.reshape(model.weights[55], [wolverine[3], wolverine[2], wolverine[1], wolverine[0]])), math.reshape(model.weights[56], [wolverine[3], wolverine[2], wolverine[1], wolverine[0]])), math.reshape(model.weights[57], [wolverine[3], wolverine[2], wolverine[1], wolverine[0]]));
+  };
+  function ibis(hippopotamus) {
+    return math.add(math.transpose(math.conv2d(math.transpose(hippopotamus, [0, 2, 3, 1]), math.reverse(math.transpose(model.weights[58], [2, 3, 1, 0], hippopotamus), [0, 1]), [1, 1], 1), [0, 3, 1, 2]), model.weights[59]);
+  };
+  function pelican(crane) {
+    return math.relu(math.add(elk(crane), gaur(lapwing(math.relu(jaguar(ibis(flux.slice(crane))))))));
+  };
+  function guanaco(barracuda) {
+    let dotterel = barracuda[String("shape")][String("length")];
+    let goldfinch = flux.data(tf.ones([dotterel], String("int32")));
+    let reindeer = barracuda[String("shape")];
+    goldfinch[dotterel - 2] = reindeer[reindeer[String("length")] - (dotterel - 1)];
+    return math.relu(math.add(math.mul(math.div(math.sub(barracuda, math.reshape(model.weights[60], [goldfinch[3], goldfinch[2], goldfinch[1], goldfinch[0]])), math.reshape(model.weights[61], [goldfinch[3], goldfinch[2], goldfinch[1], goldfinch[0]])), math.reshape(model.weights[62], [goldfinch[3], goldfinch[2], goldfinch[1], goldfinch[0]])), math.reshape(model.weights[63], [goldfinch[3], goldfinch[2], goldfinch[1], goldfinch[0]])));
+  };
+  function rabbit(whale) {
+    return math.add(math.transpose(math.conv2d(math.transpose(whale, [0, 2, 3, 1]), math.reverse(math.transpose(model.weights[64], [2, 3, 1, 0], whale), [0, 1]), [1, 1], 1), [0, 3, 1, 2]), model.weights[65]);
+  };
+  function model(falcon) {
+    return cattle(kouprey(chinchilla(hare(pelican(guanaco(rabbit(falcon)))))));
   };
   model.weights = [];
   return model;

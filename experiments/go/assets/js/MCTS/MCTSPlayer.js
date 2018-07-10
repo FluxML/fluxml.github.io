@@ -13,8 +13,6 @@ Object.assign(obj.MCTS, {Player})
 
 var MCTS = obj.MCTS;
 
-
-
 function Player(network, { num_readouts = 1, two_player_mode = false, resign_threshold = -0.9, board_size = 9, max_game_length}={}){
 	this.board_size = board_size;
     this.tau_threshold = two_player_mode ? -1 : (board_size * board_size / 12) / 2 * 2
@@ -102,9 +100,10 @@ player.get_feats = function(){
 
 player.pick_move = function(){
 	var fcoord;
+	debugger
 	if (this.root.position.n >= this.tau_threshold){
-		
-		fcoord = this.root.child_N.indexOf(Math.max(...this.root.child_N)) + 1;
+		console.log(this.root.child_N)
+		fcoord = MCTS.argMax(this.root.child_N) + 1;
 	}else{
 		var cdf = tf.cumsum(tf.tensor(this.root.child_N)).dataSync();
 		var n = cdf.slice(-2)[0];
@@ -124,7 +123,7 @@ player.pick_move = function(){
 }
 
 player.play_move = function(c){
-	// console.log(c);
+	console.log("play", c);
 	c = MCTS.to_flat(c, this.board_size);
 	if (!this.two_player_mode){
 		this.searches_pi.push(

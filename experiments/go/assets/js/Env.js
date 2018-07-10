@@ -35,7 +35,7 @@ Env.prototype.step = function(a){
 	this.moves.push(a)
     if(a.type== "stone"){
         this.passes = [];
-        this.env.play(a.x, a.y, a.k);
+        this.env.play(a.x, a.y, a.c);
     }
     else if(a.type == "pass"){
         if(this.passes.indexOf(a.c) == -1)this.passes.push(a.c);
@@ -45,10 +45,14 @@ Env.prototype.step = function(a){
     this.model.play_move(a);
 }
 
-Env.prototype.next = function(stack, action){
-	var n = this.new_env(stack)
-	;
-	n.play(action.x, action.y, action.c);
+Env.prototype.next = function(stack, a){
+	var n = this.new_env(stack);
+	if(a.type== "stone"){
+        n.play(a.x, a.y, a.c);
+    }
+    else if(a.type == "pass"){
+        n.pass(a.c);
+    }
 	return n;
 }
 
@@ -63,7 +67,7 @@ Env.prototype.reset = function(){
 }
 
 Env.prototype.stack = function(){
-	return this.env.stack;
+	return this.env.stack.slice();
 }
 
 Env.prototype.getPosition = function(){
@@ -72,7 +76,7 @@ Env.prototype.getPosition = function(){
 
 Env.prototype.new_env = function(stack){
 	var n = new WGo.Game(this.s, this.repeat)
-	n.stack = stack;
+	n.stack = stack.slice();
 	return n;
 }
 
@@ -82,7 +86,7 @@ Env.prototype.all_legal_moves = function(stack){
 	var legal = new Array(s * s + 1).fill(1)
 	for(var x = 0; x< s; x++){
 		for(var y = 0; y < s; y++){
-			if(!n.isValid(x, y)) legal[x + s * y] = 0;
+			if(!n.isValid(x, y)) legal[MCTS.to_flat({x, y, type: "stone"}) + 1] = 0;
 		}
 	}
 	return legal;
