@@ -15,7 +15,7 @@ var MCTS = obj.MCTS;
 
 function Player(network, { num_readouts = 1, two_player_mode = false, resign_threshold = -0.9, board_size = 9, max_game_length}={}){
 	this.board_size = board_size;
-    this.tau_threshold = two_player_mode ? -1 : (board_size * board_size / 12) / 2 * 2
+    this.tau_threshold = two_player_mode ? 10 : (board_size * board_size / 12) / 2 * 2
     this.network = network;
     this.num_readouts = num_readouts;
     this.two_player_mode = two_player_mode;
@@ -45,9 +45,9 @@ player.__init__ = function(pos){
 player.suggest_move = function(){
 	// console.log("suggest move")
 	var current_readouts = this.root.N();
-	// console.log(current_readouts);
+	
 	while (this.root.N() < current_readouts + this.num_readouts){
-		
+		console.log(this.root.N());	
 		this.tree_search();
 	}
 
@@ -102,7 +102,6 @@ player.pick_move = function(){
 	var fcoord;
 	debugger
 	if (this.root.position.n >= this.tau_threshold){
-		console.log(this.root.child_N)
 		fcoord = MCTS.argMax(this.root.child_N) + 1;
 	}else{
 		var cdf = tf.cumsum(tf.tensor(this.root.child_N)).dataSync();
@@ -135,6 +134,7 @@ player.play_move = function(c){
 	
 	this.position = this.root.position
 	this.root.parent.children = {}
+	debugger
 	return true
 }
 

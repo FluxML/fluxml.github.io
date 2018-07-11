@@ -80,13 +80,13 @@ Env.prototype.new_env = function(stack){
 	return n;
 }
 
-Env.prototype.all_legal_moves = function(stack){
+Env.prototype.all_legal_moves = function(stack, to_play){
 	var n = this.new_env(stack)
 	var s = n.size;
 	var legal = new Array(s * s + 1).fill(1)
 	for(var x = 0; x< s; x++){
 		for(var y = 0; y < s; y++){
-			if(!n.isValid(x, y)) legal[MCTS.to_flat({x, y, type: "stone"}) + 1] = 0;
+			if(!(n.play(x, y, to_play, true) instanceof Object)) legal[MCTS.to_flat({x, y, type: "stone"}) - 1] = 0;
 		}
 	}
 	return legal;

@@ -76,15 +76,15 @@ node.select_leaf = function(){
       		break;
     	}
 
-	 //    if (current.position.recent.length != 0
-	 //      && current.position.recent.slice(-1)[0] == pass_move
-	 //      && current.child_N[pass_move] == 0){
-	 //      current = current.maybe_add_child(pass_move)
-	 //      continue;
-		// }
+	    if (current.position.recent.length != 0
+	      && current.position.recent.slice(-1)[0] == pass_move
+	      && current.child_N[pass_move - 1] == 0){
+	      current = current.maybe_add_child(pass_move)
+	      continue;
+		}
     	cas = current.child_action_score()
     	best_move = MCTS.argMax(cas) + 1
-    	// console.log(best_move)
+    	
     	current = current.maybe_add_child(best_move)
 	}
 	// console.log("select_move", current.fmove)
@@ -158,13 +158,10 @@ node.revert_virtual_loss = function(root_){
 }
 
 node.incorporate_results = function(move_probs, value, up_to){
-	// console.log("incorporate_results")
-	console.log(value, move_probs[0], this.fmove, this.is_done(), this.N() )
 	if (this.is_expanded){
 		this.revert_visits(up_to)
 		return
 	}
-	// console.log(move_probs)
 	this.is_expanded = true
 	this.original_prior = move_probs.slice();
 	this.child_prior = move_probs.slice();
