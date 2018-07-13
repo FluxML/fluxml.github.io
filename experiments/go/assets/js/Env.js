@@ -23,7 +23,8 @@ Env.prototype.config = function(){
 	var capCount = {};
 	capCount[WGo.W] = this.env.getCaptureCount(WGo.W);
 	capCount[WGo.B] = this.env.getCaptureCount(WGo.B);
-    return {state: this.state(), done: this.done(), turn: this.turn(), capCount, lastMove: this.moves.slice(-1)[0]}
+	var score = this.find_score(this.env.getPosition());
+    return {state: this.state(), done: this.done(), turn: this.turn(), capCount, lastMove: this.moves.slice(-1)[0], score}
 }
 
 Env.prototype.setModel = function (m){
@@ -89,7 +90,7 @@ Env.prototype.all_legal_moves = function(stack, to_play){
 			if(!(n.play(x, y, to_play, true) instanceof Object)) legal[MCTS.to_flat({x, y, type: "stone"}) - 1] = 0;
 		}
 	}
-	legal[81] = 0.5;
+	legal[81] = .999;
 	return legal;
 }
 
@@ -103,8 +104,7 @@ Env.prototype.check_if_done = function(moves){
 
 var empty = 0;
 var visited = 2;
-var free = 3;
-var edge = -2;
+var unknown = -2;
 
 Env.prototype.find_score = function({capCount, schema}={}){
 	var board = schema.slice()
@@ -125,21 +125,24 @@ Env.prototype.find_score = function({capCount, schema}={}){
 				break;
 			}
 		}
-		if(same){
-			for(var x = 0; x< n; x++){
-				for(var y = 0; y< n; y++){
-					if(board[x][y] == visited){
-						board[x][y] = h;
-					}
-				}	
-			}
+		if(!same){
+			h = unknown;
 		}
+
+		for(var x = 0; x< n; x++){
+			for(var y = 0; y< n; y++){
+				if(board[x][y] == visited){
+					board[x][y] = h;
+				}
+			}	
+		}
+		
 	}
 
 	var blackStones = schema.filter(e => e == WGo.B).length;
 	var whiteStones = schema.filter(e => e == WGo.W).length + 0.5;
-	score += (blackStones - whiteStones);
-	console.log("score: ", score)
+	var score = (blackStones - whiteStones);
+	// console.log("score: ", score)
 	return {black: score, white: -1 * score};
 }
 
@@ -153,7 +156,7 @@ function chooseEmpty(board, n){
 	}
 
 function frontier({board, x, y, n}){
-	if(x < 0 || y< 0 || x> n || y > n || board[x][y] == visited) return [];
+	if(x < 0 || y< 0 || x >= n || y >= n || board[x][y] == visited) return [];
 	if(board[x][y]== WGo.B || board[x][y] == WGo.W)return [board[x][y]]
 
 	var set = neighbours(board, x, y, n);

@@ -19,6 +19,8 @@ function Board(board){
 		// 	<p class='white_score'> <span class='dot white'></span> " + config.capCount[WGo.W]+ " " + addS(config.capCount[WGo.W], "stone")+ "</p>\
 		// </div>"
 
+
+
 		if(config.lastMove && config.lastMove.type == "pass"){
 			var n = $$(".pass").className;
 			if(n.match("active") == null) $$(".pass").className = n + " active";
@@ -33,8 +35,7 @@ function Board(board){
 			var score_ = $$(".overlay #gameOver .score");
 			if(score_ == null){
 				score_ = document.createDocumentFragment();
-				score_.innerHTML = "<p class='black_score'> Black captured " + config.capCount[WGo.B]+ " " + addS(config.capCount[WGo.B], "stone")+ "</p>\
-									<p class='white_score'> White captured " + config.capCount[WGo.W]+ " " + addS(config.capCount[WGo.W], "stone")+ "</p>"
+				score_.innerHTML = "Black scores " + config.score + " points." + (config.score > 0? "Black": "White") + " wins!"
 			}	
 		}else{
 			hide($$(".overlay #gameOver"))
