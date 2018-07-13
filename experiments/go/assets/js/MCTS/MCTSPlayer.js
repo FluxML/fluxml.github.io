@@ -13,9 +13,9 @@ Object.assign(obj.MCTS, {Player})
 
 var MCTS = obj.MCTS;
 
-function Player(network, { num_readouts = 1, two_player_mode = false, resign_threshold = -0.9, board_size = 9, max_game_length}={}){
+function Player(network, layer, { num_readouts = 1, two_player_mode = false, resign_threshold = -0.9, board_size = 9, max_game_length}={}){
 	this.board_size = board_size;
-    this.tau_threshold = two_player_mode ? 10 : (board_size * board_size / 12) / 2 * 2
+    this.tau_threshold = two_player_mode ? -1 : (board_size * board_size / 12) / 2 * 2
     this.network = network;
     this.num_readouts = num_readouts;
     this.two_player_mode = two_player_mode;
@@ -27,12 +27,14 @@ function Player(network, { num_readouts = 1, two_player_mode = false, resign_thr
     this.resign_threshold = resign_threshold;
     this.position = null;
     this.max_game_length = max_game_length;
+    this.layer = layer
+    this.current_readouts = 0;
 }
 
 var player = Player.prototype;
 
 player.__init__ = function(pos){
-	console.log(this.max_game_length)
+
   this.root = new MCTS.Node(pos, {
   	max_game_length: this.max_game_length, 
   	board_size: this.board_size
@@ -42,16 +44,24 @@ player.__init__ = function(pos){
   this.qs = [];
 }
 
-player.suggest_move = function(){
+player.suggest_move = function(cb){
 	// console.log("suggest move")
-	var current_readouts = this.root.N();
-	
-	while (this.root.N() < current_readouts + this.num_readouts){
-		console.log(this.root.N());	
-		this.tree_search();
-	}
+	this.current_readouts = this.root.N();
+	// console.log(cb)
+	requestAnimationFrame(() => { this.search_loop.bind(this)(cb)})
+}
 
-	return this.pick_move();
+player.search_loop = function(cb){
+	if(this.root.N() >= this.current_readouts + this.num_readouts)
+		return cb(this.pick_move());
+
+	this.tree_search();
+	this.layer(this.best_n(3));
+
+	var loop = () =>{
+		return this.search_loop.bind(this)(cb)
+	}
+	requestAnimationFrame(loop)
 }
 
 player.tree_search = function(parallel_readouts=8){
@@ -74,14 +84,14 @@ player.tree_search = function(parallel_readouts=8){
 
   	if(leaves.length == 0) return [];
 
-  	var l = leaves.length;
-  	var p = new Array(p);
-  	for(var i=0; i<l; i++){ p[i] = leaves[i].position}
-	var { move_probs, values } = this.network.process(p)
+  	// var l = leaves.length;
+  	// var p = new Array(p);
+  	// for(var i=0; i<l; i++){ p[i] = leaves[i].position}
+	var { move_probs, values } = this.network.process(leaves)
 	
 	var len = this.board_size*this.board_size + 1
 	
-	move_probs = partition(Array.from(move_probs.dataSync()),len);
+	move_probs = MCTS.partition(Array.from(move_probs.dataSync()),len);
 	values = values.dataSync();
 	for (var i in leaves){
 		var leaf = leaves[i];
@@ -98,9 +108,21 @@ player.get_feats = function(){
 	return this.root.position.get_feats();
 }
 
+player.best_n = function(n){
+	var arr = this.root.child_N.slice();
+	var min = Math.min(...arr) - 1;
+	var best = [];
+	for(var i =0; i< n; i++){
+		var index = MCTS.argMax(arr);
+		best.push(index);
+		arr[index] = min;
+	}
+	return best;
+}
+
 player.pick_move = function(){
 	var fcoord;
-	debugger
+	
 	if (this.root.position.n >= this.tau_threshold){
 		fcoord = MCTS.argMax(this.root.child_N) + 1;
 	}else{
@@ -111,7 +133,7 @@ player.pick_move = function(){
 			cdf[i] = MCTS.safe_div(cdf[i], n);
 		}
 		selection = Math.random()
-		var m = searchsortedfirst(cdf, selection);
+		var m = MCTS.searchsortedfirst(cdf, selection);
 		var l = this.board_size* this.board_size;
 		m = m == -1 || m >= l ? Math.floor(Math.random()*l): m
 		fcoord =  m + 1
@@ -122,7 +144,7 @@ player.pick_move = function(){
 }
 
 player.play_move = function(c){
-	console.log("play", c);
+	// console.log("play", c);
 	c = MCTS.to_flat(c, this.board_size);
 	if (!this.two_player_mode){
 		this.searches_pi.push(
@@ -134,7 +156,7 @@ player.play_move = function(c){
 	
 	this.position = this.root.position
 	this.root.parent.children = {}
-	debugger
+	
 	return true
 }
 

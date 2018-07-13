@@ -1,9 +1,9 @@
-function Model(model, config){
-	this.mctsPlayer = new MCTS.Player(this, config);
+function Model(model, layer, config){
+	this.mctsPlayer = new MCTS.Player(this, layer, config);
 	this.model = model;
 
-	this.predict = async function(){
-		return this.mctsPlayer.suggest_move();
+	this.predict = function(config, cb){
+		return this.mctsPlayer.suggest_move(cb);
 	}
 	this.predict = this.predict.bind(this)
 }
@@ -12,7 +12,6 @@ Model.prototype.process = function(input){
 	var l= input.length;
 	var p = new Array(l);
 	for(var i=0; i<l; i++){ p[i] = input[i].get_feats()}
-	// console.log("input ,,,", p)
 	
 	var nn_in = tf.stack(p);
 	common_out = this.model.base_net(nn_in)  //  transpose ??????

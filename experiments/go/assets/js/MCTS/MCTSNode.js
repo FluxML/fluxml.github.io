@@ -20,11 +20,6 @@ var zeros = (n) => val(n, 0);
 var ones = (n) => val(n, 1);
 var defObj = (n) => ({...zeros(n), "null":0, "-1":0});
 
-function DummyNode(n){
-	this.parent = null;
-	this.child_N = defObj(n*n + 2)
-	this.child_W = defObj(n*n + 2);
-}
 
 function Node(position, {parent, fmove=null, board_size=9, max_game_length}={}){
 	this.max_game_length = max_game_length || Math.floor((Math.pow(board_size,2) * 7) / 5);
@@ -63,7 +58,6 @@ node.set_W = function(value){
 }
 
 node.select_leaf = function(){
-	
 	var current = this;
 	var n = this.board_size;
 	var pass_move = n * n + 1;
@@ -75,9 +69,8 @@ node.select_leaf = function(){
     	if (!current.is_expanded){
       		break;
     	}
-
-	    if (current.position.recent.length != 0
-	      && current.position.recent.slice(-1)[0] == pass_move
+    	// console.log(current.position.last_move)
+	    if (current.position.last_move == pass_move
 	      && current.child_N[pass_move - 1] == 0){
 	      current = current.maybe_add_child(pass_move)
 	      continue;
@@ -158,6 +151,7 @@ node.revert_virtual_loss = function(root_){
 }
 
 node.incorporate_results = function(move_probs, value, up_to){
+	// console.log("incorporate_results", value, this.is_done())
 	if (this.is_expanded){
 		this.revert_visits(up_to)
 		return
@@ -201,8 +195,30 @@ node.Q = function(){
 }
 
 node.is_done = function(){
-	return this.position.done || this.position.n >= this.max_game_length
+	return this.position.is_done() || this.position.n >= this.max_game_length
 }
 
+node.get_feats = function(){
+	var last_eight = this.get_stack(8);
+	return this.position.get_feats(last_eight);
+}
+
+node.get_stack = function(n){
+	if(n == 0) return [];
+	return [this.position.schema()].concat(this.parent.get_stack(n - 1));
+}
+
+
+function DummyNode(n){
+	this.parent = null;
+	this.child_N = defObj(n*n + 2);
+	this.child_W = defObj(n*n + 2);
+}
+
+DummyNode.prototype = Object.create(node);
+
+DummyNode.prototype.get_stack = function(){
+	return [];
+};
 
 })(window);

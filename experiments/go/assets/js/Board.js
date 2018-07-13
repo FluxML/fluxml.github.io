@@ -1,22 +1,23 @@
 function Board(board){
+
 	this.render	= (config)=>{
 		board.render(config);
 		
 		highlight($$("." + (config.turn==1?"human":"comp")), $$(".options"))
 		
 		var addS = (n, str) => n <= 1? str : str + "s";
-		var stats= $$("#game .stats");
-		if(stats == null){
-			stats = document.createElement('div');
-			stats.className = "stats"
-			$$("#game").insertBefore(stats, $$("#game .board"))
-		}
+		// var stats= $$("#game .stats");
+		// if(stats == null){
+		// 	stats = document.createElement('div');
+		// 	stats.className = "stats"
+		// 	$$("#game").insertBefore(stats, $$("#game .board"))
+		// }
 
-		stats.innerHTML = "<p>Captures</p>\
-		<div>\
-			<p class='black_score'> <span class='dot black'></span> " + config.capCount[WGo.B]+ " " + addS(config.capCount[WGo.B], "stone")+ "</p>\
-			<p class='white_score'> <span class='dot white'></span> " + config.capCount[WGo.W]+ " " + addS(config.capCount[WGo.W], "stone")+ "</p>\
-		</div>"
+		// stats.innerHTML = "<p>Captures</p>\
+		// <div>\
+		// 	<p class='black_score'> <span class='dot black'></span> " + config.capCount[WGo.B]+ " " + addS(config.capCount[WGo.B], "stone")+ "</p>\
+		// 	<p class='white_score'> <span class='dot white'></span> " + config.capCount[WGo.W]+ " " + addS(config.capCount[WGo.W], "stone")+ "</p>\
+		// </div>"
 
 		if(config.lastMove && config.lastMove.type == "pass"){
 			var n = $$(".pass").className;

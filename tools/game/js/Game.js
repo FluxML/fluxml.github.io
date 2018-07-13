@@ -62,8 +62,12 @@ Game.prototype.nextGameState = function(curr){
 	return curr;
 }
 
+Game.prototype.startState = function(){
+	return this.state
+}
+
 Game.prototype.gameOverHandler = function(){
-	this.setState(this.state);
+	this.setState(this.startState());
 }
 
 Game.prototype.isValidAction = function(action){

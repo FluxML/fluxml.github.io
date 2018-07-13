@@ -3,12 +3,35 @@ WGo.Board.prototype.render = function(config){
 }
 
 Game.prototype.nextGameState = function(curr){
-    console.log("turn....", this.env.turn())
+    // console.log("turn....", this.env.turn())
     if(this.env.turn() == WGo.B)return this.states.H;
     return this.states.C;
 }
 
 Game.prototype.defaultAction = () => ({x: -1, y: -1, c: 1, type:"stone"})
+
+Game.prototype.play = function(){
+    clearTimeout(this.playTimeout);
+    if(this.env.done())return;
+
+    var scope = this;
+    switch(this.state){
+        case this.states.H:
+            this.move(this.newAction);
+            // newAction = 0; 
+            break;
+        case this.states.C:
+            var move = this.move.bind(this)
+            this.model(this.env.state(),move)
+            break;
+        default:
+            console.log("Invalid state", this.state);
+    }
+}
+
+Game.prototype.startState = function (){
+    return this.states.H;
+}
 
 
 function getState(env){

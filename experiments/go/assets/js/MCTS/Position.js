@@ -6,72 +6,54 @@ Object.assign(obj.MCTS, {Position})
 
 var MCTS = obj.MCTS
 
-var deepcopy = (s) => MCTS.deepcopy(s)
-
 var pos_to_board = (pos, n) => partition(pos.schema.slice(), n)
 
-function scatter(array, n){
-	if(isNaN(n))debugger;
-    
-    var l = array.length;
-    var m = l/n 
-    if(m != Math.floor(m)) throw Error("Invalid partition size")
-    var res = new Array(m);
-    var acc;
-    for(var i = 0; i<l; i++){
-    	var j = Math.floor(i/n);
-    	if(!res[j])res[j] = []
-
-    	acc = res[j];
-        acc.push(array[i]);
-    }
-    return res;
-}
-
 // MCTS's representation of env
-function Position(env, stack, moves, turn){
-	var position = stack.slice(-1)[0];
-
-	var last_move = moves.slice(-1)[0];
-	var n = env.size();
-	
-	// flattened along col with 1-based indexing
-	this.stack = stack.slice();
-	this.size = n;
-
+function Position(env, stack, moves, turn, n=0){
+	this.position = stack.slice(-1)[0];
+	this.size = env.size();
+	this.stack = stack.slice(-2);
 	this.to_play = turn;
-	this.board = pos_to_board(position, n);
-	this.n = moves.length;
-	this.recent = moves.slice();
-	this.last_move = last_move;
-	
-	// doesn't affect the real environment
-	this.play_move = (f) => {
-		var k = env.next(this.stack, MCTS.to_obj(f, this.to_play, n));
-
-		return new Position(env, k.stack, moves.concat(f), k.turn)
-	};
-
+	this.n = n;
+	this.last_move = moves.slice(-1)[0];
+	this.env = env;
 	this.store = {}
-	this.legal_moves = () =>{
-		// since it needs to be calculated only once for this stack
-		return this.store["legal_moves"] ? this.store["legal_moves"] : (()=>{
-			var l = env.all_legal_moves(this.stack)
-			this.store["legal_moves"] = l;
-			return l;
-		})();
-	}
-
-	this.is_done = () => env.is_done(this.recent)
-	this.score = () => env.find_score(position).white
+	this.recent = moves.slice(-2)
 }
 
-Position.prototype.get_feats = function(){
-	return tf.concat([this.stone_features(),this.color_to_play_feature()])
+var pos = Position.prototype;
+
+// doesn't affect the real environment
+pos.play_move = function(f){
+	var k = this.env.next(this.stack, MCTS.to_obj(f, this.to_play, this.size));
+	return new Position(this.env, k.stack, this.recent.concat(f), k.turn, this.n + 1)
+};
+
+pos.schema = function(){
+	return this.position.schema.slice();
 }
 
-Position.prototype.stone_features = function(){
-	var last_eight = deepcopy(this.stack.slice(-8).map(e => e.schema).reverse());
+pos.legal_moves = function(){
+	// since it needs to be calculated only once for this stack
+	return this.store["legal_moves"] ? this.store["legal_moves"] : (()=>{
+		var l = this.env.all_legal_moves(this.stack)
+		this.store["legal_moves"] = l;
+		return l;
+	})();
+}
+
+pos.is_done = function(){
+	return this.env.check_if_done(this.recent)
+}
+pos.score = function(){
+	return this.env.find_score(this.position).white
+}
+
+pos.get_feats = function(last_eight){
+	return tf.concat([this.stone_features(last_eight),this.color_to_play_feature()])
+}
+
+pos.stone_features = function(last_eight){
 	while(last_eight.length < 8){
 		last_eight.push(last_eight.slice(-1)[0]);
 	}
@@ -80,15 +62,13 @@ Position.prototype.stone_features = function(){
 		var o = e.slice();
 		p = p.map(f => (f == this.to_play) + 0);
 		o = o.map(f => (f == -1 * this.to_play) + 0);
-		// console.log("acc",acc)
 		acc.push(p, o)
 		return acc
 	}, [])
-	
 	return tf.tensor(features, [16, 81]).reshape([16, 9, 9])
 }
 
-Position.prototype.color_to_play_feature = function() {
+pos.color_to_play_feature = function() {
 	return tf.fill([1, this.size, this.size], this.to_play);
 };
 

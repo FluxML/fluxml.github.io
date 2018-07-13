@@ -1,5 +1,8 @@
-var model = { policy, value, base_net }
-var env, board, game
+var env, board, game, model;
+
+(function(){
+
+model = { policy, value, base_net }
 
 
 function __init__(){
@@ -19,7 +22,7 @@ function __init__(){
     board.setSize(9)
 
     env = new Env(config.board_size, "KO");
-    model = new Model(model, config);
+    model = new Model(model, add_best, config);
 
     env.setModel(model);
     env.reset();
@@ -32,19 +35,19 @@ function __init__(){
         }
     })
 
-
     board.addEventListener("click", function(x, y){
-        console.log(x, y, env.turn())
+        // console.log(x, y, env.turn())
         if(env.turn() == WGo.B){
             game.action({type: "stone", x, y, c: WGo.B});
         }
     })
-    
+
     $$("#controls .pass").addEventListener("click", function(event){
         game.action({type: "pass", c:WGo.b})
     })
     
     drawCoords(board);
+    drawBest(board);
     game.display();
 }
 
@@ -63,6 +66,7 @@ function drawCoords(){
         // draw on grid layer
         grid: {
             draw: function(args, board) {
+                
                 var ch, t, xright, xleft, ytop, ybottom;
                 
                 this.fillStyle = "rgba(0,0,0,0.7)";
@@ -96,39 +100,48 @@ function drawCoords(){
 }
 
 
-function partition(array, n){
-    return partition_(array.slice(),n)
+var container = {
+    best: [],
+    getBest: function(){
+        return this.best;
+    },
+    setBest: function(arr){
+        this.best = arr;
+    }
 }
 
-function partition_ (array, n){
-    if(isNaN(n))debugger;
-    
-    var l = array.length;
-    var m = l/n 
-    if(m != Math.floor(m)) throw Error("Invalid partition size")
-    var res = new Array(m);
-    var acc = new Array(n);
-    for(var i = 0; i<l; i++){
-        acc[i % n] = array[i];
-        if(i % n == n - 1){
-            res[Math.floor(i/n)] = acc;
-            acc = new Array(n);
+var colors = ["#009688"]
+
+function drawBest(board){
+    var best_layer = {
+        grid: {
+            draw: function(args, board){
+                var best = container.getBest();
+                if(best.length == 0) return
+                for(var i = 0; i< best.length; i++){
+                    var fmove = best[i] + 1;
+                    var {x, y, type} = MCTS.to_obj(fmove, -1, board.size);
+                    // console.log(type, x, y)
+                    if(type == "pass" || x == -1 || y == -1) continue;
+
+                    var xr = board.getX(x),
+                    yr = board.getY(y),
+                    sr = (board.stoneRadius/(i + 1));
+                
+                    this.beginPath();
+                    this.strokeStyle = colors[i] || colors[colors.length - 1];
+                    this.arc(xr, yr, sr-0.5, 0, 2*Math.PI, true);
+                    this.stroke();
+                }
+            }
         }
     }
-    return res;
+    board.addCustomObject(best_layer);
 }
 
-function searchsortedfirst (arr, x){
-    // return arr.findIndex(e => e > x)
-    return bs(arr, x, 0, arr.length)
+function add_best (arr) {
+    container.setBest(arr)
+    board.redraw()
 }
 
-function bs(arr, nee, beg, end){
-    if(beg >= end) return beg;
-
-    var mid = Math.floor((beg + end)/2)
-
-    if( arr[mid] == nee) return mid;
-    else if( arr[mid] > nee) return bs(arr, nee, beg, mid - 1)
-    else return bs(arr, nee, mid + 1, end)
-}
+}());
