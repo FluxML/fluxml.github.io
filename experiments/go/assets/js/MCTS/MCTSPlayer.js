@@ -110,7 +110,7 @@ player.get_feats = function(){
 
 player.best_n = function(n){
 	var arr = this.root.child_N.slice();
-	var min = Math.min(...arr) - 1;
+	var min = Math.min(...arr);
 	var best = [];
 	for(var i =0; i< n; i++){
 		var index = MCTS.argMax(arr);

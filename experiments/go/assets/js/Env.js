@@ -137,7 +137,7 @@ Env.prototype.find_score = function({capCount, schema}={}){
 	}
 
 	var blackStones = schema.filter(e => e == WGo.B).length;
-	var whiteStones = schema.filter(e => e == WGo.W).length;
+	var whiteStones = schema.filter(e => e == WGo.W).length + 0.5;
 	score += (blackStones - whiteStones);
 	console.log("score: ", score)
 	return {black: score, white: -1 * score};

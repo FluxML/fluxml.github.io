@@ -51,15 +51,6 @@ function __init__(){
     game.display();
 }
 
-var modelArr = [policy, value, base_net];
-Promise.all([flux.fetchWeights("./assets/bson/policy.bson"), flux.fetchWeights("./assets/bson/value.bson"), flux.fetchWeights("./assets/bson/base_net.bson")])
-.then((res)=>{
-    res.forEach((e,i)=>{
-        modelArr[i].weights = e;
-    })
-    __init__();
-})
-
 function drawCoords(){
 
     var coordinates = {
@@ -143,5 +134,11 @@ function add_best (arr) {
     container.setBest(arr)
     board.redraw()
 }
+
+var configArr = [];
+for(var i in model){
+    configArr.push({url: "./assets/bson/" + i + ".bson", model: model[i]});
+}
+_loadWeights(configArr, document.querySelector(".demo_wrapper"), __init__)
 
 }());
