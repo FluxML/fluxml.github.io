@@ -45,43 +45,28 @@ player.__init__ = function(pos){
   this.qs = [];
 }
 
-player.suggest_move = function(cb){
+player.suggest_move = async function(){
 	// console.log("suggest move")
 	this.current_readouts = this.root.N();
 	// console.log(cb)
-	requestAnimationFrame(() => { this.search_loop.bind(this)(cb)})
+	return (await this.search_loop.bind(this)());
 }
 
-player.search_loop = function(cb){
+player.search_loop = async function(){
 	if(this.root.N() >= this.current_readouts + this.num_readouts)
-		return cb(this.pick_move());
+		return this.pick_move();
 
-	this.tree_search();
+	await this.tree_search()
 	this.layer(this.best_n(3));
 
-	var loop = () =>{
-		return this.search_loop.bind(this)(cb)
-	}
-	requestAnimationFrame(loop)
+	return (await this.search_loop.bind(this)());
 }
 
-player.tree_search = function(parallel_readouts=8){
+player.tree_search = async function(parallel_readouts=8){
 	var leaves = [];
 	var failsafe = 0;
 
-	while (leaves.length < parallel_readouts && failsafe < 2 * parallel_readouts){
-	    failsafe += 1
-	    var leaf = this.root.select_leaf()
-	    
-	    // console.log(leaf)
-	    if (leaf.is_done()){
-	      value = leaf.position.score() > 0 ? 1 : -1
-	      leaf.backup_value(value, this.root)
-	      continue
-	    }
-	    leaf.add_virtual_loss(this.root)
-	    leaves.push(leaf)
-  	}
+	var leaves = await this.tree_search_loop(leaves, failsafe, parallel_readouts)
 
   	if(leaves.length == 0) return [];
 
@@ -103,6 +88,35 @@ player.tree_search = function(parallel_readouts=8){
 	}
 	
 	return leaves
+}
+
+player.tree_search_loop = async function(leaves, failsafe, parallel_readouts){
+	if(!(leaves.length < parallel_readouts && failsafe < 2 * parallel_readouts))
+		return leaves;
+
+	var count = 0;
+
+	while((leaves.length < parallel_readouts && failsafe < 2 * parallel_readouts) && count < 2){
+		count++;
+		failsafe += 1
+	    var leaf = this.root.select_leaf();
+	    
+	    // console.log(leaf)
+	    if (leaf.is_done()){
+	      value = leaf.position.score() > 0 ? 1 : -1
+	      leaf.backup_value(value, this.root)
+	      continue
+	    }
+	    leaf.add_virtual_loss(this.root)
+	    leaves.push(leaf)
+	}
+
+    var scope = this;
+    return new Promise(function(resolve,reject){
+    	setTimeout(()=>{
+    		resolve(scope.tree_search_loop(leaves, failsafe, parallel_readouts))
+    	}, 1)
+    })
 }
 
 player.get_feats = function(){

@@ -2,8 +2,9 @@ function Model(model, layer, config){
 	this.mctsPlayer = new MCTS.Player(this, layer, config);
 	this.model = model;
 
-	this.predict = function(config, cb){
-		return this.mctsPlayer.suggest_move(cb);
+	this.predict = async function(config, cb){
+		var a = await this.mctsPlayer.suggest_move();
+		return a;
 	}
 	this.predict = this.predict.bind(this)
 }
@@ -14,7 +15,7 @@ Model.prototype.process = function(input){
 	for(var i=0; i<l; i++){ p[i] = input[i].get_feats()}
 	
 	var nn_in = tf.stack(p);
-	common_out = this.model.base_net(nn_in)  //  transpose ??????
+	common_out = this.model.base_net(nn_in)
 	var [pi, val] = [this.model.policy(common_out), this.model.value(common_out)]
 	
 	return { move_probs: pi, values: val };

@@ -22,7 +22,7 @@ Game.prototype.play = function(){
             break;
         case this.states.C:
             var move = this.move.bind(this)
-            this.model(this.env.state(),move)
+            this.model(this.env.state()).then( a => move(a))
             break;
         default:
             console.log("Invalid state", this.state);
