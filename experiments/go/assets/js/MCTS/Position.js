@@ -36,7 +36,7 @@ pos.schema = function(){
 pos.legal_moves = function(){
 	// since it needs to be calculated only once for this stack
 	return this.store["legal_moves"] ? this.store["legal_moves"] : (()=>{
-		var l = this.env.all_legal_moves(this.stack)
+		var l = this.env.all_legal_moves(this.stack, this.to_play)
 		this.store["legal_moves"] = l;
 		return l;
 	})();

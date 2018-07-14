@@ -208,7 +208,6 @@ node.get_stack = function(n){
 	return [this.position.schema()].concat(this.parent.get_stack(n - 1));
 }
 
-
 function DummyNode(n){
 	this.parent = null;
 	this.child_N = defObj(n*n + 2);

@@ -155,9 +155,24 @@ player.play_move = function(c){
 	this.root = this.root.maybe_add_child(c);
 	
 	this.position = this.root.position
+	delete_children(this.root.parent, c);
 	this.root.parent.children = {}
 	
 	return true
+}
+
+function delete_children(obj,  except=-1){
+	var children = obj.children;
+	// console.log(children)
+	if(!children)return
+	var keys = Object.keys(children);
+	for(var i of keys){
+		if(i != except){
+			delete_children(children[i])
+			delete children[i]
+		}
+	}
+	return;
 }
 
 })(window);
