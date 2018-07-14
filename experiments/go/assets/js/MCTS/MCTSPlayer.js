@@ -58,11 +58,10 @@ player.search_loop = async function(){
 
 	await this.tree_search()
 	this.layer(this.best_n(3));
-
 	return (await this.search_loop.bind(this)());
 }
 
-player.tree_search = async function(parallel_readouts=8){
+player.tree_search = async function(parallel_readouts=4){
 	var leaves = [];
 	var failsafe = 0;
 
@@ -77,11 +76,10 @@ player.tree_search = async function(parallel_readouts=8){
 	
 	var len = this.board_size*this.board_size + 1
 	
-	move_probs = MCTS.partition(Array.from(move_probs.dataSync()),len);
 	values = values.dataSync();
 	for (var i in leaves){
 		var leaf = leaves[i];
-		var move_prob = move_probs[i]
+		var move_prob = move_probs.slice(0, 1).as1D()
 		var value = values[i];
 		leaf.revert_virtual_loss(this.root)
 		leaf.incorporate_results(move_prob, value, this.root)
@@ -99,7 +97,7 @@ player.tree_search_loop = async function(leaves, failsafe, parallel_readouts){
 	while((leaves.length < parallel_readouts && failsafe < 2 * parallel_readouts) && count < 2){
 		count++;
 		failsafe += 1
-	    var leaf = this.root.select_leaf();
+	    var leaf = await this.root.select_leaf();
 	    
 	    // console.log(leaf)
 	    if (leaf.is_done()){
@@ -114,7 +112,9 @@ player.tree_search_loop = async function(leaves, failsafe, parallel_readouts){
     var scope = this;
     return new Promise(function(resolve,reject){
     	setTimeout(()=>{
-    		resolve(scope.tree_search_loop(leaves, failsafe, parallel_readouts))
+    		scope.tree_search_loop(leaves, failsafe, parallel_readouts).then(out =>{
+    			resolve(out)
+    		});
     	}, 1)
     })
 }

@@ -32,9 +32,10 @@ function Node(position, {isRoot, parent, fmove=null, board_size=9, max_game_leng
 
 	var total_moves = board_size * board_size + 1;
 	this.child_N = zeros(total_moves)
-    this.child_W = zeros(total_moves)
-    this.original_prior = zeros(total_moves)
-    this.child_prior = zeros(total_moves)
+    this.child_W = tf.zeros([total_moves])
+
+    // this.original_prior = zeros(total_moves)
+    this.child_prior = tf.zeros([total_moves])
 
     this.children = {}
     this.isRoot = false;
@@ -52,19 +53,32 @@ node.set_N = function(value){
 }
 
 node.W = function(){
-	return this.parent.child_W[this.fmove - 1];
+	return this.parent.child_W.buffer().get(this.fmove - 1);
 }
 
 node.set_W = function(value){
-	this.parent.child_W[this.fmove - 1] = value;
+	var x = this;
+	tf.tidy(()=>{
+		var l = x.parent.child_W.buffer();
+		l.set(value, x.fmove - 1)
+		x.parent.child_W = l.toTensor();
+		return x.parent.child_W
+	})
 }
 
-node.select_leaf = function(){
+node.select_leaf = async function(){
 	var current = this;
 	var n = this.board_size;
 	var pass_move = n * n + 1;
-	while (true){
-		// console.log("select_move", current.fmove, this.child_W.slice(), this.child_prior.slice())
+
+	return (await this.select_leaf_loop(current, pass_move, n))
+}
+
+node.select_leaf_loop = async function(current, pass_move, n){
+	var readouts = 0;
+
+	while(readouts < 3){
+		readouts++;
 		var current_new_N = current.N() + 1
     	current.set_N(current_new_N)
     	
@@ -78,12 +92,24 @@ node.select_leaf = function(){
 	      continue;
 		}
     	cas = current.child_action_score()
-    	best_move = MCTS.argMax(cas) + 1
+    	// console.log("cas", this.child_N, current.child_N)
+    	best_move = tf.argMax(cas).dataSync()[0] + 1
     	
     	current = current.maybe_add_child(best_move)
 	}
-	// console.log("select_move", current.fmove)
-  	return current
+
+	if(!current.is_expanded)return current;
+	else{
+		var x= this;
+		return new Promise(function(resolve, reject){
+			setTimeout(()=>{
+				x.select_leaf_loop(current, pass_move, n).then(out =>{
+					resolve(out)
+				})
+			},1)
+		})
+	}
+
 }
 
 node.maybe_add_child = function(move){
@@ -98,38 +124,30 @@ node.maybe_add_child = function(move){
 }
 
 node.child_action_score = function(){
-	var larr = this.legal_moves();
+	var larr = tf.tensor(this.legal_moves().map(e => 1000 *( 1 - e)));
 	var qarr = this.child_Q();
+	// debugger;
 	var uarr = this.child_U();
 	var l = this.board_size * this.board_size + 1;
-	var res = zeros(l);
-	for(var i=0; i< l; i++){
-		res[i] = qarr[i] * this.position.to_play + uarr[i] - 1000 * (1 - larr[i]);
-	}
-	return res;
+	var x = this;
+	return tf.tidy(() => tf.sub(tf.add(tf.mul(qarr, tf.scalar(x.position.to_play)), uarr),larr));
 }
 
 node.child_Q = function(){
-	var l = this.child_W.length;
-	var res = new Array(l);
-	for(var i=0; i< l; i++){
-		res[i] = (this.child_W[i])/(1 + this.child_N[i])
-	}
-	return res;
+	var x = this;
+	var out =  tf.tidy(() => (tf.div(x.child_W, tf.add(tf.scalar(1), tf.tensor(x.child_N)))))
+	// debugger;
+	return out;
 }
 
 node.child_U = function(){
-	var d = c_puct * Math.sqrt(1 + this.N());
-	var l = this.child_prior.length;
-	var res = new Array(l);
-	for(var i=0; i< l; i++){
-		res[i] = d * (this.child_prior[i])/(1 + this.child_N[i])
-	}
-	return res;
+	var d = tf.scalar(c_puct * Math.sqrt(1 + this.N()));
+	var x = this;
+	return tf.tidy(() => tf.mul(d, 
+		tf.div(x.child_prior, tf.add(tf.scalar(1), tf.tensor(x.child_N)))))
 }
 
 node.legal_moves = function () { return this.position.legal_moves() };
-
 
 node.backup_value = function(value, root_){
 	this.set_W(this.W() + value);
@@ -159,17 +177,18 @@ node.incorporate_results = function(move_probs, value, up_to){
 		return
 	}
 	this.is_expanded = true
-	this.original_prior = move_probs.slice();
-	this.child_prior = move_probs.slice();
+	// this.original_prior = move_probs.slice();
+	this.child_prior = move_probs;
 
 	var len = this.board_size * this.board_size + 1
-	this.child_W = val(len, value)
+	this.child_W = tf.fill([len], value)
 	this.backup_value(value, up_to)
 }
 
 
 node.revert_visits = function(up_to){
 	this.set_N(this.N() - 1)
+	// console.log(this.child_N)
 	if (this.parent == null || this == up_to )return;
 	this.parent.revert_visits(up_to);
 }
@@ -217,13 +236,15 @@ node.set_stack = function(n){
 }
 
 node.set_dummy_parent = function(n){
-	this.parent = new DummyNode(this.board_size)
+	// debugger
+	this.parent = new DummyNode(this.board_size);
 }
 
 function DummyNode(n){
 	this.parent = null;
-	this.child_N = defObj(n*n + 2);
-	this.child_W = defObj(n*n + 2);
+	this.child_N = zeros(n*n + 1);
+	// console.log("eee", this.child_N)
+	this.child_W = tf.zeros([n*n + 1]);
 }
 
 DummyNode.prototype = Object.create(node);
