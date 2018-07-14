@@ -9,6 +9,14 @@ function __init__(){
 
     var $$ = (e)=> document.querySelector(e);
     var doNothing = async function (e){ return e};
+
+    function tidyWrap(f){
+        return (x) => tf.tidy(() => f(x))
+    }
+
+    for(var i in model){
+        model[i] = tidyWrap(model[i]);
+    }
     
     board = new WGo.Board(document.querySelector("#playground"), {
         width: 500,
@@ -117,12 +125,14 @@ function drawBest(board){
 
                     var xr = board.getX(x),
                     yr = board.getY(y),
-                    sr = (board.stoneRadius/(i + 1));
+                    sr = ((board.stoneRadius - 2)/(i + 1));
                 
                     this.beginPath();
                     this.strokeStyle = colors[i] || colors[colors.length - 1];
-                    this.arc(xr, yr, sr-0.5, 0, 2*Math.PI, true);
+                    this.setLineDash([2])
+                    this.arc(xr, yr, sr, 0, 2*Math.PI, true);
                     this.stroke();
+                    this.setLineDash([])
                 }
             }
         }

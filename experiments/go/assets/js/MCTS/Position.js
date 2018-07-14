@@ -50,7 +50,7 @@ pos.score = function(){
 }
 
 pos.get_feats = function(last_eight){
-	return tf.concat([this.stone_features(last_eight),this.color_to_play_feature()])
+	return tf.tidy(() => tf.concat([this.stone_features(last_eight),this.color_to_play_feature()]));
 }
 
 pos.stone_features = function(last_eight){
@@ -65,11 +65,11 @@ pos.stone_features = function(last_eight){
 		acc.push(p, o)
 		return acc
 	}, [])
-	return tf.tensor(features, [16, 81]).reshape([16, 9, 9])
+	return tf.tidy(() => tf.tensor(features, [16, 81]).reshape([16, 9, 9]));
 }
 
 pos.color_to_play_feature = function() {
-	return tf.fill([1, this.size, this.size], this.to_play);
+	return tf.tidy(() =>tf.fill([1, this.size, this.size], this.to_play));
 };
 
 

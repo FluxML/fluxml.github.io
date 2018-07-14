@@ -21,7 +21,7 @@ var ones = (n) => val(n, 1);
 var defObj = (n) => ({...zeros(n), "null":0, "-1":0});
 
 
-function Node(position, {parent, fmove=null, board_size=9, max_game_length}={}){
+function Node(position, {isRoot, parent, fmove=null, board_size=9, max_game_length, stack}={}){
 	this.max_game_length = max_game_length || Math.floor((Math.pow(board_size,2) * 7) / 5);
 	this.parent = parent || new DummyNode(board_size);
 	this.board_size = board_size;
@@ -37,6 +37,8 @@ function Node(position, {parent, fmove=null, board_size=9, max_game_length}={}){
     this.child_prior = zeros(total_moves)
 
     this.children = {}
+    this.isRoot = false;
+    this.stack = stack || [position.schema()]
 }
 
 var node = Node.prototype;
@@ -205,7 +207,17 @@ node.get_feats = function(){
 
 node.get_stack = function(n){
 	if(n == 0) return [];
+	if(this.isRoot) return this.stack.slice(-n);
+
 	return [this.position.schema()].concat(this.parent.get_stack(n - 1));
+}
+
+node.set_stack = function(n){
+	this.stack = this.get_stack(n);
+}
+
+node.set_dummy_parent = function(n){
+	this.parent = new DummyNode(this.board_size)
 }
 
 function DummyNode(n){
