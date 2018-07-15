@@ -96,7 +96,7 @@ Env.prototype.all_legal_moves = function(stack, to_play){
 			delete n
 		}
 	}
-	legal[81] = .999;
+	legal[81] = 1;
 	return legal;
 }
 
@@ -149,7 +149,7 @@ Env.prototype.find_score = function({capCount, schema}={}){
 	var whiteStones = schema.filter(e => e == WGo.W).length + 0.5;
 	var score = (blackStones - whiteStones);
 	// console.log("score: ", score)
-	return {black: score, white: -1 * score};
+	return score;
 }
 
 function chooseEmpty(board, n){

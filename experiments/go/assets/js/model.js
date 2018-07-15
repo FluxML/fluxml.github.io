@@ -1,5 +1,5 @@
-function Model(model, layer, config){
-	this.mctsPlayer = new MCTS.Player(this, layer, config);
+function Model(model, config){
+	this.mctsPlayer = new MCTS.Player(this, config);
 	this.model = model;
 
 	this.predict = async function(config, cb){

@@ -38,7 +38,7 @@ function Node(position, {isRoot, parent, fmove=null, board_size=9, max_game_leng
     this.child_prior = tf.zeros([total_moves])
 
     this.children = {}
-    this.isRoot = false;
+    this.isRoot = isRoot || false;
     this.stack = stack || [position.schema()]
 }
 
@@ -66,31 +66,38 @@ node.set_W = function(value){
 	})
 }
 
-node.select_leaf = async function(){
+node.select_leaf = async function(nextLeaves){
 	var current = this;
 	var n = this.board_size;
 	var pass_move = n * n + 1;
-
-	return (await this.select_leaf_loop(current, pass_move, n))
+	return (await this.select_leaf_loop(current, pass_move, n, nextLeaves))
 }
 
-node.select_leaf_loop = async function(current, pass_move, n){
+node.select_leaf_loop = async function(current, pass_move, n, nextLeaves){
 	var readouts = 0;
+
+	var stop = (leaf) => !leaf.is_expanded || leaf.is_done()
+
+	var d;
+	if((d = nextLeaves.splice(0,1)) && d.length == 1){
+		current = d[0]
+	}
 
 	while(readouts < 3){
 		readouts++;
 		var current_new_N = current.N() + 1
     	current.set_N(current_new_N)
     	
-    	if (!current.is_expanded){
+    	if (stop(current)){
       		break;
     	}
-    	// console.log(current.position.last_move)
-	    if (current.position.last_move == pass_move
-	      && current.child_N[pass_move - 1] == 0){
-	      current = current.maybe_add_child(pass_move)
-	      continue;
-		}
+    	
+  //   	if(current.fmove == 82) debugger
+	 //    if (current.position.last_move == pass_move
+	 //      && current.child_N[pass_move - 1] == 0){
+	 //      current = current.maybe_add_child(pass_move)
+	 //      continue;
+		// }
     	cas = current.child_action_score()
     	// console.log("cas", this.child_N, current.child_N)
     	best_move = tf.argMax(cas).dataSync()[0] + 1
@@ -98,15 +105,21 @@ node.select_leaf_loop = async function(current, pass_move, n){
     	current = current.maybe_add_child(best_move)
 	}
 
-	if(!current.is_expanded)return current;
+	if (current.position.last_move == pass_move
+	      && current.child_N[pass_move - 1] == 0){
+		// definetly explore this next
+		nextLeaves.push(current.maybe_add_child(pass_move))
+	}
+
+	if(stop(current))return [current, nextLeaves];
 	else{
 		var x= this;
 		return new Promise(function(resolve, reject){
-			setTimeout(()=>{
-				x.select_leaf_loop(current, pass_move, n).then(out =>{
+			requestAnimationFrame(()=>{
+				x.select_leaf_loop(current, pass_move, n, nextLeaves).then(out =>{
 					resolve(out)
 				})
-			},1)
+			})
 		})
 	}
 

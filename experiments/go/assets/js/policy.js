@@ -1,3 +1,7 @@
+/***********************
+Generated using FluxJS.jl
+************************/
+
 let policy = (function () {
   let math = tf;
   function porcupine(hummingbird) {
@@ -19,7 +23,7 @@ let policy = (function () {
   };
   function crab(pig) {
     let cattle = pig[String("shape")][String("length")];
-    let sealion = flux.data(tf.ones([cattle], String("int32")));
+    let sealion = Array(cattle).fill(1)
     let ape = pig[String("shape")];
     sealion[cattle - 2] = ape[ape[String("length")] - (cattle - 1)];
     return math.relu(math.add(math.mul(math.div(math.sub(pig, math.reshape(model.weights[2], [sealion[3], sealion[2], sealion[1], sealion[0]])), math.reshape(model.weights[3], [sealion[3], sealion[2], sealion[1], sealion[0]])), math.reshape(model.weights[4], [sealion[3], sealion[2], sealion[1], sealion[0]])), math.reshape(model.weights[5], [sealion[3], sealion[2], sealion[1], sealion[0]])));

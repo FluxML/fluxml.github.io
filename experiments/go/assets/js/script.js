@@ -4,6 +4,12 @@ var env, board, game, model;
 
 model = { policy, value, base_net }
 
+var configArr = [];
+for(var i in model){
+    configArr.push({url: "./assets/bson/" + i + ".bson", model: model[i]});
+}
+_loadWeights(configArr, document.querySelector(".demo_wrapper"), __init__)
+
 
 function __init__(){
 
@@ -17,6 +23,11 @@ function __init__(){
     for(var i in model){
         model[i] = tidyWrap(model[i]);
     }
+
+    var pBar = document.createElement("div");
+    pBar.className = "pbar";
+    var controls = $$("#controls");
+    controls.appendChild(pBar);
     
     board = new WGo.Board(document.querySelector("#playground"), {
         width: 500,
@@ -29,8 +40,15 @@ function __init__(){
     });
     board.setSize(9)
 
+
+    config.layer = add_best;
+    config.progress = function(val){
+        var w = val * controls.offsetWidth;
+        pBar.style.width = w + "px"
+    }
+
     env = new Env(config.board_size, "KO");
-    model = new Model(model, add_best, config);
+    model = new Model(model, config);
 
     env.setModel(model);
     env.reset();
@@ -115,13 +133,18 @@ function drawBest(board){
     var best_layer = {
         grid: {
             draw: function(args, board){
+                $$(".pass").style.borderStyle = "solid";
                 var best = container.getBest();
                 if(best.length == 0) return
                 for(var i = 0; i< best.length; i++){
                     var fmove = best[i] + 1;
                     var {x, y, type} = MCTS.to_obj(fmove, -1, board.size);
                     // console.log(type, x, y)
-                    if(type == "pass" || x == -1 || y == -1) continue;
+                    if(x == -1 || y == -1) continue;
+                    if(type == "pass"){
+                        $$(".pass").style.borderStyle = "dashed";
+                        continue
+                    }
 
                     var xr = board.getX(x),
                     yr = board.getY(y),
@@ -129,6 +152,7 @@ function drawBest(board){
                 
                     this.beginPath();
                     this.strokeStyle = colors[i] || colors[colors.length - 1];
+                    this.lineWidth = 2;
                     this.setLineDash([2])
                     this.arc(xr, yr, sr, 0, 2*Math.PI, true);
                     this.stroke();
@@ -145,10 +169,6 @@ function add_best (arr) {
     board.redraw()
 }
 
-var configArr = [];
-for(var i in model){
-    configArr.push({url: "./assets/bson/" + i + ".bson", model: model[i]});
-}
-_loadWeights(configArr, document.querySelector(".demo_wrapper"), __init__)
+
 
 }());

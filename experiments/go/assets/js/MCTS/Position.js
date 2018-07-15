@@ -46,7 +46,7 @@ pos.is_done = function(){
 	return this.env.check_if_done(this.recent)
 }
 pos.score = function(){
-	return this.env.find_score(this.position).white
+	return this.env.find_score(this.position)
 }
 
 pos.get_feats = function(last_eight){

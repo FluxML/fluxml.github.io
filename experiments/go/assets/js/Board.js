@@ -33,10 +33,12 @@ function Board(board){
 		if(config.done){
 			show($$(".overlay #gameOver"))
 			var score_ = $$(".overlay #gameOver .score");
+			var info = "Black scores " + config.score + " points. " + (config.score > 0? "Black": "White") + " wins!";
 			if(score_ == null){
-				score_ = document.createDocumentFragment();
-				score_.innerHTML = "Black scores " + config.score + " points." + (config.score > 0? "Black": "White") + " wins!"
+				score_ = document.createElement('p');
+				$$(".overlay #gameOver").appendChild(score_);
 			}	
+			score_.innerText = info;
 		}else{
 			hide($$(".overlay #gameOver"))
 		}

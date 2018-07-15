@@ -12,8 +12,9 @@ obj.MCTS = obj.MCTS || {}
 Object.assign(obj.MCTS, {Player})
 
 var MCTS = obj.MCTS;
+var doNothing = () => null
 
-function Player(network, layer, { num_readouts = 1, two_player_mode = false, resign_threshold = -0.9, board_size = 9, max_game_length}={}){
+function Player(network, {layer, progress, num_readouts = 1, two_player_mode = false, resign_threshold = -0.9, board_size = 9, max_game_length}={}){
 	this.board_size = board_size;
     this.tau_threshold = two_player_mode ? -1 : (board_size * board_size / 12) / 2 * 2
     this.network = network;
@@ -27,7 +28,8 @@ function Player(network, layer, { num_readouts = 1, two_player_mode = false, res
     this.resign_threshold = resign_threshold;
     this.position = null;
     this.max_game_length = max_game_length;
-    this.layer = layer
+    this.layer = layer || doNothing;
+    this.progress = progress || doNothing;
     this.current_readouts = 0;
 }
 
@@ -56,22 +58,20 @@ player.search_loop = async function(){
 	if(this.root.N() >= this.current_readouts + this.num_readouts)
 		return this.pick_move();
 
-	await this.tree_search()
+	await this.tree_search();
 	this.layer(this.best_n(3));
+	this.progress((this.root.N() - this.current_readouts)/this.num_readouts);
 	return (await this.search_loop.bind(this)());
 }
 
-player.tree_search = async function(parallel_readouts=4){
+player.tree_search = async function(parallel_readouts=8){
 	var leaves = [];
 	var failsafe = 0;
 
-	var leaves = await this.tree_search_loop(leaves, failsafe, parallel_readouts)
+	var leaves = await this.tree_search_loop(leaves, failsafe, parallel_readouts, [])
 
   	if(leaves.length == 0) return [];
 
-  	// var l = leaves.length;
-  	// var p = new Array(p);
-  	// for(var i=0; i<l; i++){ p[i] = leaves[i].position}
 	var { move_probs, values } = this.network.process(leaves)
 	
 	var len = this.board_size*this.board_size + 1
@@ -88,7 +88,7 @@ player.tree_search = async function(parallel_readouts=4){
 	return leaves
 }
 
-player.tree_search_loop = async function(leaves, failsafe, parallel_readouts){
+player.tree_search_loop = async function(leaves, failsafe, parallel_readouts, nextLeaves){
 	if(!(leaves.length < parallel_readouts && failsafe < 2 * parallel_readouts))
 		return leaves;
 
@@ -97,9 +97,8 @@ player.tree_search_loop = async function(leaves, failsafe, parallel_readouts){
 	while((leaves.length < parallel_readouts && failsafe < 2 * parallel_readouts) && count < 2){
 		count++;
 		failsafe += 1
-	    var leaf = await this.root.select_leaf();
+	    var [leaf, nextLeaves] = await this.root.select_leaf(nextLeaves);
 	    
-	    // console.log(leaf)
 	    if (leaf.is_done()){
 	      value = leaf.position.score() > 0 ? 1 : -1
 	      leaf.backup_value(value, this.root)
@@ -112,10 +111,10 @@ player.tree_search_loop = async function(leaves, failsafe, parallel_readouts){
     var scope = this;
     return new Promise(function(resolve,reject){
     	setTimeout(()=>{
-    		scope.tree_search_loop(leaves, failsafe, parallel_readouts).then(out =>{
+    		scope.tree_search_loop(leaves, failsafe, parallel_readouts, nextLeaves).then(out =>{
     			resolve(out)
     		});
-    	}, 1)
+    	}, 50)
     })
 }
 
@@ -161,6 +160,7 @@ player.pick_move = function(){
 player.play_move = function(c){
 	// console.log("play", c);
 	c = MCTS.to_flat(c, this.board_size);
+	console.log(c, this.root.children)
 	if (!this.two_player_mode){
 		this.searches_pi.push(
 			this.root.children_as_pi(this.root.position.n <= this.tau_threshold))
@@ -173,21 +173,21 @@ player.play_move = function(c){
 	this.root.set_stack();
 	this.root.parent.isRoot = false;
 	this.root.isRoot = true;
-	delete_children(this.root.parent);
+	// delete_children(this.root.parent);
 	this.root.set_dummy_parent();
 
 	return true
 }
 
-function delete_children(obj){
-	var children = obj.children;
-	if(!children)return
-	var keys = Object.keys(children);
-	for(var i of keys){
-		delete_children(children[i])
-	}
-	obj.children = {}
-	return;
-}
+// function delete_children(obj){
+// 	var children = obj.children;
+// 	if(!children)return
+// 	var keys = Object.keys(children);
+// 	for(var i of keys){
+// 		delete_children(children[i])
+// 	}
+// 	obj.children = {}
+// 	return;
+// }
 
 })(window);
