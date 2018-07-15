@@ -47,7 +47,7 @@ Env.prototype.step = function(a){
 }
 
 Env.prototype.next = function(stack, a){
-	var n = this.new_env(stack);
+	var n = this.new_env(stack, a.c);
 	if(a.type== "stone"){
         n.play(a.x, a.y, a.c);
     }
@@ -75,9 +75,10 @@ Env.prototype.getPosition = function(){
 	return this.env.getPosition();
 }
 
-Env.prototype.new_env = function(stack){
+Env.prototype.new_env = function(stack, to_play){
 	var n = new WGo.Game(this.s, this.repeat)
 	n.stack = stack.slice();
+	n.turn = to_play || n.turn
 	return n;
 }
 
@@ -86,7 +87,7 @@ Env.prototype.all_legal_moves = function(stack, to_play){
 	var legal = new Array(s * s + 1).fill(1)
 	for(var x = 0; x< s; x++){
 		for(var y = 0; y < s; y++){
-			var n = this.new_env(stack)
+			var n = this.new_env(stack, to_play)
 			var result = n.play(x, y, to_play)
 			
 			if(!(result instanceof Object)){
