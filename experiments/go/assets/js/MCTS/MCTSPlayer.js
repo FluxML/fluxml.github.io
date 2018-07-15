@@ -100,8 +100,7 @@ player.tree_search_loop = async function(leaves, failsafe, parallel_readouts, ne
 	    var [leaf, nextLeaves] = await this.root.select_leaf(nextLeaves);
 	    
 	    if (leaf.is_done()){
-	      value = leaf.position.score() > 0 ? 1 : -1
-	      value = value * leaf.position.to_play
+	      value = leaf.position.score() > 0 ? 1 : -1;
 	      leaf.backup_value(value, this.root)
 	      continue
 	    }
@@ -161,7 +160,7 @@ player.pick_move = function(){
 player.play_move = function(c){
 	// console.log("play", c);
 	c = MCTS.to_flat(c, this.board_size);
-	console.log(c, this.root.children)
+
 	if (!this.two_player_mode){
 		this.searches_pi.push(
 			this.root.children_as_pi(this.root.position.n <= this.tau_threshold))

@@ -106,7 +106,7 @@ node.select_leaf_loop = async function(current, pass_move, n, nextLeaves){
 	}
 
 	if (current.position.last_move == pass_move
-	      && current.child_N[pass_move - 1] == 0){
+	      && current.child_N[pass_move - 1] == 0 && !current.is_done()){
 		// definetly explore this next
 		nextLeaves.push(current.maybe_add_child(pass_move))
 	}
@@ -165,7 +165,7 @@ node.legal_moves = function () { return this.position.legal_moves() };
 node.backup_value = function(value, root_){
 	this.set_W(this.W() + value);
 	if( this.parent == null || this == root_ )return;
-	this.parent.backup_value(-1*value, root_);
+	this.parent.backup_value(value, root_);
 }
 node.add_virtual_loss = function(root_){
 	this.losses_applied += 1;
