@@ -101,6 +101,7 @@ player.tree_search_loop = async function(leaves, failsafe, parallel_readouts, ne
 	    
 	    if (leaf.is_done()){
 	      value = leaf.position.score() > 0 ? 1 : -1
+	      value = value * leaf.position.to_play
 	      leaf.backup_value(value, this.root)
 	      continue
 	    }
@@ -170,7 +171,7 @@ player.play_move = function(c){
 	this.root = this.root.maybe_add_child(c);
 	
 	this.position = this.root.position
-	this.root.set_stack();
+	this.root.set_stack(8);
 	this.root.parent.isRoot = false;
 	this.root.isRoot = true;
 	// delete_children(this.root.parent);

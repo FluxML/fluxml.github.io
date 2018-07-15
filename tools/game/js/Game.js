@@ -68,6 +68,7 @@ Game.prototype.startState = function(){
 
 Game.prototype.gameOverHandler = function(){
 	this.setState(this.startState());
+	this.reset();
 }
 
 Game.prototype.isValidAction = function(action){

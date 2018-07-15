@@ -165,7 +165,7 @@ node.legal_moves = function () { return this.position.legal_moves() };
 node.backup_value = function(value, root_){
 	this.set_W(this.W() + value);
 	if( this.parent == null || this == root_ )return;
-	this.parent.backup_value(value, root_);
+	this.parent.backup_value(-1*value, root_);
 }
 node.add_virtual_loss = function(root_){
 	this.losses_applied += 1;
@@ -239,7 +239,7 @@ node.get_feats = function(){
 
 node.get_stack = function(n){
 	if(n == 0) return [];
-	if(this.isRoot) return this.stack.slice(-n);
+	if(this.isRoot) return this.stack.slice(0, n);
 
 	return [this.position.schema()].concat(this.parent.get_stack(n - 1));
 }

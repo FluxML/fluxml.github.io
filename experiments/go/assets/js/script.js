@@ -157,6 +157,7 @@ function drawBest(board){
                     this.arc(xr, yr, sr, 0, 2*Math.PI, true);
                     this.stroke();
                     this.setLineDash([])
+                    container.setBest([]);
                 }
             }
         }

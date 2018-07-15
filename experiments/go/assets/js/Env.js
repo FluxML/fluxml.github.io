@@ -36,14 +36,14 @@ Env.prototype.step = function(a){
 	this.moves.push(a)
     if(a.type== "stone"){
         this.passes = [];
-        this.env.play(a.x, a.y, a.c);
+        var k = this.env.play(a.x, a.y, a.c);
+        if(k instanceof Object)this.model.play_move(a);
     }
     else if(a.type == "pass"){
         if(this.passes.indexOf(a.c) == -1)this.passes.push(a.c);
         this.env.pass(a.c);
+        this.model.play_move(a);
     }
-
-    this.model.play_move(a);
 }
 
 Env.prototype.next = function(stack, a){

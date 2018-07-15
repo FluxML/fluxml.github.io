@@ -57,6 +57,7 @@ pos.stone_features = function(last_eight){
 	while(last_eight.length < 8){
 		last_eight.push(last_eight.slice(-1)[0]);
 	}
+	
 	var features = last_eight.reduce((acc, e) =>{
 		var p = e.slice();
 		var o = e.slice();
