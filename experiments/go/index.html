@@ -2,16 +2,7 @@
 layout: default
 game: go
 ---
-<style>
-	.board { height: 500px; }
-	.pass{
-		margin: 0 15px;
-	    border: 1px solid #41822a;
-	    border-radius: 3px;
-	    padding: 3px 15px;
-	    cursor: pointer
-	}
-</style>
+<link rel="stylesheet" href="./assets/css/style.css">
 {% include experiments/game/headers.html %}
 <link rel="stylesheet" href="assets/wgo/wgo.player.css">
 
@@ -23,6 +14,16 @@ game: go
 
 
 {% include experiments/game/footer.html %}
+<script src="assets/js/MCTS/MCTSNode.js"></script>
+<script src="assets/js/MCTS/MCTSPlayer.js"></script>
+<script src="assets/js/MCTS/Position.js"></script>
+<script src="assets/js/MCTS/utils.js"></script>
+<script src="assets/js/config.js"></script>
 <script src="assets/js/Board.js"></script>
 <script src="assets/js/extensions.js"></script>
+<script src="assets/js/Env.js"></script>
+<script src="assets/js/policy.js"></script>
+<script src="assets/js/value.js"></script>
+<script src="assets/js/base_net.js"></script>
+<script src="assets/js/model.js"></script>
 <script src="assets/js/script.js"></script>

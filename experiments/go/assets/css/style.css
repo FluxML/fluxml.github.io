@@ -1,0 +1,70 @@
+.board { height: 500px; }
+.pass{
+	margin: 0 15px;
+    border: 1px solid #41822a;
+    border-radius: 3px;
+    padding: 3px 15px;
+    cursor: pointer
+}
+
+.pass.active{
+	background: #dcdcdc;
+}
+
+
+.stats div{
+  width: 100%;
+  justify-content: flex-end;
+  display: flex;
+}
+
+.stats{
+	padding: 0 20px;
+	background: #ebf5eb;
+	color: #41822a;
+	display: flex;
+}
+
+.stats div p{
+	display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.dot{
+	width: 0;
+	height: 0;
+	border: 10px solid;
+	font-size: 0;
+	margin: 0 5px;
+	border-radius: 50%;
+}
+
+.dot.black{
+	border-color: #666;
+}
+
+.dot.white{
+	border-color: #fff;
+}
+
+.pbar{
+	position: absolute;
+    bottom: 0;
+    width: 0;
+    left: 0;
+    height: 3px;
+    background: #41822a;
+    transition: width .7s cubic-bezier(0.69, 0.18, 0.74, 1.31);
+    border-top-right-radius: 6px;
+    /*border-bottom-right-radius: 50%;*/
+}
+
+#controls{
+	position: relative;
+}
+
+.wgo-board{
+	border-top: none !important;
+	
+}

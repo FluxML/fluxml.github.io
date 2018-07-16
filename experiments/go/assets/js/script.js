@@ -1,6 +1,35 @@
-var __init__ = function(){
+var env, board, game, model;
 
-    var board = new WGo.Board(document.querySelector("#playground"), {
+(function(){
+
+model = { policy, value, base_net }
+
+var configArr = [];
+for(var i in model){
+    configArr.push({url: "./assets/bson/" + i + ".bson", model: model[i]});
+}
+_loadWeights(configArr, document.querySelector(".demo_wrapper"), __init__)
+
+
+function __init__(){
+
+    var $$ = (e)=> document.querySelector(e);
+    var doNothing = async function (e){ return e};
+
+    function tidyWrap(f){
+        return (x) => tf.tidy(() => f(x))
+    }
+
+    for(var i in model){
+        model[i] = tidyWrap(model[i]);
+    }
+
+    var pBar = document.createElement("div");
+    pBar.className = "pbar";
+    var controls = $$("#controls");
+    controls.appendChild(pBar);
+    
+    board = new WGo.Board(document.querySelector("#playground"), {
         width: 500,
         section: {
             top: -1,
@@ -9,28 +38,52 @@ var __init__ = function(){
             bottom: -1
         }
     });
+    board.setSize(9)
 
-    var env = new WGo.Game(19, "KO");
-    var game = new Game(env, new Board(board), null, {
-        mode: "async"
+
+    config.layer = add_best;
+    config.progress = function(val){
+        var w = val * controls.offsetWidth;
+        pBar.style.width = w + "px"
+    }
+
+    env = new Env(config.board_size, "KO");
+    model = new Model(model, config);
+
+    env.setModel(model);
+    env.reset();
+
+    game = new Game(env, new Board(board), model.predict.bind(this), {
+        mode: "async",
+        transform: {
+            state: doNothing,
+            action: doNothing
+        }
     })
 
     board.addEventListener("click", function(x, y){
-        game.action({type: "stone", x, y, c: WGo.B});
+        // console.log(x, y, env.turn())
+        if(env.turn() == WGo.B){
+            game.action({type: "stone", x, y, c: WGo.B});
+        }
     })
 
-    k = -1;
-    var $$ = (e)=> document.querySelector(e);
     $$("#controls .pass").addEventListener("click", function(event){
-        // game.action({type: "pass", c:WGo.b})
-        k = (k + 3)%4 - 1
-        game.action({type: "pass", c:k})
+        game.action({type: "pass", c:WGo.b})
     })
+    
+    drawCoords(board);
+    drawBest(board);
+    game.display();
+}
+
+function drawCoords(){
 
     var coordinates = {
         // draw on grid layer
         grid: {
             draw: function(args, board) {
+                
                 var ch, t, xright, xleft, ytop, ybottom;
                 
                 this.fillStyle = "rgba(0,0,0,0.7)";
@@ -57,10 +110,66 @@ var __init__ = function(){
                 }
                 
                 this.fillStyle = "black";
-    		}
+            }
         }
     }
     board.addCustomObject(coordinates);
 }
 
-window.onload = __init__;
+
+var container = {
+    best: [],
+    getBest: function(){
+        return this.best;
+    },
+    setBest: function(arr){
+        this.best = arr;
+    }
+}
+
+var colors = ["#009688"]
+
+function drawBest(board){
+    var best_layer = {
+        grid: {
+            draw: function(args, board){
+                $$(".pass").style.borderStyle = "solid";
+                var best = container.getBest();
+                if(best.length == 0) return
+                for(var i = 0; i< best.length; i++){
+                    var fmove = best[i] + 1;
+                    var {x, y, type} = MCTS.to_obj(fmove, -1, board.size);
+                    // console.log(type, x, y)
+                    if(x == -1 || y == -1) continue;
+                    if(type == "pass"){
+                        $$(".pass").style.borderStyle = "dashed";
+                        continue
+                    }
+
+                    var xr = board.getX(x),
+                    yr = board.getY(y),
+                    sr = ((board.stoneRadius - 2)/(i + 1));
+                
+                    this.beginPath();
+                    this.strokeStyle = colors[i] || colors[colors.length - 1];
+                    this.lineWidth = 2;
+                    this.setLineDash([2])
+                    this.arc(xr, yr, sr, 0, 2*Math.PI, true);
+                    this.stroke();
+                    this.setLineDash([])
+                    container.setBest([]);
+                }
+            }
+        }
+    }
+    board.addCustomObject(best_layer);
+}
+
+function add_best (arr) {
+    container.setBest(arr)
+    board.redraw()
+}
+
+
+
+}());

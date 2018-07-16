@@ -92,6 +92,7 @@
 
 #controls .heading{
   padding: 20px;
+  font-size: 1.2em;
 }
 
 #controls .options{
@@ -123,10 +124,13 @@
 #controls .option{
   border-radius: 50%;
   background-color: #777;
+  /*transition: all .6s linear;*/
 }
 
 #controls .options .selected{
   background-color: #41822a;
+  transform: scale(1.1);
+  box-shadow: 0 2px 2px #333;
 }
 
 #game { 
