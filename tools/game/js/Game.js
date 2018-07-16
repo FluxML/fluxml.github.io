@@ -29,11 +29,10 @@ function Game(env, out, model, {
 		transform={
 			state: function(state){
 				({ x, xvel , theta, thetavel } = state);
-				console.log(state);
 				return tf.tensor([x, xvel, theta, thetavel])
 			},
 			action: function(a){
-				return tf.argMax(a).data().then(d => d[0]);
+				return tf.argMax(a).data().then(d => d[0] + 1);
 			}
 		},
 		autoReset=false

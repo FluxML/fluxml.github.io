@@ -111,7 +111,7 @@ function CPPN(canvas, {z_dim=2, w=100, h=100, rate=1, max=1, frames = 1000, func
 			collection[j] = coords[j].concat(z);
 		}
 
-		var input = tf.transpose(tf.tensor(collection, [l, 3 + z_dim]));
+		var input = tf.tensor(collection, [l, 3 + z_dim]);
 		var output = model_(input);
 
 		output.data().then(r=>{

@@ -35,6 +35,6 @@ function __init__(){
 	})
 }
 
-loadWeights("assets/bson/dqn.bson", document.querySelector('.board'), __init__);
+loadWeights("assets/bson/dqn.bson", document.querySelector('.board'), __init__, model);
 
 

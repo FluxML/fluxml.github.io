@@ -1,5 +1,5 @@
-function loadWeights(url, pc, func){
-	return _loadWeights([{url, model: window.model}], pc, func);
+function loadWeights(url, pc, func, model=null){
+	return _loadWeights([{url, model: (model || window.model)}], pc, func);
 }
 
 function _loadWeights(configArr, progressContainer, __init__){
@@ -19,7 +19,7 @@ function _loadWeights(configArr, progressContainer, __init__){
 		container: progressContainer,
 		done: function(results){
 			results.forEach(({event, model})=>{
-				{
+				{	
 					var response = new Buffer(event.currentTarget.response);
 					var data = new BSON().deserialize(response);
 					model.weights = flux.convertArrays_(data).weights;
