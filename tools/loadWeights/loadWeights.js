@@ -1,5 +1,5 @@
-function loadWeights(url, pc, func){
-	return _loadWeights([{url, model: window.model}], pc, func);
+function loadWeights(url, pc, func, model=null){
+	return _loadWeights([{url, model: (model || window.model)}], pc, func);
 }
 
 function _loadWeights(configArr, progressContainer, __init__){
