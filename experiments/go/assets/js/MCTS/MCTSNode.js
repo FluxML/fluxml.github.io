@@ -18,7 +18,7 @@ var c_puct = 0.96;
 var val = (n, v) => new Array(n).fill(v);
 var zeros = (n) => val(n, 0);
 var ones = (n) => val(n, 1);
-var defObj = (n) => ({...zeros(n), "null":0, "-1":0});
+// var defObj = (n) => ({...zeros(n), "null":0, "-1":0});
 
 
 function Node(position, {isRoot, parent, fmove=null, board_size=9, max_game_length, stack}={}){
@@ -248,15 +248,15 @@ node.set_stack = function(n){
 	this.stack = this.get_stack(n);
 }
 
-node.set_dummy_parent = function(n){
+node.set_dummy_parent = function(n, child_N){
 	// debugger
-	this.parent = new DummyNode(this.board_size);
+	this.parent = new DummyNode(this.board_size, child_N);
+	this.parent.child_N = child_N;
 }
 
 function DummyNode(n){
 	this.parent = null;
 	this.child_N = zeros(n*n + 1);
-	// console.log("eee", this.child_N)
 	this.child_W = tf.zeros([n*n + 1]);
 }
 

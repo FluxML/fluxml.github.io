@@ -24,6 +24,8 @@ function __init__(){
         model[i] = tidyWrap(model[i]);
     }
 
+
+
     var pBar = document.createElement("div");
     pBar.className = "pbar";
     var controls = $$("#controls");
@@ -75,6 +77,20 @@ function __init__(){
     drawCoords(board);
     drawBest(board);
     game.display();
+
+    var inc = document.createElement('div');
+    var input = document.createElement('input')
+    var label = document.createElement('label')
+    inc.appendChild(label)
+    inc.appendChild(input)
+    $$(".demo_wrapper").insertBefore(inc, $$(".instructions"));
+    label.innerText = "Number of searches";
+    input.type = "number";
+    input.className="num_readouts"
+    input.value = model.mctsPlayer.num_readouts;
+    input.onchange = function(){
+        model.mctsPlayer.num_readouts = parseInt(event.target.value);
+    }
 }
 
 function drawCoords(){
