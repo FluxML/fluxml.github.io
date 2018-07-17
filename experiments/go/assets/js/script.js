@@ -208,11 +208,9 @@ function drawIllegal(board){
                     sr = ((board.stoneRadius - 2)/(i + 1));
                 
                     this.beginPath();
-                    this.strokeStyle = "#8a1c1c";
-                    this.lineWidth = 2;
-                    this.arc(xr, yr, 2, 0, 2*Math.PI, true);
-                    this.stroke();
-                    container.setBest([]);
+                    this.fillStyle = "#8a1c1c";
+                    this.arc(xr, yr, 3, 0, 2*Math.PI, true);
+                    this.fill();
                 }
             }
         }
