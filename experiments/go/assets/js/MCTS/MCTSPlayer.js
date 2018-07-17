@@ -38,7 +38,6 @@ var player = Player.prototype;
 player.__init__ = function(pos){
 
   this.root = new MCTS.Node(pos, {
-  	isRoot: true,
   	max_game_length: this.max_game_length, 
   	board_size: this.board_size
   });
@@ -48,6 +47,10 @@ player.__init__ = function(pos){
 }
 
 player.suggest_move = async function(){
+	if(this.root.legal_moves().filter(e => e == 1).length == 1){
+		// pass move is the only legal move left
+		return MCTS.to_obj(this.board_size * this.board_size + 1, this.root.position.to_play, this.board_size);
+	}
 	// console.log("suggest move")
 	this.current_readouts = this.root.N();
 	// console.log(cb)
@@ -97,10 +100,12 @@ player.tree_search_loop = async function(leaves, failsafe, parallel_readouts, ne
 	while((leaves.length < parallel_readouts && failsafe < 2 * parallel_readouts) && count < 2){
 		count++;
 		failsafe += 1
-	    var [leaf, nextLeaves] = await this.root.select_leaf(nextLeaves);
+	    var res = await this.root.select_leaf(nextLeaves);
+	    leaf = res[0]
+	    nextLeaves = res[1]
 	    
 	    if (leaf.is_done()){
-	      value = leaf.position.score() > 0 ? 1 : -1;
+	      value = (leaf.position.score() > 0 ? 1 : -1);
 	      leaf.backup_value(value, this.root)
 	      continue
 	    }
@@ -136,6 +141,7 @@ player.best_n = function(n){
 
 player.pick_move = function(){
 	var fcoord;
+
 	
 	if (this.root.position.n >= this.tau_threshold){
 		fcoord = MCTS.argMax(this.root.child_N) + 1;
@@ -170,24 +176,9 @@ player.play_move = function(c){
 	this.root = this.root.maybe_add_child(c);
 	
 	this.position = this.root.position
-	this.root.set_stack(8);
-	this.root.parent.isRoot = false;
-	this.root.isRoot = true;
-	// delete_children(this.root.parent);
-	this.root.set_dummy_parent();
+	this.root.parent.children = {};
 
 	return true
 }
-
-// function delete_children(obj){
-// 	var children = obj.children;
-// 	if(!children)return
-// 	var keys = Object.keys(children);
-// 	for(var i of keys){
-// 		delete_children(children[i])
-// 	}
-// 	obj.children = {}
-// 	return;
-// }
 
 })(window);

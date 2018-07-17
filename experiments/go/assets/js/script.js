@@ -24,6 +24,8 @@ function __init__(){
         model[i] = tidyWrap(model[i]);
     }
 
+
+
     var pBar = document.createElement("div");
     pBar.className = "pbar";
     var controls = $$("#controls");
@@ -74,7 +76,24 @@ function __init__(){
     
     drawCoords(board);
     drawBest(board);
+    drawIllegal(board);
     game.display();
+
+    var inc = document.createElement('div');
+    var input = document.createElement('input')
+    var label = document.createElement('label')
+    inc.appendChild(label)
+    inc.appendChild(input)
+    $$(".demo_wrapper").insertBefore(inc, $$(".instructions"));
+    label.innerText = "Number of searches";
+    input.type = "number";
+    input.className="num_readouts"
+    input.value = model.mctsPlayer.num_readouts;
+    input.onchange = function(){
+        model.mctsPlayer.num_readouts = parseInt(event.target.value);
+    }
+
+
 }
 
 function drawCoords(){
@@ -170,6 +189,34 @@ function add_best (arr) {
     board.redraw()
 }
 
+function drawIllegal(board){
+    var iLayer = {
+        grid:{
+            draw:function(){
+                var illegal = model.mctsPlayer.root.legal_moves()
+                .map((e,i)=> [e, i]).filter((e)=> e[0] == 0);
+
+                if(illegal.length == 0) return
+                for(var i = 0; i< illegal.length; i++){
+                    var fmove = illegal[i][1] + 1;
+                    var {x, y, type} = MCTS.to_obj(fmove, -1, board.size);
+                    // console.log(type, x, y)
+                    if(x == -1 || y == -1) continue;
+
+                    var xr = board.getX(x),
+                    yr = board.getY(y),
+                    sr = ((board.stoneRadius - 2)/(i + 1));
+                
+                    this.beginPath();
+                    this.fillStyle = "#8a1c1c";
+                    this.arc(xr, yr, 3, 0, 2*Math.PI, true);
+                    this.fill();
+                }
+            }
+        }
+    }
+    board.addCustomObject(iLayer);
+}
 
 
 }());

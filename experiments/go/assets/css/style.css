@@ -68,3 +68,16 @@
 	border-top: none !important;
 	
 }
+
+.num_readouts{
+	width: 50px;
+    padding: 0 5px;
+    margin: 0 10px;
+    border: none;
+    border-bottom: 1px solid #95a595;
+}
+
+.num_readouts:focus{
+	outline: none;	
+	border-bottom: 1px solid #556355;
+}

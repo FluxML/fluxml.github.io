@@ -36,6 +36,7 @@ function Board(board){
 			var info = "Black scores " + config.score + " points. " + (config.score > 0? "Black": "White") + " wins!";
 			if(score_ == null){
 				score_ = document.createElement('p');
+				score_.className = "score"
 				$$(".overlay #gameOver").appendChild(score_);
 			}	
 			score_.innerText = info;
