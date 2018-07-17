@@ -76,6 +76,7 @@ function __init__(){
     
     drawCoords(board);
     drawBest(board);
+    drawIllegal(board);
     game.display();
 
     var inc = document.createElement('div');
@@ -91,6 +92,8 @@ function __init__(){
     input.onchange = function(){
         model.mctsPlayer.num_readouts = parseInt(event.target.value);
     }
+
+
 }
 
 function drawCoords(){
@@ -186,6 +189,36 @@ function add_best (arr) {
     board.redraw()
 }
 
+function drawIllegal(board){
+    var iLayer = {
+        grid:{
+            draw:function(){
+                var illegal = model.mctsPlayer.root.legal_moves()
+                .map((e,i)=> [e, i]).filter((e)=> e[0] == 0);
+
+                if(illegal.length == 0) return
+                for(var i = 0; i< illegal.length; i++){
+                    var fmove = illegal[i][1] + 1;
+                    var {x, y, type} = MCTS.to_obj(fmove, -1, board.size);
+                    // console.log(type, x, y)
+                    if(x == -1 || y == -1) continue;
+
+                    var xr = board.getX(x),
+                    yr = board.getY(y),
+                    sr = ((board.stoneRadius - 2)/(i + 1));
+                
+                    this.beginPath();
+                    this.strokeStyle = "#8a1c1c";
+                    this.lineWidth = 2;
+                    this.arc(xr, yr, 2, 0, 2*Math.PI, true);
+                    this.stroke();
+                    container.setBest([]);
+                }
+            }
+        }
+    }
+    board.addCustomObject(iLayer);
+}
 
 
 }());

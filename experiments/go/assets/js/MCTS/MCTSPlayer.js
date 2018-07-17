@@ -38,7 +38,6 @@ var player = Player.prototype;
 player.__init__ = function(pos){
 
   this.root = new MCTS.Node(pos, {
-  	isRoot: true,
   	max_game_length: this.max_game_length, 
   	board_size: this.board_size
   });
@@ -106,7 +105,7 @@ player.tree_search_loop = async function(leaves, failsafe, parallel_readouts, ne
 	    nextLeaves = res[1]
 	    
 	    if (leaf.is_done()){
-	      value = leaf.position.score() > 0 ? 1 : -1;
+	      value = (leaf.position.score() > 0 ? 1 : -1);
 	      leaf.backup_value(value, this.root)
 	      continue
 	    }
@@ -177,11 +176,7 @@ player.play_move = function(c){
 	this.root = this.root.maybe_add_child(c);
 	
 	this.position = this.root.position
-	this.root.set_stack(8);
-	this.root.parent.isRoot = false;
-	this.root.isRoot = true;
 	this.root.parent.children = {};
-	this.root.set_dummy_parent(this.boardSize, this.root.parent.child_N);
 
 	return true
 }

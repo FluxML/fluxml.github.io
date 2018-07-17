@@ -12,7 +12,7 @@ var pos_to_board = (pos, n) => partition(pos.schema.slice(), n)
 function Position(env, stack, moves, turn, n=0){
 	this.position = stack.slice(-1)[0];
 	this.size = env.size();
-	this.stack = stack.slice(-2);
+	this.stack = stack.slice();
 	this.to_play = turn;
 	this.n = n;
 	this.last_move = moves.slice(-1)[0];
