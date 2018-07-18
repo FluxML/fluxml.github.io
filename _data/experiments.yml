@@ -4,7 +4,7 @@ go :
   start_screen: false
   game_over_message: Click to play again
   instructions_page: experiments/game/instructions/go.html
-  code_link: "#"
+  code_link: "https://github.com/tejank10/AlphaGo.jl"
   canvas: false
   no_options: false
 chess:
