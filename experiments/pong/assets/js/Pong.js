@@ -3,32 +3,45 @@
 Pong Game
 =======================================================
 ******************************************************/
-function Pong(canvas,{width=500, height=400, paddle_width=10, paddle_height=50, ball_radius=5}={}){
+function Pong(playground,{width=500, height=400, paddle_width=10, paddle_height=50, paddle_speed=10, ball_width=1, ball_height=2}={}){
 	var score = 0;
-	canvas.width = width;
-	canvas.height = height;
+	
+	var screen = document.createElement('canvas');
+	var background = document.createElement('canvas');
+
+	var x = [background, screen]
+
+	x.forEach(e =>{
+		e.width = width;
+		e.style.width = width + "px";
+		e.height = height;
+		e.style.height = height + "px";
+		playground.appendChild(e)
+	})
+
 	var components = {
 		
 		paddles: new PaddleCollection(
 			[
-				new Vector(0, Math.floor(height/2)),
-				new Vector(width-paddle_width, Math.floor(height/2))
+				new Vector(48, Math.floor(height/2)),
+				new Vector(width-paddle_width - 48, Math.floor(height/2))
 			], {
 			width:paddle_width,
 			height:paddle_height,
 			total_height: height,
+			paddle_speed,
 			color: "#fff"
 		}),
-		ball: new Ball(new Vector(Math.floor(width/2), Math.floor(height/2)), new Vector(5, 0), {radius:ball_radius, color: "#fff"})
+		ball: new HyperBall(new Vector(Math.floor(width/2), Math.floor(height/2)), new Vector(-5, -1), {width:ball_width, height: ball_height, color: "#fff"})
 	}
 
 	var paddleController = new PaddleController(components.paddles.collection[0]);
 
 	this.draw = ()=>{
-		var ctx = canvas.getContext('2d');
+		var ctx = background.getContext('2d');
 		//background
 		ctx.fillStyle = "#000";
-		ctx.fillRect(0, 0, canvas.width, canvas.height);
+		ctx.fillRect(0, 0, background.width, background.height);
 
 		ctx.strokeStyle = "#fff";
 		ctx.lineWidth = 5;
@@ -38,8 +51,9 @@ function Pong(canvas,{width=500, height=400, paddle_width=10, paddle_height=50, 
 		ctx.lineTo(width/2, height);
 		ctx.stroke();
 
+		screen.getContext('2d').clearRect(0, 0, screen.width, screen.height)
 		for( var c in components){
-			components[c].draw(canvas);
+			components[c].draw(screen);
 		}
 
 		ctx.fillStyle = "#fff";
@@ -58,15 +72,13 @@ function Pong(canvas,{width=500, height=400, paddle_width=10, paddle_height=50, 
 			requestAnimationFrame(this.play);
 	}
 
-	this.step = (dir)=>{
+	this.step = ({id, dir})=>{
 		components.ball.move();
 		
-		this.action(1, dir);
-		paddleController.next(components.ball);
+		this.action(id, dir);	
 		this.movePaddles();
 		
 		this.collisionDetector();
-		this.draw();
 		
 		if(components.ball.pos.x < 0) {
 			components.paddles.incScore(1);
@@ -106,10 +118,25 @@ function Pong(canvas,{width=500, height=400, paddle_width=10, paddle_height=50, 
 	this.reset = () => {
 		components.ball.pos.x = Math.floor(width/2);
 		components.ball.pos.y = Math.floor(height/2);
-		components.ball.speed.x = Math.sign(components.ball.speed.x)*5;
-		components.ball.speed.y = 0;
+		var k = Math.sign(components.ball.speed.x);
+		components.ball.speed.x = k*5;
+		components.ball.speed.y = k;
 	}
 
 	this.render = this.draw;
-	this.config = ()=>{return null};
+	this.config = ()=>{
+		var n = 80;
+		var hidden = document.createElement('canvas');
+		hidden.width = n;
+		hidden.height = n;
+		hidden.getContext('2d').drawImage(screen, 0, 0, hidden.width, hidden.height);
+		var imgData = hidden.getContext('2d').getImageData(0, 0, hidden.width, hidden.height);
+		
+		var d = [];
+		for(var i = 0; i< n*n; i++){
+			d.push(imgData.data[i*4 + 3] == 255 ? 1 : 0);
+		}
+
+		return {screen: d};
+	};
 }

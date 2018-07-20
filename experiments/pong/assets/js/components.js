@@ -45,22 +45,42 @@ function PaddleController(paddle){
 	}
 }
 
-/*** overriding a few functions ***/ 
-Ball.prototype.detectCollision = function(width, height) { // with top & bottom walls
-		var collisions = [];
-		if(this.pos.y - this.radius < 0 || this.pos.y + this.radius > height)collisions.push([1, -1]);
+function HyperBall(pos, speed, {color="#00f", width=1, height=2}={}){
+	this.pos = pos;
+	this.speed = speed;
+	this.width = width;
+	this.height = height;
+	this.color = color;	
+}
 
-		return collisions;
+HyperBall.prototype = Object.create(Ball.prototype)
+
+var hype = HyperBall.prototype;
+
+hype.draw = function (canvas) {
+	var ctx = canvas.getContext('2d');
+	ctx.beginPath();
+	ctx.fillStyle = this.color;
+	ctx.fillRect(this.pos.x, this.pos.y, this.width, this.height);
+}
+
+hype.detectCollision = function(width, height) { // with top & bottom walls
+	var collisions = [];
+	if(this.pos.y <= 0 || this.pos.y + this.height > height)collisions.push([1, -1]);
+	return collisions;
 };
 
+
+/*** overriding a few functions ***/ 
+
 Paddle.prototype.move = function (){
-	this.pos.add(new Vector(0, this.dir*5));
+	this.pos.add(new Vector(0, this.dir*this.speed));
 	if(this.pos.y < 0)this.pos.y = 0;
 	else if(this.pos.y + this.height > this.total_height) this.pos.y = this.total_height - this.height;
 }
 
 Paddle.prototype.detectCollision = function (ball) {
-	if(ball.pos.x + ball.radius > this.pos.x && ball.pos.y + ball.radius > this.pos.y && ball.pos.x < this.pos.x + this.width && ball.pos.y - ball.radius < this.pos.y + this.height){
+	if(ball.pos.x + ball.width >= this.pos.x && ball.pos.y + ball.height >= this.pos.y && ball.pos.x < this.pos.x + this.width && ball.pos.y < this.pos.y + this.height){
 		return this
 	}
 	return null
@@ -74,3 +94,4 @@ Paddle.prototype.rebound = function (ball){
 }
 
 Paddle.prototype.score = 0;
+

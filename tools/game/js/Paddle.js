@@ -1,7 +1,7 @@
-function Paddle(pos, {color="#f00", width=50, height=10, total_width, total_height}={}){
+function Paddle(pos, {color="#f00", width=50, height=10, total_width, total_height, speed=10}={}){
 	this.pos = pos;
 	this.dir = 0;
-
+	this.speed = speed;
 	this.total_width = total_width;
 	this.total_height = total_height;
 	this.width = width;
@@ -16,7 +16,7 @@ Paddle.prototype.draw = function (canvas) {
 }
 
 Paddle.prototype.move = function () {
-	this.pos.add(new Vector(this.dir*10, 0));
+	this.pos.add(new Vector(this.dir*this.speed, 0));
 	if(this.pos.x < 0)this.pos.x = 0;
 	else if(this.pos.x + this.width > this.total_width) this.pos.x = this.total_width - this.width;
 }
