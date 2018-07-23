@@ -35,4 +35,4 @@ pong:
   instructions_page: experiments/game/instructions/pong.html
   code_link: "#"
   canvas: false
-  no_options: true
+  no_options: false

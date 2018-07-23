@@ -2,7 +2,7 @@
 
 	Object.assign(obj, {Model})
 
-	function Model(model){
+	function Model(model, id){
 		var counter = 0;
 		var prev = [];
 		var action = 0;
@@ -30,14 +30,15 @@
 		this.action = async function(config){
 			counter++;
 			var inp = tf.tensor(config.screen, [80, 80]).transpose();
+			if(id == 1) inp = inp.reverse();
 			prev.unshift(inp)
 			prev = prev.slice(0, 4);
-			// if(counter % 3 != 0) return {id: 1, dir: 0}
+			// if(counter % 3 != 0) return {id, dir: 0}
 			var dir = await predict();
 
 			dir = dir[0] == 0 ? -1 : 1;
 			action = dir
-			return {id:1, dir }
+			return {id, dir }
 		}
 	}
 })(window)

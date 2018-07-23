@@ -10,11 +10,11 @@ var __init__ = (function(){
 		paddle_speed: 2*factor
 	});	
 	var board = new Board(document.querySelector(".board"), {env});
-	var model_ = new Model(model);
+	var models = [new Model(model, 0), new Model(model, 1)];
 	
 	var human = {
 		dir: 0,
-		action: function(){
+		action: async function(){
 			var x = this;
 			return {id: 0, dir: x.dir}
 		},
@@ -23,7 +23,12 @@ var __init__ = (function(){
 		}
 	}
 
-	var game = new MultiPlayer(human, model_,env, board);
+	var players = {
+		"human": [human, models[1]],
+		"computer": models
+	}
+
+	var game = new MultiPlayer(players["human"],env, board);
 
 	document.addEventListener('keydown', event => {
 
@@ -51,9 +56,24 @@ var __init__ = (function(){
 	})
 
 	env.draw();
+	
+	// controls
+	Array.from($$(".options").children).forEach((el, i) => {
+		var mode = el.getAttribute("data-state");
+		el.addEventListener('click', event => {
+			game.setPlayers(players[mode])
+			highlight($$("." + (mode=="computer"?"comp": mode)), $$(".options"))
+		})
+	})
 })
 
 flux.fetchWeights("./assets/bson/model.bson").then((function (ws) {
   model.weights = ws;
+  model = wrap(model);
   __init__();
 }));
+
+
+function wrap(m){
+	return x => tf.tidy(() => m(x))
+}

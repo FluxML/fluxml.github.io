@@ -87,10 +87,10 @@ Paddle.prototype.detectCollision = function (ball) {
 }
 
 Paddle.prototype.rebound = function (ball){
-	var diff = this.pos.y + this.height/2 - ball.pos.y;
+	var diff = this.pos.y + this.height/2 - ball.pos.y - ball.height/2;
 	ball.rebound([-1, 1]);
 	ball.speed.x += Math.sign(ball.speed.x);
-	ball.speed.y = ball.speed.x*diff/this.height;
+	ball.speed.y = -1 * ball.speed.x*diff/this.height;
 }
 
 Paddle.prototype.score = 0;

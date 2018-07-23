@@ -1,5 +1,5 @@
-function MultiPlayer(human, model, env, board){
-	this.players = [human, model];
+function MultiPlayer(players, env, board){
+	this.players = players;
 	this.env = env;
 	this.out = board;	
 	this.interval = null;
@@ -11,7 +11,7 @@ var mp = MultiPlayer.prototype;
 
 mp.play = async function(){
 	var x = this;
-	x.move(x.players[0].action(x.env.config()));
+	x.move(await x.players[0].action(x.env.config()));
 	
 	var next = async function(){
 		x.move(await x.players[1].action(x.env.config()))
@@ -48,4 +48,9 @@ mp.gameOverHandler = function(){
 	clearTimeout(x.interval);
 	x.reset();
 	x.start();
+}
+
+mp.setPlayers = function(ps){
+	this.players = ps;
+	this.gameOverHandler();
 }

@@ -3,6 +3,7 @@
 Pong Game
 =======================================================
 ******************************************************/
+
 function Pong(playground,{width=500, height=400, paddle_width=10, paddle_height=50, paddle_speed=10, ball_width=1, ball_height=2}={}){
 	var score = 0;
 	
@@ -118,9 +119,9 @@ function Pong(playground,{width=500, height=400, paddle_width=10, paddle_height=
 	this.reset = () => {
 		components.ball.pos.x = Math.floor(width/2);
 		components.ball.pos.y = Math.floor(height/2);
-		var k = Math.sign(components.ball.speed.x);
-		components.ball.speed.x = k*5;
-		components.ball.speed.y = k;
+		var k = -1 * Math.sign(components.ball.speed.x);
+		components.ball.speed.x = k*10;
+		components.ball.speed.y = -1 * k;
 	}
 
 	this.render = this.draw;
