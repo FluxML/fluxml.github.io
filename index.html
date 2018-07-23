@@ -12,12 +12,22 @@ layout: default
   background-size: cover;
   margin-bottom: 0;
   color: white;
-  text-shadow: 0px 0px 5px black;
+  text-shadow: -1px 1px 8px #000;
+  position: relative;
 }
 
 .jumbotron .container {
   max-width: 750px;
   box-shadow: 2px;
+  position: relative;
+  background: rgba(0, 0, 0, 0.5);
+  padding: calc(2rem + 30px) 15px;
+}
+
+@media (min-width: 576px){
+  .jumbotron .container{
+      padding: calc(1rem + 30px) 15px;
+  }
 }
 
 .jumbotron hr {
@@ -64,10 +74,29 @@ layout: default
 .feature .container p:last-child {
   margin-bottom: 0;
 }
+.info{
+  font-size: .8em;
+  text-shadow: none;
+  position: absolute;
+  padding: 5px 10px;
+  margin: 5px;
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.3);
+}
+.bottom{ bottom: 0; }
+.right{ right: 0 }
+.white{ color: #fff; }
+.no-pad{ padding: 0 !important }
 </style>
 
+<link rel="stylesheet" href="assets/css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.9.0"> </script>
+<script src="https://unpkg.com/bson@2.0.8/browser_build/bson.js"></script>
+<script src="/tools/fluxjs/flux.js"></script>
+
 <!-- Header -->
-<div class="jumbotron jumbotron-fluid">
+<div class="jumbotron jumbotron-fluid no-pad">
+  <canvas id="cppn" class="hidden"></canvas>
   <div class="container" style="text-align:center">
     <h1 class="display-3">flux</h1>
     <h2>The <i>Elegant</i> Machine Learning Stack</h2>
@@ -77,6 +106,7 @@ layout: default
     </p>
     <a class="btn btn-primary btn-lg" href="Flux.jl" role="button">Try It Out</a>
   </div>
+  <a href="http://blog.otoro.net/2016/03/25/generating-abstract-patterns-with-tensorflow/"><div class="info bottom right white"> Image Credit</div></a>
 </div>
 
 <!-- Main Content -->
@@ -156,3 +186,5 @@ end</code></pre>
     <p class="lead">If your appetite is whet, <a href="Flux.jl">check out the docs</a> to get going.</p>
   </div>
 </div>
+<script src="assets/js/script.js"></script>
+<script src="assets/js/cppn.js"></script>

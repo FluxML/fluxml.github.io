@@ -8,17 +8,17 @@ body{
 	flex:2;
 	display: flex;
 }
-.content ul{
+.demo-menu{
 	padding: 10px;
 }
 
-ul *{
+.demo-menu *{
 	list-style: none;
 	text-decoration: none;
 	color: inherit;
 }
 
-.content li{
+.demo-menu li{
 	background: #ebf5eb;
 	margin: 20px 0;
 	padding: 20px;

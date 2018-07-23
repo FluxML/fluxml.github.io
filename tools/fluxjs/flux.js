@@ -41,7 +41,6 @@ function toTensor_(spec) {
   if (type == 'Float32') spec.data = readFloat32(spec.data.buffer);
   else throw `Array type ${spec.type.name} not supported.`;
   let array = tf.tensor(spec.data, spec.size.reverse());
-  if (spec.size.length > 1) array = array.transpose();
   return array
 }
 
@@ -67,6 +66,10 @@ async function fetchWeights(url) {
   return ws.weights;
 }
 
-return {fetchData, fetchWeights, fetchBlob, convertArrays_};
+const _data = t => (t instanceof tf.Tensor)? t.dataSync(): t;
+const slice = t => (t instanceof tf.Tensor)? t.clone():(
+  t instanceof Array ? t.slice() : t );
+
+return {fetchData, fetchWeights, fetchBlob, convertArrays_, data: _data, slice};
 
 })();
