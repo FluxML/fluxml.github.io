@@ -4,7 +4,7 @@ Pong Game
 =======================================================
 ******************************************************/
 
-function Pong(playground,{width=500, height=400, paddle_width=10, paddle_height=50, paddle_speed=10, ball_width=1, ball_height=2}={}){
+function Pong(playground,{width=500, height=400, paddle_width=10, paddle_height=50, paddle_speed=10, ball_width=1, ball_height=2, paddle_margin=8}={}){
 	var score = 0;
 	
 	var screen = document.createElement('canvas');
@@ -24,8 +24,8 @@ function Pong(playground,{width=500, height=400, paddle_width=10, paddle_height=
 		
 		paddles: new PaddleCollection(
 			[
-				new Vector(48, Math.floor(height/2)),
-				new Vector(width-paddle_width - 48, Math.floor(height/2))
+				new Vector(paddle_margin, Math.floor(height/2)),
+				new Vector(width-paddle_width - paddle_margin, Math.floor(height/2))
 			], {
 			width:paddle_width,
 			height:paddle_height,
@@ -132,7 +132,6 @@ function Pong(playground,{width=500, height=400, paddle_width=10, paddle_height=
 		hidden.height = n;
 		hidden.getContext('2d').drawImage(screen, 0, 0, hidden.width, hidden.height);
 		var imgData = hidden.getContext('2d').getImageData(0, 0, hidden.width, hidden.height);
-		
 		var d = [];
 		for(var i = 0; i< n*n; i++){
 			d.push(imgData.data[i*4 + 3] == 255 ? 1 : 0);

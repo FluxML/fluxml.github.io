@@ -1,5 +1,18 @@
-var __init__ = (function(){
-	var factor = 6, width = 80, height = 80;
+(function(){
+
+var factor = 6, width = 80, height = 80;
+
+if(window.outerWidth < factor * width){
+	factor = Math.floor(window.outerWidth/width) - 1;
+}
+
+$$("#game").style.width = factor * width + "px";
+$$("#playground").style.minHeight = factor * height + "px";
+$$(".board").style.minHeight = factor * height + "px";
+
+var __init__ = (function(){	
+	model = wrap(model);
+
 	var env = new Pong(document.querySelector("#playground"), {
 		width: width*factor, 
 		height: height*factor,
@@ -7,7 +20,8 @@ var __init__ = (function(){
 		paddle_width: 2*factor,
 		ball_height: 2*factor,
 		ball_width: factor,
-		paddle_speed: 2*factor
+		paddle_speed: 2*factor,
+		paddle_margin: 8*factor
 	});	
 	var board = new Board(document.querySelector(".board"), {env});
 	var models = [new Model(model, 0), new Model(model, 1)];
@@ -67,13 +81,11 @@ var __init__ = (function(){
 	})
 })
 
-flux.fetchWeights("./assets/bson/model.bson").then((function (ws) {
-  model.weights = ws;
-  model = wrap(model);
-  __init__();
-}));
+loadWeights("./assets/bson/model.bson", document.querySelector('.board'), __init__, model);
 
 
 function wrap(m){
 	return x => tf.tidy(() => m(x))
 }
+
+})();
