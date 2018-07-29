@@ -177,3 +177,7 @@
 .msg{
     text-align: center;
 }
+
+li{
+    list-style: none;
+}

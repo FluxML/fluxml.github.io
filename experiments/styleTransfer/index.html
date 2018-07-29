@@ -2,11 +2,17 @@
 layout: default
 ---
 
+<style>
+	.demo_wrapper{
+		position: relative;
+	}
+</style>
+
 <link rel="stylesheet" href="../experiments.css">
 <link rel="stylesheet" href="./assets/css/style.css">
 <link rel="stylesheet" href="/tools/progressBar/css/progressBar.css">
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.9.0"> </script>
-<script src="https://unpkg.com/bson/browser_build/bson.js"></script>
+<script src="https://unpkg.com/bson@2.0.8/browser_build/bson.js"></script>
 <script src="/tools/fluxjs/flux.js"></script>
 
 <div class="content">
@@ -44,8 +50,9 @@ layout: default
 							<div class="element w-50">
 								<div class="pane select_style w-100">
 									<ul>
-										<li><img src="assets/img/starry-night.jpg" img-id="1"></li>
-										<li><img src="assets/img/weeping-woman.jpg" img-id="2"></li>
+										<li><img src="assets/img/starry-night.jpg" data-name="starry_night"></li>
+										<li><img src="assets/img/abstract.jpg" data-name="abstract_art"></li>
+										<li><img src="assets/img/popsty.jpg" data-name="popsty"></li>
 
 									</ul>
 								</div>
@@ -100,6 +107,10 @@ layout: default
 <script src="./assets/js/helpers.js"></script>
 <script src="./assets/js/model.js"></script>
 <script src="./assets/js/mediaStream.js"></script>
+<script src="./assets/js/fluxjs/flux.js"></script>
+<script src="./assets/js/fluxjs/popsty_fluxjs.js"></script>
+<script src="./assets/js/fluxjs/abstract_art_fluxjs.js"></script>
+<script src="./assets/js/fluxjs/starry_night_fluxjs.js"></script>
 <script src="./assets/js/script.js"></script>
 <script src="/tools/loadWeights/loadWeights.js"></script>
 

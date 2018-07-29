@@ -1,4 +1,14 @@
-var __init__ = function(){
+	
+var __init__ = function (){
+	var models = { abstract_art, popsty, starry_night }
+
+	function wrap(n, x){
+		return new Model(n, x);
+	}
+
+	for(var i in models){
+		models[i] = wrap(i, models[i])
+	}
 
 	// event listeners
 	$$('#screenshot-button').onclick = function() {
@@ -11,9 +21,9 @@ var __init__ = function(){
 	.forEach(e => {
 		e.onclick = (event)=>{
 			$$("#style-img").setAttribute("src", e.querySelector("img").getAttribute("src"));
-			var id = e.querySelector("img").getAttribute("img-id");
-			$$("#style-img").setAttribute("img-id", id);
-			model.loadWeights(id);
+			var name = e.querySelector("img").getAttribute("data-name");
+			$$("#style-img").setAttribute("data-name", name);
+			models[name].load();
 		}
 	})
 
@@ -25,17 +35,17 @@ var __init__ = function(){
 	$$("#generate").onclick = ()=>{
 		var conImg = $$("#content-img")
 		var conCanvas = getImageCanvas(conImg, conImg.width, conImg.height);
-		var styleId = $$("#style-img").getAttribute("img-id");
+		var styleName = $$("#style-img").getAttribute("data-name");
 		if(conImg.src == ""){
 			return showErr("Please choose a content image")
-		}else if(styleId == null){
+		}else if(styleName == null){
 			return showErr("Please choose a style image")
 		}
+		var model = models[styleName];
 		var input = _transformInput(conCanvas);
-		model.predict(input).then((res)=>{
-			var out = _transformOutput(res);
+		model.predict(input).then((out)=>{
 			if(out != null){
-				$$("#output-img").src = getImageCanvas(out.data, out.width, out.height).toDataURL();
+				$$("#output-img").src = imagedata_to_uri(out);
 			}else{
 				console.log(out);
 			}
