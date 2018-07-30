@@ -137,6 +137,14 @@ function Pong(playground,{width=500, height=400, paddle_width=10, paddle_height=
 			d.push(imgData.data[i*4 + 3] == 255 ? 1 : 0);
 		}
 
+		// var f = d.slice()
+		// var g = [];
+		// while(f.length > 0){
+		// 	g.push(f.splice(0, 80))
+		// }
+		// console.log(g.map(row => row.join(" ")).join("\n"))
+		
+
 		return {screen: d};
 	};
 }

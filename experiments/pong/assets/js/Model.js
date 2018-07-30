@@ -31,7 +31,7 @@
 			prev = prev.slice(0, 4);
 			if(counter % 4 != 0) return {id, dir: action}
 			var dir = await predict();
-			console.log(dir)
+			// console.log(dir)
 			dir = dir[0] == 1 ? -1 : dir[0] == 2? 1 : 0;
 			if(id == 0) dir *= -1;
 			action = dir
