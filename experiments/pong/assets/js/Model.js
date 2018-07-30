@@ -12,13 +12,9 @@
 				prev.push(prev[0]);
 			}
 
-			var input = tf.stack(prev);
-			input = tf.stack([input]);
-			
-			
+			var input = tf.concat(prev.slice(), 2);
+			var out = model(input.transpose());
 
-			var out = model(input);
-			
 			return tf.argMax(out, 1).data();
 		}
 
@@ -29,14 +25,14 @@
 
 		this.action = async function(config){
 			counter++;
-			var inp = tf.tensor(config.screen, [80, 80]).transpose();
-			if(id == 0) inp = inp.reverse();
+			var inp = tf.tensor(config.screen, [80, 80, 1, 1]);			
+			if(id == 1) inp = inp.reverse();
 			prev.unshift(inp)
 			prev = prev.slice(0, 4);
 			if(counter % 4 != 0) return {id, dir: action}
 			var dir = await predict();
-
-			dir = dir[0] == 0 ? -1 : 1;
+			console.log(dir)
+			dir = dir[0] == 1 ? -1 : dir[0] == 2? 1 : 0;
 			if(id == 0) dir *= -1;
 			action = dir
 			return {id, dir }

@@ -30,7 +30,7 @@ function Pong(playground,{width=500, height=400, paddle_width=10, paddle_height=
 			width:paddle_width,
 			height:paddle_height,
 			total_height: height,
-			paddle_speed,
+			speed: paddle_speed,
 			color: "#fff"
 		}),
 		ball: new HyperBall(new Vector(Math.floor(width/2), Math.floor(height/2)), new Vector(-5, -1), {width:ball_width, height: ball_height, color: "#fff"})
@@ -119,8 +119,8 @@ function Pong(playground,{width=500, height=400, paddle_width=10, paddle_height=
 	this.reset = () => {
 		components.ball.pos.x = Math.floor(width/2);
 		components.ball.pos.y = Math.floor(height/2);
-		var k = -1 * Math.sign(components.ball.speed.x);
-		components.ball.speed.x = k*10;
+		var k = Math.sign(components.ball.speed.x);
+		components.ball.speed.x = k*6;
 		components.ball.speed.y = -1 * k;
 	}
 

@@ -38,6 +38,7 @@ mp.reset = function(){
 
 mp.start = function(){
 	var x = this;
+	clearInterval(x.interval)
 	x.interval = setInterval(function(){
 		x.play();
 	}, 60)
