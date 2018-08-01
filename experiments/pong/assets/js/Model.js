@@ -16,7 +16,7 @@
 			var out = model(input);
 			// out.print()
 			// debugger
-			return tf.argMax(out.reverse(), 1).data();
+			return tf.argMax(out, 1).data();
 		}
 
 		this.reset = function(){
