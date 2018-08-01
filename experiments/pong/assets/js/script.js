@@ -10,11 +10,11 @@ $$("#game").style.width = factor * width + "px";
 $$("#playground").style.minHeight = factor * height + "px";
 $$(".board").style.minHeight = factor * height + "px";
 
-var __init__ = (function(){	
+var __init__ = (function(){
 	model = wrap(model);
 
 	var env = new Pong(document.querySelector("#playground"), {
-		width: width*factor, 
+		width: width*factor,
 		height: height*factor,
 		paddle_height: 8*factor,
 		paddle_width: 2*factor,
@@ -22,10 +22,12 @@ var __init__ = (function(){
 		ball_width: factor,
 		paddle_speed: 2*factor,
 		paddle_margin: 8*factor
-	});	
+	});
 	var board = new Board(document.querySelector(".board"), {env});
 	var models = [new Model(model, 0), new Model(model, 1)];
-	
+
+
+
 	var human = {
 		dir: 0,
 		action: async function(){
@@ -37,9 +39,19 @@ var __init__ = (function(){
 		}
 	}
 
+	var opponent = {
+		controller: new PaddleController(env.components.paddles.collection[0]),
+		action: async function({ball}={}){
+			var dir = this.controller.next(ball);
+			return {id: 0, dir}
+		},
+		reset: ()=>{}
+	}
+
 	var players = {
 		"human": [human, models[1]],
-		"computer": models
+		"computer": models,
+		"test": [opponent, models[1]]
 	}
 
 	var game = new MultiPlayer(players["human"],env, board);
@@ -47,7 +59,7 @@ var __init__ = (function(){
 	document.addEventListener('keydown', event => {
 
 		var code = event.keyCode;
-		
+
 		if(code == 13){
 			board.removeStartScreen();
 			return game.start();
@@ -62,7 +74,7 @@ var __init__ = (function(){
 
 	document.addEventListener('keyup', event => {
 		var code = event.keyCode;
-		
+
 		if(code == 38 || code == 40){
 			human.dir = 0;
 			return;
@@ -70,7 +82,14 @@ var __init__ = (function(){
 	})
 
 	env.draw();
-	
+
+	var button = document.createElement("button");
+	button.setAttribute("data-state", "test")
+	button.className = "test"
+	button.innerText = "Test Model"
+	$$(".options").appendChild(button)
+
+
 	// controls
 	Array.from($$(".options").children).forEach((el, i) => {
 		var mode = el.getAttribute("data-state");

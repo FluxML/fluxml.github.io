@@ -18,7 +18,7 @@ function PaddleCollection(positions, config){
 	this.detectCollision = (ball)=>{
 		for (var paddle of this.collection)
 			if(paddle.detectCollision(ball))return paddle;
-		
+
 		return null;
 	}
 
@@ -33,15 +33,18 @@ function PaddleCollection(positions, config){
 
 
 function PaddleController(paddle){
-	
+
 	this.next = (ball)=>{
-		if(Math.sign(ball.pos.x - paddle.pos.x) == Math.sign(ball.speed.x))return;  // ball is moving away
+		if(Math.sign(ball.pos.x - paddle.pos.x) == Math.sign(ball.speed.x))  // ball is moving away
+		return 0
 
 		if(ball.pos.y >= paddle.pos.y && ball.pos.y <= paddle.pos.y + paddle.height)
-			return paddle.setDirection(0)	
-		
+		return 0
+			// return paddle.setDirection(0)
+
 		var dir = Math.sign(ball.pos.y - paddle.height/2 - paddle.pos.y);
-		paddle.setDirection(dir);
+		return dir
+		// paddle.setDirection(dir);
 	}
 }
 
@@ -50,7 +53,7 @@ function HyperBall(pos, speed, {color="#00f", width=1, height=2}={}){
 	this.speed = speed;
 	this.width = width;
 	this.height = height;
-	this.color = color;	
+	this.color = color;
 }
 
 HyperBall.prototype = Object.create(Ball.prototype)
@@ -71,7 +74,7 @@ hype.detectCollision = function(width, height) { // with top & bottom walls
 };
 
 
-/*** overriding a few functions ***/ 
+/*** overriding a few functions ***/
 
 Paddle.prototype.move = function (){
 	this.pos.add(new Vector(0, this.dir*this.speed));
@@ -94,4 +97,3 @@ Paddle.prototype.rebound = function (ball){
 }
 
 Paddle.prototype.score = 0;
-

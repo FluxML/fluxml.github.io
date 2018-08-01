@@ -6,7 +6,7 @@ Pong Game
 
 function Pong(playground,{width=500, height=400, paddle_width=10, paddle_height=50, paddle_speed=10, ball_width=1, ball_height=2, paddle_margin=8}={}){
 	var score = 0;
-	
+
 	var screen = document.createElement('canvas');
 	var background = document.createElement('canvas');
 
@@ -21,7 +21,7 @@ function Pong(playground,{width=500, height=400, paddle_width=10, paddle_height=
 	})
 
 	var components = {
-		
+
 		paddles: new PaddleCollection(
 			[
 				new Vector(paddle_margin, Math.floor(height/2)),
@@ -37,6 +37,7 @@ function Pong(playground,{width=500, height=400, paddle_width=10, paddle_height=
 	}
 
 	var paddleController = new PaddleController(components.paddles.collection[0]);
+	this.components = components
 
 	this.draw = ()=>{
 		var ctx = background.getContext('2d');
@@ -75,12 +76,12 @@ function Pong(playground,{width=500, height=400, paddle_width=10, paddle_height=
 
 	this.step = ({id, dir})=>{
 		components.ball.move();
-		
-		this.action(id, dir);	
+
+		this.action(id, dir);
 		this.movePaddles();
-		
+
 		this.collisionDetector();
-		
+
 		if(components.ball.pos.x < 0) {
 			components.paddles.incScore(1);
 			return 1;
@@ -113,7 +114,7 @@ function Pong(playground,{width=500, height=400, paddle_width=10, paddle_height=
 
 	this.action = (id, dir)=>{
 		// console.log(id, dir)
-		components.paddles.setDirection(id, dir);	
+		components.paddles.setDirection(id, dir);
 	}
 
 	this.reset = () => {
@@ -143,8 +144,8 @@ function Pong(playground,{width=500, height=400, paddle_width=10, paddle_height=
 		// 	g.push(f.splice(0, 80))
 		// }
 		// console.log(g.map(row => row.join(" ")).join("\n"))
-		
 
-		return {screen: d};
+
+		return {screen: d, ball: components.ball};
 	};
 }

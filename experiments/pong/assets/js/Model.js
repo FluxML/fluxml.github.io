@@ -6,7 +6,7 @@
 		var counter = 0;
 		var prev = [];
 		var action = 0;
-		
+
 		var predict = function(){
 			while(prev.length < 4){
 				prev.push(prev[0]);
@@ -25,8 +25,8 @@
 
 		this.action = async function(config){
 			counter++;
-			var inp = tf.tensor(config.screen, [80, 80, 1, 1]);			
-			if(id == 1) inp = inp.reverse();
+			var inp = tf.tensor(config.screen, [80, 80, 1, 1])
+			if(id == 0) inp = inp.reverse();
 			prev.unshift(inp)
 			prev = prev.slice(0, 4);
 			if(counter % 4 != 0) return {id, dir: action}
