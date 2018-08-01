@@ -98,6 +98,8 @@ var __init__ = (function(){
 			highlight($$("." + (mode=="computer"?"comp": mode)), $$(".options"))
 		})
 	})
+
+	models[1].action(env.config())
 })
 
 loadWeights("./assets/bson/model.bson", document.querySelector('.board'), __init__, model);

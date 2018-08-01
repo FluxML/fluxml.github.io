@@ -12,10 +12,11 @@
 				prev.push(prev[0]);
 			}
 
-			var input = tf.concat(prev.slice(), 2);
-			var out = model(input.transpose());
-
-			return tf.argMax(out, 1).data();
+			var input = tf.concat(prev.slice(), 1);
+			var out = model(input);
+			// out.print()
+			// debugger
+			return tf.argMax(out.reverse(), 1).data();
 		}
 
 		this.reset = function(){
@@ -25,7 +26,7 @@
 
 		this.action = async function(config){
 			counter++;
-			var inp = tf.tensor(config.screen, [80, 80, 1, 1])
+			var inp = tf.tensor(config.screen, [1, 1, 80, 80])
 			if(id == 0) inp = inp.reverse();
 			prev.unshift(inp)
 			prev = prev.slice(0, 4);
