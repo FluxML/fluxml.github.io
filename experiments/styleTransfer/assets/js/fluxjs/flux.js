@@ -79,12 +79,17 @@ async function fetchWeights(url) {
 const _data = t => (t instanceof tf.Tensor)? t.dataSync(): t;
 const slice = t => (t instanceof tf.Tensor)? t.clone():(
   t instanceof Array ? t.slice() : t);
+const tensor = t => (t instanceof tf.Tensor)? t : (
+  t instanceof Array ? tf.tensor(t) : tf.tensor([t]));
 
-return {fetchData, fetchWeights, fetchBlob, convertArrays_, data: _data, slice};
+const range = (start, stop) => [...Array(stop - start + 1).keys()].map(i => i + start)
+
+return {fetchData, fetchWeights, fetchBlob, convertArrays_, data: _data, slice, range};
 
 })();
 
-// for ConvTranspose layer ( custom layer in FastStyleTransfer.jl )
+
+// for custom convTranspose layer in FastStyleTransfer.jl
 function out_size(stride, pad, dilation, kernel, xdims, output_pad){
     var dims = []
   var n = (stride.length)

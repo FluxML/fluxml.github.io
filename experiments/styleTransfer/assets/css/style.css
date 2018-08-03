@@ -1,5 +1,9 @@
 .tree{
-    margin: 20px;
+    margin: 50px;
+}
+
+h4{
+    line-height: 2em;
 }
 
 .level{
@@ -94,9 +98,9 @@
 .select_style ul{
     display: flex;
     justify-content: center;
-    -webkit-flex-direction: row;
-        -ms-flex-direction: row;
-            flex-direction: row;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
     flex-wrap: wrap;
     padding: 0;
     margin: 0;
@@ -167,7 +171,7 @@
 
 
 .down{
-    margin: 30px 0 10px !important;
+    margin: 30px 5px 10px !important;
 }
 
 .fade.in{

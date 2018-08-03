@@ -33,7 +33,7 @@ function Model(name, model, loaded=false){
 		return out.data().then(res =>{
 			_input = null
 			res = this.post(res, data.width, data.height)
-			console.log(res)
+			
 			var i = new Uint8ClampedArray(res);
 			var idata = new ImageData(i, data.width, data.height)
 			return idata;
@@ -42,8 +42,6 @@ function Model(name, model, loaded=false){
 	}
 
 	this.pre = function(data){
-		// var input = tf.tensor(Array.from(data.data), [data.height, data.width, 4])
-		// input = input.slice([0,0,0],[data.height, data.width,3])
 		var rgb = data.data;
 		var input = [[], [], []];
 		for(var i =0; i< data.height; i++){
@@ -59,7 +57,6 @@ function Model(name, model, loaded=false){
 			input[1].push(g)
 			input[2].push(b)
 		}
-		console.log(input)
 		input = tf.tensor([input])
 		return input;
 	}

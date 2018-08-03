@@ -5,7 +5,7 @@ function getImageCanvas(screen, width, height){
 	var canvas = document.createElement('canvas');
 	canvas.width = width;
 	canvas.height = height;
-	canvas.getContext('2d').drawImage(screen, 0, 0);
+	canvas.getContext('2d').drawImage(screen, 0, 0, height, width);
 	return canvas
 }
 
