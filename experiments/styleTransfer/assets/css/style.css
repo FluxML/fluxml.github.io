@@ -196,7 +196,15 @@ li{
 }
 
 .tree[green=true] .connector *{
-    background: #288228;
+    box-shadow: 2px 2px 2px #49c31d;
+}
+.pane{
+    border: 1px solid transparent;
+    transition: all .4s linear;
+}
+
+.tree[green=true] .pane{
+    border: 1px solid #49c31d;
 }
 
 @media only screen and (max-width: 768px){
