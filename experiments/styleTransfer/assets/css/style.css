@@ -185,3 +185,29 @@ h4{
 li{
     list-style: none;
 }
+
+@media only screen and (max-width: 768px){
+    .connector{
+        display: none;
+    }
+
+    .w-50{
+        width: 100% !important;
+    }
+
+    .tree{
+        margin: 20px 5px;
+    }
+
+    .level{
+        flex-direction:column;
+    }
+    .element{
+        min-height: 0px;
+        margin: 10px 0 !important;
+    }
+
+    .pane{
+        width: 100%;
+    }
+}
