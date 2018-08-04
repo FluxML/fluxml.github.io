@@ -99,9 +99,9 @@ h4{
 .select_style ul{
     display: flex;
     justify-content: center;
-    -webkit-flex-direction: column;
-        -ms-flex-direction: column;
-            flex-direction: column;
+    -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
     flex-wrap: wrap;
     padding: 0;
     margin: 0;
@@ -230,5 +230,9 @@ li{
 
     .pane{
         width: 100%;
+    }
+
+    .select_style ul{
+        flex-direction: column;
     }
 }
