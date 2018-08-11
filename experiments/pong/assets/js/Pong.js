@@ -152,14 +152,13 @@ function Pong(playground,{width=500, height=400, paddle_width=10, paddle_height=
 		var k = -1 * Math.sign(components.ball.speed.x);
 		components.ball.speed.x = k*5;
 		components.ball.speed.y = -1 * k;
-		
+
 	}
 
 	this.render = this.draw;
-	this.config = ()=>{
+	this.config = (i)=>{
 		var arr = this.draw_arr(_2dArr(480, 480), 480, 480)
-		var legends = [" ", "-"]
-		
+		// if(i == 0) arr = leftpad(arr, 2, 480, 480)
 		var rarr = skip(arr, 6, 80, 80);
 		return {screen: flatten(rarr, 80, 80), ball: components.ball};
 	};
@@ -216,4 +215,14 @@ function s_flatten(arr, w, h){
 		g.push(d)
 	}
 	return flatten(g)
+}
+
+function leftpad(arr, p, w, h){
+	var c = _2dArr(w, h, v=0)
+	for(var i = 0; i< w; i++){
+		for(var j = 0; j< h - p; j++){
+			c[i][j + p] = arr[i][j]
+		}
+	}
+	return c;
 }

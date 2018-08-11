@@ -11,8 +11,9 @@ var mp = MultiPlayer.prototype;
 
 mp.play = async function(){
 	var x = this;
-	var c = x.env.config()
-	moves = [x.players[0].action(c), x.players[1].action(c)]
+	var a = x.env.config(0)
+	var b = x.env.config(1)
+	moves = [x.players[0].action(a), x.players[1].action(b)]
 
 	return Promise.all(moves).then(r=>{
 		x.move(r);
