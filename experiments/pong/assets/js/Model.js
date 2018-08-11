@@ -20,6 +20,7 @@
 			}
 			var input = tf.concat(this.prev.slice(), 1);
 			var out = model(input);
+			console.log(id)
 			out.print()
 			return tf.argMax(out, 1).data();
 		}

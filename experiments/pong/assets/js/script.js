@@ -86,11 +86,11 @@ var __init__ = (function(){
 
 	env.draw();
 
-	// var button = document.createElement("button");
-	// button.setAttribute("data-state", "test")
-	// button.className = "test"
-	// button.innerText = "Test Model"
-	// $$(".options").appendChild(button)
+	var button = document.createElement("button");
+	button.setAttribute("data-state", "test")
+	button.className = "test"
+	button.innerText = "Test Model"
+	$$(".options").appendChild(button)
 
 	// controls
 	Array.from($$(".options").children).forEach((el, i) => {

@@ -156,9 +156,8 @@ function Pong(playground,{width=500, height=400, paddle_width=10, paddle_height=
 	}
 
 	this.render = this.draw;
-	this.config = (i)=>{
+	this.config = ()=>{
 		var arr = this.draw_arr(_2dArr(480, 480), 480, 480)
-		// if(i == 0) arr = leftpad(arr, 2, 480, 480)
 		var rarr = skip(arr, 6, 80, 80);
 		return {screen: flatten(rarr, 80, 80), ball: components.ball};
 	};
