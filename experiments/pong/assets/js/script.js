@@ -13,7 +13,7 @@ $$(".board").style.minHeight = factor * height + "px";
 var __init__ = (function(){
 	model = wrap(model);
 
-	var env = new Pong(document.querySelector("#playground"), {
+	var config = {
 		width: width*factor,
 		height: height*factor,
 		paddle_height: 8*factor,
@@ -22,11 +22,13 @@ var __init__ = (function(){
 		ball_width: factor,
 		paddle_speed: 2*factor,
 		paddle_margin: 8*factor
-	});
+	}
+	var env = new Pong(document.querySelector("#playground"), config);
 	var board = new Board(document.querySelector(".board"), {env});
 	var models = [new Model(model, 0), new Model(model, 1)];
 
-
+	window.env = env
+	window.model = models[1]
 
 	var human = {
 		dir: 0,
@@ -55,6 +57,7 @@ var __init__ = (function(){
 	}
 
 	var game = new MultiPlayer(players["human"],env, board);
+	window.game = game;
 
 	document.addEventListener('keydown', event => {
 
@@ -89,7 +92,6 @@ var __init__ = (function(){
 	button.innerText = "Test Model"
 	$$(".options").appendChild(button)
 
-
 	// controls
 	Array.from($$(".options").children).forEach((el, i) => {
 		var mode = el.getAttribute("data-state");
@@ -110,3 +112,5 @@ function wrap(m){
 }
 
 })();
+
+

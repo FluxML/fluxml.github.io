@@ -1,4 +1,4 @@
-function Paddle(pos, {color="#f00", width=50, height=10, total_width, total_height, speed=10}={}){
+function Paddle(pos, {id=0,color="#f00", width=50, height=10, total_width, total_height, speed=10}={}){
 	this.pos = pos;
 	this.dir = 0;
 	this.speed = speed;
@@ -7,6 +7,7 @@ function Paddle(pos, {color="#f00", width=50, height=10, total_width, total_heig
 	this.width = width;
 	this.height = height;
 	this.color= color;
+	this.id = id;
 }
 
 Paddle.prototype.draw = function (canvas) {

@@ -4,8 +4,26 @@ Components
 =======================================================
 ******************************************************/
 
+var inside = function (x, y, a, b, w, h){
+	return !(x >= w + a || y >= h + b || x < a || y < b)
+}
+
+function draw_rect(arr, arr_h, arr_w, x, y, w, h){
+	for(var dy=0; dy < h; dy++){
+        for(var dx=0; dx < w; dx++){
+            if(!inside(x + dx, y + dy, 0, 0, arr_w, arr_h)){
+            	continue
+            }
+            arr[Math.floor(y + dy)][Math.floor(x + dx)] = 1;
+        }
+    }
+    return arr
+}
+
+
+
 function PaddleCollection(positions, config){
-	this.collection = positions.map(e=>new Paddle(e, config));
+	this.collection = positions.map((e, i)=>new Paddle(e, {...config, id:i}));
 
 	this.move = ()=>{
 		this.collection.forEach(p => p.move());
@@ -16,8 +34,10 @@ function PaddleCollection(positions, config){
 	}
 
 	this.detectCollision = (ball)=>{
-		for (var paddle of this.collection)
+		for (var paddle of this.collection){
+			
 			if(paddle.detectCollision(ball))return paddle;
+		}
 
 		return null;
 	}
@@ -28,6 +48,20 @@ function PaddleCollection(positions, config){
 
 	this.incScore = (id)=>{
 		this.collection[id].score += 1;
+	}
+
+	this.draw_arr = function(arr, arr_h, arr_w){
+		var n = this.collection.length;
+		for(var i = 0; i< n; i++){
+			arr = this.collection[i].draw_arr(arr, arr_h, arr_w)
+		}
+		return arr
+	}
+
+	this.scoreReset = function(){
+		this.collection.map(e => {
+			e.score = 0
+		})
 	}
 }
 
@@ -73,6 +107,10 @@ hype.detectCollision = function(width, height) { // with top & bottom walls
 	return collisions;
 };
 
+hype.draw_arr = function(arr, arr_h, arr_w){
+	return draw_rect(arr, arr_h, arr_w, this.pos.x, this.pos.y, this.width, this.height)
+}
+
 
 /*** overriding a few functions ***/
 
@@ -83,7 +121,7 @@ Paddle.prototype.move = function (){
 }
 
 Paddle.prototype.detectCollision = function (ball) {
-	if(ball.pos.x + ball.width >= this.pos.x && ball.pos.y + ball.height >= this.pos.y && ball.pos.x < this.pos.x + this.width && ball.pos.y < this.pos.y + this.height){
+	if((ball.pos.x + ball.width >= this.pos.x) && (ball.pos.y + ball.height >= this.pos.y) && (ball.pos.x <= this.pos.x + this.width) && ball.pos.y < this.pos.y + this.height){
 		return this
 	}
 	return null
@@ -91,9 +129,17 @@ Paddle.prototype.detectCollision = function (ball) {
 
 Paddle.prototype.rebound = function (ball){
 	var diff = this.pos.y + this.height/2 - ball.pos.y - ball.height/2;
-	ball.rebound([-1, 1]);
-	ball.speed.x += Math.sign(ball.speed.x);
+	ball.speed.x = Math.abs(ball.speed.x) + 1
+	if(this.id == 1){
+		ball.speed.x  *= -1;
+	}
 	ball.speed.y = -1 * ball.speed.x*diff/this.height;
 }
 
 Paddle.prototype.score = 0;
+
+Paddle.prototype.draw_arr = function(arr, arr_h, arr_w){
+	return draw_rect(arr, arr_h, arr_w, this .pos.x, this.pos.y, this.width, this.height)
+}
+
+

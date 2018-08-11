@@ -11,17 +11,18 @@ var mp = MultiPlayer.prototype;
 
 mp.play = async function(){
 	var x = this;
-	x.move(await x.players[0].action(x.env.config()));
-	
-	var next = async function(){
-		x.move(await x.players[1].action(x.env.config()))
-	}
-	setTimeout(next, 1);
+	var c = x.env.config()
+	moves = [x.players[0].action(c), x.players[1].action(c)]
+
+	return Promise.all(moves).then(r=>{
+		x.move(r);
+		return true
+	});
 };
 
 mp.move = function(a){
 	var x = this;
-	x.env.step(a)
+	x.env.step_both(a)
 	x.display();
 	if(x.env.done()){
 		x.gameOverHandler();
@@ -40,8 +41,9 @@ mp.start = function(){
 	var x = this;
 	clearInterval(x.interval)
 	x.interval = setInterval(function(){
-		x.play();
+		requestAnimationFrame(() => x.play());
 	}, 60)
+	
 }
 
 mp.gameOverHandler = function(){

@@ -1,21 +1,26 @@
 (function(obj){
+	var canvas = document.createElement('canvas');
+	$$(".demo_wrapper").appendChild(canvas);
 
-	Object.assign(obj, {Model})
+	var showInp = function(t, c=canvas){
+		// console.log(t.shape)
+		tf.toPixels(t.transpose().squeeze(), canvas)
+	}
+
+	Object.assign(obj, {Model, showInp})
 
 	function Model(model, id){
-		var counter = 0;
-		var prev = [];
-		var action = 0;
+		this.counter = 0;
+		this.prev = [];
+		this.a = 0;
 
-		var predict = function(){
-			while(prev.length < 4){
-				prev.push(prev[0]);
+		this.predict = function(){
+			while(this.prev.length < 4){
+				this.prev.push(this.prev[0]);
 			}
-
-			var input = tf.concat(prev.slice(), 1);
+			var input = tf.concat(this.prev.slice(), 1);
 			var out = model(input);
-			// out.print()
-			// debugger
+			out.print()
 			return tf.argMax(out, 1).data();
 		}
 
@@ -25,18 +30,19 @@
 		}
 
 		this.action = async function(config){
-			counter++;
+			this.counter++;
 			var inp = tf.tensor(config.screen, [1, 1, 80, 80])
 			if(id == 0) inp = inp.reverse();
-			prev.unshift(inp)
-			prev = prev.slice(0, 4);
-			if(counter % 4 != 0) return {id, dir: action}
-			var dir = await predict();
-			// console.log(dir)
+			this.prev.unshift(inp)
+			this.prev = this.prev.slice(0, 4);
+			// if(this.counter % 4 != 0) return {id, dir: this.a}
+			var dir = await this.predict();
 			dir = dir[0] == 1 ? -1 : dir[0] == 2? 1 : 0;
 			if(id == 0) dir *= -1;
-			action = dir
+			this.a = dir
 			return {id, dir }
 		}
+
+		
 	}
 })(window)

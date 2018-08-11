@@ -6,6 +6,7 @@ Pong Game
 
 function Pong(playground,{width=500, height=400, paddle_width=10, paddle_height=50, paddle_speed=10, ball_width=1, ball_height=2, paddle_margin=8}={}){
 	var score = 0;
+	this.history = [];
 
 	var screen = document.createElement('canvas');
 	var background = document.createElement('canvas');
@@ -21,11 +22,10 @@ function Pong(playground,{width=500, height=400, paddle_width=10, paddle_height=
 	})
 
 	var components = {
-
 		paddles: new PaddleCollection(
 			[
-				new Vector(paddle_margin, Math.floor(height/2)),
-				new Vector(width-paddle_width - paddle_margin, Math.floor(height/2))
+				new Vector(paddle_margin - 1, Math.floor(height/2) - 1, 0),
+				new Vector(width-paddle_width - paddle_margin - 1, Math.floor(height/2) - 1, 1)
 			], {
 			width:paddle_width,
 			height:paddle_height,
@@ -33,7 +33,7 @@ function Pong(playground,{width=500, height=400, paddle_width=10, paddle_height=
 			speed: paddle_speed,
 			color: "#fff"
 		}),
-		ball: new HyperBall(new Vector(Math.floor(width/2), Math.floor(height/2)), new Vector(-5, -1), {width:ball_width, height: ball_height, color: "#fff"})
+		ball: new HyperBall(new Vector((Math.floor(width/2) - 1), (Math.floor(height/2) - 1)), new Vector(-5, -1), {width:ball_width, height: ball_height, color: "#fff"})
 	}
 
 	var paddleController = new PaddleController(components.paddles.collection[0]);
@@ -74,13 +74,15 @@ function Pong(playground,{width=500, height=400, paddle_width=10, paddle_height=
 			requestAnimationFrame(this.play);
 	}
 
-	this.step = ({id, dir})=>{
+	this.step_both = function(arr){
 		components.ball.move();
 
-		this.action(id, dir);
+		this.action(arr[0].id, arr[0].dir);
+		this.action(arr[1].id, arr[1].dir);
 		this.movePaddles();
 
 		this.collisionDetector();
+		// this.save(dir)
 
 		if(components.ball.pos.x < 0) {
 			components.paddles.incScore(1);
@@ -93,6 +95,35 @@ function Pong(playground,{width=500, height=400, paddle_width=10, paddle_height=
 		return 0;
 	}
 
+	this.step = ({id, dir})=>{
+		components.ball.move();
+
+		this.action(id, dir);
+		this.movePaddles();
+
+		this.collisionDetector();
+		this.save(dir)
+
+		if(components.ball.pos.x < 0) {
+			components.paddles.incScore(1);
+			return 1;
+		}
+		if(components.ball.pos.x > width){
+			components.paddles.incScore(0);
+			return -1;
+		}
+		return 0;
+	}
+
+	this.save = function(dir){
+		this.history.push([components.ball.pos.x, components.ball.pos.y,
+			 components.paddles.collection[0].pos.y,
+			 components.paddles.collection[1].pos.y, 
+			 dir]);
+
+		if(this.history.length == 4)debugger;
+	}
+
 	this.collisionDetector = function(){
 		var ball = components.ball;
 
@@ -102,7 +133,6 @@ function Pong(playground,{width=500, height=400, paddle_width=10, paddle_height=
 		}
 		var wallHit = components.ball.detectCollision(width, height); // collision with walls
 		wallHit.forEach(w=> ball.rebound(w));
-
 	}
 
 	this.done = function(){
@@ -110,42 +140,80 @@ function Pong(playground,{width=500, height=400, paddle_width=10, paddle_height=
 		return cond;
 	}
 
-	this.movePaddles = ()=> components.paddles.move();
+	this.movePaddles = () => components.paddles.move();
 
-	this.action = (id, dir)=>{
-		// console.log(id, dir)
+	this.action = (id, dir) => {
 		components.paddles.setDirection(id, dir);
 	}
 
 	this.reset = () => {
-		components.ball.pos.x = Math.floor(width/2);
-		components.ball.pos.y = Math.floor(height/2);
-		var k = Math.sign(components.ball.speed.x);
-		components.ball.speed.x = k*6;
+		components.ball.pos.x = Math.floor(width/2) - 1;
+		components.ball.pos.y = Math.floor(height/2) - 1;
+		var k = -1 * Math.sign(components.ball.speed.x);
+		components.ball.speed.x = k*5;
 		components.ball.speed.y = -1 * k;
+		components.paddles.scoreReset();
 	}
 
 	this.render = this.draw;
 	this.config = ()=>{
-		var n = 80;
-		var hidden = document.createElement('canvas');
-		hidden.width = n;
-		hidden.height = n;
-		hidden.getContext('2d').drawImage(screen, 0, 0, hidden.width, hidden.height);
-		var imgData = hidden.getContext('2d').getImageData(0, 0, hidden.width, hidden.height);
-		var d = [];
-		for(var i = 0; i< n*n; i++){
-			d.push(imgData.data[i*4 + 3] == 255 ? 1 : 0);
-		}
-
-		// var f = d.slice()
-		// var g = [];
-		// while(f.length > 0){
-		// 	g.push(f.splice(0, 80))
-		// }
-		// console.log(g.map(row => row.join(" ")).join("\n"))
-
-
-		return {screen: d, ball: components.ball};
+		var arr = this.draw_arr(_2dArr(480, 480), 480, 480)
+		var legends = [" ", "-"]
+		
+		var rarr = skip(arr, 6, 80, 80);
+		return {screen: flatten(rarr, 80, 80), ball: components.ball};
 	};
+
+	this.draw_arr = function(arr, arr_h, arr_w){
+		for(var i in components){
+			arr = components[i].draw_arr(arr, arr_h, arr_w)
+		}
+		return arr
+	}
+}
+
+function _2dArr(w, h, v=0){
+	var arr = []
+	for(var i = 0; i< w; i++){
+		var row = []
+		for(var j = 0; j< h; j++){
+			row.push(v);
+		}
+		arr.push(row)
+	}
+	return arr;
+}
+
+
+function skip(arr, n, w, h){
+	var r = _2dArr(w, h)
+	var a = 0;
+	var b = 0;
+	for(var i =0; i< arr.length; i+=n){
+		b = 0;
+		for(var j =0; j< arr[i].length; j+=n){
+			r[a][b] = arr[i][j];
+			b++;
+		}
+		a++;
+	}
+	return r;
+}
+
+
+function flatten(arr){
+	return arr.reduce((acc, e) => acc.concat(e), [])
+}
+
+function s_flatten(arr, w, h){
+
+	var g = []
+	for(var i = 0; i< h; i++){
+		var d = []
+		for(var j=0; j< w; j++){
+			d.push(arr[j][i])
+		}
+		g.push(d)
+	}
+	return flatten(g)
 }
