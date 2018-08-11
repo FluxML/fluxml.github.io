@@ -56,4 +56,5 @@ mp.gameOverHandler = function(){
 mp.setPlayers = function(ps){
 	this.players = ps;
 	this.gameOverHandler();
+	this.env.components.paddles.scoreReset();
 }
