@@ -87,6 +87,28 @@ layout: default
 .right{ right: 0 }
 .white{ color: #fff; }
 .no-pad{ padding: 0 !important }
+.friends{ 
+  background: #fff;
+}
+.friends *{
+  text-align: center;
+  padding:10px;
+}
+.friends h3{
+  margin-top: 50px; 
+}
+.friends ul{
+  display: flex;
+  -webkit-justify-content: space-evenly;
+          justify-content: space-evenly;
+  flex-wrap: wrap;
+  list-style: none;
+  align-items: center;
+}
+.friends ul li img{
+  max-width: 200px;
+  height: auto;
+}
 </style>
 
 <link rel="stylesheet" href="assets/css/style.css">
@@ -184,6 +206,18 @@ end</code></pre>
 
   <div class="container call">
     <p class="lead">If your appetite is whet, <a href="Flux.jl">check out the docs</a> to get going.</p>
+  </div>
+  <div class="friends">
+    <div class="container">
+      <h3>Companies & Universities Developing Flux</h3>
+      <ul>
+        <li><img src="./assets/images/ucl-logo.png" style="background:#444"></li>
+        <li><img src="./assets/images/uoft_logo.png"></li>
+        <li><img src="./assets/images/juliac-logo.png"></li>
+        <li><img src="./assets/images/alan-turing.jpg"></li>
+      <!-- , Alan Turing Institute, university of Toronto and Julia Computing -->
+      </ul>
+    </div>
   </div>
 </div>
 <script src="assets/js/script.js"></script>
