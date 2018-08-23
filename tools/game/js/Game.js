@@ -168,3 +168,12 @@ Game.prototype.setState = function(newState){
 Game.prototype.defaultAction = function(){
 	return 0;
 }
+
+Game.prototype.pause = function(){
+	clearTimeout(this.playTimeout);
+}
+
+Game.prototype.resume = function(){
+	var play = this.play.bind(this);
+	this.playTimeout = setTimeout(play, this.timeInt);
+}

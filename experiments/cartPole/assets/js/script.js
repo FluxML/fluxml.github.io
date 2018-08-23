@@ -17,6 +17,19 @@ function __init__(){
 		})
 	})
 
+	document.querySelector('.button[data-action="pause"]').addEventListener('click', function(event){
+		var a = eval(this.getAttribute('paused'))
+		if(!a){
+			game.pause();
+			this.setAttribute('paused', true)
+			this.innerText = "Resume"
+		}else{
+			game.resume();
+			this.setAttribute('paused', false)
+			this.innerText = "Pause"
+		}
+	})
+
 	// event listeners for keyboard
 	document.addEventListener('keydown', function(event){
 		if(event.keyCode == 39){ // right

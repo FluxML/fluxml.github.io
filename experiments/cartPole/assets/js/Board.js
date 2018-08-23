@@ -39,13 +39,13 @@
 			speed.className = "speed"
 			c.appendChild(speed);
 			x.vis = new Vis(c, model)
-			x.x_gauge = new Gauge(speed, function(val){
+			x.x_gauge = new Gauge(speed, function(val, d){
 				x.vis.x_vel = val;
-				x.vis.draw_()
+				if(d)x.vis.draw_()
 			}, 5);
-			x.theta_gauge = new Gauge(speed, function(val){
+			x.theta_gauge = new Gauge(speed, function(val, d){
 				x.vis.theta_vel = val;
-				x.vis.draw_();
+				if(d)x.vis.draw_();
 			}, 5, "rad/s", "Angular velocity");
 		}
 		
@@ -58,6 +58,10 @@
 			score,
 			done
 		}){
+			var btn = document.querySelector('.button[data-action="pause"]');
+			btn.innerText = "Pause";
+			btn.setAttribute("paused", false);
+
 			var same = this.lastState && 
 				Object.keys(this.lastState).reduce((acc,e) =>
 					acc && state[e] == this.lastState[e]
@@ -70,8 +74,9 @@
 			var {x, theta, xvel, thetavel} = state;
 
 			if(this.showVis){
-				this.x_gauge.setValue(xvel);
-				this.theta_gauge.setValue(thetavel);
+				this.x_gauge.setValue(xvel, false);
+				this.theta_gauge.setValue(thetavel, false);
+				this.vis.draw_();
 				var ii = this.vis.to_ii(x), i = this.vis.to_i(theta);
 				this.vis.select(i, ii);
 			}
@@ -123,16 +128,23 @@
 
 
 	function Vis(container, model){
-		var x_max = 24, y_max = 24;
+		var x_max = 24, y_max = 12;
 		var dx = 4, dy = 4;
 		var bx = 2, by = 2;
 		
 		var m = (x) => tf.tidy(()=>model(x))
 		var to_x = (i) => (i - x_max)/10;
 		var to_theta = (i) => (i - y_max) * Math.PI /180;
-		var join = (e) => e.reduce((acc, e)=> acc.concat(e), []);
+		// var join = (e) => e.reduce((acc, e)=> acc.concat(e), []);
+		var join = function (e) {
+			var a = [],i = 0;
+			for(; i< e.length; i++)a = a.concat(e[i]);
+			return a;
+		}
 		var to_opacity = (x) => Math.abs(x)*255;
-		var colors = [[240, 50, 100], [65, 130, 42]]
+		// green, red
+		var colors = [[65, 230, 142], [240, 10, 90]]
+		var border_shade = 90;
 		
 		var cp = new CartPole();
 
@@ -153,25 +165,33 @@
 		this.selector = document.createElement('div');
 		this.selector.className = "sele"
 		this.res = null;
+		this.history = [];
+		this.indices = {x_vel: {}, theta_vel:{}}
 		container.appendChild(this.selector);
+
+		var grid_screen = document.createElement('div');
+		grid_screen.className="vis__"
+		container.appendChild(grid_screen)
 		
+		var grid_container = document.createElement('div');
+		grid_screen.appendChild(grid_container);
 		var grid = document.createElement('canvas');
 		grid.width = w*ww;
 		grid.height = h*hh;
 		grid.className = "explore grid";
-		container.appendChild(grid);
-
+		grid_container.appendChild(grid);
+		var info = new InfoSection(grid_container);
 		var screen = document.createElement('canvas');
-		screen.width = 300;
-		screen.height = 150;
+		screen.width = w*ww -10;
+		screen.height = h*hh -10;
 		screen.className="explore screen";
-		container.appendChild(screen);
+		grid_screen.appendChild(screen);
 
-		this.to_ii = (x) => x*10 + x_max;
-		this.to_i = (t) => y_max + t*180/Math.PI;
-
-		this.select = function(i, ii){
-			if(this.selected && this.selected[0] == i && this.selected[1] == ii)
+		this.to_ii = (x) => Math.floor(x*10 + x_max);
+		this.to_i = (t) => Math.floor(y_max + t*180/Math.PI);
+		this.select = function(i, ii, borderColorChange=false){
+			if(this.selected && this.selected[0] == i && this.selected[1] == ii
+				|| i>= h || ii>= w || i< 0 || ii< 0)
 				return;
 			this.selected = [i, ii];
 			var p = grid.getBoundingClientRect();
@@ -183,34 +203,87 @@
 			this.selector.style.width= ww + "px";
 			this.selector.style.height= hh + "px";
 			draw(screen, {x:to_x(ii), theta: to_theta(i)}, "#f00", "#000");
+			var a = this.res[i*2*w + 2*ii]
+			var b = this.res[i*2*w + 2*ii + 1]
+			info.setData(to_x(ii), to_theta(i), a, b)
+			if(borderColorChange){
+				var c = a > b ? 0: 1;
+				screen.style.borderColor = "rgba(" + colors[c].join() + ", 0.5)";
+			}
 		}
-
 		grid.addEventListener('mousemove', function(event){
 			var x = event.offsetX, y = event.offsetY;
 			var i = Math.floor(y / hh), ii = Math.floor(x / ww);
-			scope.select(i, ii);
+			scope.select(i, ii, true);
 		})
+		this.searchHistory = function(x_vel, theta_vel){
+			var keys = [["x_vel", x_vel], ["theta_vel", theta_vel]]
+			var c = null;
+			var d = 1;
+			for(var i = 0; i< keys.length; i++){
+				var a = this.indices[keys[i][0]][keys[i][1]]
+				if(!a)
+					return null
+				if(!c || c.length > a.length){
+					c = a;
+					d = Math.abs(i-1);
+				}
+			}
+			for(var i = 0; i< c.length; i++){
+				var k = this.history[c[i]];
+				if(k[keys[d][0]] == keys[d][1]){
+					return k.res
+				}
+			}
+			return null;
+		}
 
 		this.draw_ = async function(){
 			var x_vel= this.x_vel, theta_vel=this.theta_vel;
-			for(var i = 0; i< h; i++){
-				for(var ii = 0; ii< w; ii++){
-					atlas[i][ii][1] = x_vel;
-					atlas[i][ii][3] = theta_vel;
+			var res = this.searchHistory(x_vel, theta_vel);
+			if(res == null){
+				for(var i = 0; i< h; i++){
+					for(var ii = 0; ii< w; ii++){
+						atlas[i][ii][1] = x_vel;
+						atlas[i][ii][3] = theta_vel;
+					}
+				}
+				var out = m(tf.tensor(join(atlas)));
+				res = await out.data();
+
+				if(this.history.length > 100){
+					this.history = [];
+					this.indices = {x_vel: {}, theta_vel:{}}
+				}
+
+				var l = this.history.length;
+				var g = {res, x_vel, theta_vel};
+				this.history.push(g);
+				var keys = [["x_vel", x_vel], ["theta_vel", theta_vel]]
+				for(var i = 0; i< 2; i++){
+					if(!(this.indices[keys[i][0]][keys[i][1]])){
+						this.indices[keys[i][0]][keys[i][1]] = [l];
+					}else{
+						this.indices[keys[i][0]][keys[i][1]].push(l)
+					}
 				}
 			}
-			var out = m(tf.tensor(join(atlas)));
-			var res = await out.data();
 			this.res = res;
-			o.fill(255);
-			
+			for(var i = 0; i< len; i+=4){
+				o[i] = border_shade;
+				o[i + 1] = border_shade;
+				o[i + 2] = border_shade;
+				o[i + 3] = 255;
+			}
 			for(var i = 0; i< h; i++){
 				for(var j = 0; j< w; j++){
 					var t = [res[i*2*w + 2*j], res[i*2*w + 2*j + 1]];
-					var a = Math.abs(t[1])+Math.abs(t[0]);
+					var a = (Math.abs(t[1]) + Math.abs(t[0]));
 					var b = t[1] > t[0] ? 1 : 0;
-					var c = t[b]/a;
+					// var c = t[b]/a;
+					var c = .5;
 					var d = [...colors[b], to_opacity(c)]
+					// var d = [to_opacity(t[0]),to_opacity(t[0] - t[1]), to_opacity(t[1]), 255]
 					for(var ii = 0; ii< dx ; ii++){
 						for(var jj =0; jj< dy; jj++){
 							var g = (i*hh + Math.floor(by/2) + ii)*(w*ww*4) + (j*ww + Math.floor(bx/2) + jj)*4;
@@ -222,10 +295,8 @@
 					}
 				}
 			}
-			var a = new Uint8ClampedArray(o);
-			var imgdata = new ImageData(a, ww*w, hh*h);	
-
-			grid.getContext('2d').putImageData(imgdata, 0, 0);		
+			var img_ = (r) =>new ImageData(new Uint8ClampedArray(r), ww*w, hh*h)
+			grid.getContext('2d').putImageData(	img_(o), 0, 0);	
 		}
 
 		this.draw_();
@@ -266,17 +337,42 @@
 			q.setValue(max*fraction);
 		})
 
-		this.setValue = function(value){
+		this.setValue = function(value, d=true){
 			if(value == undefined || (q.value == value))return;
-			q.value = value;
-			reading.innerText = Math.round(q.value*1000)/1000 + units;
-
+			q.value =  Math.round(value*1000)/1000;
+			reading.innerText = q.value + units;
 			var fraction = value/max;
 			if(fraction > 1)fraction = 1;
 			else if (fraction < -1) fraction = -1
 			var g = fraction*90;
 			pointer.style.transform = "rotate(" + g +"deg)";
-			q.onchange(q.value);
+			q.onchange(q.value, d);
+		}
+	}
+
+	function InfoSection(container, init){
+		const template = "<div class='explore info'>\
+			<div>distance from center: <span data-name='x'>0</span>m</div>\
+			<div>angle: <span data-name='theta'>0</span>rad</div>\
+			<div><span>values:</span>\
+				<div>left: <span data-name='left'></span></div>\
+				<div>right: <span data-name='right'></span></div>\
+			</div>\
+			</div>"
+
+		var ele = document.createElement('div');
+		container.appendChild(ele)
+		ele.outerHTML = template;
+		var xph = document.querySelector(".explore.info span[data-name='x']")
+		var tph = document.querySelector(".explore.info span[data-name='theta']")
+		var lph = document.querySelector(".explore.info span[data-name='left']")
+		var rph = document.querySelector(".explore.info span[data-name='right']")
+
+		this.setData = function(x, theta, left, right){
+			xph.innerText = x;
+			tph.innerText = Math.floor(theta*1000)/1000;
+			lph.innerText = Math.floor(left*1000)/1000;;
+			rph.innerText = Math.floor(right*1000)/1000;;
 		}
 	}
 })(window)

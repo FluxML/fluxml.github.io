@@ -29,15 +29,33 @@ div{
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 100%;
 }
 
 @media only screen and (max-width:768px){
-  #playground, #controls, .board, .demo_wrapper{
+  #playground, #controls, .board{
     width: 90vw;
   }
 }
 
-.vis{ width: 100% }
+.vis{ 
+  width: 100%;
+  display: flex;
+  -webkit-justify-content: center;
+          justify-content: center;
+  flex-wrap: wrap;
+  background: #d9e0d5;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+.vis__{
+  display: flex;
+  flex-wrap: wrap;
+  -webkit-justify-content: center;
+          justify-content: center;
+  align-items: flex-start;
+}
 
 .gauge{
   width: 100px;
@@ -88,8 +106,9 @@ div{
 }
 
 .explore.screen{ 
-  border: 5px dashed #999; 
-  background: #eee
+  border: 5px solid #999; 
+  background: #eee;
+  box-sizing: border-box;
 }
 .explore.grid{ position:relative; cursor:none; }
 .speed{
@@ -103,7 +122,36 @@ div{
   left:0;
   width:0;
   height:0;
-  background: rgba(0,0,0,0.5);
+  background: #000;
   z-index: 10;
   cursor:none;
+}
+.explore.info{
+  font-size: 12px;
+  display: flex;
+  width: 300px;
+  flex-wrap: wrap;
+}
+.explore.info > *{
+  width: 150px;
+}
+
+.button{
+  margin: 0 15px;
+  border: 1px solid #41822a;
+  border-radius: 3px;
+  padding: 3px 15px;
+  cursor: pointer;
+  width: 100px;
+  text-align: center;
+}
+
+.content .container{
+  padding-right: 0;
+  padding-left: 0;
+  padding-bottom: 0 !important;
+}
+
+#game{
+  width: auto !important;
 }
