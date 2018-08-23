@@ -33,6 +33,6 @@ pong:
   start_message: Press [Enter] to start
   game_over_message: Press [Up arrow key] or [Down arrow key] to play again
   instructions_page: experiments/game/instructions/pong.html
-  code_link: "#"
+  code_link: "https://github.com/tejank10/pong-flux"
   canvas: false
   no_options: false
