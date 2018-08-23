@@ -24,7 +24,7 @@ div{
 
 .demo_wrapper{
   margin: 0px auto;
-  height: 90%;
+  min-height: 90%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -35,4 +35,75 @@ div{
   #playground, #controls, .board, .demo_wrapper{
     width: 90vw;
   }
+}
+
+.vis{ width: 100% }
+
+.gauge{
+  width: 100px;
+  height: 100px;
+  position: relative;
+  margin: 20px;
+}
+
+.gauge > *{
+  position: absolute;
+}
+
+.scale{
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-top: 3px dashed #340;
+  border-radius: 50% 50% 0 0;
+  cursor: pointer;
+}
+
+.pointer{
+  width: 4%;
+  top: 15%;
+  height: 45%;
+  background: #333;
+  left: 48%;
+  border-radius: 50%;
+  transform-origin: 50% 85%;
+  transform: rotate(0deg);
+  transition: all .7s cubic-bezier(0.81, 0.77, 0.78, 1.17);
+}
+
+.reading{
+  top: 65%;
+  width:100%;
+  padding: 3px;
+  border-radius: 3px;
+  text-align: center;
+}
+
+.name{
+  top:100%;
+  width: 100%;
+  text-align: center;
+  font-size: 12px;
+}
+
+.explore.screen{ 
+  border: 5px dashed #999; 
+  background: #eee
+}
+.explore.grid{ position:relative; cursor:none; }
+.speed{
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.sele{
+  position: absolute;
+  top:0;
+  left:0;
+  width:0;
+  height:0;
+  background: rgba(0,0,0,0.5);
+  z-index: 10;
+  cursor:none;
 }

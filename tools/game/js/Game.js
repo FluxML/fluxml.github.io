@@ -29,7 +29,7 @@ function Game(env, out, model, {
 		transform={
 			state: function(state){
 				({ x, xvel , theta, thetavel } = state);
-				return tf.tensor([x, xvel, theta, thetavel])
+				return tf.tensor([x, xvel, theta, thetavel], [1, 4])
 			},
 			action: function(a){
 				return tf.argMax(a).data().then(d => d[0] + 1);

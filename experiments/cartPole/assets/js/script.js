@@ -1,12 +1,13 @@
 // Game -> CartPole , ( Board --> Keyboard )
 
-var board = new Board(document.querySelector('.board'))
+var board = new Board(document.querySelector('.board'), model)
 
 function __init__(){
 
 	var cp = new CartPole();
-	var game = new Game(cp, board, model);
+	var game = new Game(cp, board, model, {timeInt:100});
 	game.setState("human");
+	setTimeout(() => board.initVis(model), 50);
 
 	var options = document.querySelector('.options');
 	Array.from(options.querySelectorAll('.option')).forEach(el=>{
@@ -31,25 +32,6 @@ function __init__(){
 	keyboard.querySelector('.right').addEventListener('click', function(){
 		game.action(2);
 	})
-
-	createVis(document.querySelector(".vis"))
 }
 
 loadWeights("assets/bson/dqn.bson", document.querySelector('.board'), __init__, model);
-
-function createVis(container){
-	var x_max = 24, y_max = 24;
-	var to_x = (i) => (i - 24)/10;
-	var to_theta = (i) => (i - 24) * Math.PI /360;
-	var canvas = document.createElement('canvas');
-	var w = 2*x_max + 1, h = 2*y_max + 1;
-	var x_vel = 0.5;
-	var theta_vel = 0.5;
-	var atlas = (new Array(h).fill(0).map((e, i)=>{
-		return Promise.all(new Array(w).fill(0).map((ee, ii)=>{
-			return model(tf.tensor([to_x(ii), x_vel, to_theta(i), theta_vel])).data();
-		}))
-	}));
-	atlas = Promise.all(atlas);
-
-}
