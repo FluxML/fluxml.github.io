@@ -1,0 +1,238 @@
+.tree{
+    margin: 50px;
+}
+
+h4{
+    line-height: 2em;
+}
+
+.level{
+	/*min-height: 100px;*/
+    /*background: #ebf5eb;*/
+    margin: 0 10px;
+   	display: flex;
+   	-webkit-justify-content: center;
+   	        justify-content: center;
+    
+    /*height: 50%;*/
+}
+
+.tree .level:nth-of-type(2) img,
+.tree .level:nth-of-type(4) img{
+    width: 200px;
+    height: 200px;
+    border: none;
+    box-shadow: none;
+    outline: none;
+    background: #ddd;
+    border-radius: 3px;
+}
+
+.element{
+	min-height: 300px;
+    /*min-width: 300px;*/
+	
+	margin: 0 10px;
+	border-radius: 6px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.sibling{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+
+.connector{
+	min-height: 100px;
+	position:relative;
+	margin: 0 10px;
+    flex:2;
+}
+
+.connector *{
+	position: absolute;	
+    background: #aaa;
+    transition: all .4s linear;
+}
+
+.connector.two div:first-child{
+	width: 50%;
+    height: 2px;
+    left: 25%;
+    top: 50%;
+}
+
+.connector.two div:nth-child(2){
+	width: 2px;
+    height: 50%;
+    left: 25%;
+    top: 0;	
+}
+
+.connector.two div:nth-child(3){
+	width: 2px;
+    height: 50%;
+    left: 75%;
+    top: 0;	
+}
+
+.connector.two div:nth-child(4){
+	width: 2px;
+    height: 50%;
+    left: 50%;
+    top: 50%;	
+}
+
+.connector.one div{
+	width: 2px;
+    height: 100%;
+    left: 50%;
+    top: 0;	
+}
+
+
+.select_style ul{
+    display: flex;
+    justify-content: center;
+    -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    flex-wrap: wrap;
+    padding: 0;
+    margin: 0;
+}
+
+.select_style li{
+    margin: 5px 3px;
+    padding:0;
+    flex: 1;
+    text-align: center;
+    background: transparent;
+    cursor: pointer;
+    width: fit-content;
+}
+
+.select_style img{
+    width: 70px;
+    height: 70px;
+    /*border: 5px solid transparent;*/
+}
+
+
+.pane{
+    display: flex;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-justify-content: center;
+            justify-content: center;
+    -webkit-align-items: center;
+            align-items: center;
+    height: fit-content;
+    padding: 20px;
+    background: #ebf5eb;
+}
+
+.pane.disabled {
+    background: #dddddd;
+}
+
+.pane.disabled video{
+    background: #eeeeee;   
+}
+
+.pretty_button{
+    border-radius: 3px;
+    border: none;
+    background: #fff;
+    margin: 10px 0;
+    padding: 10px;
+    cursor: pointer;   
+}
+
+.pretty_button.disabled{
+    cursor: initial;
+}
+
+.pretty_button:not(.disabled),
+.select_style img{
+    transition: all .4s linear;
+    box-shadow: 2px 2px 5px #333;
+}
+
+.pretty_button:not(.disabled):active,
+.pretty_button:not(.disabled):focus{
+    outline: none;
+    border: none;
+    box-shadow: none;
+}
+
+.pretty_button:not(.disabled):hover,
+.select_style li:hover img{
+    box-shadow: 0px 0px 0px #333;
+    transform: translate(2px, 2px);
+}
+
+
+.down{
+    margin: 30px 5px 10px !important;
+}
+
+.fade.in{
+    opacity: 1;
+}
+
+.msg{
+    text-align: center;
+}
+
+li{
+    list-style: none;
+}
+
+.tree[green=true] .connector *{
+    box-shadow: 2px 2px 2px #49c31d;
+}
+.pane{
+    border: 1px solid transparent;
+    transition: all .4s linear;
+}
+
+.tree[green=true] .pane{
+    border: 1px solid #49c31d;
+}
+
+@media only screen and (max-width: 768px){
+    .connector{
+        display: none;
+    }
+
+    .w-50{
+        width: 100% !important;
+    }
+
+    .tree{
+        margin: 20px 5px;
+    }
+
+    .level{
+        flex-direction:column;
+    }
+    .element{
+        min-height: 0px;
+        margin: 10px 0 !important;
+    }
+
+    .pane{
+        width: 100%;
+    }
+
+    .select_style ul{
+        flex-direction: column;
+    }
+}

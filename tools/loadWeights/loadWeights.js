@@ -3,6 +3,7 @@ function loadWeights(url, pc, func, model=null){
 }
 
 function _loadWeights(configArr, progressContainer, __init__){
+
 	let Buffer = new BSON().serialize({}).constructor
 
 	// send an xhr Request so as to show event progress
@@ -31,9 +32,7 @@ function _loadWeights(configArr, progressContainer, __init__){
 		err: console.log
 	})
 
-	window.onload = ()=>{
-		pbar.start();
-		config.forEach(({xhr}) => xhr.send());
-	}
-
+	
+	pbar.start();
+	config.forEach(({xhr}) => xhr.send());
 }
