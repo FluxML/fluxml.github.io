@@ -42,11 +42,11 @@
 			x.x_gauge = new Gauge(speed, function(val, d){
 				x.vis.x_vel = val;
 				if(d)x.vis.draw_()
-			}, 5);
+			}, 1);
 			x.theta_gauge = new Gauge(speed, function(val, d){
 				x.vis.theta_vel = val;
 				if(d)x.vis.draw_();
-			}, 5, "rad/s", "Angular velocity");
+			}, 1, "rad/s", "Angular velocity");
 		}
 		
 	}
@@ -144,7 +144,7 @@
 		var to_opacity = (x) => Math.abs(x)*255;
 		// green, red
 		var colors = [[65, 230, 142], [240, 10, 90]]
-		var border_shade = 90;
+		var border_shade = 100;
 		
 		var cp = new CartPole();
 
@@ -180,29 +180,34 @@
 		grid.height = h*hh;
 		grid.className = "explore grid";
 		grid_container.appendChild(grid);
-		var info = new InfoSection(grid_container);
+		
+		var screen_container = document.createElement('div');
 		var screen = document.createElement('canvas');
 		screen.width = w*ww -10;
 		screen.height = h*hh -10;
 		screen.className="explore screen";
-		grid_screen.appendChild(screen);
+		screen_container.appendChild(screen);
+		grid_screen.appendChild(screen_container);
+
+		var info = new InfoSection(grid_container, screen_container);
 
 		this.to_ii = (x) => Math.floor(x*10 + x_max);
 		this.to_i = (t) => Math.floor(y_max + t*180/Math.PI);
-		this.select = function(i, ii, borderColorChange=false){
-			if(this.selected && this.selected[0] == i && this.selected[1] == ii
-				|| i>= h || ii>= w || i< 0 || ii< 0)
+		this.select = function(i, ii, borderColorChange=true){
+			if(i>= h || ii>= w || i< 0 || ii< 0)
 				return;
+			if(!(this.selected) || (this.selected[0] != i || this.selected[1] != ii)){
+				var p = grid.getBoundingClientRect();
+				var q = container.getBoundingClientRect();
+				var top = p.y - q.y;
+				var left = p.x - q.x;
+				this.selector.style.top = top + i*hh + "px";
+				this.selector.style.left = left + ii*ww  + "px";
+				this.selector.style.width= ww + "px";
+				this.selector.style.height= hh + "px";
+				draw(screen, {x:to_x(ii), theta: to_theta(i)}, "#f00", "#000");
+			}
 			this.selected = [i, ii];
-			var p = grid.getBoundingClientRect();
-			var q = container.getBoundingClientRect();
-			var top = p.y - q.y;
-			var left = p.x - q.x;
-			this.selector.style.top = top + i*hh + "px";
-			this.selector.style.left = left + ii*ww  + "px";
-			this.selector.style.width= ww + "px";
-			this.selector.style.height= hh + "px";
-			draw(screen, {x:to_x(ii), theta: to_theta(i)}, "#f00", "#000");
 			var a = this.res[i*2*w + 2*ii]
 			var b = this.res[i*2*w + 2*ii + 1]
 			info.setData(to_x(ii), to_theta(i), a, b)
@@ -350,19 +355,23 @@
 		}
 	}
 
-	function InfoSection(container, init){
-		const template = "<div class='explore info'>\
-			<div>distance from center: <span data-name='x'>0</span>m</div>\
-			<div>angle: <span data-name='theta'>0</span>rad</div>\
-			<div><span>values:</span>\
+	function InfoSection(container_axes, container_values){
+		// const template = "<div class='explore info'>\
+		const axes = "\
+			<div class='explore info axes'>\
+				<div>distance from center: <span data-name='x'>0</span>m</div>\
+				<div>angle: <span data-name='theta'>0</span>rad</div>\
+			</div>";
+		const values = "\
+			<div class='explore info values'><span>values:</span>\
 				<div>left: <span data-name='left'></span></div>\
 				<div>right: <span data-name='right'></span></div>\
-			</div>\
 			</div>"
+			// </div>"
 
-		var ele = document.createElement('div');
-		container.appendChild(ele)
-		ele.outerHTML = template;
+		createSection(container_axes, axes);
+		createSection(container_values, values);
+
 		var xph = document.querySelector(".explore.info span[data-name='x']")
 		var tph = document.querySelector(".explore.info span[data-name='theta']")
 		var lph = document.querySelector(".explore.info span[data-name='left']")
@@ -374,5 +383,11 @@
 			lph.innerText = Math.floor(left*1000)/1000;;
 			rph.innerText = Math.floor(right*1000)/1000;;
 		}
+	}
+
+	function createSection(container, template){
+		var ele = document.createElement('div');
+		container.appendChild(ele)
+		ele.outerHTML = template;
 	}
 })(window)

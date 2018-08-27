@@ -128,9 +128,15 @@ div{
 }
 .explore.info{
   font-size: 12px;
+}
+.explore.info.axes{
   display: flex;
-  width: 300px;
   flex-wrap: wrap;
+}
+.explore.info.values{
+  position: absolute;
+  top: 10px;
+  left: 10px;
 }
 .explore.info > *{
   width: 150px;
