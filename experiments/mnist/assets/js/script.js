@@ -13,6 +13,7 @@ function __init__(){
 	});
 
 	model = new Model(editor, result, model);
+	
 }
 
 // draw a number from grayscale float data

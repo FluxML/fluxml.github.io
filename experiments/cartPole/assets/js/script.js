@@ -1,21 +1,33 @@
 // Game -> CartPole , ( Board --> Keyboard )
 
-var board = new Board(document.querySelector('.board'))
+var board = new Board(document.querySelector('.board'), model)
 
 function __init__(){
 
 	var cp = new CartPole();
-	var game = new Game(cp, board, model);
+	var game = new Game(cp, board, model, {timeInt:100});
 	game.setState("human");
+	setTimeout(() => board.initVis(model), 50);
 
 	var options = document.querySelector('.options');
 	Array.from(options.querySelectorAll('.option')).forEach(el=>{
 		el.addEventListener('click', function(event){
 			game.setState(el.getAttribute('data-state'));
-
 			highlight(el, options);		
-			
 		})
+	})
+
+	document.querySelector('.button[data-action="pause"]').addEventListener('click', function(event){
+		var a = eval(this.getAttribute('paused'))
+		if(!a){
+			game.pause();
+			this.setAttribute('paused', true)
+			this.innerText = "Resume"
+		}else{
+			game.resume();
+			this.setAttribute('paused', false)
+			this.innerText = "Pause"
+		}
 	})
 
 	// event listeners for keyboard
@@ -36,5 +48,3 @@ function __init__(){
 }
 
 loadWeights("assets/bson/dqn.bson", document.querySelector('.board'), __init__, model);
-
-

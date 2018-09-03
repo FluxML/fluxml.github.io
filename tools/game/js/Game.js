@@ -29,7 +29,7 @@ function Game(env, out, model, {
 		transform={
 			state: function(state){
 				({ x, xvel , theta, thetavel } = state);
-				return tf.tensor([x, xvel, theta, thetavel])
+				return tf.tensor([x, xvel, theta, thetavel], [1, 4])
 			},
 			action: function(a){
 				return tf.argMax(a).data().then(d => d[0] + 1);
@@ -167,4 +167,13 @@ Game.prototype.setState = function(newState){
 
 Game.prototype.defaultAction = function(){
 	return 0;
+}
+
+Game.prototype.pause = function(){
+	clearTimeout(this.playTimeout);
+}
+
+Game.prototype.resume = function(){
+	var play = this.play.bind(this);
+	this.playTimeout = setTimeout(play, this.timeInt);
 }

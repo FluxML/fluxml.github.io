@@ -7,10 +7,10 @@
 }
 
 .instructions{
-  margin: 40px 0 0 0;
-  background: #ebf5eb;
+  /*margin: 40px 0 0 0;*/
+  background: #fff;
   padding: 20px;
-  border-radius: 6px;
+  /*border-radius: 6px;*/
   /* box-sizing: border-box; */
   text-align: justify;
   width: 100%;

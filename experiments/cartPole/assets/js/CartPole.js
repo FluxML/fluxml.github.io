@@ -1,3 +1,20 @@
+const gravity = 9.8;
+const mass_cart = 1.0;
+const mass_pole = 0.1;
+const total_mass = mass_cart + mass_pole;
+const pole_length = 0.5;
+const mass_pole_length = mass_pole * pole_length;
+const force_mag = 10.0;
+const tau = 0.02 ;
+
+const theta_threshold = 24* Math.PI / 360
+const x_threshold = 2.4
+
+//display settings
+const cart_length = .4;
+const cart_height = .05;
+const pole_diameter = 0.02;
+
 (function(obj){
 
 	Object.assign(obj, {CartPole})
@@ -5,23 +22,6 @@
 	// cartPole env
 	function CartPole(){
 		// ported from https://github.com/JuliaML/Reinforce.jl/blob/master/src/envs/cartpole.jl
-		const gravity = 9.8;
-		const mass_cart = 1.0;
-		const mass_pole = 0.1;
-		const total_mass = mass_cart + mass_pole;
-		const pole_length = 0.5;
-		const mass_pole_length = mass_pole * pole_length;
-		const force_mag = 10.0;
-		const tau = 0.02 ;
-
-		const theta_threshold = 24* Math.PI / 360
-		const x_threshold = 2.4
-
-		//display settings
-		const cart_length = .4
-		const cart_height = .05
-		const pole_diameter = 0.02
-
 		var total_reward = 0;
 		var state = {x: 0, xvel: 0, theta: 0, thetavel: 0};
 		var action = 0;
@@ -55,8 +55,8 @@
 			return reward
 		}
 
-		this.done = ()=>{
-			({x, xvel , theta, thetavel } = state);
+		this.done = (s=state)=>{
+			({x, theta } = s);
 			return !(Math.abs(x) <= x_threshold && Math.abs(theta) <= theta_threshold);
 		}
 
