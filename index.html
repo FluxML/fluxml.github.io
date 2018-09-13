@@ -74,17 +74,35 @@ layout: default
 .feature .container p:last-child {
   margin-bottom: 0;
 }
+.links{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: fit-content;
+}
+.links ul{
+  display: flex;
+  flex-direction: row;
+  margin: 0;
+  padding: 0;
+  -webkit-justify-content: center;
+          justify-content: center;
+}
+.links a{
+  text-decoration: none;
+}
+@media (max-width: 758px){
+  .links{ width: 100vw }
+}
 .info{
   font-size: .8em;
   text-shadow: none;
-  position: absolute;
+  list-style: none;
   padding: 5px 10px;
   margin: 5px;
   border-radius: 3px;
   background: rgba(0, 0, 0, 0.3);
 }
-.bottom{ bottom: 0; }
-.right{ right: 0 }
 .white{ color: #fff; }
 .no-pad{ padding: 0 !important }
 .friends{
@@ -129,7 +147,12 @@ layout: default
     </p>
     <a class="btn btn-primary btn-lg" href="Flux.jl" role="button">Try It Out</a>
   </div>
-  <a href="http://blog.otoro.net/2016/03/25/generating-abstract-patterns-with-tensorflow/"><div class="info bottom right white"> Image Credit</div></a>
+  <div class="links"> 
+  <ul>
+    <a href="http://blog.otoro.net/2016/03/25/generating-abstract-patterns-with-tensorflow/"><li class="info white">Image Credit</li></a>
+    <a href="https://github.com/FluxML/model-zoo/blob/13f650f6b97fda02295e5fa5d27bef8c01ad224f/vision/cppn/cppn.jl"><li class="info white">Code</li></a>
+  </ul>
+  </div>
 </div>
 
 <!-- Main Content -->
