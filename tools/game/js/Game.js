@@ -32,7 +32,11 @@ function Game(env, out, model, {
 				return tf.tensor([x, xvel, theta, thetavel])
 			},
 			action: function(a){
-				return tf.argMax(a).data().then(d => d[0] + 1);
+				var b = tf.argMax(a)
+				return b.data().then(d => {
+					tf.dispose(b);
+					return d[0] + 1;
+				});
 			}
 		},
 		autoReset=false
@@ -111,6 +115,7 @@ Game.prototype.play = async function(){
 			var a = await this.predict(this.env.state())
 			var action = await this.transform.action(a);
 			this.move(action);
+			tf.dispose(a);
 			break;
 		default:
 			console.log("Invalid state", this.state);
@@ -145,9 +150,10 @@ Game.prototype.move = function(a){
 	this.next();
 }
 Game.prototype.predict = function(state){
-	var input = this.transform.state(state);
-	var output = this.model(input);
-	return output;
+	return tf.tidy(()=>{
+		var input = this.transform.state(state);
+		return this.model(input);
+	})
 }
 Game.prototype.reset = function(){
 	this.env.reset();

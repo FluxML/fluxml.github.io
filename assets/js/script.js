@@ -113,10 +113,12 @@ function CPPN(canvas, {z_dim=2, w=100, h=100, rate=1, max=1, frames = 1000, func
 
 		var input = tf.tensor(collection, [l, 3 + z_dim]);
 		var output = model_(input);
+		tf.dispose(input);
 
 		output.data().then(r=>{
 			screen.addFrame(r);
 			screen.next();
+			tf.dispose(output);
 		})
 
         next();
