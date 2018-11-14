@@ -72,21 +72,23 @@ player.tree_search = async function(parallel_readouts=8){
 	var failsafe = 0;
 
 	var leaves = await this.tree_search_loop(leaves, failsafe, parallel_readouts, [])
-
   	if(leaves.length == 0) return [];
 
 	var { move_probs, values } = this.network.process(leaves)
 	
 	var len = this.board_size*this.board_size + 1
 	
-	values = values.dataSync();
+	val = values.dataSync();
+	tf.dispose(values)
 	for (var i in leaves){
 		var leaf = leaves[i];
 		var move_prob = move_probs.slice(0, 1).as1D()
-		var value = values[i];
+		var value = val[i];
 		leaf.revert_virtual_loss(this.root)
 		leaf.incorporate_results(move_prob, value, this.root)
+		tf.dispose(move_prob);
 	}
+	tf.dispose(move_probs)
 	
 	return leaves
 }
@@ -109,6 +111,9 @@ player.tree_search_loop = async function(leaves, failsafe, parallel_readouts, ne
 	      leaf.backup_value(value, this.root)
 	      continue
 	    }
+
+	    
+	    
 	    leaf.add_virtual_loss(this.root)
 	    leaves.push(leaf)
 	}
@@ -176,7 +181,7 @@ player.play_move = function(c){
 	this.root = this.root.maybe_add_child(c);
 	
 	this.position = this.root.position
-	this.root.parent.children = {};
+	this.root.set_dummy_parent(this.root.parent.child_N);
 
 	return true
 }

@@ -19,11 +19,14 @@
 		var scope = this;
 		var input = this.blackAndWhite(image.data);
 		
-		var tensor = tf.tensor(input, [28, 28]).transpose().reshape([1, 1, 28,28]);
-		var output = this.model(tensor);
-
+		var output = tf.tidy(() => {
+			var tensor = tf.tensor(input, [28, 28]).transpose().reshape([1, 1, 28,28]);
+			return this.model(tensor);
+		});
+		
 		output.data().then(function(val){
 			(scope.showResult.bind(scope))(val);
+			tf.dispose(output);
 		})
 	}
 

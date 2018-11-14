@@ -5,7 +5,7 @@ var board = new Board(document.querySelector('.board'))
 function __init__(){
 
 	var cp = new CartPole();
-	var game = new Game(cp, board, model);
+	var game = new Game(cp, board, (e) => tf.tidy(()=>model(e)));
 	game.setState("human");
 
 	var options = document.querySelector('.options');

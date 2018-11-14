@@ -12,12 +12,14 @@ function Model(model, config){
 Model.prototype.process = function(input){
 	var l= input.length;
 	var p = new Array(l);
-	for(var i=0; i<l; i++){ p[i] = input[i].get_feats()}
-	
-	var nn_in = tf.stack(p);
-	common_out = this.model.base_net(nn_in)
-	var [pi, val] = [this.model.policy(common_out), this.model.value(common_out)]
-	
+	var [pi, val] = tf.tidy(() =>{
+		for(var i=0; i<l; i++){ p[i] = input[i].get_feats()}
+		var nn_in = tf.stack(p);
+		var common_out = this.model.base_net(nn_in)
+		var pi = this.model.policy(common_out);
+		var val = this.model.value(common_out);
+		return [pi, val]
+	});
 	return { move_probs: pi, values: val };
 }
 

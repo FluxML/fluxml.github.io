@@ -30,7 +30,9 @@ function Model(name, model, loaded=false){
 		
 		var input = this.pre(data);
 		var out = model(input);
+		tf.dispose(input)
 		return out.data().then(res =>{
+			tf.dispose(out)
 			_input = null
 			res = this.post(res, data.width, data.height)
 			
