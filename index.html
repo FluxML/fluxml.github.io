@@ -7,7 +7,6 @@ layout: default
 
 .jumbotron {
   background-color: black;
-  background: url("bg.jpg");
   background-position: center;
   background-size: cover;
   margin-bottom: 0;
@@ -130,14 +129,8 @@ layout: default
 }
 </style>
 
-<link rel="stylesheet" href="assets/css/style.css">
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.9.0"> </script>
-<script src="https://unpkg.com/bson@2.0.8/browser_build/bson.js"></script>
-<script src="/tools/fluxjs/flux.js"></script>
-
 <!-- Header -->
 <div class="jumbotron jumbotron-fluid no-pad">
-  <canvas id="cppn" class="hidden"></canvas>
   <div class="container" style="text-align:center">
     <h1 class="display-3">flux</h1>
     <h2>The <i>Elegant</i> Machine Learning Stack</h2>
@@ -146,12 +139,6 @@ layout: default
       Models that look like mathematics. Seamless derivatives, GPU training and deployment. A set of small, nimble tools that each do one thing and do it well.
     </p>
     <a class="btn btn-primary btn-lg" href="Flux.jl" role="button">Try It Out</a>
-  </div>
-  <div class="links"> 
-  <ul>
-    <a href="http://blog.otoro.net/2016/03/25/generating-abstract-patterns-with-tensorflow/"><li class="info white">Image Credit</li></a>
-    <a href="https://github.com/FluxML/model-zoo/blob/13f650f6b97fda02295e5fa5d27bef8c01ad224f/vision/cppn/cppn.jl"><li class="info white">Code</li></a>
-  </ul>
   </div>
 </div>
 
@@ -247,5 +234,3 @@ end</code></pre>
     </div>
   </div>
 </div>
-<script src="assets/js/script.js"></script>
-<script src="assets/js/cppn.js"></script>
