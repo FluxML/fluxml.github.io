@@ -39,6 +39,7 @@ function Node(position, {parent, fmove=null, board_size=9, max_game_length, stac
 
     this.children = {}
     this.stack = stack || [position.schema()]
+    this.free = false;
 }
 
 var node = Node.prototype;
@@ -57,12 +58,11 @@ node.W = function(){
 
 node.set_W = function(value){
 	var x = this;
-	tf.tidy(()=>{
-		var l = x.parent.child_W.buffer();
-		l.set(value, x.fmove - 1)
-		x.parent.child_W = l.toTensor();
-		return x.parent.child_W
-	})
+	var l = x.parent.child_W.buffer();
+	tf.dispose(x.parent.child_W);
+	l.set(value, x.fmove - 1)
+	x.parent.child_W = l.toTensor();
+	return x.parent.child_W
 }
 
 node.select_leaf = async function(nextLeaves){
@@ -74,7 +74,7 @@ node.select_leaf = async function(nextLeaves){
 
 node.select_leaf_loop = async function(current, pass_move, n, nextLeaves){
 	var readouts = 0;
-
+	
 	var stop = (leaf) => !leaf.is_expanded || leaf.is_done()
 
 	var d;
@@ -99,10 +99,12 @@ node.select_leaf_loop = async function(current, pass_move, n, nextLeaves){
 		// }
     	cas = current.child_action_score()
     	// console.log("cas", this.child_N, current.child_N)
-    	best_move = tf.argMax(cas).dataSync()[0] + 1
-    	
+    	best_move = tf.tidy(()=>tf.argMax(cas).dataSync()[0] + 1)
+    	tf.dispose(cas);
     	current = current.maybe_add_child(best_move)
 	}
+
+	
 
 	if (current.position.last_move == pass_move
 	      && current.child_N[pass_move - 1] == 0 && !current.is_done()){
@@ -124,10 +126,16 @@ node.select_leaf_loop = async function(current, pass_move, n, nextLeaves){
 
 }
 
+function childname(node){
+	if(node instanceof DummyNode || node.parent instanceof DummyNode)return "Dummy"
+	return childname(node.parent) +" >> " + node.fmove;
+}
+
 node.maybe_add_child = function(move){
 	// console.log("maybe_add_child", move)
 	
 	if(!this.children[move]){
+		// console.log("add child:", childname(this), ">>", move)
 		var new_pos = this.position.play_move(move);
 		this.children[move] = new Node(new_pos, {fmove:move, parent:this, max_game_length: this.max_game_length})
 	}
@@ -136,13 +144,15 @@ node.maybe_add_child = function(move){
 }
 
 node.child_action_score = function(){
-	var larr = tf.tensor(this.legal_moves().map(e => 1000 *( 1 - e)));
-	var qarr = this.child_Q();
-	// debugger;
-	var uarr = this.child_U();
-	var l = this.board_size * this.board_size + 1;
-	var x = this;
-	return tf.tidy(() => tf.sub(tf.add(tf.mul(qarr, tf.scalar(x.position.to_play)), uarr),larr));
+	return tf.tidy(() =>{
+		var larr = tf.tensor(this.legal_moves().map(e => 1000 *( 1 - e)));
+		var qarr = this.child_Q();
+		// debugger;
+		var uarr = this.child_U();
+		var l = this.board_size * this.board_size + 1;
+		var x = this;
+		return tf.sub(tf.add(tf.mul(qarr, tf.scalar(x.position.to_play)), uarr),larr)
+	});
 }
 
 node.child_Q = function(){
@@ -153,9 +163,8 @@ node.child_Q = function(){
 }
 
 node.child_U = function(){
-	var d = tf.scalar(c_puct * Math.sqrt(1 + this.N()));
 	var x = this;
-	return tf.tidy(() => tf.mul(d, 
+	return tf.tidy(() => tf.mul(tf.scalar(c_puct * Math.sqrt(1 + x.N())), 
 		tf.div(x.child_prior, tf.add(tf.scalar(1), tf.tensor(x.child_N)))))
 }
 
@@ -179,6 +188,7 @@ node.revert_virtual_loss = function(root_){
   	var revert = -1 * this.position.to_play;
 	this.set_W(this.W() + revert)
   	if (this.parent == null || this == root_) return;
+  	
   	this.parent.revert_virtual_loss(root_)
 }
 
@@ -190,9 +200,11 @@ node.incorporate_results = function(move_probs, value, up_to){
 	}
 	this.is_expanded = true
 	// this.original_prior = move_probs.slice();
+	tf.dispose(this.child_prior);
 	this.child_prior = move_probs;
 
 	var len = this.board_size * this.board_size + 1
+	tf.dispose(this.child_W)
 	this.child_W = tf.fill([len], value)
 	this.backup_value(value, up_to)
 }
@@ -247,16 +259,32 @@ node.set_stack = function(n){
 	this.stack = this.get_stack(n);
 }
 
-node.set_dummy_parent = function(n, child_N){
+node.set_dummy_parent = function(child_N){
 	// debugger
+	this.parent.free_node(this.fmove);
 	this.parent = new DummyNode(this.board_size, child_N);
 	this.parent.child_N = child_N;
+}
+
+node.free_node = function(savechild=-1){
+	if(this.free) return;
+	tf.dispose(this.child_W);
+	tf.dispose(this.child_prior);
+	this.free = true;
+	for (var child in this.children){
+		if(child != savechild)
+			this.children[child].free_node()
+	}
+	this.children = {}
+	if(this.parent != this)
+		this.parent.free_node();
 }
 
 function DummyNode(n){
 	this.parent = null;
 	this.child_N = zeros(n*n + 1);
 	this.child_W = tf.zeros([n*n + 1]);
+	this.free = false;
 }
 
 DummyNode.prototype = Object.create(node);
@@ -264,5 +292,10 @@ DummyNode.prototype = Object.create(node);
 DummyNode.prototype.get_stack = function(){
 	return [];
 };
+
+DummyNode.prototype.free_node = function(){
+	tf.dispose(this.child_W);
+	this.free = true;
+}
 
 })(window);
