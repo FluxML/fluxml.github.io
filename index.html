@@ -6,21 +6,20 @@ layout: default
 /* Header */
 
 .jumbotron {
-  background-color: black;
-  background-position: center;
-  background-size: cover;
   margin-bottom: 0;
-  color: white;
-  text-shadow: -1px 1px 8px #000;
   position: relative;
+  border-bottom: 1px thick;
 }
 
 .jumbotron .container {
   max-width: 750px;
   box-shadow: 2px;
   position: relative;
-  background: rgba(0, 0, 0, 0.5);
-  padding: calc(2rem + 30px) 15px;
+  padding:none;
+}
+
+.jumbotron .buttons {
+  padding: 10px;
 }
 
 @media (min-width: 576px){
@@ -30,7 +29,7 @@ layout: default
 }
 
 .jumbotron hr {
-  border-top: 1px solid rgba(255,255,255,.5);
+  border-top: 1px solid rgb(100, 150, 150);
 }
 
 .jumbotron h1 {
@@ -39,71 +38,49 @@ layout: default
 }
 
 /* Description */
+.jumbotron {
+  padding: 0;
+}
+
 .jumbotron p {
-  color: rgb(240, 240, 240);
   font-size: 1.1em;
   margin-bottom: 1.5rem;
 }
 
 .btn-primary {
-  border-color: rgb(60, 150, 60);
+  color: rgb(30, 50, 50);
+  border-color: rgb(150, 200, 200);
   background: none;
   border-width: 2px;
 }
 
 .jumbotron .btn-primary:hover {
-  border-color: rgb(60, 255, 60);
+  color: rgb(0, 0, 0);
+  border-color: rgb(30, 80, 80);
   background: none;
   border-width: 2px;
 }
 
 /*Features*/
+.features {
+  padding-top: 1em;
+}
+
 .feature {
-  padding-top: 2rem;
+  padding-top: 1em;
   padding-bottom: 2rem;
   letter-spacing: 0.1px;
-  color: rgb(50, 50, 50);
 }
-.feature:nth-child(2n) {
-  background: rgb(235, 245, 235);
+
+.paper {
+  padding: 1em;
 }
-.feature:nth-child(2n) pre code.hljs {
-  background: white;
+
+.feature h5, .paper h5 {
+  font-style: italic;
+  padding-bottom: 0.5em;
 }
-.feature .container p:last-child {
-  margin-bottom: 0;
-}
-.links{
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: fit-content;
-}
-.links ul{
-  display: flex;
-  flex-direction: row;
-  margin: 0;
-  padding: 0;
-  -webkit-justify-content: center;
-          justify-content: center;
-}
-.links a{
-  text-decoration: none;
-}
-@media (max-width: 758px){
-  .links{ width: 100vw }
-}
-.info{
-  font-size: .8em;
-  text-shadow: none;
-  list-style: none;
-  padding: 5px 10px;
-  margin: 5px;
-  border-radius: 3px;
-  background: rgba(0, 0, 0, 0.3);
-}
-.white{ color: #fff; }
-.no-pad{ padding: 0 !important }
+
 .friends{
   background: #fff;
 }
@@ -132,105 +109,146 @@ layout: default
 <!-- Header -->
 <div class="jumbotron jumbotron-fluid no-pad">
   <div class="container" style="text-align:center">
-    <h1 class="display-3">flux</h1>
+    <img src="logo.png" style="max-width:100%;padding-bottom:20px"  />
     <h2>The <i>Elegant</i> Machine Learning Stack</h2>
-    <hr class="my-4">
-    <p class="lighter">
-      Models that look like mathematics. Seamless derivatives, GPU training and deployment. A set of small, nimble tools that each do one thing and do it well.
-    </p>
-    <a class="btn btn-primary btn-lg" href="Flux.jl" role="button">Try It Out</a>
+    <div class="buttons">
+      <a class="btn btn-primary btn-lg" href="Flux.jl" role="button"><i class="fas fa-download"></i> Try It Out</a>
+      <a class="btn btn-primary btn-lg" href="https://github.com/FluxML/Flux.jl" role="button"><i class="fas fa-star"></i> GitHub</a>
+    </div>
   </div>
 </div>
 
 <!-- Main Content -->
-<div class="bg-light">
-  <!-- Installation -->
-  <div class="feature">
-    <div class="container">
-      <div class="row">
-        <div class="col">
-            <p>
-              Installation? What installation? Just use Julia's package manager and you're done.
-            </p>
-        </div>
-        <div class="col">
-          <pre><code class="julia">Pkg.add("Flux")</code></pre>
-        </div>
+<div class="features" style="background:white;padding-top:2em;">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12" style="text-align:center;color:rgb(100,130,130)">
+        <h2>Features & Ecosystem</h2>
       </div>
     </div>
-  </div>
-  <!-- Models -->
-  <div class="feature">
-    <div class="container">
-      <div class="row">
-        <div class="col">
-<pre><code class="julia">W = randn(2, 10)
-b = randn(2)
+    <div class="row">
+      <div class="col-md feature">
+        <h5>Compiled Eager Code</h5>
+        <p>
+          Flux provides a single, intuitive way to define models, just like mathematical notation.
+          Julia transparently <a href="https://julialang.org/blog/2018/12/ml-language-compiler">compiles your code</a>, optimising and fusing kernels for the GPU, for the best performance.
+        </p>
+      </div>
 
-y = σ(W * x .+ b)</code></pre>
-        </div>
-        <div class="col">
-            <p>
-              Where Python is executable pseudocode, Julia is executable math. Models look just like the description in the paper, and you have the full power and simplicity of the Julia language (including control flow, multiple dispatch and macros).
-            </p>
-        </div>
+      <div class="col-md feature">
+        <h5>Differentiable Programming</h5>
+        <p>
+          Existing Julia libraries are differentiable and can be incorporated directly into Flux models.
+          Cutting edge models such as <a href="https://julialang.org/blog/2019/01/fluxdiffeq">Neural ODEs</a> are first class, and <a href="https://github.com/FluxML/Zygote.jl">Zygote</a> enables overhead-free gradients.
+        </p>
       </div>
-    </div>
-  </div>
-  <!-- Hackability -->
-  <div class="feature">
-    <div class="container">
-      <div class="row">
-        <div class="col">
-            <p>
-              Flux is lightweight, and hackable to the core. The whole stack – including automatic differentiation and GPU kernels – is only a few thousand lines of clean Julia code. There's no monolithic C++ underbelly, so it's easy to use custom components and push the state of the art.
-            </p>
-        </div>
-        <div class="col">
-          <pre><code class="julia">function gpu_add(a, b, c)
-  i = (blockIdx().x-1) * blockDim().x + threadIdx().x
-  c[i] = a[i] + b[i]
-  return nothing
-end</code></pre>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Compilation -->
-  <div class="feature">
-    <div class="container">
-      <div class="row">
-        <div class="col">
-<pre><code class="julia">model = Chain(
-  Dense(10, 5, σ),
-  Dense(5, 2),
-  softmax)</code></pre>
-        </div>
-        <div class="col">
-            <p>
-              Despite being simple and flexible, Flux has street smarts. The tools are graph-aware and can make smart optimisations to speed and memory usage, previously only possible in clunky "define before run" frameworks.
-            </p>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <div class="container call">
-    <p class="lead">If your appetite is whet, <a href="Flux.jl">check out the docs</a> to get going.</p>
-  </div>
-  <div class="friends">
-    <div class="container">
-      <h3>Researchers, users and developers of Flux</h3>
-      <ul>
-        <li><img src="./assets/images/ucl-logo.png"></li>
-        <li><img src="./assets/images/uoft_logo.png"></li>
-        <li><img src="./assets/images/juliac-logo.png"></li>
-        <li><img src="./assets/images/alan-turing.jpg"></li>
-        <li><img src="./assets/images/edinburgh.png"></li>
-        <li><img src="./assets/images/rai-logo.png"></li>
-        <li><img src="./assets/images/washington.jpg"></li>
-        <li><img src="./assets/images/cambridge.jpg"></li>
-      </ul>
+      <div class="col-md feature">
+        <h5>First-class GPU support</h5>
+        <p>
+          GPU kernels can be written directly in Julia via <a href="https://github.com/JuliaGPU/CUDAnative.jl">CUDAnative</a>.
+          Flux is uniquely hackable and any part can be tweaked, from GPU code to custom gradients and layers.
+        </p>
+      </div>
     </div>
+    <div class="row">
+      <div class="col-md feature">
+        <h5>The Model Zoo</h5>
+        <p>
+          A <a href="https://github.com/FluxML/model-zoo">rich collection</a> of Flux scripts to learn from, or tweak to your own data.
+          Trained Flux models can be used from <a href="https://github.com/JuliaText/TextAnalysis.jl">TextAnalysis</a> or <a href="https://github.com/FluxML/Metalhead.jl">Metalhead</a>.
+        </p>
+      </div>
+
+      <div class="col-md feature">
+        <h5>ONNX</h5>
+        <p>
+          <a href="https://github.com/FluxML/ONNX.jl">Import</a> trained ONNX models as Flux scripts, for high-quality inference or for transfer learning.
+        </p>
+      </div>
+
+      <div class="col-md feature">
+        <h5>FluxJS</h5>
+        <p>
+          <a href="https://github.com/FluxML/FluxJS.jl">Export</a> your models to JavaScript for the browser, or see our <a href="experiments/">experiments</a> page for demos.
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md feature">
+        <h5>Probabalistic Programming</h5>
+        <p>
+          The <a href="https://github.com/TuringLang/Turing.jl">Turing.jl</a> and <a href="https://github.com/willtebbutt/Stheno.jl">Stheno</a> libraries enables probabalistic programming, bayesian inference and Gaussian processes on top of Flux.
+        </p>
+      </div>
+
+      <div class="col-md feature">
+        <h5>TPUs & Colab</h5>
+        <p>
+          Flux models can be <a href="https://github.com/JuliaTPU/XLA.jl">compiled to TPUs</a> for cloud supercomputing, and run from Google Colab notebooks.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="publications" style="background:rgb(230,250,250)">
+  <div class="container features">
+    <div class="row">
+      <div class="col-md-12" style="text-align:center;color:rgb(100,130,130)">
+        <h2>Publications Highlights</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="paper col-md">
+        <h5>Policy Guided Monte Carlo: Reinforcement Learning Markov Chain Dynamics</h5>
+        <p>
+          We introduce <i>Policy Guided Monte Carlo</i> (PGMC), a computational framework using reinforcement learning to improve Markov chain Monte Carlo (MCMC) sampling.
+          <a href="https://arxiv.org/abs/1808.09095">arXiv</a>
+        </p>
+      </div>
+
+      <div class="paper col-md">
+        <h5>Machine Learning and System Identification for Estimation in Physical Systems</h5>
+        <p>
+          We draw inspiration from both classical system identification and modern machine learning in order to solve estimation problems for real-world, physical systems.
+          <a href="https://lucris.lub.lu.se/ws/files/55399444/phdthesis.pdf">link</a>
+        </p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="paper col-md">
+        <h5>Don't Unroll Adjoint: Differentiating SSA-Form Programs</h5>
+        <p>
+          This paper presents reverse-mode algorithmic differentiation (AD) based on source code transformation, in particular of the Static Single Assignment (SSA) form used by modern compilers.
+          <a href="https://arxiv.org/abs/1810.07951">arXiv</a>
+        </p>
+      </div>
+
+      <div class="paper col-md">
+        <h5>Automatic Full Compilation of Julia Programs and ML Models to Cloud TPUs</h5>
+        <p>
+          We describe a method and implementation for offloading suitable sections of Julia programs to TPUs via the Google XLA compiler.
+          <a href="https://arxiv.org/abs/1810.09868">arXiv</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="friends">
+  <div class="container">
+    <h3>Researchers, users and developers of Flux</h3>
+    <ul>
+      <li><img src="./assets/images/ucl-logo.png"></li>
+      <li><img src="./assets/images/uoft_logo.png"></li>
+      <li><img src="./assets/images/juliac-logo.png"></li>
+      <li><img src="./assets/images/alan-turing.jpg"></li>
+      <li><img src="./assets/images/edinburgh.png"></li>
+      <li><img src="./assets/images/rai-logo.png"></li>
+      <li><img src="./assets/images/washington.jpg"></li>
+      <li><img src="./assets/images/cambridge.jpg"></li>
+    </ul>
   </div>
 </div>

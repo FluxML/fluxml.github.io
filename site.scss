@@ -6,7 +6,7 @@ $light-green: rgb(235, 245, 235);
 @import url('https://fonts.googleapis.com/css?family=Lato:400,400i');
 
 body {
-  background: rgb(40, 130, 40);
+  background: rgb(20,60,60);
   font-family: Lato, "Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
 }
 
@@ -19,7 +19,7 @@ body {
 }
 
 .content {
-  background: $light-green;
+  background: rgb(240, 250, 250);
 
   .container {
     background: white;
@@ -41,11 +41,11 @@ body {
 }
 
 /*Links*/
-p a, p a:visited { border-bottom: 1px solid rgb(200, 230, 200); }
-p a:hover, p a:visited:hover { color: rgb(0, 120, 0); text-decoration: none; }
+p a, p a:visited { border-bottom: 2px solid rgb(180, 220, 220); }
+p a:hover, p a:visited:hover { color: rgb(0, 100, 100); text-decoration: none; }
 
-p a, p a:visited { color: rgb(0, 120, 0); }
-p a:hover { border-bottom: 1px solid rgb(150, 200, 150); }
+p a, p a:visited { color: rgb(0, 100, 100); }
+p a:hover { border-bottom: 2px solid rgb(0, 170, 170); }
 
 /*Footer*/
 .call {
@@ -67,7 +67,8 @@ pre {
   margin: 0;
 }
 pre code.hljs {
-  background: rgb(240, 245, 240);
+  background: rgb(245, 255, 255);
+  border: 2px solid rgb(200, 240, 240);
   border-radius: 5px;
   padding-left: 1em;
   padding-right: 1em;
