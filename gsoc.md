@@ -9,32 +9,47 @@ Flux usually takes part in [Google Summer of Code](https://summerofcode.withgoog
 
 Flux projects are typically very competitive; we encourage you to get started early, as successful students typically have early PRs or working prototypes as part of the application. Project mentors are [Mike Innes](https://github.com/MikeInnes), [Dhairya Gandhi](https://github.com/dhairyagandhi96/), [Elliot Saba](https://github.com/staticfloat), unless otherwise stated.
 
-## NLP Tools and Models
+### Model Zoo Examples
+
+Flux's [model zoo](https://github.com/FluxML/model-zoo/) contains examples of a wide range of deep learning models and techniques. This project would involve adding new models, showing how to recreate state-of-the-art results (e.g. AlphaGo) or interesting and unusual model architectures (e.g. transformer networks). We'd be particularly interested in any models involving reinforcement learning, or anything with images, sound or speech.
+
+Some experience with implementing deep learning models would be ideal for this project, but is not essential for a student willing to pick up the skills and read ML papers. It's up to you whether you implement a single ambitious model, or multiple small ones. A good source of inspiration might be the [NIPS Challenge](https://nurture.ai/nips-challenge).
+
+### Benchmarks
+
+A benchmark suite would help us to keep Julia's performance for ML models in shape, as well as revealing opportunities for improvement. Like the model-zoo project, this would involve contributing standard models that exercise common ML use case (images, text etc) and profiling them. The project could extend to include improving performance where possible, or creating a "benchmarking CI" like Julia's own [nanosoldier](https://github.com/JuliaCI/Nanosoldier.jl).
+
+### TensorBoard
+
+[TensorBoard](https://www.tensorflow.org/guide/summaries_and_tensorboard) is a powerful toolkit for visualising ML training, especially useful when training on a remote server. This project would involve setting up a pure-Julia TensorBoard client that hooks into Julia's logging system to log Julia programs, including ML training. The project should demonstrate Flux integration and visualising training of a Flux model.
+
+Previous work include [TensorBoard.jl](https://github.com/zenna/Tensorboard.jl) and [UniversalTensorBoard.jl](https://github.com/oxinabox/UniversalTensorBoard.jl).
+
+### Multi-GPU training
+
+Implement and demonstrate multi-GPU parallelism. One route is to expose communication primitives from NVIDIA's [NCCL](https://developer.nvidia.com/nccl) library and use these to build tooling for model parallelism and distributed training. The project should demonstrate parallel training of a Flux model with benchmarks.
+
+### Distributed Training
+
+Add a distributed training API to Flux, possibly inspired by PyTorch's equivalent. Any distributed training algorithm could be used (ideally the foundations make it easy to experiment with different setups), though the easiest is likely to implement an MXNet-like parameter server. It should demonstrate training a Flux model with data distributed over multiple nodes, with benchmarks.
+
+### Sparse GPU and ML support
+
+While Julia supports dense GPU arrays well via [CuArrays](https://github.com/JuliaGPU/CUSPARSE.jl), we lack up-to-date wrappers for sparse operations. This project would involve wrapping CUDA's sparse support, with [CUSPARSE.jl](https://github.com/JuliaGPU/CUSPARSE.jl) as a starting point, adding them to CuArrays.jl, and perhaps demonstrating their use via a sparse machine learning model.
+
+### NLP Tools and Models
 
 Build deep learning models for Natural Language Processing in Julia. [TextAnalysis](https://github.com/juliatext/TextAnalysis.jl)  and [WordTokenizers](https://github.com/JuliaText/WordTokenizers.jl) contains the basic algorithms and data structures to work with textual data in Julia. On top of that base, we want to build modern deep learning models based on recent research. The following tasks can span multiple students and projects.
 
 * Implement BERT in Julia
 * Implement ELMo in Julia
 * Implement practical models for sentiment analysis, part of speech (POS) tagging, named entity recognition (NER), classification and parsing
+* Implement RevTok (a reversible tokeniser)
 * Test and validate these models
 
 **Mentors**: [Avik Sengupta](https://github.com/aviks/) & [Lyndon White](https://github.com/oxinabox/)
 
-## Model Zoo Examples
-
-Flux's [model zoo](https://github.com/FluxML/model-zoo/) contains examples of a wide range of deep learning models and techniques. This project would involve adding new models, showing how to recreate state-of-the-art results (e.g. AlphaGo) or interesting and unusual model architectures (e.g. transformer networks). We'd be particularly interested in any models involving reinforcement learning, or anything with images, sound or speech.
-
-Some experience with implementing deep learning models would be ideal for this project, but is not essential for a student willing to pick up the skills and read ML papers. It's up to you whether you implement a single ambitious model, or multiple small ones. A good source of inspiration might be the [NIPS Challenge](https://nurture.ai/nips-challenge).
-
-## Benchmarks
-
-A benchmark suite would help us to keep Julia's performance for ML models in shape, as well as revealing opportunities for improvement. Like the model-zoo project, this would involve contributing standard models that exercise common ML use case (images, text etc) and profiling them. The project could extend to include improving performance where possible, or creating a "benchmarking CI" like Julia's own [nanosoldier](https://github.com/JuliaCI/Nanosoldier.jl).
-
-## Sparse GPU and ML support
-
-While Julia supports dense GPU arrays well via [CuArrays](https://github.com/JuliaGPU/CUSPARSE.jl), we lack up-to-date wrappers for sparse operations. This project would involve wrapping CUDA's sparse support, with [CUSPARSE.jl](https://github.com/JuliaGPU/CUSPARSE.jl) as a starting point, adding them to CuArrays.jl, and perhaps demonstrating their use via a sparse machine learning model.
-
-## Accelerating optimization via machine learning with surrogate models
+### Accelerating optimization via machine learning with surrogate models
 
 In many cases, when attempting to optimize a function `f(p)` each calculation
 of `f` is very expensive. For example, evaluating `f` may require solving a
@@ -61,7 +76,7 @@ with tests on differential equation models.
 
 **Mentors**: [Chris Rackauckas](https://github.com/ChrisRackauckas)
 
-## Parameter estimation for nonlinear dynamical models
+### Parameter estimation for nonlinear dynamical models
 
 Machine learning has become a popular tool for understanding data, but scientists
 typically understand the world through the lens of physical laws and their
