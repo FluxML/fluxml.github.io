@@ -56,4 +56,4 @@ let model = (function () {
   });
   return model;
 })();
-flux.fetchWeights("mnist-conv.bson").then(model.setWeights);
+loadWeights('assets/bson/mnist-conv.bson', document.querySelector('.render_editor'), __init__, model)
