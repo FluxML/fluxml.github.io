@@ -36,3 +36,28 @@ div{
     width: 90vw;
   }
 }
+
+.levels{
+  flex: 1;
+  /* align-items: flex-end; */
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.levels > div{
+  padding: 0px 10px;
+  border: 1px solid #547c2b;
+  margin: 0 10px 0 0;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.4s linear;
+}
+
+.levels .selected{
+  background: #41822a;
+  color: #fff;
+}
+}
+}

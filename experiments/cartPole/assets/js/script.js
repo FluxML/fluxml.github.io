@@ -8,15 +8,29 @@ function __init__(){
 	var game = new Game(cp, board, (e) => tf.tidy(()=>model(e)));
 	game.setState("human");
 
-	var options = document.querySelector('.options');
-	Array.from(options.querySelectorAll('.option')).forEach(el=>{
-		el.addEventListener('click', function(event){
-			game.setState(el.getAttribute('data-state'));
+	var reset = () => {
+		game.setState(game.state);
+	}
 
-			highlight(el, options);		
-			
-		})
+	var eachEl = (p, e, cb) => 
+		Array.from(p.querySelectorAll(e)).forEach(el=>
+			el.addEventListener('click', (event) =>cb(el, event, p))
+		)	
+
+
+	eachEl(document.querySelector('.options'), '.option', (el, event, p) => {
+		game.setState(el.getAttribute('data-state'));
+		highlight(el, p);	
 	})
+
+	eachEl(document.querySelector('.levels'), 'div', (el, event, p) => {
+		// console.log(parseInt(el.getAttribute('data-time')))
+		game.timeInt = parseInt(el.getAttribute('data-time'));
+		highlight(el, p);
+	})
+	// set level to easy
+	game.timeInt = 100;
+
 
 	// event listeners for keyboard
 	document.addEventListener('keydown', function(event){
