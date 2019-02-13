@@ -1,5 +1,47 @@
 // Game -> CartPole , ( Board --> Keyboard )
 
+Game.prototype.play = async function(){
+	clearTimeout(this.playTimeout);
+	if(this.env.done())return;
+
+	var scope = this;
+	switch(this.state){
+		case this.states.H:
+			this.move(this.newAction);
+			// newAction = 0; 
+			break;
+		case this.states.C:
+			this.kick();
+			var a = await this.predict(this.env.state())
+			var action = await this.transform.action(a);
+			this.move(action);
+			tf.dispose(a);
+			break;
+		default:
+			console.log("Invalid state", this.state);
+	}
+}
+
+Game.prototype.kick = function(){
+	this.env.step(this.newAction);
+	this.kicked = this.newAction;
+	this.newAction = this.defaultAction(); // we only kick once, not continously
+}
+
+Game.prototype.display = function(){
+	var s = this.defaultAction()
+	var kicked = s;
+	var apm = -1;
+	if(this.state == this.states.C){
+		kicked = this.kicked;
+		apm = 60*1000/this.timeInt;
+	}
+	this.kicked = s;
+
+	this.out.render(Object.assign({}, this.env.config(), {kicked, apm}));
+}
+
+
 var board = new Board(document.querySelector('.board'))
 
 function __init__(){
@@ -29,7 +71,7 @@ function __init__(){
 		highlight(el, p);
 	})
 	// set level to easy
-	game.timeInt = 100;
+	game.setTimeInt(100);
 
 
 	// event listeners for keyboard

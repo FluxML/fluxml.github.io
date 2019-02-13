@@ -9,6 +9,22 @@ function Vector(x, y){
 	}
 }
 
+function CircBuf(size){
+	this.size = size;
+	this.buf = new Array(size);
+	this.index = 0;
+}
+CircBuf.prototype.fill = function(n){this.buf.fill(n)}
+CircBuf.prototype.set = function(n){
+	this.buf[this.index] = n;
+}
+CircBuf.prototype.next = function() {
+	this.index = (this.index + 1) % this.size;
+};
+CircBuf.prototype.sum = function(){
+	return this.buf.reduce((acc, ele) => acc + ele, 0)
+}
+
 function randColor(){
 	return "#" + Math.floor(Math.random()*999);
 }
