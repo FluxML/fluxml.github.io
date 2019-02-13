@@ -6,7 +6,8 @@ Object.assign(window, {Editor})
 function Editor(ele, 
 	{
 		strokeWidth=15,
-		color="#555",
+		// color="#555",
+		color=getComputedStyle(document.body).getPropertyValue('--medium'),
 		scale=1
 	}={})
 {

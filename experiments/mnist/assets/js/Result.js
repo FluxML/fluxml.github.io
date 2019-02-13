@@ -9,11 +9,11 @@ function Result (ele,
 		maxHeight=100,
 		barWidth=10,
 		horizontalSpacing=10,
-		color="#777",
+		color=getComputedStyle(document.body).getPropertyValue('--medium'),
 		fontSize=16,  
 		fontFamily="arial",
 		verticalSpacing=20,
-		highlight="#555",
+		highlight=getComputedStyle(document.body).getPropertyValue('--dark'),
 		padding=20
     }={})
 {
