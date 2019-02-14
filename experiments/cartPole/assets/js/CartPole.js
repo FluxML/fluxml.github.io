@@ -14,7 +14,7 @@
 		const force_mag = 10.0;
 		const tau = 0.02 ;
 
-		const theta_threshold = 24* Math.PI / 360
+		const theta_threshold = Math.PI * 0.25
 		const x_threshold = 2.4
 
 		//display settings
