@@ -55,10 +55,10 @@ Mentors: [Dhairya Gandhi](https://github.com/dhairyagandhi96/), [Elliot Saba](ht
 
 Previous work include [TensorBoard.jl](https://github.com/zenna/Tensorboard.jl) and [UniversalTensorBoard.jl](https://github.com/oxinabox/UniversalTensorBoard.jl).
 
-Useful skills are:
-- Deep familarity with julia logging system
-- Familarity with Protobuf and ProtoBuf.jl
-- Familarity with TensorBoard as used in e.g. python
+For the application it would be useful to build familiarity with:
+- The Julia logging system
+- Protobuf and ProtoBuf.jl
+- TensorBoard as used in e.g. python
 
 Mentors: [Lyndon White](https://github.com/oxinabox)
 
