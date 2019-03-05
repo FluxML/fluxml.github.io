@@ -41,4 +41,4 @@ If this is all so wonderful, why isn't everybody doing it already? Unfortunately
 
 Differentiable programming applies the techniques of deep learning to *complex existing programs*, taking advantage of the huge amount of knowledge embedded within them. Deep learning, statistics, programming and the sciences all have something to say about modelling the world around us, and it's time to put these fields [into a particle collider](https://arxiv.org/pdf/1702.00748.pdf). This will both improve current models and enable ML to be applied in areas where its current limitations – either interpretability or its computational and data requirements – make it infeasible alone.
 
-<div class="attrib">Thanks to Hannah Lepper and James Bradbury for feedback on this post.</div>
+<p class="attrib">Thanks to Hannah Lepper and James Bradbury for feedback on this post.</p>
