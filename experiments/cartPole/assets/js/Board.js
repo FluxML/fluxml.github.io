@@ -11,8 +11,9 @@
 			'<canvas id="playground" width="1000" height="200"></canvas>\
 			<div class="overlay">\
 				<div class="game-over hidden-screen"><p>Game Over</p></div>\
-				<div class="score">\
-					<p>Score: <span>0</span></p>\
+				<div class="stats">\
+					<p class="score">Score: <span>0</span></p>\
+					<p class="apm"></p>\
 				</div>\
 				<div class="keyboard"></div>\
 			</div>'
@@ -27,6 +28,7 @@
 		this.ctx = this.canvas.getContext('2d');
 		this.overlay = container.querySelector('.overlay');
 		this.score = this.overlay.querySelector('.score span');
+		this.apm = this.overlay.querySelector('.apm');
 		this.gameOverScreen = this.overlay.querySelector('.game-over');
 	}
 
@@ -40,8 +42,11 @@
 			pole_length,
 			pole_diameter,
 			done,
-			x_threshold
+			x_threshold,
+			kicked,
+			apm
 		}){
+			// console.log(kicked);
 			({x, theta} = state);
 			
 			var scaleToPixelsX = this.canvas.width*0.5/(cart_length/2 + x_threshold);
@@ -67,9 +72,36 @@
 			this.ctx.fillStyle = this.cartColor;
 			this.ctx.fillRect(cartX, cartY, scaleToPixelsX*cart_length, scaleToPixelsY*cart_height);
 
+			var dir = (d) => d == 1? 'left': 'right';
+
 			// highlight key
 			if(action != 0){
-				this.keyboard.highlight(action==1? 'left': 'right');
+				this.keyboard.highlight(dir(action));
+			}
+			if(kicked != 0){
+				// console.log("draw")
+				var img = new Image();
+				img.src = "./assets/red__" + dir(kicked)+ "_arrow.png";
+				var ctx = this.ctx;
+				img.onload = function(){
+					// this.ctx.drawImage(img, x, cartY - cart_height, cartY, cartY);
+					// console.log()
+					var v = kicked*2 - 3;
+					var dy = cart_height*scaleToPixelsY;
+					var ax = ctx.canvas.width/2 + scaleToPixelsX*(x - v*cart_length/2);
+					var ay = ctx.canvas.height - dy;
+					// console.log(v)
+					if(v == 1){
+						ax -= dy;
+					}
+					// console.log(dy, ax);
+					ctx.drawImage(img, ax, ay, dy, dy);
+				}
+			}
+			if(apm != -1){
+				this.apm.innerText = "APM: " + apm;
+			}else{
+				this.apm.innerText = "";
 			}
 
 			// change score

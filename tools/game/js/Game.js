@@ -61,6 +61,10 @@ function Game(env, out, model, {
 	this.autoReset = autoReset;
 }
 
+Game.prototype.setTimeInt = function(t){
+	this.timeInt = t;
+}
+
 Game.prototype.nextGameState = function(curr){
 	return curr;
 }

@@ -19,7 +19,7 @@ body{
 }
 
 .demo-menu li{
-	background: #ebf5eb;
+	background: var(--light);
 	margin: 20px 0;
 	padding: 20px;
 }

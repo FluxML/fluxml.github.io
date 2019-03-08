@@ -41,26 +41,15 @@ var __init__ = function (){
 		}else if(styleName == null){
 			return showErr("Please choose a style image")
 		}
-		var obj = {t: false};
-		$$(".tree").setAttribute("green", true)
-		glow(false, obj)
 		var model = models[styleName];
 		var input = _transformInput(conCanvas);
 		model.predict(input).then((out)=>{
 			if(out != null){
 				$$("#output-img").src = imagedata_to_uri(out);
-				obj.t = true;
 			}else{
 				console.log(out);
 			}
 		})
-	}
-
-	function glow(a, obj){
-		setTimeout(() => {
-			$$(".tree").setAttribute("green", a)
-			if(!obj.t) glow(!a, obj);
-		}, 1000)
 	}
 
 	$$("#imageReader").onchange = function(){	

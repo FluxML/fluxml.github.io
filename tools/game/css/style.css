@@ -8,7 +8,7 @@
 
 .instructions{
   margin: 40px 0 0 0;
-  background: #ebf5eb;
+  background: var(--light);
   padding: 20px;
   border-radius: 6px;
   /* box-sizing: border-box; */
@@ -22,7 +22,7 @@
     border: 1px solid;
     padding: 5px 10px;
     border-radius: 3px;
-    color: #41822a;
+    color: var(--dark);
     float: right;
     font-weight: 900;
 }
@@ -41,10 +41,6 @@
   left:0;
   right: 0;
   bottom: 0;
-}
-
-.overlay .score{
-  padding: 20px;
 }
 
 .overlay .keyboard{
@@ -74,8 +70,8 @@
 }
 
 #controls{
-  background: #ebf5eb;
-  color: #41822a;
+  background: var(--light);
+  color: var(--dark);
   /*margin: 10px;*/
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
@@ -128,7 +124,7 @@
 }
 
 #controls .options .selected{
-  background-color: #41822a;
+  background-color: var(--dark);
   transform: scale(1.1);
   box-shadow: 0 2px 2px #333;
 }

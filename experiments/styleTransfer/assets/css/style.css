@@ -135,7 +135,7 @@ h4{
             align-items: center;
     height: fit-content;
     padding: 20px;
-    background: #ebf5eb;
+    background: var(--light);
 }
 
 .pane.disabled {
@@ -196,7 +196,7 @@ li{
 }
 
 .tree[green=true] .connector *{
-    box-shadow: 2px 2px 2px #49c31d;
+    box-shadow: 2px 2px 2px var(--medium);
 }
 .pane{
     border: 1px solid transparent;
@@ -204,7 +204,7 @@ li{
 }
 
 .tree[green=true] .pane{
-    border: 1px solid #49c31d;
+    border: 1px solid var(--medium);
 }
 
 @media only screen and (max-width: 768px){
