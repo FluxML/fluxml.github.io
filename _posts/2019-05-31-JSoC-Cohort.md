@@ -10,6 +10,7 @@ We are excited to introduce our JSoC students accepted this year! Flux is hostin
 ## Shreyas Kowshik: _Addition Of Baseline Models To Flux.jl_
 
 The current state of the art algorithms in terms of reinforcement learning and generative models are not yet available in [Flux](https://github.com/FluxML). This project aims to add the following models with explicit documentation in the form of [blog](https://shreyas-kowshik.github.io/) and code : 
+
 * CycleGAN
 * pix2pix
 * Proximal Policy Optimization
@@ -30,8 +31,8 @@ The aim of this project is to enrich Flux Model Zoo with unsupervised deep learn
 * StarGAN for facial expression synthesis 
 * VAE-GAN 
 * Energy Based GAN 
-* Gated Recurrent Convolutional Neural Network 
- 
+* Gated Recurrent Convolutional Neural Network  
+
 [Link to Project Blog](https://medium.com/@manjunathbhat9920)
 
 ## Raghvendra Gupta: _Sparsifying Neural Networks using Sensitivity Driven Regularization_
