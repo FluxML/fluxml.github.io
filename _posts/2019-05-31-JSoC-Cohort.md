@@ -18,7 +18,6 @@ The current state of the art algorithms in terms of reinforcement learning and g
 * Neural Image Captioning
 * Deep Recurrent Q Networks
 * Super Resolution GAN
-{: .text-center}
 
 ## Kartikey Gupta: _Reinforcement Learning Environments for Julia_
 
@@ -32,8 +31,8 @@ The aim of this project is to enrich Flux Model Zoo with unsupervised deep learn
 * StarGAN for facial expression synthesis 
 * VAE-GAN 
 * Energy Based GAN 
-* Gated Recurrent Convolutional Neural Network 
-{: .text-center}
+* Gated Recurrent Convolutional Neural Network  
+
 [Link to Project Blog](https://medium.com/@manjunathbhat9920)
 
 ## Raghvendra Gupta: _Sparsifying Neural Networks using Sensitivity Driven Regularization_
@@ -44,7 +43,6 @@ This project aims to quantify the output sensitivity to the parameters i.e. thei
 * MobileNet
 * ResNet
 * RL models (extended goal)  
-{: .text-center}
 
 The success of the experiment would be measured using Memory Footprint of the parameters, Compression Ratio and Runtime Performance of the models.  
 [Link to Project Blog](https://medium.com/@raghav090897)
