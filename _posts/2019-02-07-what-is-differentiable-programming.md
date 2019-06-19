@@ -6,7 +6,7 @@ layout: blog
 
 > With four parameters I can fit an elephant, and with five I can make him wiggle his trunk. <br>– John Von Neumann
 
-The idea of "differentiable programming" is coming up a lot in the machine learning world. To many, it's not clear if this term reflects a real shift in how researchers think about machine learning, or is just (another) rebranding of "deep learning". This post clarifies what new things differentiable programming (or DP) brings to the machine learning table.
+The idea of "differentiable programming" is coming up a lot in the machine learning world. To many, it's not clear if this term reflects a real shift in how researchers think about machine learning, or is just (another) rebranding of "deep learning". This post clarifies what new things differentiable programming (or ∂P) brings to the machine learning table.
 
 Most importantly, differentiable programming is actually a shift _opposite_ from the direction taken by deep learning; from increasingly heavily parameterised models to simpler ones that take more advantage of problem structure.
 
