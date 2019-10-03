@@ -1,25 +1,25 @@
-﻿---
+---
 title: Simulating the Motion of Charged Bodies
 author: Sudhanshu Agrawal
 layout: blog
 ---
 
 *<center>Finding a state of minimum potential energy or maximum stability of a system of charges by Automatic Differentiation</center>*
+
 &nbsp;
-&nbsp;
+
  >“We demand rigidly defined areas of doubt and uncertainty!” <br>– Douglas Adams, The Hitchhiker's Guide To The Galaxy
  
 &nbsp;
-&nbsp;
 
-##### <center><u>What do charges like doing?</u></center>
+##### __<center>What do charges like doing?</center>__
 
 The answer is quite simple: like charges like to move apart and unlike charges like to move closer. If I were to place a 100 charges in a circle of radius 5cm and tell them to do their thing they would contentedly move around so that they attain the most stable state – where the total potential energy of the system is minimum. The problem is that even though charges know what their purpose is in life, and we know more or less what they’d tend to do, it’s quite difficult to predict their exact movements. Most of us can predict the movement of 3 or 4 charged bodies, but when it comes to accounting for the interactions of a 100 charges, the teachings of H.C. Verma and Resnick Halliday aren’t enough to help us. 
 
 &nbsp;
-&nbsp;
 
-##### <center><u>The Main Idea</u></center>
+
+##### __<center>The Main Idea</center>__
 
 What is the objective of my system of 100 charges? To minimise the total value of this potential energy. (Coincidentally this is the objective of the entire universe as well)
 What is the objective of a typical machine learning model? To minimise the total cost/loss. Hmm…
@@ -27,15 +27,14 @@ What is the objective of a typical machine learning model? To minimise the total
 I’m going to see if I can predict the behaviour of a system of a 100 charges by differentiating the total potential energy and performing gradient descent on the x and y coordinates of each charge. What should happen is that the x and y coordinates start changing themselves to minimise the total potential energy. Therefore, the charges start moving to minimise the total potential energy, mimicking what would happen in the real world. 
 
 &nbsp;
+
+##### __<center>The Obvious Approach vs My Approach</center>__
 &nbsp;
 
-##### <center><u>The Obvious Approach vs My Approach</u></center>
-&nbsp;
-
-###### <center><u>The Obvious Approach</u></center>
+###### __<center>The Obvious Approach</center>__
 The solution to this problem that immediately comes to mind is to use the amazing computing power we possess to resolve the vector components of the 99 forces on each of the 100 charges we have, use that net force to predict the acceleration of the charges, use that acceleration to produce movement in the charges, and repeat the process within a very short time interval to produce as continuous and as accurate a movement as possible.  
 
-###### <center><u>My Approach</u></center>
+###### __<center>My Approach</center>__
 
 
 Why do charges move? Due to acceleration.
@@ -47,9 +46,8 @@ What I’ve done is cut out the middleman that is force. I’ve changed my objec
 The main advantage to doing so is that potential energy is a scalar quantity whereas force is a vector. Calculating the net potential energy of a system of 100 charges is a lot easier than calculating the net force on each charge in a 100-charge system. 
 
 &nbsp;
-&nbsp;
 
-##### <center><u>The Science Part of It</u></center>
+##### __<center>The Science Part of It</center>__
 
 
 Let’s look at our classic formula to calculate potential energy
@@ -63,14 +61,12 @@ If we want the total potential energy of a system of _n_ charges, we just apply 
 
 
 &nbsp;
-&nbsp;
 
-##### <center><u>Let's Begin</u></center>
+##### __<center>Let's Begin</center>__
 
 
 I’m going to create a system of 100 charged bodies and initialise them with random charge values. I’m sampling from a Gaussian Distribution since I’d like there to be a few slightly larger charges in the mix to make things interesting.
 
-&nbsp;
 &nbsp;
 
 
@@ -99,7 +95,6 @@ Later on, I’ll make sure that these charges never leave this circle. Why is th
 I’m also going to create a simple function to calculate potential.
 
 &nbsp;
-&nbsp;
 
 ````
 function potential(a::Vertex, b::Vertex)     #classic potential formula
@@ -117,13 +112,12 @@ function potential(a::Vector)      #potential for a system of charges
     return pot
 end
 ````
-&nbsp;
+
 &nbsp;
 
 
 Now I’m going to define my loss function. Why can’t I just use my potential function? The reason is that I want to constrain my charges to a circle. The way I do that is by applying a high penalty(loss) every time a charge tries to move out of the circle.
 
-&nbsp;
 &nbsp;
 
 ````
@@ -145,7 +139,6 @@ end
 ````
 
 &nbsp;
-&nbsp;
 
 
 
@@ -154,18 +147,15 @@ Since the potential function gives a very small value of the order of 10-12 we n
 Let’s create the environment of charges
 
 &nbsp;
-&nbsp;
 
 
 `env = create_env(100)`
 
 &nbsp;
-&nbsp;
 
 
 I’m using 2 main machine learning libraries. Zygote, for its AD capabilities, and Flux, for its optimisers.
 
-&nbsp;
 &nbsp;
 
 ````
@@ -174,11 +164,9 @@ using Flux
 ````
 
 &nbsp;
-&nbsp;
 
 Let’s start moving these charges around
 
-&nbsp;
 &nbsp;
 
 
@@ -196,13 +184,12 @@ for i in 1:200
 
 end
 ```
-&nbsp;
+
 &nbsp;
 
 
 Using some basic plotting functions, I graphed my charges at every training iteration and put them all together in a gif.
 
-&nbsp;
 &nbsp;
 
 <center><img src="/assets/charges/maingif.gif" /></center>
@@ -215,7 +202,7 @@ _<center>Red charges are positive, Blue charges are negative and size of the dot
 
 
 
-#### <center><u>The Big Question. It looks cool, but does it work?</u></center>
+#### __<center>The Big Question. It looks cool, but does it work?</center>__
 
 A high-level observation shows that the like charges tend to move apart and the unlike charges tend to move closer. We can take a step further and notice that as time progresses, the charges tend to move less and less since they are more or less in a stable position. A sure sign of convergence.
 
@@ -242,15 +229,14 @@ You’re probably wondering why the graph is so bumpy and what these extreme min
 They may also occur when a positive and a negative charge briefly overlap with each other giving a potential of negative infinity. Of course, such a situation is impossible in the real world. 
 
 &nbsp;
-&nbsp;
 
 
-#### <center><u>Conclusion</u></center>
+#### __<center>Conclusion</center>__
 
 It works! 
 I created this simulation because it’s an interesting and very visual way to get a real feel of how charges move around when affected by almost a 100 different forces. 
 It also shows how it’s possible to solve a problem more easily by reframing the question being asked.<br>
-~~<s>Simulate the effect of force on charged bodies?~~ <br>
+~~Simulate the effect of force on charged bodies?~~ <br>
 Simulate the effect of potential energy on charged bodies? <br>
 Most of all it shows the power of gradient descent in solving a problem that would be unwieldy to solve using classic approaches. 
 
