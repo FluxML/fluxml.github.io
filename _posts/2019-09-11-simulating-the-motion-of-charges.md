@@ -1,6 +1,6 @@
 ---
 title: Simulating the Motion of Charged Bodies
-author: Sudhanshu Agrawal<br>sudhanshuagr27@ucla.edu
+author: Sudhanshu Agrawal sudhanshuagr27@ucla.edu
 layout: blog
 ---
 
@@ -20,17 +20,17 @@ h4{
 </style>
 
 #### Finding a state of minimum potential energy or maximum stability of a system of charges by Automatic Differentiation
-<br>
+ 
 
- >“We demand rigidly defined areas of doubt and uncertainty!” <br>– Douglas Adams, The Hitchhiker's Guide To The Galaxy
+ >“We demand rigidly defined areas of doubt and uncertainty!”  – Douglas Adams, The Hitchhiker's Guide To The Galaxy
   
-<br>
+ 
 
 # What do charges like doing?
 
 The answer is quite simple: like charges like to move apart and unlike charges like to move closer. If I were to place a 100 charges in a circle of radius 5cm and tell them to do their thing they would contentedly move around so that they attain the most stable state – where the total potential energy of the system is minimum. The problem is that even though charges know what their purpose is in life, and we know more or less what they’d tend to do, it’s quite difficult to predict their exact movements. Most of us can predict the movement of 3 or 4 charged bodies, but when it comes to accounting for the interactions of a 100 charges, the teachings of H.C. Verma and Resnick Halliday aren’t enough to help us. 
 
-<br>
+ 
 
 
 # The Main Idea
@@ -40,7 +40,7 @@ What is the objective of a typical machine learning model? To minimise the total
 
 I’m going to see if I can predict the behaviour of a system of a 100 charges by differentiating the total potential energy and performing gradient descent on the x and y coordinates of each charge. What should happen is that the x and y coordinates start changing themselves to minimise the total potential energy. Therefore, the charges start moving to minimise the total potential energy, mimicking what would happen in the real world. 
 
-<br>
+ 
 
 # The Obvious Approach vs My Approach
 
@@ -61,7 +61,7 @@ What I’ve done is cut out the middleman that is force. I’ve changed my objec
 (This may seem like the same thing, and the fact that it does is why I can do it) 
 The main advantage to doing so is that potential energy is a scalar quantity whereas force is a vector. Calculating the net potential energy of a system of 100 charges is a lot easier than calculating the net force on each charge in a 100-charge system. 
 
-<br>
+ 
 # The Science Part of It 
 
 
@@ -75,14 +75,14 @@ It quantifies the potential energy U of a system of two point-charges with magni
 If we want the total potential energy of a system of _n_ charges, we just apply this formula <sup>n</sup>C<sub>2</sub> times.
 
 
-<br>
+ 
 
 # Let's Begin
 
 
 I’m going to create a system of 100 charged bodies and initialise them with random charge values. I’m sampling from a Gaussian Distribution since I’d like there to be a few slightly larger charges in the mix to make things interesting.
 
-<br>
+ 
 
 
 
@@ -99,8 +99,8 @@ function create_env(no_ch)     #create the req no. of charges with random positi
 end
 ````
 
-<br>
-<br>
+ 
+ 
 
 
 I’m also going to place these charges randomly in a circle of radius 5cm centred at the origin.
@@ -109,7 +109,7 @@ Later on, I’ll make sure that these charges never leave this circle. Why is th
 
 I’m also going to create a simple function to calculate potential.
 
-<br>
+ 
 
 ````
 function potential(a::Vertex, b::Vertex)     #classic potential formula
@@ -128,12 +128,12 @@ function potential(a::Vector)      #potential for a system of charges
 end
 ````
 
-<br>
+ 
 
 
 Now I’m going to define my loss function. Why can’t I just use my potential function? The reason is that I want to constrain my charges to a circle. The way I do that is by applying a high penalty(loss) every time a charge tries to move out of the circle.
 
-<br>
+ 
 
 ````
 function loss(env::Vector)
@@ -153,7 +153,7 @@ function loss(env::Vector)
 end
 ````
 
-<br>
+ 
 
 
 
@@ -161,28 +161,28 @@ Since the potential function gives a very small value of the order of 10<sup>-12
 
 Let’s create the environment of charges
 
-<br>
+ 
 
 
 `env = create_env(100)`
 
-<br>
+ 
 
 
 I’m using 2 main machine learning libraries. Zygote, for its AD capabilities, and Flux, for its optimisers.
 
-<br>
+ 
 
 ````
 using Zygote
 using Flux
 ````
 
-<br>
+ 
 
 Let’s start moving these charges around
 
-<br>
+ 
 
 
 ```julia
@@ -200,20 +200,20 @@ for i in 1:200
 end
 ```
 
-<br>
+ 
 
 
 Using some basic plotting functions, I graphed my charges at every training iteration and put them all together in a gif.
 
-<br>
+ 
 
 <img src="/assets/charges/maingif.gif" />
 
-<br>
+ 
 
 #### Red charges are positive, Blue charges are negative and size of the dot is proportional to the absolute value of charge
 
-<br>
+ 
 
 
 
@@ -243,16 +243,16 @@ It’s safe to say that the system has converged at a value of approximately -13
 You’re probably wondering why the graph is so bumpy and what these extreme minimas are. The minimas are simply the points in the training loop when the charges got a bit overconfident and tried to escape the constraining circle. They are then immediately brought back to valid positions by the loss function.
 They may also occur when a positive and a negative charge briefly overlap with each other giving a potential of negative infinity. Of course, such a situation is impossible in the real world. 
 
-<br>
+ 
 
 
 # Conclusion
 
 It works! 
 I created this simulation because it’s an interesting and very visual way to get a real feel of how charges move around when affected by almost a 100 different forces. 
-It also shows how it’s possible to solve a problem more easily by reframing the question being asked.<br>
-~~Simulate the effect of force on charged bodies?~~ <br>
-Simulate the effect of potential energy on charged bodies? <br>
+It also shows how it’s possible to solve a problem more easily by reframing the question being asked. 
+~~Simulate the effect of force on charged bodies?~~  
+Simulate the effect of potential energy on charged bodies?  
 Most of all it shows the power of gradient descent in solving a problem that would be unwieldy to solve using classic approaches. 
 
 
