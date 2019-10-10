@@ -5,10 +5,6 @@ layout: blog
 ---
 
 <style>
-h1 {
-	text-align: center;	
-	
-}
 h3{
 	text-align: center;
 	font-weight: bold;
@@ -30,14 +26,14 @@ h4{
   
 <br>
 
-<h1>What do charges like doing?</h1>
+# What do charges like doing?
 
 The answer is quite simple: like charges like to move apart and unlike charges like to move closer. If I were to place a 100 charges in a circle of radius 5cm and tell them to do their thing they would contentedly move around so that they attain the most stable state – where the total potential energy of the system is minimum. The problem is that even though charges know what their purpose is in life, and we know more or less what they’d tend to do, it’s quite difficult to predict their exact movements. Most of us can predict the movement of 3 or 4 charged bodies, but when it comes to accounting for the interactions of a 100 charges, the teachings of H.C. Verma and Resnick Halliday aren’t enough to help us. 
 
 <br>
 
 
-<h1>The Main Idea</h1>
+# The Main Idea
 
 What is the objective of my system of 100 charges? To minimise the total value of this potential energy. (Coincidentally this is the objective of the entire universe as well)
 What is the objective of a typical machine learning model? To minimise the total cost/loss. Hmm…
@@ -46,7 +42,7 @@ I’m going to see if I can predict the behaviour of a system of a 100 charges b
 
 <br>
 
-<h1>The Obvious Approach vs My Approach</h1>
+# The Obvious Approach vs My Approach
 
 
 
@@ -66,8 +62,7 @@ What I’ve done is cut out the middleman that is force. I’ve changed my objec
 The main advantage to doing so is that potential energy is a scalar quantity whereas force is a vector. Calculating the net potential energy of a system of 100 charges is a lot easier than calculating the net force on each charge in a 100-charge system. 
 
 <br>
-
-<h1>The Science Part of It</h1>
+# The Science Part of It 
 
 
 Let’s look at our classic formula to calculate potential energy
@@ -77,12 +72,12 @@ Let’s look at our classic formula to calculate potential energy
 
 It quantifies the potential energy U of a system of two point-charges with magnitudes q1 and q2, separated by a distance r in free space (vacuum).
 
-If we want the total potential energy of a system of _n_ charges, we just apply this formula nC2 times.
+If we want the total potential energy of a system of _n_ charges, we just apply this formula <sup>n</sup>C<sub>2</sub> times.
 
 
 <br>
 
-<h1>Let's Begin</h1>
+# Let's Begin
 
 
 I’m going to create a system of 100 charged bodies and initialise them with random charge values. I’m sampling from a Gaussian Distribution since I’d like there to be a few slightly larger charges in the mix to make things interesting.
@@ -162,7 +157,7 @@ end
 
 
 
-Since the potential function gives a very small value of the order of 10-12 we need to scale it so that the loss is a high enough value to produce an appreciable movement in my charges.
+Since the potential function gives a very small value of the order of 10<sup>-12</sup> we need to scale it so that the loss is a high enough value to produce an appreciable movement in my charges.
 
 Let’s create the environment of charges
 
@@ -222,7 +217,7 @@ Using some basic plotting functions, I graphed my charges at every training iter
 
 
 
-<h1>The Big Question. It looks cool, but does it work?</h1>
+# The Big Question. It looks cool, but does it work?
 
 A high-level observation shows that the like charges tend to move apart and the unlike charges tend to move closer. We can take a step further and notice that as time progresses, the charges tend to move less and less since they are more or less in a stable position. A sure sign of convergence.
 
@@ -251,7 +246,7 @@ They may also occur when a positive and a negative charge briefly overlap with e
 <br>
 
 
-<h1>Conclusion</h1>
+# Conclusion
 
 It works! 
 I created this simulation because it’s an interesting and very visual way to get a real feel of how charges move around when affected by almost a 100 different forces. 
