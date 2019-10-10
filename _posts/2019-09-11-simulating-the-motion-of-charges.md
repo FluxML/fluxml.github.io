@@ -19,7 +19,7 @@ h4{
 
 </style>
 
-<h4>Finding a state of minimum potential energy or maximum stability of a system of charges by Automatic Differentiation</h4>
+#### Finding a state of minimum potential energy or maximum stability of a system of charges by Automatic Differentiation
 <br>
 
  >“We demand rigidly defined areas of doubt and uncertainty!” <br>– Douglas Adams, The Hitchhiker's Guide To The Galaxy
@@ -46,11 +46,11 @@ I’m going to see if I can predict the behaviour of a system of a 100 charges b
 
 
 
-<h3>The Obvious Approach</h3>
+### The Obvious Approach
 
 The solution to this problem that immediately comes to mind is to use the amazing computing power we possess to resolve the vector components of the 99 forces on each of the 100 charges we have, use that net force to predict the acceleration of the charges, use that acceleration to produce movement in the charges, and repeat the process within a very short time interval to produce as continuous and as accurate a movement as possible.  
 
-<h3>My Approach</h3>
+### My Approach
 
 
 Why do charges move? Due to acceleration.
@@ -211,7 +211,7 @@ Using some basic plotting functions, I graphed my charges at every training iter
 
 <br>
 
-<h4>Red charges are positive, Blue charges are negative and size of the dot is proportional to the absolute value of charge</h4>
+#### Red charges are positive, Blue charges are negative and size of the dot is proportional to the absolute value of charge
 
 <br>
 
