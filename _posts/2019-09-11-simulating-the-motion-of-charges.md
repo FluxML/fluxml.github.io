@@ -67,7 +67,7 @@ I’m also going to create a simple function to calculate potential.
 
 ```julia
 function potential(a::Vertex, b::Vertex) # classic potential formula
-  return (8.854e-12)*a.charge*b.charge/(sqrt(sum(abs2.(a.pos .- b.pos))))
+  return (8.9e9)*a.charge*b.charge/(sqrt(sum(abs2.(a.pos .- b.pos))))
 end
 
 function potential(a::Vector) # potential for a system of charges
@@ -95,13 +95,13 @@ function loss(env::Vector)
       s = s+100*(distance(env[i],[0,0])-5)        
     end
   end
-  # scaling potential so the distance moved is perceptible
-  l =  s + 1.0e12*potential(env)                      
+  # scaling potential so the distance moved is acceptably small
+  l =  s + 1.0e-9*potential(env)                      
   return l
 end
 ```
 
-Since the potential function gives a very small value of the order of 10<sup>-12</sup> we need to scale it so that the loss is a high enough value to produce an appreciable movement in my charges.
+Since the potential function gives a very high value of the order of 10<sup>9</sup> we need to scale it so that the loss is a low enough value to produce an acceptable movement in my charges.
 
 Let’s create the environment of charges
 
