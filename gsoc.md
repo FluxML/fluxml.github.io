@@ -82,19 +82,14 @@ While Julia supports dense GPU arrays well via [CuArrays](https://github.com/Jul
 
 Build deep learning models for Natural Language Processing in Julia. [TextAnalysis](https://github.com/juliatext/TextAnalysis.jl)  and [WordTokenizers](https://github.com/JuliaText/WordTokenizers.jl) contains the basic algorithms and data structures to work with textual data in Julia. On top of that base, we want to build modern deep learning models based on recent research. The following tasks can span multiple students and projects.
 
-It is important to note that we want practical, usable solutions to be created, not just research models. This implies that a large part of the effort will need to be in finding and using training data, and testing the models over a wide variety of domains. Pre-trained modesl must be available to users, who should be able to start using these without supplying their own training data. 
+It is important to note that we want practical, usable solutions to be created, not just research models. This implies that a large part of the effort will need to be in finding and using training data, and testing the models over a wide variety of domains. Pre-trained models must be available to users, who should be able to start using these without supplying their own training data.
 
-* Implement BERT in Julia
 * Implement ELMo in Julia
-* Implement practical models for  
-  * Sentiment analysis  
-  * Part of speech (POS) tagging  
-  * Named entity recognition (NER)  
+* Implement practical models for 
   * Dependency Tree Parsing  
   * Morphological extractions  
   * Summarisation (using RNNs with Attention)  
   * Translations (using Transformers)  
-* Implement RevTok (a reversible tokeniser)
 * Indic language support -- validate and test all models for Indic languages
 * Chinese tokenisation and parsing
 
