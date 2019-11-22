@@ -95,6 +95,21 @@ It is important to note that we want practical, usable solutions to be created, 
 
 **Mentors**: [Avik Sengupta](https://github.com/aviks/) & [Lyndon White](https://github.com/oxinabox/)
 
+### Neural networks for solving differential equations
+
+Neural networks can be used as a method for efficiently solving difficult partial
+differential equations. Efficient implementations from recent papers are being
+explored as part of the [NeuralNetDiffEq.jl](https://github.com/JuliaDiffEq/NeuralNetDiffEq.jl)
+package. The [issue tracker](https://github.com/JuliaDiffEq/NeuralNetDiffEq.jl/issues)
+contains links to papers which would be interesting new neural network based methods to
+implement and benchmark against classical techniques.
+
+**Recommended Skills**: Background knowledge in numerical analysis and machine learning.
+
+**Expected Results**: New neural network based solver methods.
+
+**Mentors**: [Chris Rackauckas](https://github.com/ChrisRackauckas)
+
 ### Accelerating optimization via machine learning with surrogate models
 
 In many cases, when attempting to optimize a function `f(p)` each calculation
