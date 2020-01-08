@@ -84,13 +84,16 @@ Build deep learning models for Natural Language Processing in Julia. [TextAnalys
 
 It is important to note that we want practical, usable solutions to be created, not just research models. This implies that a large part of the effort will need to be in finding and using training data, and testing the models over a wide variety of domains. Pre-trained models must be available to users, who should be able to start using these without supplying their own training data.
 
-* Implement ELMo in Julia
+* Implement [ELMo](https://allennlp.org/elmo) in Julia
+* Implement [ALBERT](https://ai.googleblog.com/2019/12/albert-lite-bert-for-self-supervised.html) in Julia
+* Implement GPT/GPT-2 in Julia
+* Implement [extractive summarisation based on Transformers](https://arxiv.org/abs/1909.03186)
 * Implement practical models for 
   * Dependency Tree Parsing  
   * Morphological extractions  
-  * Summarisation (using RNNs with Attention)  
   * Translations (using Transformers)  
 * Indic language support -- validate and test all models for Indic languages
+  * ULMFiT models for Indic languages
 * Chinese tokenisation and parsing
 
 **Mentors**: [Avik Sengupta](https://github.com/aviks/) & [Lyndon White](https://github.com/oxinabox/)
