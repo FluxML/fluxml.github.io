@@ -98,6 +98,21 @@ It is important to note that we want practical, usable solutions to be created, 
 
 **Mentors**: [Avik Sengupta](https://github.com/aviks/) & [Lyndon White](https://github.com/oxinabox/)
 
+### Automated music generation
+
+Neural network based models can be used for music analysis and music generation (composition). A suite 
+of tools in Julia to enable research in this area would be useful. This is a large, complex project that
+is suited for someone with an interest in music and machine learning. This project will need a mechanism 
+to read music files (primarily MIDI), a way to synthesise sounds, and finally a model to learn composition. 
+All of this is admittedly a lot of work, so the exact boundaries of the project can be flexible, but this can be an 
+exciting project if you are interested in both music and machine learning. 
+
+**Recommended Skills**: Music notaton, some basic music theory, MIDI format, Transformer and LSTM architectures
+
+**Resources**: [Music Transformer](https://magenta.tensorflow.org/music-transformer), [Wave2MIDI2Wave](https://magenta.tensorflow.org/maestro-wave2midi2wave)
+
+**Mentors**: [Avik Sengupta](https://github.com/aviks/)
+
 ### Neural networks for solving differential equations
 
 Neural networks can be used as a method for efficiently solving difficult partial
