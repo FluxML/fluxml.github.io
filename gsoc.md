@@ -107,7 +107,7 @@ to read music files (primarily MIDI), a way to synthesise sounds, and finally a 
 All of this is admittedly a lot of work, so the exact boundaries of the project can be flexible, but this can be an 
 exciting project if you are interested in both music and machine learning. 
 
-**Recommended Skills**: Music notaton, some basic music theory, MIDI format, Transformer and LSTM architectures
+**Recommended Skills**: Music notation, some basic music theory, MIDI format, Transformer and LSTM architectures
 
 **Resources**: [Music Transformer](https://magenta.tensorflow.org/music-transformer), [Wave2MIDI2Wave](https://magenta.tensorflow.org/maestro-wave2midi2wave)
 
@@ -196,7 +196,7 @@ Notebooks containing benchmarks determining the effectiveness of various methods
 and classifying when specific approaches are appropriate will be developed
 simultaneously.
 
-**Mentors**: [Chris Rackauckas](https://github.com/ChrisRackauckas)
+**Mentors**: [Chris Rackauckas](https://github.com/ChrisRackauckas), [Vaibhav Dixit](https://github.com/Vaibhavdixit02)
 
 ## Integration of FEniCS.jl with dolfin-adjoint + Zygote.jl for Scientific Machine Learning
 
