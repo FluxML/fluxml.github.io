@@ -53,7 +53,7 @@ Some inspiration could be drawn from python frameworks like [Kaolin](https://kao
 
 **Expected Outcome:** A 3D Computer Vision Framework for future research using Flux.
 
-**Mentors:** [Avik Pal](https://avik-pal.github.io)
+**Mentors:** [Avik Pal](https://avik-pal.github.io), [Elliot Saba](https://github.com/staticfloat)
 
 
 ### Model Zoo on TPU
