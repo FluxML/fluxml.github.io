@@ -68,19 +68,6 @@ A benchmark suite would help us to keep Julia's performance for ML models in sha
 
 Mentors: [Dhairya Gandhi](https://github.com/dhairyagandhi96/), [Elliot Saba](https://github.com/staticfloat).
 
-### TensorBoard
-
-[TensorBoard](https://www.tensorflow.org/guide/summaries_and_tensorboard) is a powerful toolkit for visualising ML training, especially useful when training on a remote server. This project would involve setting up a pure-Julia TensorBoard client that hooks into Julia's logging system to log Julia programs, including ML training. The project should demonstrate Flux integration and visualising training of a Flux model. But more broadly it should be able to work with any julia project that uses the logging standard library, from JuMP constrained optimisation solvers to iterative matrix factorization methods.
-
-A proof of concept can be found at [TensorBoardLogger.jl](https://github.com/PhilipVinc/TensorBoardLogger.jl), and could be used as a starting point for this project. A good source of inspiration might be Python's [TensorboardX](https://github.com/lanpa/tensorboardX). Previous work in Julia also include [UniversalTensorBoard.jl](https://github.com/oxinabox/UniversalTensorBoard.jl). 
-
-For the application it would be useful to build familiarity with:
-- The Julia logging system
-- Protobuf and ProtoBuf.jl
-- TensorBoard as used in e.g. python
-
-Mentors: [Filippo Vicentini](https://github.com/PhilipVinc), [Lyndon White](https://github.com/oxinabox)
-
 ### Multi-GPU training
 
 Implement and demonstrate multi-GPU parallelism. One route is to expose communication primitives from NVIDIA's [NCCL](https://developer.nvidia.com/nccl) library and use these to build tooling for model parallelism and distributed training. The project should demonstrate parallel training of a Flux model with benchmarks.
