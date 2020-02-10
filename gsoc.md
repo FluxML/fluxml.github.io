@@ -115,7 +115,7 @@ It is important to note that we want practical, usable solutions to be created, 
   * ULMFiT models for Indic languages
 * Chinese tokenisation and parsing
 
-**Mentors**: [Avik Sengupta](https://github.com/aviks/) & [Lyndon White](https://github.com/oxinabox/)
+**Mentors**: [Avik Sengupta](https://github.com/aviks/)
 
 ### Automated music generation
 
