@@ -9,6 +9,12 @@ Flux usually takes part in [Google Summer of Code](https://summerofcode.withgoog
 
 Flux projects are typically very competitive; we encourage you to get started early, as successful students typically have early PRs or working prototypes as part of the application. It is a good idea to simply start contributing via issue discussion and PRs and let a project grow from there; you can take a look at [this list of issues](https://github.com/issues?utf8=✓&q=is%3Aopen+archived%3Afalse+user%3AFluxML+label%3A%22help+wanted%22) for some starter contributions.
 
+### Make the Model-Zoo Robust
+
+The model zoo has been a great resource for folks starting with Flux and machine learning in general. This time, we want to make the zoo significantly more useful. With Artifacts, we can have the models be completely reusable, and have high quality trained models availiable trivially. This would involve training the existing models and making the weights available through artifacts. We would also want to have ways to verify that the models perform well on the test datasets.
+
+Mentors: [Dhairya Gandhi](https://github.com/dhairyagandhi96/), [Elliot Saba](https://github.com/staticfloat).
+
 ### CUDA Hacking
 
 Are you a performance nut? Help us implement cutting-edge CUDA kernels in Julia for operations important across deep learning, scientific computing and more. We also need help developing our wrappers for machine learning, sparse matrices and more, as well as CI and infrastructure. Contact us to develop a project plan.
