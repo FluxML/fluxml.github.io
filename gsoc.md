@@ -11,7 +11,7 @@ Flux projects are typically very competitive; we encourage you to get started ea
 
 ### Make the Model-Zoo Robust
 
-The model zoo has been a great resource for folks starting with Flux and machine learning in general. This time, we want to make the zoo significantly more useful. With Artifacts, we can have the models be completely reusable, and have high quality trained models availiable trivially. This would involve training the existing models and making the weights available through artifacts. We would also want to have ways to verify that the models perform well on the test datasets.
+The model zoo has been a great resource for folks starting with Flux and machine learning in general. This time, we want to make the zoo significantly more useful. With Artifacts, we can have the models be completely reusable, and have high quality trained models availiable trivially. This would involve training the existing models and making the weights available through artifacts. We would also want to have ways to verify that the models perform well on the test datasets. For some more insight, we are looking out for more [Metalhead.jl](https://github.com/FluxML/Metalhead.jl) kind of workflows with a reference to how to use them in the zoo, plus finding high quality pretrained weights for the models, that have been verified to give the expected results, including numerical debugging.
 
 Mentors: [Dhairya Gandhi](https://github.com/dhairyagandhi96/), [Elliot Saba](https://github.com/staticfloat).
 
