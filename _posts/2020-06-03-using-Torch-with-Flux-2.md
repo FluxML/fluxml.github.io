@@ -7,11 +7,11 @@ In that spirit, we introduce [Torch.jl](https://github.com/FluxML/Torch.jl), a p
 ![img](https://user-images.githubusercontent.com/20618666/79492160-e60a5600-801f-11ea-9d7f-dd04af243e44.png)
 *Image by github user https://github.com/gartangh*
 
-Not too shabby, we see about 2 orders of magnitude worth of improvement in runtime over the native kernels (all packages make use of the optimised cudnn kernels where possible). We however, see some areas of pending improvement, one of them being memory management. This is one of the areas which we intend to improve upon, to remove the area of majority of overhead. 
+Not too shabby, we see about 2 orders of magnitude worth of improvement in runtime over the native kernels (all packages make use of the optimised cudnn kernels where possible). We however, see some areas of pending improvement. One of them being memory management. This is one of the areas which we intend to improve upon, a source of majority of overhead. 
 
 ## Usage
 
-Adding the package using the Pkg, Julia's package manager is easy. However, note that at the time of writing, Torch.jl assumes the presence of a CUDA enabled GPU on the device its being added to, and assumes linux as the OS.
+Adding the package using the Pkg, Julia's package manager is easy. However, note that at the time of writing, Torch.jl assumes the presence of a CUDA enabled GPU on the device it's being added to, and assumes linux as the OS.
 
 ```julia
 # Type `]` to enter Pkg mode in the Julia REPL.
@@ -45,7 +45,7 @@ julia> z = Tensor(3,3, dev = 0)
  0.0  0.0  0.0
 ```
 
-Note that setting `dev` to `-1` implies the CPU, and `[0,...]` represent the id of the GPU we intend to load the tensor on. The default GPU is assumed to be `0`, for functions revelant to moving these tensors around. Torch.jl also emits the `torch` function which behaves like the `gpu` function already in Flux, instead moving over structs to Torch instead of CUDA.
+Note that setting `dev` to `-1` implies the CPU, and `[0,...]` represent the id of the GPU we intend to load the tensor on. The default GPU is assumed to be `0`, for functions revelant to moving these tensors around. Torch.jl also emits the `torch` function which behaves like the `gpu` function already in Flux, moving over structs to Torch instead of CUDA.
 
 ```julia
 julia> using Flux, Metalhead, Torch
