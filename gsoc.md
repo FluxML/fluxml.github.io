@@ -88,7 +88,7 @@ Mentors: [Valentin Churavy](https://github.com/vchuravy), [Tim Besard](https://g
 
 ### Sparse GPU and ML support
 
-While Julia supports dense GPU arrays well via [CuArrays](https://github.com/JuliaGPU/CUSPARSE.jl), we lack up-to-date wrappers for sparse operations. This project would involve wrapping CUDA's sparse support, with [CUSPARSE.jl](https://github.com/JuliaGPU/CUSPARSE.jl) as a starting point, adding them to CuArrays.jl, and perhaps demonstrating their use via a sparse machine learning model.
+While Julia supports dense GPU arrays well via [CUDA.jl](https://github.com/JuliaGPU/CUDA.jl), we lack up-to-date wrappers for sparse operations. This project would involve wrapping CUDA's sparse support, with [CUSPARSE.jl](https://github.com/JuliaGPU/CUSPARSE.jl) as a starting point, adding them to CUDA.jl, and perhaps demonstrating their use via a sparse machine learning model.
 
 ### NLP Tools and Models
 
@@ -100,10 +100,10 @@ It is important to note that we want practical, usable solutions to be created, 
 * Implement [ALBERT](https://ai.googleblog.com/2019/12/albert-lite-bert-for-self-supervised.html) in Julia
 * Implement GPT/GPT-2 in Julia
 * Implement [extractive summarisation based on Transformers](https://arxiv.org/abs/1909.03186)
-* Implement practical models for 
-  * Dependency Tree Parsing  
-  * Morphological extractions  
-  * Translations (using Transformers)  
+* Implement practical models for
+  * Dependency Tree Parsing
+  * Morphological extractions
+  * Translations (using Transformers)
 * Indic language support -- validate and test all models for Indic languages
   * ULMFiT models for Indic languages
 * Chinese tokenisation and parsing
@@ -112,12 +112,12 @@ It is important to note that we want practical, usable solutions to be created, 
 
 ### Automated music generation
 
-Neural network based models can be used for music analysis and music generation (composition). A suite 
+Neural network based models can be used for music analysis and music generation (composition). A suite
 of tools in Julia to enable research in this area would be useful. This is a large, complex project that
-is suited for someone with an interest in music and machine learning. This project will need a mechanism 
-to read music files (primarily MIDI), a way to synthesise sounds, and finally a model to learn composition. 
-All of this is admittedly a lot of work, so the exact boundaries of the project can be flexible, but this can be an 
-exciting project if you are interested in both music and machine learning. 
+is suited for someone with an interest in music and machine learning. This project will need a mechanism
+to read music files (primarily MIDI), a way to synthesise sounds, and finally a model to learn composition.
+All of this is admittedly a lot of work, so the exact boundaries of the project can be flexible, but this can be an
+exciting project if you are interested in both music and machine learning.
 
 **Recommended Skills**: Music notation, some basic music theory, MIDI format, Transformer and LSTM architectures
 
@@ -216,12 +216,12 @@ Scientific machine learning requires mixing scientific computing libraries with 
 [This blog post highlights how the tooling of Julia is fairly advanced in this field](https://www.stochasticlifestyle.com/the-essential-tools-of-scientific-machine-learning-scientific-ml/) compared to alternatives such as Python,
 but one area that has not been completely worked out is integration of automatic differentiation
 with partial differential equations.
-[FEniCS.jl](https://github.com/JuliaDiffEq/FEniCS.jl) is a wrapper to the 
-[FEniCS](https://fenicsproject.org/) project for finite element solutions of partial differential 
+[FEniCS.jl](https://github.com/JuliaDiffEq/FEniCS.jl) is a wrapper to the
+[FEniCS](https://fenicsproject.org/) project for finite element solutions of partial differential
 equations. We would like to augment the Julia wrappers to allow for integration with Julia's
 automatic differentiation libraries like [Zygote.jl](https://github.com/FluxML/Zygote.jl) by
 using [dolfin-adjoint](http://www.dolfin-adjoint.org/en/release/). This would require setting up
-this library for automatic installation for Julia users and writing adjoint passes which utilize 
+this library for automatic installation for Julia users and writing adjoint passes which utilize
 this adjoint builder library. It would result in the first total integration between PDEs and
 neural networks.
 
