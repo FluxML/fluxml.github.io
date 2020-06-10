@@ -5,6 +5,12 @@ $light-green: rgb(235, 245, 235);
 
 @import url('https://fonts.googleapis.com/css?family=Lato:400,400i');
 
+.octicon {
+  display: inline-block;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
 body {
   background: rgb(20,60,60);
   font-family: Lato, "Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;

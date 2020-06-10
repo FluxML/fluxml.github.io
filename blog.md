@@ -4,5 +4,9 @@ title: The Flux Blog
 ---
 
 {% for post in site.posts %}
-[{{post.title}}]({{post.url}}) – {{post.date | date: '%B %Y' }}
+{% if post.external %}
+[{{post.title}} {% octicon link-external %}]({{post.external}})
+{% else %}
+[{{post.title}}]({{post.url}})
+{% endif %} ({{post.date | date: '%B %Y' }})
 {% endfor %}
