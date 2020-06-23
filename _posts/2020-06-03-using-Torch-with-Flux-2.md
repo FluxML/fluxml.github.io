@@ -4,9 +4,9 @@ With [Flux.jl](https://github.com/Flux/Flux.jl), we have demonstrated how we see
 
 In that spirit, we introduce [Torch.jl](https://github.com/FluxML/Torch.jl), a package that wraps the optimised kernels written for torch and PyTorch, and makes them available to use through Julia. We expect to do this to gain coverage over our existing GPU stack, and bring us plenty of performance improvements on GPUs along the way. As an example we take a couple popular object detection models - ResNet50, ResNet101 and VGG19 - and compare these with our existing tooling.
 
-![resnet50][../assets/2020-06-03-using-Torch-with-Flux-2/resnet50.png]
-![resnet101][../assets/2020-06-03-using-Torch-with-Flux-2/resnet101.png]
-![vgg][../assets/2020-06-03-using-Torch-with-Flux-2/vgg.png]
+![resnet50][../assets/2020-06-03-using-Torch-with-Flux-2/resnet50.png =500x400]
+![resnet101][../assets/2020-06-03-using-Torch-with-Flux-2/resnet101.png =500x400]
+![vgg][../assets/2020-06-03-using-Torch-with-Flux-2/vgg.png =500x400]
 *All runs are with a Tesla K40 (12 GB), julia v1.4.2, Intel(R) Core(TM) i7-4790 CPU @ 3.60GHz and 32 GB of DDR3 Memory*
 
 Not too shabby, we see some real improvement in runtime over the native kernels (all packages make use of the optimised cudnn kernels where possible). We however, see some areas of pending improvement. One of them being memory management. This is one of the areas which we intend to improve upon, a source of majority of overhead. 
