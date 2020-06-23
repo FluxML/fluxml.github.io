@@ -15,6 +15,22 @@ Not too shabby, we see some real improvement in runtime over the native kernels 
 
 Adding the package using the Pkg, Julia's package manager is easy. However, note that at the time of writing, Torch.jl assumes the presence of a CUDA enabled GPU on the device it's being added to, and assumes linux as the OS.
 
+### Moving models over to Torch kernels; introducing `torch`
+
+With this package, we expect to make the move to using torch kernels as easy as it can be. Users of Flux would be familiar with calling `gpu(model)` to move large nested models over to using the CUDA kernels. The API for torch kernels is just as simple.
+
+```julia
+julia> using Metalhead
+
+julia> resnet = ResNet()
+
+julia> torch_resnet = resnet |> torch
+```
+
+Of course this is not just limited to `ResNet`. Many architectures would benefit from this, be they `VGG`, `DenseNet`, `Inception`s etc. Check out [Metalhead.jl](https://github.com/FluxML/Metalhead.jl) for some of these. It would also be useful for more performance critical models such as YOLO via [ObjectDetector.jl](https://github.com/r3tex/ObjectDetector.jl). In addition large, hard to train models like RCNNs would benefit from these kernels as well.
+
+### Installation
+
 ```julia
 # Type `]` to enter Pkg mode in the Julia REPL.
 pkg> add Torch
@@ -24,6 +40,8 @@ julia> using Torch
 ```
 
 Once it has been installed, we can talk about the different functions that Torch.jl makes available.
+
+### Simple, intuitive API
 
 In addition, we expect to make as few but relevant assumptions about the kind of models that the ML community has been developing, and how we see their use grow in more fields than ever before, which is why we want these `Tensor`s to mimic Julia arrays closely
 
