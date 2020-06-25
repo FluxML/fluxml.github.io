@@ -2,7 +2,7 @@
 
 With [Flux.jl](https://github.com/Flux/Flux.jl), we have demonstrated how we see a high performance and flexible [differentiable programming](./2019-03-05-dp-vs-rl.md) framework to look like and show its intended use cases to be far reaching and allowing for meaningful speedups. We use it to target highly specialised hardware accelerators like [GPUs](https://fluxml.ai/Flux.jl/stable/gpu/) or [TPUs](https://arxiv.org/pdf/1810.09868.pdf). In our framework, we expect to use as much of the Julia ecosystem, and play nicely with custom types that our users define.
 
-In that spirit, we introduce [Torch.jl](https://github.com/FluxML/Torch.jl), a package that wraps the optimised kernels written for torch and PyTorch, and makes them available to use through Julia. We expect to do this to gain coverage over our existing GPU stack, and bring us plenty of performance improvements on GPUs along the way. As an example we take a couple popular object detection models - ResNet50, ResNet101 and VGG19 - and compare these with our existing tooling.
+In that spirit, we introduce [Torch.jl](https://github.com/FluxML/Torch.jl), a package that wraps the optimised kernels written for torch and PyTorch, and makes them available to use through Julia. We expect to do this to gain coverage over our existing GPU stack, and bring us plenty of performance improvements on GPUs along the way. As an example we time the inference pass on a couple popular object detection models - ResNet50, ResNet101 and VGG19 - and compare these with our existing tooling.
 
 ![resnet50][../assets/2020-06-03-using-Torch-with-Flux-2/resnet50.png =500x400]
 ![resnet101][../assets/2020-06-03-using-Torch-with-Flux-2/resnet101.png =500x400]
