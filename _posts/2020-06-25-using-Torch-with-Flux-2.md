@@ -1,5 +1,5 @@
 ---
-title: Using Torch kernels inside Flux.jl
+title: Accelerating Flux.jl with Torch kernels
 author: Dhairya Gandhi
 layout: blog
 ---
