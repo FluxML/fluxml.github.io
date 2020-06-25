@@ -1,4 +1,8 @@
-# Using Torch kernels inside Flux.jl
+---
+title: Using Torch kernels inside Flux.jl
+author: Dhairya Gandhi
+layout: blog
+---
 
 With [Flux.jl](https://github.com/Flux/Flux.jl), we have demonstrated how we see a high performance and flexible [differentiable programming](./2019-03-05-dp-vs-rl.md) framework to look like and show its intended use cases to be far reaching and allowing for meaningful speedups. We use it to target highly specialised hardware accelerators like [GPUs](https://fluxml.ai/Flux.jl/stable/gpu/) or [TPUs](https://arxiv.org/pdf/1810.09868.pdf). In our framework, we expect to use as much of the Julia ecosystem, and play nicely with custom types that our users define.
 
