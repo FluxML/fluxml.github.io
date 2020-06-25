@@ -45,7 +45,7 @@ julia> using Torch
 
 Once it has been installed, we can talk about the different functions that Torch.jl makes available.
 
-### Simple, intuitive API
+## Simple, intuitive API
 
 In addition, we expect to make as few but relevant assumptions about the kind of models that the ML community has been developing, and how we see their use grow in more fields than ever before, which is why we want these `Tensor`s to mimic Julia arrays closely
 
