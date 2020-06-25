@@ -1,15 +1,15 @@
 # Using Torch kernels inside Flux.jl
 
-With [Flux.jl](https://github.com/Flux/Flux.jl), we have demonstrated how we see a high performance and flexible [differentiable programming](./2019-03-05-dp-vs-rl.md) framework to look like and show its intended use cases to be far reaching and allowing for meaningful speedups. We use it to target highly specialised hardware accelerators like [GPUs](https://fluxml.ai/Flux.jl/stable/gpu/) or [TPUs](https://arxiv.org/pdf/1810.09868.pdf). In our framework, we expect to use as much of the Julia ecosystem, and play nicely with custom types that our users define.
+With [Flux.jl](https://github.com/Flux/Flux.jl), we built a flexible [differentiable programming](./2019-03-05-dp-vs-rl.md) framework. Using [Julia's GPU compiler](https://juliagpu.org), Flux is able to target [GPUs](https://fluxml.ai/Flux.jl/stable/gpu/). It is also able to target [TPUs](https://arxiv.org/pdf/1810.09868.pdf).
 
-In that spirit, we introduce [Torch.jl](https://github.com/FluxML/Torch.jl), a package that wraps the optimised kernels written for torch and PyTorch, and makes them available to use through Julia. We expect to do this to gain coverage over our existing GPU stack, and bring us plenty of performance improvements on GPUs along the way. As an example we time the inference pass on a couple popular object detection models - ResNet50, ResNet101 and VGG19 - and compare these with our existing tooling.
+Here, we introduce [Torch.jl](https://github.com/FluxML/Torch.jl), a package that wraps the optimised kernels in Torch and PyTorch, for use in Julia. Even though Julia's GPU compiler is already pretty good for general use and under heavy development, we provide this package to leverage well-debugged high performance kernels that have been built by the community, much in the way we use BLAS and LAPACK for Linear Algebra. As an example we time the inference pass on a couple popular object detection models - ResNet50, ResNet101 and VGG19 - and compare these with our existing tooling.
 
 ![resnet50][../assets/2020-06-03-using-Torch-with-Flux-2/resnet50.png =500x400]
 ![resnet101][../assets/2020-06-03-using-Torch-with-Flux-2/resnet101.png =500x400]
 ![vgg][../assets/2020-06-03-using-Torch-with-Flux-2/vgg.png =500x400]
 *All runs are with a Tesla K40 (12 GB), julia v1.4.2, Intel(R) Core(TM) i7-4790 CPU @ 3.60GHz and 32 GB of DDR3 Memory*
 
-Not too shabby, we see some real improvement in runtime over the native kernels (all packages make use of the optimised cudnn kernels where possible). We however, see some areas of pending improvement. One of them being memory management. This is one of the areas which we intend to improve upon, a source of majority of overhead. 
+This brings state of the art performance to Julia users who need it, and also identifies areas of improvement in the Julia GPU compiler stack, especially in the area of memory management.
 
 ## Usage
 
@@ -113,7 +113,7 @@ julia> collect(tr)
 
 ## Taking gradients
 
-Our tooling's flexible approach means it is indeed possible to use our reverse-mode AD [Zygote.jl](https://github.com/Flux/Zygote.jl) to differentiate the models including these tensors as we would our regular `Array`s.
+It is possible to use Julia's [Zygote.jl](https://github.com/Flux/Zygote.jl) reverse mode AD to differentiate the models, using Torch tensors as we would regular Julia `Array`s.
 
 ```julia
 julia> ip = rand(Float32, 224, 224, 3, 1);
@@ -125,12 +125,10 @@ julia> gs = gradient(Flux.params(tresnet)) do
        end;
 ```
 
-We can now use these gradient to train our models.
+We can now use this gradient to train our models.
 
 ## Additional Remarks
 
-With Torch, we expand the coverage of our GPU stack even further, and provide the tools that allow users to solve interesting problems with the performance in tow.
-
-In Torch.jl, our aim is also to change as little user code as possible, making it easy to get started with. We further plan to integrate more kernels and provide features from Torch that our users would be interested in. For feature requests and issues you might have using Torch, since the package is fairly new, please open issues on our [GitHub issue tracker](https://github.com/Flux/Torch.jl/issues). We would also appreicate contributions via pull requests to the same repository.
+In Torch.jl, our aim is also to change as little user code as possible, making it easy to get started with. We further plan to integrate more kernels and provide features from Torch that Julia users might be interested in. For feature requests and issues you might have using Torch.jl, please open issues on our [GitHub issue tracker](https://github.com/Flux/Torch.jl/issues). Contributions via pull requests are highly encouraged!
 
 Looking forward to seeing folks make use of it. Cheers!
