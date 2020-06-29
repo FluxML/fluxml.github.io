@@ -6,7 +6,7 @@ layout: blog
 
 With [Flux.jl](https://github.com/Flux/Flux.jl), we built a flexible [differentiable programming](./2019-03-05-dp-vs-rl.md) framework. Using [Julia's GPU compiler](https://juliagpu.org), Flux is able to target [GPUs](https://fluxml.ai/Flux.jl/stable/gpu/). It is also able to target [TPUs](https://arxiv.org/pdf/1810.09868.pdf).
 
-Here, we introduce [Torch.jl](https://github.com/FluxML/Torch.jl), a package that wraps the optimised kernels in Torch and PyTorch, for use in Julia. Even though Julia's GPU compiler is already pretty good for general use and under heavy development, we provide this package to leverage well-debugged high performance kernels that have been built by the community, much in the way we use BLAS and LAPACK for Linear Algebra. As an example we time the inference pass on a couple popular object detection models - ResNet50, ResNet101 and VGG19 - and compare these with our existing tooling.
+Here, we introduce [Torch.jl](https://github.com/FluxML/Torch.jl), a package that wraps the optimised kernels in [PyTorch](https://pytorch.org), for use in Julia. Even though Julia's GPU compiler is already pretty good for general use and under heavy development, we provide this package to leverage well-debugged high performance kernels that have been built by the community, much in the way we use BLAS and LAPACK for Linear Algebra. As an example we time the inference pass on a couple popular object detection models - ResNet50, ResNet101 and VGG19 - and compare these with our existing tooling.
 
 ![resnet50][../assets/2020-06-03-using-Torch-with-Flux-2/resnet50.png =500x400]
 ![resnet101][../assets/2020-06-03-using-Torch-with-Flux-2/resnet101.png =500x400]
@@ -47,7 +47,7 @@ Once it has been installed, we can talk about the different functions that Torch
 
 ## Simple, intuitive API
 
-In addition, we expect to make as few but relevant assumptions about the kind of models that the ML community has been developing, and how we see their use grow in more fields than ever before, which is why we want these `Tensor`s to mimic Julia arrays closely
+We expect to make as few but relevant assumptions about the kind of models that the ML community has been developing, and how we see their use grow in more fields than ever before, which is why we want these `Tensor`s to mimic Julia arrays closely
 
 Torch.jl provides the `Tensor` type which closely follows the semantics of a regular Julia array, albeit being managed by torch. One can create a tensor with an API similar to `rand` or `zeros` etc.
 
