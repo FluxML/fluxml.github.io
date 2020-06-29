@@ -1,6 +1,6 @@
 ---
 title: Using Torch kernels inside Flux.jl
-author: Dhairya Gandhi
+author: Dhairya Gandhi, Mike Innes
 layout: blog
 ---
 
