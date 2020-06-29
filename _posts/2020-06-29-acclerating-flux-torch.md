@@ -12,7 +12,7 @@ For popular object detection models - ResNet50, ResNet101 and VGG19 - we compare
 
 <p float="middle">
   <img src="/assets/2020-06-29-acclerating-flux-torch/combined_benchmarks_2.png">
-<img src="/assets/2020-06-29-acclerating-flux-torch/resnet101.png" height="300">
+  <img src="/assets/2020-06-29-acclerating-flux-torch/resnet101.png" height="300">
 </p>
 
 All runs are with a Tesla K40 (12 GB), julia v1.4.2, Intel(R) Core(TM) i7-4790 CPU @ 3.60GHz and 32 GB of DDR3 Memory.
