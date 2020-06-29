@@ -23,7 +23,7 @@ This project achieves two things. It brings state of the art performance to Juli
 
 Adding Torch.jl is easy. It assumes the presence of a CUDA enabled GPU on the device it is being added to, and assumes a linux system.
 
-### Moving models over to Torch kernels; introducing `torch`
+### Moving models over to PyTorch kernels; introducing `torch`
 
 Users of Flux are familiar with calling the `gpu(model)` API to accelerate their models with GPUs. The API for Torch kernels is just as simple - `torch(model)`.
 
