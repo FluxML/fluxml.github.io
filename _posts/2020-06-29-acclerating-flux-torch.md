@@ -25,7 +25,7 @@ Adding Torch.jl is easy. It assumes the presence of a CUDA enabled GPU on the de
 
 ### Moving models over to PyTorch kernels; introducing `torch`
 
-Users of Flux are familiar with calling the `gpu(model)` API to accelerate their models with GPUs. The API for Torch kernels is just as simple - `torch(model)`.
+Users of Flux are familiar with calling the `gpu(model)` API to accelerate their models with GPUs. The API for Torch.jl is just as simple - `torch(model)`.
 
 ```julia
 julia> using Metalhead
