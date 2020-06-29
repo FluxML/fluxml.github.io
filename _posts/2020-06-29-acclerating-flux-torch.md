@@ -1,14 +1,14 @@
 ---
-title: Accelerating Flux.jl with Torch kernels
+title: Accelerating Flux.jl with PyTorch kernels
 author: Dhairya Gandhi, Mike Innes
 layout: blog
 ---
 
 Julia and Flux provide a flexible [differentiable programming](./2019-03-05-dp-vs-rl.md) system. Flux does not trade flexibility and abstraction for performance, and in fact strives to achieve both in the same package. For example, Flux is able to target multiple hardware accelerators such as [GPUs](https://fluxml.ai/Flux.jl/stable/gpu/) and [TPUs](https://arxiv.org/pdf/1810.09868.pdf). As a result, it is one of the pillars of Julia's [deep learning ecosystem](https://juliahub.com/ui/Packages/CUDAnative/4Zu2W/3.1.0?t=2), with almost 40 packages leveraging it.
 
-Here, we introduce [Torch.jl](https://github.com/FluxML/Torch.jl), a package that wraps optimised kernels from [PyTorch](https://pytorch.org). Even though Julia's [GPU compiler](https://developer.nvidia.com/blog/gpu-computing-julia-programming-language/) is already pretty good for [general use](https://juliahub.com/ui/Packages/CUDAnative/4Zu2W/3.1.0?t=2) and under [heavy development](), we provide Torch.jl to leverage well-debugged high performance kernels that have been built by the PyTorch community, much in the same way we use BLAS and LAPACK for Linear Algebra. 
+Here, we introduce [Torch.jl](https://github.com/FluxML/Torch.jl), a package that wraps optimised kernels from [PyTorch](https://pytorch.org). Even though Julia's [GPU compiler](https://developer.nvidia.com/blog/gpu-computing-julia-programming-language/) is already pretty good for [general use](https://juliahub.com/ui/Packages/CUDAnative/4Zu2W/3.1.0?t=2) and under [heavy development](https://github.com/JuliaGPU/CUDA.jl), we provide Torch.jl to leverage well-debugged high performance kernels that have been built by the PyTorch community, much in the same way we use BLAS and LAPACK for Linear Algebra. 
 
-For popular object detection models - ResNet50, ResNet101 and VGG19 - and compare inference times for Flux using Torch.jl with our native tooling, and find Flux+Torch to be 2-3x faster. On larger batch sizes, the difference is much higher, since Julia's GPU stack needs further development in the area of memory management and GC. 
+For popular object detection models - ResNet50, ResNet101 and VGG19 - we compare inference times for Flux using Torch.jl with our native tooling, and find Flux+Torch to be 2-3x faster. On larger batch sizes, the difference is much higher, since Julia's GPU stack needs further development in the area of memory management and GC. 
 
 ![resnet50][../assets/2020-06-03-using-Torch-with-Flux-2/resnet50.png =500x400]
 ![resnet101][../assets/2020-06-03-using-Torch-with-Flux-2/resnet101.png =500x400]
@@ -23,7 +23,7 @@ Adding Torch.jl is easy. It assumes the presence of a CUDA enabled GPU on the de
 
 ### Moving models over to Torch kernels; introducing `torch`
 
-Users of Flux are familiar with calling `gpu(model)` API to accelerate their models with GPUs. The API for Torch kernels is just as simple.
+Users of Flux are familiar with calling the `gpu(model)` API to accelerate their models with GPUs. The API for Torch kernels is just as simple - `torch(model)`.
 
 ```julia
 julia> using Metalhead
@@ -33,7 +33,7 @@ julia> resnet = ResNet()
 julia> torch_resnet = resnet |> torch
 ```
 
-Of course this is not just limited to `ResNet`. Many architectures would benefit from this - such as `VGG`, `DenseNet`, `Inception`s etc. Check out [Metalhead.jl](https://github.com/FluxML/Metalhead.jl) for some common image classification models. It also helps improve performance in models such as YOLO via [ObjectDetector.jl](https://github.com/r3tex/ObjectDetector.jl). In addition, large hard to train models like RCNNs also benefit from these kernels as well.
+Of course this is not just limited to `ResNet`. Many architectures would benefit from this - such as `VGG`, `DenseNet`, `Inception` etc. Check out [Metalhead.jl](https://github.com/FluxML/Metalhead.jl) for some common computer vision models. It also helps improve performance in models such as YOLO via [ObjectDetector.jl](https://github.com/r3tex/ObjectDetector.jl). In addition, large hard to train models like RCNNs also benefit from these kernels.
 
 ### Installation
 
@@ -47,7 +47,7 @@ julia> using Torch
 
 ## Simple, intuitive API
 
-Our APIs make the PyTorch `Tensor`s mimic Julia arrays closely, in order to provide a Julian experience to Flux users. Torch.jl provides the `Tensor` type which closely follows the semantics of a regular Julia array, albeit while being managed by Torch. One can create a tensor with an API similar to `rand` or `zeros`.
+Our APIs make the PyTorch `Tensor`s mimic Julia arrays closely, in order to provide a Julian experience to Flux users. Torch.jl provides the `Tensor` type which closely follows the semantics of a regular Julia array, albeit while being managed by PyTorch. One can create a tensor with an API similar to `rand` or `zeros`.
 
 ```julia
 julia> z = Tensor(3,3)
@@ -57,7 +57,7 @@ julia> z = Tensor(3,3)
  0.0  0.0  0.0
 ```
 
-To control the device the tensor is loaded on (the default being on CPU), we use the `dev` keyword, available in most functions.
+Controlling the device the tensor is loaded on (the default being on CPU) is done via the `dev` keyword, available in most functions.
 
 ```julia
 julia> z = Tensor(3,3, dev = 0)
@@ -67,7 +67,7 @@ julia> z = Tensor(3,3, dev = 0)
  0.0  0.0  0.0
 ```
 
-Note that setting `dev` to `-1` implies the CPU, and `[0,...]` represent the id of the GPU we intend to load the tensor on. The default GPU is assumed to be `0`, for functions revelant to moving these tensors around. Torch.jl also emits the `torch` function which behaves like the `gpu` function already in Flux, moving over structs to Torch instead of CUDA.jl.
+Note that setting `dev` to `-1` implies the CPU, and `[0,...]` represents the ID of the GPU we intend to load the tensor on. The default GPU is assumed to be `0`. Torch.jl also defines the `torch` function which behaves like the `gpu` function already in Flux, moving over structs to Torch instead of CUDA.jl.
 
 ```julia
 julia> using Flux, Metalhead, Torch
