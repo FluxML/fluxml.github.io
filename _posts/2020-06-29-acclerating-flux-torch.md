@@ -10,10 +10,11 @@ Here, we introduce [Torch.jl](https://github.com/FluxML/Torch.jl), a package tha
 
 For popular object detection models - ResNet50, ResNet101 and VGG19 - we compare inference times for Flux using Torch.jl with our native tooling, and find Flux+Torch to be 2-3x faster. On larger batch sizes, the difference is much higher, since Julia's GPU stack needs further development in the area of memory management and GC. 
 
-![resnet50][../assets/2020-06-03-using-Torch-with-Flux-2/resnet50.png =500x400]
-![resnet101][../assets/2020-06-03-using-Torch-with-Flux-2/resnet101.png =500x400]
-![vgg][../assets/2020-06-03-using-Torch-with-Flux-2/vgg.png =500x400]
-*All runs are with a Tesla K40 (12 GB), julia v1.4.2, Intel(R) Core(TM) i7-4790 CPU @ 3.60GHz and 32 GB of DDR3 Memory*
+<p float="middle">
+  <img src="/assets/2020-06-29-acclerating-flux-torch/combined_benchmarks.png">
+</p>
+
+All runs are with a Tesla K40 (12 GB), julia v1.4.2, Intel(R) Core(TM) i7-4790 CPU @ 3.60GHz and 32 GB of DDR3 Memory.
 
 This project achieves two things. It brings state of the art performance to Julia users who need it today with no fuss, while simulatneously providing benchmarks to identify areas of improvement in the Julia GPU compiler stack, and [track them](https://speed.juliagpu.org/).
 
