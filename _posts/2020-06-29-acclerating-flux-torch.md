@@ -133,6 +133,6 @@ We can now use this gradient to train our models.
 
 ## Additional Remarks
 
-In Torch.jl, our aim is also to change as little user code as possible, making it easy to get started with. We invite the community to contribute more kernels and provide features from PyTorch that Julia users might be interested in. For feature requests and issues that you might run into with Torch.jl, please open issues on our [GitHub issue tracker](https://github.com/Flux/Torch.jl/issues). Contributions via pull requests are highly encouraged!
+In Torch.jl, our aim is also to change as little user code as possible, making it easy to get started with. We invite the community to contribute more kernels and provide features from PyTorch that Julia users might be interested in. For feature requests and issues that you might run into with Torch.jl, please open issues on our [GitHub issue tracker](https://github.com/FluxML/Torch.jl/issues). Contributions via pull requests are highly encouraged!
 
 We look forward to seeing folks try it out and let us know on [discourse](https://discourse.julialang.org) about their experiences. Cheers!
