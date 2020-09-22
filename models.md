@@ -21,9 +21,16 @@ There are a number of packages in the Flux ecosystem designed to help with creat
 
 * [Metalhead.jl](https://github.com/FluxML/Metalhead.jl) includes many state-of-the-art computer vision models which can easily be used for transfer learning.
 
+* [Augmentor.jl](https://github.com/Evizero/Augmentor.jl) is a real-time library augmentation library for increasing the number of training images.
+
+* [MLDataUtils.jl](https://github.com/JuliaML/MLDataUtils.jl) is a utility package for generating, loading, partitioning, and processing Machine Learning datasets.
+
+* [UNet.jl](https://github.com/DhairyaLGandhi/UNet.jl) is a generic UNet implentation.
+
+
 ## Projects using Flux
 
-Other projects use Flux under the hood to provide machine learning capabilities, or to combine ML with another domain.
+Other projects use Flux under the hood to provide machine learning capabilities, or to combine Machine Learning with another domain.
 
 * The [Yao](https://github.com/QuantumBFS/Yao.jl) project uses Flux and Zygote for Quantum Differentiable Programming.
 
@@ -40,6 +47,11 @@ Other projects use Flux under the hood to provide machine learning capabilities,
 * [Stheno](https://github.com/willtebbutt/Stheno.jl) provides flexible Gaussian processes.
 
 * [Omega](https://github.com/zenna/Omega.jl) is a research project aimed at causal, higher-order probabilistic programming.
+
+* [Mill](https://github.com/pevnak/Mill.jl) helps to prototype flexible multi-instance learning models.
+
+* [Torch.jl](https://github.com/FluxML/Torch.jl) exposes torch in Julia.
+
 
 See also academic work [citing Flux](https://scholar.google.com/scholar?oi=bibs&hl=en&cites=9731162218836700005) [or Zygote](https://scholar.google.com/scholar?oi=bibs&hl=en&cites=11943854577624257878).
 
