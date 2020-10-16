@@ -27,6 +27,8 @@ There are a number of packages in the Flux ecosystem designed to help with creat
 
 * [UNet.jl](https://github.com/DhairyaLGandhi/UNet.jl) is a generic UNet implentation.
 
+* [FluxArchitectures](https://github.com/sdobber/FluxArchitectures) is a collection of slightly more advanced network achitectures.
+
 
 ## Projects using Flux
 
