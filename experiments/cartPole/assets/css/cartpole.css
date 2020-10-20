@@ -1,0 +1,72 @@
+#playground{
+  /*background: linear-gradient(to bottom right, var(--dark), #5f924d, var(--dark)); */
+  background: var(--medium);
+  margin-bottom: 10px;
+}
+
+div{
+  position:relative;
+}
+
+#playground,  #controls{
+  /*box-shadow: 2px 2px 8px #060638;*/
+}
+
+#playground, #controls, .board, .demo_wrapper{
+  width: 60vw;
+}
+
+#playground, .board{
+  min-height: 200px;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  overflow: hidden;
+}
+
+.demo_wrapper{
+  margin: 0px auto;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+@media only screen and (max-width:768px){
+  #playground, #controls, .board, .demo_wrapper{
+    width: 90vw;
+  }
+}
+
+.levels{
+  flex: 1;
+  /* align-items: flex-end; */
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.levels > div{
+  padding: 0px 10px;
+  border: 1px solid;
+  margin: 0 10px 0 0;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.4s linear;
+}
+
+.levels .selected{
+  background: var(--dark);
+  color: var(--light);
+}
+
+.stats{
+  display: flex;
+  flex-direction: row;
+  /*justify-content: ;*/
+  padding: 20px;
+}
+.stats > p{
+  margin: 0 5px;
+}

@@ -1,0 +1,43 @@
+---
+layout: default
+---
+<link rel="stylesheet" href="/tools/colors/colors.css">
+<link rel="stylesheet" href="../experiments.css">
+<link rel="stylesheet" href="./assets/css/style.css">
+<link rel="stylesheet" href="/tools/progressBar/css/progressBar.css">
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.9.0"> </script>
+<script src="https://unpkg.com/bson@2.0.8/browser_build/bson.js"></script>
+<script src="./assets/js/flux.js"></script>
+
+<div class="content">
+	<div class="container">
+		<h1>Flux Experiment: MNIST Classifier</h1>
+		<div class="demo_wrapper">
+			<div class="render_editor">
+				<div>
+					<div>				
+						<canvas width="200" height="200" id="editor"></canvas>
+						<div class="options">
+							<button id="clearEditor">Clear</button>
+							<a href="https://github.com/FluxML/model-zoo/blob/master/vision/mnist/conv.jl"><button id="code_link">See code</button></a>
+						</div>
+					</div>
+					<div>
+						<canvas width=250 height=240 id="result"></canvas>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+</div>
+
+<script src="/tools/progressBar/js/ProgressBar.js"></script>
+<script src="/tools/images/process.js"></script>
+<script src="./assets/js/Editor.js"></script>
+<script src="./assets/js/Result.js"></script>
+<script src="./assets/js/Model.js"></script>
+<script src="./assets/js/script.js"></script>
+<script src="/tools/loadWeights/loadWeights.js"></script>
+<script src="./assets/js/mnist-conv.js"></script>
+

@@ -1,0 +1,21 @@
+---
+layout: default
+game: breakout
+---
+<style>
+	canvas { background: #eee; }
+	.board { height: 400px; }
+	
+</style>
+{% include experiments/game/headers.html %}
+
+{% assign game = site.data.experiments[page.game] %}
+{% include experiments/game/content.html game=game %}
+
+{% include experiments/game/footer.html %}
+<script src="/tools/game/js/Ball.js"></script>
+<script src="/tools/game/js/Paddle.js"></script>
+<script src="assets/js/components.js"></script>
+<script src="assets/js/Breakout.js"></script>
+<script src="assets/js/Board.js"></script>
+<script src="assets/js/script.js"></script>

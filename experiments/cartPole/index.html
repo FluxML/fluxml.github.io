@@ -1,0 +1,49 @@
+---
+layout: default
+---
+<link rel="stylesheet" href="/tools/colors/colors.css">
+<link rel="stylesheet" href="../experiments.css">
+<link rel="stylesheet" href="assets/css/cartpole.css">
+<link rel="stylesheet" href="assets/css/keyboard.css">
+<link rel="stylesheet" href="/tools/game/css/style.css">
+<link rel="stylesheet" href="/tools/progressBar/css/progressBar.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.9.0"> </script>
+<script src="https://unpkg.com/bson@2.0.8/browser_build/bson.js"></script>
+<script src="/tools/fluxjs/flux.js"></script>
+
+<div class="content">
+	<div class="container">
+		<h1>Flux Experiment: CartPole Game</h1>
+		<div class="demo_wrapper">
+			<div id="controls">
+				<div class="heading">CartPole</div>
+				<div class="levels">
+					<div class="selected" data-time="100">Easy</div>
+					<div data-time="20">Hard</div>
+				</div>
+				<div class="options">
+					<div class="human option selected" data-state="human"></div>
+					<div class="comp option" data-state="computer"></div>
+				</div>
+			</div>
+			<div class="board"></div>
+			<div class="instructions">
+				<h3>Instructions</h3>
+				<p class="">A pole is attached by an un-actuated joint to a cart, which moves along a frictionless track. Use the arrow keys to apply a force on the cart. The pendulum starts upright, and the goal is to prevent it from falling over. A score of +1 is provided for every move that the pole remains upright. The game ends when the pole is more than 15 degrees from vertical, or the cart touches the edges.</p>
+				<a href="https://github.com/tejank10/Flux-baselines/blob/master/baselines/dqn/dqn.jl"><div class="code_link">See code</div></a>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="/tools/game/js/helpers.js"></script>
+<script src="assets/js/CartPole.js"></script>
+<script src="assets/js/Keyboard.js"></script>
+<script src="assets/js/Board.js"></script>
+<!-- <script src="assets/js/Game.js"></script> -->
+<script src="/tools/game/js/Game.js"></script>
+<script src="/tools/progressBar/js/ProgressBar.js"></script>
+<script src="/tools/loadWeights/loadWeights.js"></script>
+<script src="assets/js/dqn.js"></script>
+<script src="assets/js/script.js"></script>
+

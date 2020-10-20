@@ -1,0 +1,34 @@
+body{
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+
+.content{
+	flex:2;
+	display: flex;
+}
+.demo-menu{
+	padding: 10px;
+}
+
+.demo-menu *{
+	list-style: none;
+	text-decoration: none;
+	color: inherit;
+}
+
+.demo-menu li{
+	background: var(--light);
+	margin: 20px 0;
+	padding: 20px;
+}
+
+.content li p{
+	margin: 0;
+}
+
+.content li p a{
+	border-bottom: none;
+	font-weight: 600;
+}

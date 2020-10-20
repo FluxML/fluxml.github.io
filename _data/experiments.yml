@@ -1,0 +1,38 @@
+go :
+  name: Go
+  pass_option: true
+  start_screen: false
+  game_over_message: Click to play again
+  instructions_page: experiments/game/instructions/go.html
+  code_link: "https://github.com/tejank10/AlphaGo.jl"
+  canvas: false
+  no_options: false
+chess:
+  name: Chess
+  pass_option: false
+  start_screen: false
+  game_over_message: Click to play again
+  instructions_page: experiments/game/instructions/chess.html
+  code_link: "#"
+  canvas: false
+  no_options: false
+breakout:
+  name: Breakout
+  pass_option: false
+  start_screen: true
+  start_message: Press [Enter] to start
+  game_over_message: Press [Left Arrow] or [Right Arrow] keys to play again
+  instructions_page: experiments/game/instructions/breakout.html
+  code_link: "#"
+  canvas: true
+  no_options: false
+pong:
+  name: Pong
+  pass_option: false
+  start_screen: true
+  start_message: Press [Enter] to start
+  game_over_message: Press [Up arrow key] or [Down arrow key] to play again
+  instructions_page: experiments/game/instructions/pong.html
+  code_link: "#"
+  canvas: false
+  no_options: true
