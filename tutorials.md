@@ -1,9 +1,9 @@
 ---
 layout: blog
-title: The Flux Blog
+title: Tutorials
 ---
 
-{% for post in site.categories.blog %}
+{% for post in site.categories.tutorials %}
 {% if post.external %}
 [{{post.title}} {% octicon link-external %}]({{post.external}})
 {% else %}
