@@ -8,17 +8,19 @@ This section lists tools that complement Flux in typical machine learning and de
  
 ## Table of contents
  
-* [Advanced models](#advanced-models)
-* [Computer Vision](#computer-vision)
-* [Datasets](#datasets)
-* [Differentiable programming](#differentiable-programming)
-* [Graph learning](#graph-learning)
-* [Miscellaneous](#miscellaneous)
-* [Natural language processing](#natural-language-processing)
-* [Pipeline extensions](#pipeline-extensions)
-* [Plumbing](#plumbing)
-* [Probabilistic programming](#probabilistic-programming)
-* [Reinforcement learning](#reinforcement-learning)
+- [Table of contents](#table-of-contents)
+- [Advanced models](#advanced-models)
+- [Computer Vision](#computer-vision)
+- [Datasets](#datasets)
+- [Differentiable programming](#differentiable-programming)
+- [Generative models](#generative-models)
+- [Graph learning](#graph-learning)
+- [Miscellaneous](#miscellaneous)
+- [Natural language processing](#natural-language-processing)
+- [Pipeline extensions](#pipeline-extensions)
+- [Plumbing](#plumbing)
+- [Probabilistic programming](#probabilistic-programming)
+- [Reinforcement learning](#reinforcement-learning)
  
  
 ## Advanced models
@@ -41,7 +43,6 @@ This section lists tools that complement Flux in typical machine learning and de
 ## Datasets
  
 * [MLDatasets.jl](https://github.com/JuliaML/MLDatasets.jl)  focuses on downloading, unpacking, and accessing benchmark datasets.
-* [JuliaML](https://juliaml.github.io/) provides general abstractions and algorithms for modeling and optimization, implementations of common models, and tools for working with datasets.
  
 [⇧ back to top](#table-of-contents)
  
@@ -58,18 +59,28 @@ This section lists tools that complement Flux in typical machine learning and de
 [⇧ back to top](#table-of-contents)
  
  
+## Generative models
+ 
+* [Adversarial](https://github.com/jaypmorgan/Adversarial.jl) attacks for Neural Networks written with FluxML.
+ 
+[⇧ back to top](#table-of-contents)
+ 
+
 ## Graph learning
  
 * [GeometricFlux](https://github.com/yuehhua/GeometricFlux.jl) makes it easy to build fast neural networks over graphs.
  
 [⇧ back to top](#table-of-contents)
- 
+
  
 ## Miscellaneous
  
 *[AdversarialPrediction.jl](https://github.com/rizalzaf/AdversarialPrediction.jl) provides a way to easily optimize generic performance metrics in supervised learning settings using the [Adversarial Prediction](https://arxiv.org/abs/1812.07526) framework.
 * [Mill](https://github.com/pevnak/Mill.jl) helps to prototype flexible multi-instance learning models.
+* [MLMetrics.jl](https://github.com/JuliaML/MLMetrics.jl) is a utility for scoring models in data science and machine learning.
+* [MLPlots.jl](https://github.com/JuliaML/MLPlots.jl) contains common plotting recipes for statistics and machine learning.
 * [Torch.jl](https://github.com/FluxML/Torch.jl) exposes torch in Julia.
+* [ValueHistories.jl](https://github.com/JuliaML/ValueHistories.jl) is a utility for efficient tracking of optimization histories, training curves or other information of arbitrary types and at arbitrarily spaced sampling times
  
 [⇧ back to top](#table-of-contents)
  
@@ -95,7 +106,8 @@ Tools to put data into the right order for creating a model.
  
 * [Augmentor.jl](https://github.com/Evizero/Augmentor.jl) is a real-time library augmentation library for increasing the number of training images.
 * [DataAugmentation.jl](https://github.com/lorenzoh/DataAugmentation.jl) aims to make it easy to build stochastic label-preserving augmentation pipelines for your datasets.
-* [MLDataUtils.jl](https://github.com/JuliaML/MLDataUtils.jl) is a utility package for generating, loading, partitioning, and processing Machine Learning datasets.
+* [MLDataUtils.jl](https://github.com/JuliaML/MLDataUtils.jl) is a utility for generating, loading, partitioning, and processing Machine Learning datasets.
+* [MLLabelUtils.j](https://github.com/JuliaML/MLLabelUtils.jl) is a utility for working with classification targets. It provides the necessary functionality for interpreting class-predictions, as well as converting classification targets from one encoding to another. 
  
 [⇧ back to top](#table-of-contents)
  
@@ -111,7 +123,8 @@ Tools to put data into the right order for creating a model.
  
 ## Reinforcement learning
  
-* [AlphaZero.jl](https://github.com/jonathan-laurent/AlphaZero.jl)  provides a generic, simple and fast implementation of Deepmind's AlphaZero algorithm.
+* [AlphaZero.jl](https://github.com/jonathan-laurent/AlphaZero.jl) provides a generic, simple and fast implementation of Deepmind's AlphaZero algorithm.
+* [ReinforcementLearning.jl](https://juliareinforcementlearning.org/) offers a collection of tools for doing reinforcement learning research in Julia.
  
 [⇧ back to top](#table-of-contents)
  
