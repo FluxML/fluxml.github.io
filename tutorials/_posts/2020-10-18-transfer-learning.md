@@ -2,6 +2,7 @@
 title: Transfer Learning with Flux
 author: Dhairya Gandhi
 layout: blog
+tag: Transfer learning
 ---
 
 This article is intended to be a general guide to how transfer learning works in the Flux ecosystem. We assume a certain familiarity of the reader with the concept of transfer learning. Having said that, we will start off with a basic definition of the setup and what we are trying to achieve. There are many resources online that go in depth as to why transfer learning is an effective tool to solve many ML problems, and we recommend checking some of those out.

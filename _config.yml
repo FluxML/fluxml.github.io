@@ -24,6 +24,8 @@ github_username:  FluxML
 
 # Build settings
 markdown: kramdown
+kramdown:
+  input: GFM  #Github Flavored Markdown
 theme: minima
 plugins:
   - jekyll-feed
