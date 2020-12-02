@@ -5,7 +5,7 @@ layout: blog
 tag: Other and contributed
 ---
 
- This is a shortened version of https://www.domluna.me/meta-learning/. Meta-learning is an algorithm which learns to learn.
+ This tutorial is a shortened version of https://www.domluna.me/meta-learning/. Meta-learning is an algorithm which learns to learn.
 
 We will use meta-learning to train a neural net which can be fintuned to accurately models a sine wave after training for few iterations on a handful of x, y coordinates.
 
@@ -178,7 +178,7 @@ $$
 E_{t}[\frac{1}{2}(\theta - \phi_{*}^{t})^2]
 $$
 
-In each iteration of Reptile we sample a task and update $\theta$ using SGD:
+In each iteration of Reptile we sample a task and update $$\theta$$ using SGD:
  
 $$
 \theta \leftarrow \theta - \alpha \bigtriangledown_{\theta} \frac{1}{2}(\theta - \phi_{*}^{t})^2 \\

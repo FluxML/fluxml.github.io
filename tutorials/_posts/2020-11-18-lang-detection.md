@@ -7,7 +7,7 @@ tag: Text
 
 This model uses an LSTM for character-level language detection. Given a sentence of text, each character is fed into the model and the final output determines which of five languages the sentence was written in.
 
-First, we run the following code to download a Wikipedia dataset.
+Download a Wikipedia dataset.
 
 ```julia
 
@@ -37,8 +37,6 @@ end
 ```
 
 <br>
-
-Now, we define the actual model and training code.
 
 Load the necessary packages.
 

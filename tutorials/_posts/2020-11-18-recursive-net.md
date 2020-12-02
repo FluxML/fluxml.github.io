@@ -5,7 +5,7 @@ layout: blog
 tag: Text
 ---
 
-First, we save the following code as `data.jl` and run it.
+First, we save the following code as `data.jl`.
 
 ```julia
 using Flux
@@ -46,6 +46,12 @@ end
 ```
 <br>
 
+Run  `data.jl`:
+
+```bash
+julia data.jl
+```
+<br>
 Now, we define the model and the train function.
 
 ```julia
