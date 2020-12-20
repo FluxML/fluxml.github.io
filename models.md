@@ -15,7 +15,7 @@ There are a number of packages in the Flux ecosystem designed to help with creat
 
 * [GeometricFlux](https://github.com/yuehhua/GeometricFlux.jl) makes it easy to build fast neural networks over graphs.
 
-* [Flux3D](https://github.com/nirmal-suthar/Flux3D.jl) shows off machine learning on 3D data.
+* [Flux3D.jl](https://github.com/FluxML/Flux3D.jl) shows off machine learning on 3D data.
 
 * [AdversarialPrediction.jl](https://github.com/rizalzaf/AdversarialPrediction.jl) provides a way to easily optimize generic performance metrics in supervised learning settings using the [Adversarial Prediction](https://arxiv.org/abs/1812.07526) framework.
 
