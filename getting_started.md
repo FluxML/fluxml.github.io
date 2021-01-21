@@ -105,7 +105,7 @@ opt = Descent(0.1)
 
 ### Step 6: Train your model
 
-Training a model is the process of computing the gradients with respect to the parameters for each data point in the data. At every step, the process updates all of the parameters until it finds a good value for them. In fact, you can write this process as a *for loop*. 
+Training a model is the process of computing the gradients with respect to the parameters for each data point in the data. At every step, the optimiser updates all of the parameters until it finds a good value for them. In fact, you can write this process as a *for loop*. 
 
 In Flux, you can execute one training step with the [Flux.train!](https://fluxml.ai/Flux.jl/stable/training/training/#Training-1) function. Notice that before calling this function you need to zip the training data as `data = zip(x, y)`. 
 
