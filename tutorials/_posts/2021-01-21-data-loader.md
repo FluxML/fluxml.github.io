@@ -86,4 +86,4 @@ end
 <br>
  
  
-Now we can load our own data set and train a model in mini-batches using a `DataLoader`. For more information on building models in Flux, see [Model-Building Basics](https://fluxml.ai/Flux.jl/stable/models/basics/#Model-Building-Basics-1).
+Now, we can create a model and train it using the `data_loader` we just created. For more information on building models in Flux, see [Model-Building Basics](https://fluxml.ai/Flux.jl/stable/models/basics/#Model-Building-Basics-1).
