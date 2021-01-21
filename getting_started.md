@@ -105,8 +105,9 @@ opt = Descent(0.1)
 
 ### Step 6: Train your model
 
-You train a machine learning model by steps. In Flux, you can execute one training step with the [train!](https://fluxml.ai/Flux.jl/stable/training/training/#Training-1) function:
+Training a model is the process of computing the gradients with respect to the parameters for each data point in the data. At every step, the process updates all of the parameters until it finds a good value for them. In fact, you can write this process as a *for loop*. 
 
+In Flux, you can execute one training step with the [Flux.train!](https://fluxml.ai/Flux.jl/stable/training/training/#Training-1) function. Notice that before calling this function you need to zip the training data as `data = zip(x, y)`. 
 
 ```julia
 Flux.train!(loss, params(model), data, opt)
@@ -114,14 +115,16 @@ Flux.train!(loss, params(model), data, opt)
 
 <br>
 
-This function requires the following parameters:
-* **loss:** The loss function that you defined in [Step 3](#step-3-define-a-loss-function).
-* **params(model):** Trainable parameters of the model. It uses the [params Flux function](https://fluxml.ai/Flux.jl/stable/training/training/#Model-parameters-1) to track the parameters.
-* **data:** A collection of data points. This data must be of the same dimension as the input of the `model` function.
-* **opt:** An optimiser.
+where:
+* **loss** is the loss function that you defined in [Step 3](#step-3-define-a-loss-function).
+* **params(model)** are the trainable parameters of the model. It uses the [params Flux function](https://fluxml.ai/Flux.jl/stable/training/training/#Model-parameters-1) to track the parameters.
+* **data** is a collection of data points. This data must be of the same dimension as the input of the `model` function.
+* **opt** is an optimiser.
   
+You can put the `Flux.train!` function inside a *for loop* to execute more training steps. For more information on training a model in Flux, see [Training](https://fluxml.ai/Flux.jl/stable/training/training/#Training-1).
 
-Here is the full version of the code:
+
+Finally, create a file with extension `.jl` with the code above in any IDE and run it as `julia name-of-your-file.jl `. You can use [Juno IDE](https://junolab.org/) or [Julia VSCode extension](https://www.julia-vscode.org/) to edit and run Julia code. Alternatively, you can run Julia code on a Jupyter notebook (see [IJulia](https://github.com/JuliaLang/IJulia.jl)). Here is the full version of the code:
 
 ```julia
 #Import Flux
@@ -148,7 +151,7 @@ function loss(x, y)
 opt = Descent(0.1)
 
 #Zip the train data
-data = [(x, y)]
+data = zip(x, y)
 
 #Execute one training step
 Flux.train!(loss, params(model), data, opt)
@@ -156,9 +159,6 @@ Flux.train!(loss, params(model), data, opt)
 
 <br>
 
-Before running a training step with the `Flux.train!`, you need to zip the training data as `data = [(x, y)]`. Also, notice that you can put the `Flux.train!` function inside a **for loop** to execute more training steps. For more information on training a model in Flux, see [Training](https://fluxml.ai/Flux.jl/stable/training/training/#Training-1).
-
-Finally, create a file with extension `.jl` with the code above in any IDE and run it as `julia name-of-your-file.jl `. You can use [Juno IDE](https://junolab.org/) or [Julia VSCode extension](https://www.julia-vscode.org/) to edit and run Julia code. Alternatively, you can run Julia code on a Jupyter notebook (see [IJulia](https://github.com/JuliaLang/IJulia.jl)).
 
 ## What's next
 
