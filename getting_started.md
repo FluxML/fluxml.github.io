@@ -105,9 +105,10 @@ opt = Descent(0.1)
 
 ### Step 6: Train your model
 
-Training a model is the process of computing the gradients with respect to the parameters for each data point in the data. At every step, the optimiser updates all of the parameters until it finds a good value for them. In fact, you can write this process as a *for loop*. 
+Training a model is the process of computing the gradients with respect to the parameters for each data point in the data. At every step, the optimiser updates all of the parameters until it finds a good value for them. In fact, you can write this process as a *for loop*. Notice that before training your model, you need to zip the training data as `data = zip(x, y)`. Also, you need to set `ps = params([W, b])` to indicate that you want the derivatives of `W` and `b`.
 
-You can execute the training process of a model as follows:
+
+You can execute the training process of your model as follows:
 
 ```julia
 for d in data
@@ -120,18 +121,12 @@ end
 
 <br>
 
-where:
-
-* **opt** is an optimiser
-* **ps** are the parameters of the model
-* **gs** are the gradients being computed
-
 
 >**Note:** With this pattern, it is trivial to add more complex learning routines that make use of control flow, distributed compute, scheduling optimisation etc. Note that the pattern above is a simple julia *for loop* but it could also be replaced with a *while loop*.
 
 <br>
 
-Flux enables you to execute the same process with the [Flux.train!](https://fluxml.ai/Flux.jl/stable/training/training/#Training-1) function. It executes one training step, and you can put the `Flux.train!` function inside a *for loop* to execute more training steps. For more information on training a model in Flux, see [Training](https://fluxml.ai/Flux.jl/stable/training/training/#Training-1). Notice that before calling this function you need to zip the training data as `data = zip(x, y)`. 
+Flux enables you to execute the same process with the [Flux.train!](https://fluxml.ai/Flux.jl/stable/training/training/#Training-1) function. It executes one training step, and you can put the `Flux.train!` function inside a *for loop* to execute more training steps. For more information on training a model in Flux, see [Training](https://fluxml.ai/Flux.jl/stable/training/training/#Training-1). 
 
 ```julia
 Flux.train!(loss, params(model), data, opt)
@@ -179,7 +174,18 @@ opt = Descent(0.1)
 #Zip the train data
 data = zip(x, y)
 
-#Execute one training step
+# Track the derivatives of W and b
+ps = params([W, b])
+
+# Training process
+for d in data
+  gs = Flux.gradient(ps) do
+    loss(d...)
+  end
+  Flux.Optimise.update!(opt, ps, gs)
+end
+
+# Execute one training step using the train! function
 Flux.train!(loss, params(model), data, opt)
 ```
 
