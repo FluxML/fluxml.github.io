@@ -111,6 +111,9 @@ Training a model is the process of computing the gradients with respect to the p
 You can execute the training process of your model as follows:
 
 ```julia
+data = zip(x, y)
+ps = params(W, b)
+
 for d in data
   gs = Flux.gradient(ps) do
     loss(d...)
