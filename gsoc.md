@@ -25,42 +25,13 @@ Mentors: [Tim Besard](https://github.com/maleadt), [Mike Innes](https://github.c
 
 Develop a series of reinforcement learning environments, in the spirit of the [OpenAI Gym](https://gym.openai.com). Although we have wrappers for the gym available, it is hard to install (due to the Python dependency) and, since it's written in Python and C code, we can't do more interesting things with it (such as differentiate through the environments). A pure-Julia version that supports a similar API and visualisation options would be valuable to anyone doing RL with Flux.
 
-Mentors: [Dhairya Gandhi](https://github.com/dhairyagandhi96/), [Elliot Saba](https://github.com/staticfloat).
+Mentors: [Dhairya Gandhi](https://github.com/DhairyaLGandhi/), [Elliot Saba](https://github.com/staticfloat).
 
 ### Port ML Tutorials
 
 There are many high-quality open-source tutorials and learning materials available, for example from PyTorch and fast.ai. We'd like to have Flux ports of these that we can add to the model zoo, and eventually publish to the Flux website.
 
-Mentors: [Dhairya Gandhi](https://github.com/dhairyagandhi96/), [Elliot Saba](https://github.com/staticfloat).
-
-### Model Zoo Examples
-
-Flux's [model zoo](https://github.com/FluxML/model-zoo/) contains examples of a wide range of deep learning models and techniques. This project would involve adding new models, showing how to recreate state-of-the-art results (e.g. AlphaGo) or interesting and unusual model architectures (e.g. transformer networks). We'd be particularly interested in any models involving reinforcement learning, or anything with images, sound or speech.
-
-Some experience with implementing deep learning models would be ideal for this project, but is not essential for a student willing to pick up the skills and read ML papers. It's up to you whether you implement a single ambitious model, or multiple small ones. A good source of inspiration might be the [NIPS Challenge](https://nurture.ai/nips-challenge).
-
-*Note that this project is quite popular; students who show skills and interests in other parts of the stack may have an easier time distinguishing themselves.*
-
-Mentors: [Dhairya Gandhi](https://github.com/dhairyagandhi96/), [Elliot Saba](https://github.com/staticfloat).
-
-## Deep Learning for 3D Computer Vision
-
-Build deep learning models for 3D computer vision using Flux. There has been a lot of interest in exploiting 3D models (in the form of Voxels, Point Clouds, Meshes, etc.) for developing more reliable computer vision models. The objective of this project would be to develop a framework (powered by Flux + Zygote) which helps accelerate 3D Computer Vision research in Julia.
-
-Some inspiration could be drawn from python frameworks like [Kaolin](https://kaolin.readthedocs.io/en/latest/), [Pytorch3D](https://pytorch3d.readthedocs.io/en/latest/overview.html), and [Tensorflow Graphics](https://www.tensorflow.org/graphics/overview). This project would involve developing (a few of) the following modules:
-
-* Integration with Differentiable Graphics Frameworks (like [RayTracer.jl](https://github.com/avik-pal/RayTracer.jl) or bindings with non-Julia ones like [DiB-R](https://nv-tlabs.github.io/DIB-R/) and [Soft Rasterizer](http://vgl.ict.usc.edu/Research/softrasterizer/).
-* Graphics engine for (differentiable) interconversion across various representations like Voxels, Point Clouds, SDFs, Meshes, etc.
-* Deep Learning Models like PointCNN, DGCNN, PointCNN++, etc or other newer models.
-* Examples using these components for 3D Reconstruction, Object Synthesis using GANs, 3D Object Tracking, etc.
-* Integration with Graph Neural Network framework (https://github.com/yuehhua/GeometricFlux.jl).
-
-**Recommended Skills:** Should be familiar with 2D Computer Vision, but knowledge of 3D vision would be preferable. Some background with computer graphics would be desirable.
-
-**Expected Outcome:** A 3D Computer Vision Framework for future research using Flux.
-
-**Mentors:** [Avik Pal](https://avik-pal.github.io), [Elliot Saba](https://github.com/staticfloat)
-
+Mentors: [Dhairya Gandhi](https://github.com/DhairyaLGandhi/), [Elliot Saba](https://github.com/staticfloat).
 
 ### Model Zoo on TPU
 
@@ -72,7 +43,7 @@ Mentors: [Keno Fischer](https://github.com/Keno)
 
 A benchmark suite would help us to keep Julia's performance for ML models in shape, as well as revealing opportunities for improvement. Like the model-zoo project, this would involve contributing standard models that exercise common ML use case (images, text etc) and profiling them. The project could extend to include improving performance where possible, or creating a "benchmarking CI" like Julia's own [nanosoldier](https://github.com/JuliaCI/Nanosoldier.jl).
 
-Mentors: [Dhairya Gandhi](https://github.com/dhairyagandhi96/), [Elliot Saba](https://github.com/staticfloat).
+Mentors: [Dhairya Gandhi](https://github.com/DhairyaLGandhi/), [Elliot Saba](https://github.com/staticfloat).
 
 ### Multi-GPU training
 
