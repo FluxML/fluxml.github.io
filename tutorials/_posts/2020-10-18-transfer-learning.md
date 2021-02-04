@@ -55,7 +55,6 @@ model = Chain(
   Dense(2048, 1000),  
   Dense(1000, 256),
   Dense(256, 2),        # we get 2048 features out, and we have 2 classes
-  softmax
 )
 ```
 <br>
@@ -72,7 +71,7 @@ After this, we only need to define the other parts of the training pipeline like
 
 ```julia
 opt = ADAM()
-loss(x,y) = Flux.crossentropy(model(x), y)
+loss(x,y) = Flux.Losses.logitcrossentropy(model(x), y)
 ```
 <br>
 
