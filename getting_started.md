@@ -139,7 +139,7 @@ Flux.train!(loss, params(model), data, opt)
 
 where:
 * **loss** is the loss function that you defined in [Step 3](#step-3-define-a-loss-function).
-* **params(model)** are the trainable parameters of the model. It uses the [params Flux function](https://fluxml.ai/Flux.jl/stable/training/training/#Model-parameters-1) to track the parameters.
+* **params(model)** are the trainable parameters of the model. It uses the [`Flux.params` function](https://fluxml.ai/Flux.jl/stable/training/training/#Model-parameters-1) to track the parameters.
 * **data** is a collection of data points. This data must be of the same dimension as the input of the `model` function.
 * **opt** is an optimiser.
 
