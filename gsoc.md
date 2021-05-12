@@ -9,6 +9,65 @@ Flux usually takes part in [Google Summer of Code](https://summerofcode.withgoog
 
 Flux projects are typically very competitive; we encourage you to get started early, as successful students typically have early PRs or working prototypes as part of the application. It is a good idea to simply start contributing via issue discussion and PRs and let a project grow from there; you can take a look at [this list of issues](https://github.com/issues?utf8=✓&q=is%3Aopen+archived%3Afalse+user%3AFluxML+label%3A%22help+wanted%22) for some starter contributions.
 
+### Port ML Tutorials
+
+There are many high-quality open-source tutorials and learning materials available, for example from PyTorch and fast.ai. We'd like to have Flux ports of these that we can add to the model zoo, and eventually publish to the Flux website.
+
+Mentors: [Dhairya Gandhi](https://github.com/DhairyaLGandhi/).
+
+### FermiNets: Generative Synthesis for Automating the Choice of Neural Architectures
+
+The application of machine learning requires an understanding a practictioner to optimize a neural architecture for a given problem, or does it? Recently techniques in automated machine learning, also known as AutoML, have dropped this requirement by allowing for good architectures to be found automatically. One such method is the [FermiNet](https://arxiv.org/abs/1809.05989) which employs generative synthesis to give a neural architecture which respects certain operational requirements. The goal of this project is to implement the FermiNet in Flux to allow for automated sythesis of neural networks.
+
+Mentors: [Chris Rackauckas](https://github.com/ChrisRackauckas) and [Dhairya Gandhi](https://github.com/DhairyaLGandhi/).
+
+### Differentiable Rendering [HARD]
+
+Expected Outcome: This is motivated to create SoftRasterizer/DiB-R based projects. We already have RayTracer.jl which is motivated by OpenDR. (Of course, if someone wants to implement NERF - like models they are most welcome to submit a proposal). We would ideally target at least 2 of these models.
+
+Skills: GPU Programming, Deep Learning, (deep) familiarity with the literature, familiarity with defining (a lot of) Custom Adjoints
+
+Mentors: [Dhairya Gandhi](https://github.com/DhairyaLGandhi/), [Avik Pal](https://github.com/avik-pal)
+
+### Core Development [MEDIUM]
+
+Expected Outcomes:
+
+* Some of the functions require custom adjoints for speedup
+* Functions require GPU kernels. Some of these are of common interest to the community like – knn, etc.
+* Benchmarking with Tensorflow Graphics and Pytorch3D. We already have the scripts for kaolin, need to extend that.
+* Most of these problems are listed as issues in the main repo.
+
+Skills: GPU Programming, Deep Learning, familiarity with defining (a lot of) Custom Adjoints
+
+Mentors: [Dhairya Gandhi](https://github.com/DhairyaLGandhi/)
+
+### FastAI.jl Development
+
+**Difficulty:** Medium
+
+In this project, you will assist the [ML community team](https://julialang.zulipchat.com/#narrow/stream/237432-ml-ecosystem-coordination) with building FastAI.jl on top of the existing JuliaML + FluxML ecosystem packages. The primary goal is to create an equivalent to docs.fast.ai. This will require building the APIs, documenting them, and creating the appropriate tutorials. Some familiarity with the following Julia packages is preferred, but it is not required:
+
+* [MLDataPattern.jl](https://github.com/JuliaML/MLDataPattern.jl.git)
+* [FluxTraining.jl](https://github.com/lorenzoh/FluxTraining.jl.git)
+* [DataAugmentation.jl](https://github.com/lorenzoh/DataAugmentation.jl)
+
+A stretch goal can include extending FastAI.jl beyond its Python-equivalent by leveraging the flexibility in the underlying Julia packages. For example, creating and designing abstractions for distributed data parallel training.
+
+**Skills:** Familiarity with deep learning pipelines, common practices, Flux.jl, and MLDataPattern.jl
+
+Mentors: [Kyle Daruwalla](https://github.com/darsnack)
+
+### Differentiable Computer Vision [HARD]
+
+Expected Outcome:
+
+Create a library of utliity functions that can consume Julia's Imaging libraries to make them differentiable. With Zygote.jl, we have the platform to take a general purpose package and apply automatic differentiation to it. This project is motivated to use existing libraries that offer perform computer vision tasks, and augment them with AD to perform tasks such as homography regression.
+
+Skills: Familiarity with automatic differentiation, deep learning, and defining (a lot of) Custom Adjoints
+
+Mentors: [Dhairya Gandhi](https://github.com/DhairyaLGandhi/)
+
 ### Make the Model-Zoo Robust
 
 The model zoo has been a great resource for folks starting with Flux and machine learning in general. This time, we want to make the zoo significantly more useful. With Artifacts, we can have the models be completely reusable, and have high quality trained models availiable trivially. This would involve training the existing models and making the weights available through artifacts. We would also want to have ways to verify that the models perform well on the test datasets. For some more insight, we are looking out for more [Metalhead.jl](https://github.com/FluxML/Metalhead.jl) kind of workflows with a reference to how to use them in the zoo, plus finding high quality pretrained weights for the models, that have been verified to give the expected results, including numerical debugging.
@@ -24,12 +83,6 @@ Mentors: [Tim Besard](https://github.com/maleadt), [Mike Innes](https://github.c
 ### Reinforcement Learning Environments
 
 Develop a series of reinforcement learning environments, in the spirit of the [OpenAI Gym](https://gym.openai.com). Although we have wrappers for the gym available, it is hard to install (due to the Python dependency) and, since it's written in Python and C code, we can't do more interesting things with it (such as differentiate through the environments). A pure-Julia version that supports a similar API and visualisation options would be valuable to anyone doing RL with Flux.
-
-Mentors: [Dhairya Gandhi](https://github.com/DhairyaLGandhi/), [Elliot Saba](https://github.com/staticfloat).
-
-### Port ML Tutorials
-
-There are many high-quality open-source tutorials and learning materials available, for example from PyTorch and fast.ai. We'd like to have Flux ports of these that we can add to the model zoo, and eventually publish to the Flux website.
 
 Mentors: [Dhairya Gandhi](https://github.com/DhairyaLGandhi/), [Elliot Saba](https://github.com/staticfloat).
 
