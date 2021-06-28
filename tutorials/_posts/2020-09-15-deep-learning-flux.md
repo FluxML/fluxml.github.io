@@ -9,7 +9,7 @@ This is a quick intro to [Flux](https://github.com/FluxML/Flux.jl) loosely based
 
 ## Arrays
 
-The starting point for all of our models is the `Array` (sometimes referred to as a `Tensor` in other frameworks). This is really just a list of numbers,which might be arranged into a shape like a square. Let's write down an array with three elements.
+The starting point for all of our models is the `Array` (sometimes referred to as a `Tensor` in other frameworks). This is really just a list of numbers, which might be arranged into a shape like a square. Let's write down an array with three elements.
 
 ```julia
 x = [1, 2, 3]
