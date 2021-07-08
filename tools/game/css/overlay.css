@@ -10,7 +10,7 @@
 	background: rgba(0, 0,0, .4);
 	transition: all .5s linear;
 	opacity: 1;
-	z-index: 999;
+	z-index: 9;
 	pointer-events: none;
 }
 

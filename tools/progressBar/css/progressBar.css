@@ -9,6 +9,7 @@
 	-webkit-justify-content: center;
 	        justify-content: center;
 	align-items: center;
+	z-index: 999;
 }
 
 .progress-lightbox{

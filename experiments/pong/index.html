@@ -2,10 +2,20 @@
 layout: default
 game: pong
 ---
+
 <style>
-	canvas { background: #eee; }
-	canvas, .board { height: 400px; }
-	
+	#playground { 
+		position: relative;
+		background: #000;
+	}
+
+	#playground canvas{
+		position: absolute;
+		top:0;
+		left:0;
+		right: 0;
+		bottom: 0;
+	}
 </style>
 {% include experiments/game/headers.html %}
 
@@ -19,5 +29,8 @@ game: pong
 <script src="assets/js/components.js"></script>
 <script src="assets/js/Pong.js"></script>
 <script src="assets/js/Board.js"></script>
-
+<script src="assets/js/Model.js"></script>
+<script src="assets/js/Multiplayer.js"></script>
+<script src="assets/js/fluxjs/flux.js"></script>
+<script src="assets/js/fluxjs/model.js"></script>
 <script src="assets/js/script.js"></script>
