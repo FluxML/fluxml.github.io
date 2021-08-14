@@ -7,22 +7,6 @@ This repository contains the source files of [Flux site](https://fluxml.github.i
 
 Flux is an elegant approach to machine learning. It's a 100% pure-Julia stack, and provides lightweight abstractions on top of Julia's native GPU and AD support. Flux makes the easy things easy while remaining fully hackable.
 
-## Building the Site Locally
+## Contributing
 
-Before building this site on your local machine, you need to install the following:
-
-* [Jekyll](https://jekyllrb.com/docs/installation/)
-* [Ruby](https://www.ruby-lang.org/en/documentation/installation/)
-* [Bundler](https://bundler.io/)
-
-To build the Flux site locally:
-
-1. Clone this repo.
-1. Navigate to your local copy.
-1. Run the site locally:
-
-   ```
-   $bundle exec jekyll serve
-   ```
-
->Note: To preview the Flux site, go to `http://localhost:4000`.
+Want to contribute to the FluxML website? Check out the contributing guide: https://github.com/FluxML/fluxml.github.io/blob/main/CONTRIBUTING.md
