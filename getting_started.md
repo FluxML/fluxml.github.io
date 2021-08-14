@@ -33,6 +33,10 @@ Flux provides GPU support. For more information on obtaining GPU support, see [C
 
 <br>
 
+## Getting Help
+
+If you run into any issues on your journey learning Flux.jl, please post on Stack Overflow under the [Flux.jl tag](https://stackoverflow.com/questions/tagged/flux.jl) or ask a question on the [Julia Discourse under the Machine Learning domain](https://discourse.julialang.org/c/domain/ml/).
+
 ## Create your first model 
 
 In this tutorial, you'll create your first machine learning model using Flux. This is a simple linear regression model that predicts an output array `y` from an input array `x`.
@@ -203,3 +207,5 @@ Congratulations! You have created your first model and ran a training step using
 * [Flux Model Zoo](https://github.com/FluxML/model-zoo) contains various demonstrations of Flux. 
 * [JuliaAcademy](https://juliaacademy.com/) offers introductory courses to Julia and Flux.
 * [Flux's official documentation](https://fluxml.ai/Flux.jl/stable/).
+
+As you countinue to progress through your Flux and Julia journey, please feel free to share it on [Twitter and tag us](https://twitter.com/FluxML), we would love to see what awesome things the #FluxML community is up to.
