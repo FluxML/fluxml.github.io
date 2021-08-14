@@ -4,15 +4,15 @@ author: Manikya Bardhan
 layout: blog
 ---
 
-[FastAI.jl](https://github.com/FluxML/FastAI.jl) is a package inspired by [fastai](https://github.com/fastai/fastai), and it's goal is to easily enable creating state-of-the-art models.
+[FastAI.jl](https://github.com/FluxML/FastAI.jl) is a package inspired by [fastai](https://github.com/fastai/fastai), and its goal is to easily enable creating state-of-the-art deep learning models.
 
 This blog post shows how to get started on working with tabular data using FastAI.jl and related packages. The work being presented here was done as a part of [GSoC'21](https://summerofcode.withgoogle.com/projects/#5088642453733376) under the mentorship of Kyle Daruwalla, Brian Chen and Lorenz Ohly.
 
 ## Loading the data in a container
 
-To start working, we'll have to take our tabular data and load it in such that it supports the interface defined by [Tables.jl](https://tables.juliadata.org/stable/#Implementing-the-Interface-(i.e.-becoming-a-Tables.jl-source)-1). Most of the popular packages for loading in data from different formats do so already, so you probably won't have to worry about this.
+To start, we'll have to take our tabular data and load it in such that it supports the interface defined by [Tables.jl](https://tables.juliadata.org/stable/#Implementing-the-Interface-(i.e.-becoming-a-Tables.jl-source)-1). Most of the popular packages for loading in data from different formats do so already, so you probably won't have to worry about this.
 
-Here, we have a `path` to a csv file, which we'll load in using [CSV.jl](https://github.com/JuliaData/CSV.jl) package, and get a DataFrame using [DataFrames.jl](https://github.com/JuliaData/DataFrames.jl).  
+Below, we have the `path` to a CSV file, which we'll load in using the [CSV.jl](https://github.com/JuliaData/CSV.jl) package and then insert the data into a DataFrame using [DataFrames.jl](https://github.com/JuliaData/DataFrames.jl).  
 If your data is present in a different format, you could use a package which supports loading that format, provided that the final object created supports the required interface.
 
 ```julia
@@ -70,14 +70,14 @@ julia> nobs(td)
 ## Data Preprocessing
 
 Although, we have loaded the data in a container which can be used later while creating a `DataLoader` and training, often we would like to perform transformations on it.  
-The tabular transformations are defined as a part of the `DataAugmentation.jl` package, and the currently available ones are: 
+The tabular transformations are defined as a part of the `[DataAugmentation.jl](https://github.com/lorenzoh/DataAugmentation.jl)` package, and the currently available ones are: 
  - Normalization
  - FillMissing
  - Categorify
 
 ### Normalization
 
-The `Normalization` transformation involves normalizing a row of data using the mean and standard deviation of the columns. To start with we'll have to create a `Dict` which contains the required information for all rows to be normalized.
+The `Normalization` transformation involves normalizing a row of data using the mean and standard deviation of the columns. To start, we'll have to create a `Dict` which contains the required information for all rows to be normalized.
 
 ```julia
 julia> using DataAugmentation, Statistics
