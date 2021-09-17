@@ -54,7 +54,8 @@ This section lists tools that complement Flux in typical machine learning and de
 * [RayTracer.jl](https://github.com/avik-pal/RayTracer.jl) combines ML with computer vision via a differentiable renderer.
 * [Duckietown.jl](https://github.com/tejank10/Duckietown.jl) Differentiable Duckietown simulator.
 * The [Yao](https://github.com/QuantumBFS/Yao.jl) project uses Flux and Zygote for Quantum Differentiable Programming.
-* [AtomicGraphNets.jl](https://github.com/Chemellia/AtomicGraphNets.jl) enables learning graph based models on atomic systems used in chemistry.
+* [AtomicGraphNets.jl](https://github.com/Chemellia/AtomicGraphNets.jl) enables learning graph based models on atomic systems used in chemistry
+* [DiffImages.jl](https://github.com/SomTambe/DiffImages.jl) differentiable computer vision modeling in Julia with the Images.jl ecosystem
  
 [⇧ back to top](#table-of-contents)
  
