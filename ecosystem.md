@@ -32,7 +32,6 @@ This section lists tools that complement Flux in typical machine learning and de
  
 ## Computer Vision
  
- 
 * [ObjectDetector.jl](https://github.com/r3tex/ObjectDetector.jl) provides ready-to-go image analysis via YOLO.
 * [Metalhead.jl](https://github.com/FluxML/Metalhead.jl) includes many state-of-the-art computer vision models which can easily be used for transfer learning.
 * [UNet.jl](https://github.com/DhairyaLGandhi/UNet.jl) is a generic UNet implementation.
@@ -55,6 +54,7 @@ This section lists tools that complement Flux in typical machine learning and de
 * [RayTracer.jl](https://github.com/avik-pal/RayTracer.jl) combines ML with computer vision via a differentiable renderer.
 * [Duckietown.jl](https://github.com/tejank10/Duckietown.jl) Differentiable Duckietown simulator.
 * The [Yao](https://github.com/QuantumBFS/Yao.jl) project uses Flux and Zygote for Quantum Differentiable Programming.
+* [AtomicGraphNets.jl](https://github.com/Chemellia/AtomicGraphNets.jl) enables learning graph based models on atomic systems used in chemistry.
  
 [⇧ back to top](#table-of-contents)
  
@@ -69,6 +69,8 @@ This section lists tools that complement Flux in typical machine learning and de
 ## Graph learning
  
 * [GeometricFlux](https://github.com/yuehhua/GeometricFlux.jl) makes it easy to build fast neural networks over graphs.
+* [NeuralOperators](https://github.com/foldfelis/NeuralOperators.jl) enables training infinite dimensional PDEs by learning a continuous function instead of using the finite element method.
+* [SeaPearl.jl](https://github.com/corail-research/SeaPearl.jl) is a Constraint Programming solver that uses Reinforcement Learning based on graphs as input.
  
 [⇧ back to top](#table-of-contents)
 
