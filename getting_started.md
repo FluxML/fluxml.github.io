@@ -109,13 +109,12 @@ opt = Descent(0.1)
 
 ### Step 6: Train your model
 
-Training a model is the process of computing the gradients with respect to the parameters for each data point in the data. At every step, the optimiser updates all of the parameters until it finds a good value for them. In fact, you can write this process as a *for loop*. Notice that before training your model, you need to zip the training data as `data = zip(x, y)`. Also, you need to set `ps = params([W, b])` to indicate that you want the derivatives of `W` and `b`.
-
+Training a model is the process of computing the gradients with respect to the parameters for each data point in the data. At every step, the optimiser updates all of the parameters until it finds a good value for them. In fact, you can write this process as a *for loop*. Notice that because we are iterating over our training set, we place `x` and `y` into a vector. If we had more points in the training set, they would also be placed in `data`. Also, you need to set `ps = params([W, b])` to indicate that you want the derivatives of `W` and `b`.
 
 You can execute the training process of your model as follows:
 
 ```julia
-data = zip(x, y)
+data = [(x, y)]
 ps = params(W, b)
 
 for d in data
@@ -178,8 +177,8 @@ function loss(x, y)
 #Set an optimiser
 opt = Descent(0.1)
 
-#Zip the train data
-data = zip(x, y)
+# Place the training samples into a vector
+data = [(x, y)]
 
 # Track the derivatives of W and b
 ps = params([W, b])
