@@ -117,11 +117,11 @@ opt = Descent(0.01)
 
 ### Step 6: Train your model
 
-Training a model is the process of computing the gradients with respect to the parameters for each data point in the data. At every step, the optimiser updates all of the parameters until it finds a good value for them. You can write this process as a for-loop. We iterate over the examples in `x_train` and `y_train` and update the model for each example.
+Training a model is the process of computing the gradients with respect to the parameters for each input in the data. At every step, the optimiser updates all of the parameters until it finds a good value for them. This process can be written as a loop: we iterate over the examples in `x_train` and `y_train` and update the model for each example.
 
-Note that we set `ps = params([W, b])` to indicate that we want all derivatives of `W` and `b`. This is a convenience function that Flux provides so that we don't have to explicitly list every gradient we want. Check out the section on [Taking Gradients](https://fluxml.ai/Flux.jl/stable/models/basics/#Taking-Gradients) if you want to learn more about how this works.
+To indicate that we want all derivatives of `W_learned` and `b_learned`, we write `ps = params([W, b])`. This is a convenience function that Flux provides so that we don't have to explicitly list every gradient we want. Check out the section on [Taking Gradients](https://fluxml.ai/Flux.jl/stable/models/basics/#Taking-Gradients) if you want to learn more about how this works.
 
-You can execute the training process of your model as follows:
+We can now execute the training procedure for our model:
 
 ```julia
 train_data = zip(x_train, y_train)
@@ -138,11 +138,11 @@ end
 <br>
 
 
->**Note:** With this pattern, it is trivial to add more complex learning routines that make use of control flow, distributed compute, scheduling optimisation etc. Note that the pattern above is a simple julia *for loop* but it could also be replaced with a *while loop*.
+>**Note:** With this pattern, it is easy to add more complex learning routines that make use of control flow, distributed compute, scheduling optimisation, etc. Note that the pattern above is a simple julia *for loop* but it could also be replaced with a *while loop*.
 
 <br>
 
-Flux lets you do the same process with the [Flux.train!](https://fluxml.ai/Flux.jl/stable/training/training/#Training-1) function. `train!` executes a single training step, and you can also put it inside a for-loop to execute more training steps. For more information on training a model in Flux, see [Training](https://fluxml.ai/Flux.jl/stable/training/training/#Training-1). 
+Flux lets you do the same process with the [Flux.train!](https://fluxml.ai/Flux.jl/stable/training/training/#Training-1) function. `train!` executes a single training step, and you can also put it inside a for-loop to execute multiple training steps. For more information on training a model in Flux, see [Training](https://fluxml.ai/Flux.jl/stable/training/training/#Training-1). 
 
 ```julia
 for d in train_data
@@ -163,7 +163,7 @@ print("The largest element-wise difference between W_learned and W_actual is ")
 println(maximum(abs.(W_learned - W_actual))
 ```
 
-Because the data points and initialization are random, your results may vary slightly, but in most cases, the largest difference between the elements of learned and actual `W` matrix is no more than 4%.
+Because the data and initialization are random, your results may vary slightly, but in most cases, the largest difference between the elements of learned and actual `W` matrix is no more than 4%.
 
 ### Step 8: Run the script
 
@@ -239,7 +239,7 @@ println(maximum(abs.(b_learned - b_actual)))
 
 ## What's next
 
-Congratulations! You have created your first model and ran a training step using Flux. Now, you can continue exploring Flux's capabilities:
+Congratulations! You have created written and trained a model using Flux. Now, you can continue exploring Flux's capabilities:
 
 * [60-minute blitz tutorial](tutorials/2020/09/15/deep-learning-flux.html) is a quick intro to Flux loosely based on [PyTorch's tutorial](https://pytorch.org/tutorials/beginner/deep_learning_60min_blitz.html).
 * [Flux Model Zoo](https://github.com/FluxML/model-zoo) contains various demonstrations of Flux. 
