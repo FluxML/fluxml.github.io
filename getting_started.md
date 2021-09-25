@@ -119,7 +119,7 @@ opt = Descent(0.01)
 
 Training a model is the process of computing the gradients with respect to the parameters for each input in the data. At every step, the optimiser updates all of the parameters until it finds a good value for them. This process can be written as a loop: we iterate over the examples in `x_train` and `y_train` and update the model for each example.
 
-To indicate that we want all derivatives of `W_learned` and `b_learned`, we write `ps = params([W, b])`. This is a convenience function that Flux provides so that we don't have to explicitly list every gradient we want. Check out the section on [Taking Gradients](https://fluxml.ai/Flux.jl/stable/models/basics/#Taking-Gradients) if you want to learn more about how this works.
+To indicate that we want all derivatives of `W_learned` and `b_learned`, we write `ps = params(W_learned, b_learned)`. This is a convenience function that Flux provides so that we don't have to explicitly list every gradient we want. Check out the section on [Taking Gradients](https://fluxml.ai/Flux.jl/stable/models/basics/#Taking-Gradients) if you want to learn more about how this works.
 
 We can now execute the training procedure for our model:
 
