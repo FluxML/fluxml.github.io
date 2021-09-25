@@ -138,17 +138,19 @@ end
 <br>
 
 
->**Note:** With this pattern, it is easy to add more complex learning routines that make use of control flow, distributed compute, scheduling optimisation, etc. Note that the pattern above is a simple julia *for loop* but it could also be replaced with a *while loop*.
+>**Note:** With this pattern, it is easy to add more complex learning routines that make use of control flow, distributed compute, scheduling optimisations, etc. Note that the pattern above is a simple julia *for loop* but it could also be replaced with a *while loop*.
 
 <br>
 
-Flux lets you do the same process with the [Flux.train!](https://fluxml.ai/Flux.jl/stable/training/training/#Training-1) function. `train!` executes a single training step, and you can also put it inside a for-loop to execute multiple training steps. For more information on training a model in Flux, see [Training](https://fluxml.ai/Flux.jl/stable/training/training/#Training-1). 
+While writing your own loop is powerful, sometimes you just want to do the simple thing without writing too much code. Flux lets you do this with the [Flux.train!](https://fluxml.ai/Flux.jl/stable/training/training/#Training-1) function, which computes a gradient and updates the model for *every* example in a set (running what is often referred to as a *training epoch*). In our case, we could have replaced the entire loop with the following statement:
 
 ```julia
-for d in train_data
-  Flux.train!(loss, params(model), d, opt)
-end
+Flux.train!(loss, params(W_learned, b_learned), train_data, opt)
 ```
+
+<br>
+
+For more ways to train a model in Flux, see [Training](https://fluxml.ai/Flux.jl/stable/training/training/#Training-1).
 
 <br>
 
@@ -214,20 +216,18 @@ for d in train_data
   Flux.Optimise.update!(opt, ps, gs)
 end
 
-# We could also have used this loop to train the model instead.
-#=
-for d in train_data
-  Flux.train!(loss, params(model), data, opt)
-end
-=#
+# We could have replaced the above for-loop with this single call to train!, 
+# which handles the looping, gradient computations, and updates for us.
+# Flux.train!(loss, params(model), data, opt)
 
 # Print some information about how well the training process worked.
-println("The value of W_learned is:")
+print("The value of W_learned is: ")
 display(W_learned)
 println()
 print("The largest element-wise difference between W_learned and W_actual is ")
 println(maximum(abs.(W_learned - W_actual)))
-println("The value of b_learned is:")
+println()
+print("The value of b_learned is: ")
 display(b_learned)
 println()
 print("The largest element-wise difference between b_learned and b_actual is ")
