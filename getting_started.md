@@ -91,7 +91,7 @@ b_learned = rand(2)
 
 ### Step 4: Define a loss function
 
-A loss function evaluates a machine learning model's performance. In other words, it measures how far the model is from its target prediction. Flux lets you define your own custom loss function, or you can use one of the [Loss Functions](https://fluxml.ai/Flux.jl/stable/training/training/#Loss-Functions-1) that Flux provides. 
+A loss function evaluates a machine learning model's performance. In other words, it measures how far the model is from its target prediction. Flux lets you gdefine your own custom loss function, or you can use one of the [Loss Functions](https://fluxml.ai/Flux.jl/stable/training/training/#Loss-Functions-1) that Flux provides. 
 
 For this example, we'll define a loss function that measures the squared distance from the predicted output to the actual output:
 
@@ -189,7 +189,7 @@ training_model(x) = W_learned * x + b_learned
 
 # Set random initial weights for the parameters of the model
 W_learned = rand(2,5)
-b_learned = zeros(2)
+b_learned = rand(2)
 
 # Define a simple squared-distance loss function
 function loss(x, y)
@@ -218,7 +218,7 @@ end
 
 # We could have replaced the above for-loop with this single call to train!, 
 # which handles the looping, gradient computations, and updates for us.
-# Flux.train!(loss, params(model), data, opt)
+# Flux.train!(loss, params(W_learned, b_learned), train_data, opt)
 
 # Print some information about how well the training process worked.
 print("The value of W_learned is: ")
