@@ -29,7 +29,7 @@ julia> using Pkg; Pkg.add("Flux")
 
 <br>
 
-Flux provides GPU support. For more information on obtaining GPU support, see [CUDA.jl](https://github.com/JuliaGPU/CUDA.jl) and [Flux documentation on GPU suppoort](https://fluxml.ai/Flux.jl/stable/gpu/).
+Flux provides GPU support. For more information on obtaining GPU support, see [CUDA.jl](https://github.com/JuliaGPU/CUDA.jl) and [Flux documentation on GPU support](https://fluxml.ai/Flux.jl/stable/gpu/).
 
 <br>
 
@@ -91,7 +91,7 @@ b_learned = rand(2)
 
 ### Step 4: Define a loss function
 
-A loss function evaluates a machine learning model's performance. In other words, it measures how far the model is from its target prediction. Flux lets you gdefine your own custom loss function, or you can use one of the [Loss Functions](https://fluxml.ai/Flux.jl/stable/training/training/#Loss-Functions-1) that Flux provides. 
+A loss function evaluates a machine learning model's performance. In other words, it measures how far the model is from its target prediction. Flux lets you define your own custom loss function, or you can use one of the [Loss Functions](https://fluxml.ai/Flux.jl/stable/training/training/#Loss-Functions-1) that Flux provides. 
 
 For this example, we'll define a loss function that measures the squared distance from the predicted output to the actual output:
 
@@ -138,7 +138,7 @@ end
 <br>
 
 
->**Note:** With this pattern, it is easy to add more complex learning routines that make use of control flow, distributed compute, scheduling optimisations, etc. Note that the pattern above is a simple julia *for loop* but it could also be replaced with a *while loop*.
+>**Note:** With this pattern, it is easy to add more complex learning routines that make use of control flow, distributed compute, scheduling optimisations, etc. Note that the pattern above is a simple Julia *for loop* but it could also be replaced with a *while loop*.
 
 <br>
 
@@ -246,4 +246,4 @@ Congratulations! You have created written and trained a model using Flux. Now, y
 * [JuliaAcademy](https://juliaacademy.com/) offers introductory courses to Julia and Flux.
 * [Flux's official documentation](https://fluxml.ai/Flux.jl/stable/).
 
-As you countinue to progress through your Flux and Julia journey, please feel free to share it on [Twitter and tag us](https://twitter.com/FluxML), we would love to see what awesome things the #FluxML community is up to.
+As you continue to progress through your Flux and Julia journey, please feel free to share it on [Twitter and tag us](https://twitter.com/FluxML), we would love to see what awesome things the #FluxML community is up to.
