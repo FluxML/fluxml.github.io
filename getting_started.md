@@ -53,39 +53,44 @@ using Flux
 <br>
 
 ### Step 2: Create the training data
-First, we'll write a function that generates our "true" data. We'll use to use Flux to recover `W_actual` and `b_actual` by looking only at examples of the `actual_model` function.
+First, we'll write a function that generates our "true" data. We'll use to use Flux to recover `W_truth` and `b_truth` by looking only at examples of the `ground_truth` function.
 
 ```julia
-W_actual = [1 2 3 4 5;
+W_truth = [1 2 3 4 5;
             5 4 3 2 1]
-b_actual = [- 1.0; -2.0]
-actual_model(x) = W_actual * x + b_actual
+b_truth = [- 1.0; -2.0]
+ground_truth(x) = W_truth * x .+ b_truth
 ```
 <br>
 
-Next, we generate our training data by passing random vectors into the true model. We'll also add Gaussian noise using `randn()` so that it's not *too* easy for Flux to figure out the model.
+Next, we generate our training data by passing random vectors into the ground truth function. We'll also add Gaussian noise using `randn()` so that it's not *too* easy for Flux to figure out the model.
 
 ```julia
 x_train = [ 5 .* rand(5) for _ in 1:10_000 ]
-y_train = [ actual_model(x) + 0.2 .* randn(2) for x in x_train 
+y_train = [ ground_truth(x) + 0.2 .* randn(2) for x in x_train ]
 ```
 
-In most real machine learning scenarios, you would not have access to `actual_model`, and would just get `x_train` and `y_train` as input data.
+There are two important things to note in this example which differ from real
+machine learning problems:
+  - Our variables are individual vectors, stored inside another vector. Usually, 
+    we would have a collection of N-dimensional arrays (N >= 2) as our data.
+  - In a real learning scenario, we would not have access to our ground truth,
+    only the training examples.
 
 ### Step 3: Define your model
 
 Next, we define the model we want to use to learn the data. We'll use the same form that we used for our training data:
 
 ```julia
-training_model(x) = W_learned*x + b_learned
+model(x) = W*x + b
 ```
 <br>
 
-We need to set the parameters of the model (`W_learned` and `b_learned`) to some initial values. It's fairly common to use random values, so we'll do that:
+We need to set the parameters of the model (`W` and `b`) to some initial values. It's fairly common to use random values, so we'll do that:
 
 ```julia
-W_learned = rand(2, 5)
-b_learned = rand(2)
+W = rand(2, 5)
+b = rand(2)
 ```
 <br>
 
@@ -97,7 +102,7 @@ For this example, we'll define a loss function that measures the squared distanc
 
 ```julia
 function loss(x, y)
-  ŷ = training_model(x)
+  ŷ = model(x)
   sum((y - ŷ).^2)
 end
 ```
@@ -119,17 +124,17 @@ opt = Descent(0.01)
 
 Training a model is the process of computing the gradients with respect to the parameters for each input in the data. At every step, the optimiser updates all of the parameters until it finds a good value for them. This process can be written as a loop: we iterate over the examples in `x_train` and `y_train` and update the model for each example.
 
-To indicate that we want all derivatives of `W_learned` and `b_learned`, we write `ps = params(W_learned, b_learned)`. This is a convenience function that Flux provides so that we don't have to explicitly list every gradient we want. Check out the section on [Taking Gradients](https://fluxml.ai/Flux.jl/stable/models/basics/#Taking-Gradients) if you want to learn more about how this works.
+To indicate that we want all derivatives of `W` and `b`, we write `ps = params(W, b)`. This is a convenience function that Flux provides so that we don't have to explicitly list every gradient we want. Check out the section on [Taking Gradients](https://fluxml.ai/Flux.jl/stable/models/basics/#Taking-Gradients) if you want to learn more about how this works.
 
 We can now execute the training procedure for our model:
 
 ```julia
 train_data = zip(x_train, y_train)
-ps = params(W_learned, b_learned)
+ps = params(W, b)
 
-for d in train_data
+for (x,y) in train_data
   gs = Flux.gradient(ps) do
-    loss(d...)  # Unpacks d into x,y and passes those two arguments to loss()
+    loss(x,y)
   end
   Flux.Optimise.update!(opt, ps, gs)
 end
@@ -145,7 +150,7 @@ end
 While writing your own loop is powerful, sometimes you just want to do the simple thing without writing too much code. Flux lets you do this with [Flux.train!](https://fluxml.ai/Flux.jl/stable/training/training/#Training-1), which runs one training epoch over a dataset. `Flux.train!` computes gradients and updates model parameters for every sample or batch of samples. In our case, we could have replaced the above loop with the following statement:
 
 ```julia
-Flux.train!(loss, params(W_learned, b_learned), train_data, opt)
+Flux.train!(loss, params(W, b), train_data, opt)
 ```
 
 <br>
@@ -156,13 +161,11 @@ For more ways to train a model in Flux, see [Training](https://fluxml.ai/Flux.jl
 
 ### Step 7: Examine the Results
 
-The training loop we ran modified `W_learned` and `b_learned` to be closer to the values used to generate the training data (`W_actual` and `b_actual`). We can see how well we did by printing out the difference between the learned and actual matrices.
+The training loop we ran modified `W` and `b` to be closer to the values used to generate the training data (`W` and `b`). We can see how well we did by printing out the difference between the learned and actual matrices.
 
 ```julia
-println("The value of W_learned is:")
-display(W_learned)
-print("The largest element-wise difference between W_learned and W_actual is ")
-println(maximum(abs.(W_learned - W_actual))
+@show W
+@show maximum(abs, W .- W_truth)
 ```
 
 Because the data and initialization are random, your results may vary slightly, but in most cases, the largest difference between the elements of learned and actual `W` matrix is no more than 4%.
@@ -174,64 +177,47 @@ Finally, create a file with extension `.jl` with the code above in any IDE and r
 ```julia
 using Flux
 
-# Define the model that the training data comes from
-W_actual = [1 2 3 4 5;
+# Define the ground truth model. We aim to recover W_truth and b_truth using
+# only examples of ground_truth()
+W_truth = [1 2 3 4 5;
             5 4 3 2 1]
-b_actual = [- 1.0; -2.0]
-actual_model(x) = W_actual * x + b_actual
+b_truth = [- 1.0; -2.0]
+ground_truth(x) = W_truth * x .+ b_truth
 
-# Generate training data using the actual model and a little bit of noise
+# Generate the ground truth training data as vectors-of-vectors
 x_train = [ 5 .* rand(5) for _ in 1:10_000 ]
-y_train = [ actual_model(x) + 0.2 .* randn(2) for x in x_train ]
+y_train = [ ground_truth(x) + 0.2 .* randn(2) for x in x_train ]
 
-# Create the model that we will train using Flux
-training_model(x) = W_learned * x + b_learned
+# Define and initialize the model we want to train
+model(x) = W*x + b
+W = rand(2, 5)
+b = rand(2)
 
-# Set random initial weights for the parameters of the model
-W_learned = rand(2,5)
-b_learned = rand(2)
-
-# Define a simple squared-distance loss function
+# Define the loss function and optimizer
 function loss(x, y)
-  ŷ = training_model(x)
+  ŷ = model(x)
   sum((y - ŷ).^2)
 end
 
-# Set the optimizer (gradient descent) and its parameters (in this case, just η)
 opt = Descent(0.01)
 
-# Creates an iterator of (x,y) pairs corresponding to pairs in x_train, y_train
-# e.g. the first element of train_data is (x_train[1], y_train[1]), the second
-# element is (x_train[2], y_train[2]) and so on
-train_data = zip(x_train, y_train) 
+# Execute a training epoch
+train_data = zip(x_train, y_train)
+ps = params(W, b)
 
-# Tracks all derivatives of W and b
-ps = params(W_learned , b_learned)
-
-# Train the model by looping over all training data and updating the model
-for d in train_data
+for (x,y) in train_data
   gs = Flux.gradient(ps) do
-    loss(d...)  # Unpacks d into x,y and passes those two arguments to loss()
+    loss(x,y)
   end
   Flux.Optimise.update!(opt, ps, gs)
 end
 
-# We could have replaced the above for-loop with this single call to train!, 
-# which handles the looping, gradient computations, and updates for us.
-# Flux.train!(loss, params(W_learned, b_learned), train_data, opt)
+# An alternate way to execute a training epoch
+# Flux.train!(loss, params(W, b), train_data, opt)
 
-# Print some information about how well the training process worked.
-print("The value of W_learned is: ")
-display(W_learned)
-println()
-print("The largest element-wise difference between W_learned and W_actual is ")
-println(maximum(abs.(W_learned - W_actual)))
-println()
-print("The value of b_learned is: ")
-display(b_learned)
-println()
-print("The largest element-wise difference between b_learned and b_actual is ")
-println(maximum(abs.(b_learned - b_actual)))
+# Print out how well we did.
+@show W
+@show maximum(abs, W .- W_truth)
 ```
 
 <br>
