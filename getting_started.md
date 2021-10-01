@@ -142,7 +142,7 @@ end
 
 <br>
 
-While writing your own loop is powerful, sometimes you just want to do the simple thing without writing too much code. Flux lets you do this with the [Flux.train!](https://fluxml.ai/Flux.jl/stable/training/training/#Training-1) function, which computes a gradient and updates the model for *every* example in a set (running what is often referred to as a *training epoch*). In our case, we could have replaced the entire loop with the following statement:
+While writing your own loop is powerful, sometimes you just want to do the simple thing without writing too much code. Flux lets you do this with [Flux.train!](https://fluxml.ai/Flux.jl/stable/training/training/#Training-1), which runs one training epoch over a dataset. `Flux.train!` computes gradients and updates model parameters for every sample or batch of samples. In our case, we could have replaced the above loop with the following statement:
 
 ```julia
 Flux.train!(loss, params(W_learned, b_learned), train_data, opt)
