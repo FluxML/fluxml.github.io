@@ -78,6 +78,10 @@ b = rand(2)
 ```
 <br>
 
+You can learn more about defining models in this video:
+
+<iframe width="100%" height="450" src="https://www.youtube.com/embed/XrAUGRX998E" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 ### Step 4: Define a loss function
 
 A loss function evaluates a machine learning model's performance. In other words, it measures how far the model is from its target prediction. Flux enables you to define your own custom loss function or you can use one of the [Loss Functions](https://fluxml.ai/Flux.jl/stable/training/training/#Loss-Functions-1) that Flux provides. 
