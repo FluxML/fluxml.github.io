@@ -103,7 +103,7 @@ For this example, we'll define a loss function that measures the squared distanc
 ```julia
 function loss(x, y)
   ŷ = model(x)
-  sum((y - ŷ).^2)
+  sum((y .- ŷ).^2)
 end
 ```
 
