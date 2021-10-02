@@ -59,7 +59,7 @@ First, we'll write a function that generates our "true" data. We'll use to use F
 W_truth = [1 2 3 4 5;
             5 4 3 2 1]
 b_truth = [-1.0; -2.0]
-ground_truth(x) = W_truth * x .+ b_truth
+ground_truth(x) = W_truth*x .+ b_truth
 ```
 <br>
 
