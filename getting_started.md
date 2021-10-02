@@ -82,7 +82,7 @@ machine learning problems:
 Next, we define the model we want to use to learn the data. We'll use the same form that we used for our training data:
 
 ```julia
-model(x) = W*x + b
+model(x) = W*x .+ b
 ```
 <br>
 
