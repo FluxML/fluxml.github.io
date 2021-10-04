@@ -223,7 +223,7 @@ end
 
 ## What's next
 
-Congratulations! You have created written and trained a model using Flux. Now, you can continue exploring Flux's capabilities:
+Congratulations! You have created and trained a model using Flux. Now, you can continue exploring Flux's capabilities:
 
 * [60-minute blitz tutorial](tutorials/2020/09/15/deep-learning-flux.html) is a quick intro to Flux loosely based on [PyTorch's tutorial](https://pytorch.org/tutorials/beginner/deep_learning_60min_blitz.html).
 * [Flux Model Zoo](https://github.com/FluxML/model-zoo) contains various demonstrations of Flux. 
