@@ -29,7 +29,7 @@ julia> using Pkg; Pkg.add("Flux")
 
 <br>
 
-Flux provides GPU support. For more information on obtaining GPU support, see [CUDA.jl](https://github.com/JuliaGPU/CUDA.jl) and [Flux documentation on GPU suppoort](https://fluxml.ai/Flux.jl/stable/gpu/).
+Flux provides GPU support. For more information on obtaining GPU support, see [CUDA.jl](https://github.com/JuliaGPU/CUDA.jl) and [Flux documentation on GPU support](https://fluxml.ai/Flux.jl/stable/gpu/).
 
 <br>
 
@@ -39,7 +39,7 @@ If you run into any issues on your journey learning Flux.jl, please post on Stac
 
 ## Create your first model 
 
-In this tutorial, you'll create your first machine learning model using Flux. This is a simple linear regression model that predicts an output array `y` from an input array `x`.
+In this tutorial, you'll create your first machine learning model using Flux. This is a simple linear regression model that attempts to recover a linear function by looking at noisy examples.
 
 <br>
 
@@ -52,25 +52,41 @@ using Flux
 ```
 <br>
 
-### Step 2: Create some train data
-For this example, create some random train data `x` and `y` arrays:
+### Step 2: Create the training data
+First, we'll write a function that generates our "true" data. We'll use to use Flux to recover `W_truth` and `b_truth` by looking only at examples of the `ground_truth` function.
 
 ```julia
-x = rand(5)
-y = rand(2) 
+W_truth = [1 2 3 4 5;
+            5 4 3 2 1]
+b_truth = [-1.0; -2.0]
+ground_truth(x) = W_truth*x .+ b_truth
 ```
 <br>
 
+Next, we generate our training data by passing random vectors into the ground truth function. We'll also add Gaussian noise using `randn()` so that it's not *too* easy for Flux to figure out the model.
+
+```julia
+x_train = [ 5 .* rand(5) for _ in 1:10_000 ]
+y_train = [ ground_truth(x) + 0.2 .* randn(2) for x in x_train ]
+```
+
+There are two important things to note in this example which differ from real
+machine learning problems:
+  - Our variables are individual vectors, stored inside another vector. Usually, 
+    we would have a collection of N-dimensional arrays (N >= 2) as our data.
+  - In a real learning scenario, we would not have access to our ground truth,
+    only the training examples.
+
 ### Step 3: Define your model
 
-Define a simple regression model by defining the following function:
+Next, we define the model we want to use to learn the data. We'll use the same form that we used for our training data:
 
 ```julia
 model(x) = W*x .+ b
 ```
 <br>
 
-Then, set the parameters of the model (`W` and `b`) to some initial random values:  
+We need to set the parameters of the model (`W` and `b`) to some initial values. It's fairly common to use random values, so we'll do that:
 
 ```julia
 W = rand(2, 5)
@@ -84,9 +100,9 @@ You can learn more about defining models in this video:
 
 ### Step 4: Define a loss function
 
-A loss function evaluates a machine learning model's performance. In other words, it measures how far the model is from its target prediction. Flux enables you to define your own custom loss function or you can use one of the [Loss Functions](https://fluxml.ai/Flux.jl/stable/training/training/#Loss-Functions-1) that Flux provides. 
+A loss function evaluates a machine learning model's performance. In other words, it measures how far the model is from its target prediction. Flux lets you define your own custom loss function, or you can use one of the [Loss Functions](https://fluxml.ai/Flux.jl/stable/training/training/#Loss-Functions-1) that Flux provides. 
 
-For this example, define a custom loss function:
+For this example, we'll define a loss function that measures the squared distance from the predicted output to the actual output:
 
 ```julia
 function loss(x, y)
@@ -94,9 +110,6 @@ function loss(x, y)
   sum((y .- ŷ).^2)
 end
 ```
-<br>
-
-This function computes the model's prediction for the input `x` and returns the loss for the output `ŷ`.
 
 <br>
 
@@ -104,26 +117,28 @@ This function computes the model's prediction for the input `x` and returns the 
 
 You train a machine learning model by running an optimization algorithm (optimiser) that finds the best parameters (`W` and `b`). The best parameters for a model are the ones that achieve the best score of the `loss` function. Flux provides [Optimisers](https://fluxml.ai/Flux.jl/stable/training/optimisers/) that you can use to train a model. 
 
-Set a classic gradient descent optimiser with learning rate η = 0.1:
+For this tutorial, we'll use a classic gradient descent optimiser with learning rate η = 0.01:
 
 ```julia
-opt = Descent(0.1)
+opt = Descent(0.01)
 ```
 <br>
 
 ### Step 6: Train your model
 
-Training a model is the process of computing the gradients with respect to the parameters for each data point in the data. At every step, the optimiser updates all of the parameters until it finds a good value for them. In fact, you can write this process as a *for loop*. Notice that because we are iterating over our training set, we place `x` and `y` into a vector. If we had more points in the training set, they would also be placed in `data`. Also, you need to set `ps = params([W, b])` to indicate that you want the derivatives of `W` and `b`.
+Training a model is the process of computing the gradients with respect to the parameters for each input in the data. At every step, the optimiser updates all of the parameters until it finds a good value for them. This process can be written as a loop: we iterate over the examples in `x_train` and `y_train` and update the model for each example.
 
-You can execute the training process of your model as follows:
+To indicate that we want all derivatives of `W` and `b`, we write `ps = params(W, b)`. This is a convenience function that Flux provides so that we don't have to explicitly list every gradient we want. Check out the section on [Taking Gradients](https://fluxml.ai/Flux.jl/stable/models/basics/#Taking-Gradients) if you want to learn more about how this works.
+
+We can now execute the training procedure for our model:
 
 ```julia
-data = [(x, y)]
+train_data = zip(x_train, y_train)
 ps = params(W, b)
 
-for d in data
+for (x,y) in train_data
   gs = Flux.gradient(ps) do
-    loss(d...)
+    loss(x,y)
   end
   Flux.Optimise.update!(opt, ps, gs)
 end
@@ -132,71 +147,79 @@ end
 <br>
 
 
->**Note:** With this pattern, it is trivial to add more complex learning routines that make use of control flow, distributed compute, scheduling optimisation etc. Note that the pattern above is a simple julia *for loop* but it could also be replaced with a *while loop*.
+>**Note:** With this pattern, it is easy to add more complex learning routines that make use of control flow, distributed compute, scheduling optimisations, etc. Note that the pattern above is a simple Julia *for loop* but it could also be replaced with a *while loop*.
 
 <br>
 
-Flux enables you to execute the same process with the [Flux.train!](https://fluxml.ai/Flux.jl/stable/training/training/#Training-1) function. It executes one training step, and you can put the `Flux.train!` function inside a *for loop* to execute more training steps. For more information on training a model in Flux, see [Training](https://fluxml.ai/Flux.jl/stable/training/training/#Training-1). 
+While writing your own loop is powerful, sometimes you just want to do the simple thing without writing too much code. Flux lets you do this with [Flux.train!](https://fluxml.ai/Flux.jl/stable/training/training/#Training-1), which runs one training epoch over a dataset. `Flux.train!` computes gradients and updates model parameters for every sample or batch of samples. In our case, we could have replaced the above loop with the following statement:
 
 ```julia
-Flux.train!(loss, params(model), data, opt)
+Flux.train!(loss, params(W, b), train_data, opt)
 ```
 
 <br>
 
-where:
-* **loss** is the loss function that you defined in [Step 3](#step-3-define-a-loss-function).
-* **params(model)** are the trainable parameters of the model. It uses the [`Flux.params` function](https://fluxml.ai/Flux.jl/stable/training/training/#Model-parameters-1) to track the parameters.
-* **data** is a collection of data points. This data must be of the same dimension as the input of the `model` function.
-* **opt** is an optimiser.
-
+For more ways to train a model in Flux, see [Training](https://fluxml.ai/Flux.jl/stable/training/training/#Training-1).
 
 <br>
 
-### Step 7: Run the script
+### Step 7: Examine the Results
+
+The training loop we ran modified `W` and `b` to be closer to the values used to generate the training data (`W` and `b`). We can see how well we did by printing out the difference between the learned and actual matrices.
+
+```julia
+@show W
+@show maximum(abs, W .- W_truth)
+```
+
+Because the data and initialization are random, your results may vary slightly, but in most cases, the largest difference between the elements of learned and actual `W` matrix is no more than 4%.
+
+### Step 8: Run the script
 
 Finally, create a file with extension `.jl` with the code above in any IDE and run it as `julia name-of-your-file.jl `. You can use the [Julia VSCode extension](https://www.julia-vscode.org/) to edit and run Julia code. Alternatively, you can run Julia code on a Jupyter notebook (see [IJulia](https://github.com/JuliaLang/IJulia.jl)). Here is the full version of the code:
 
 ```julia
-#Import Flux
 using Flux
 
-#Create some train data
-x = rand(5)
-y = rand(2) 
+# Define the ground truth model. We aim to recover W_truth and b_truth using
+# only examples of ground_truth()
+W_truth = [1 2 3 4 5;
+            5 4 3 2 1]
+b_truth = [-1.0; -2.0]
+ground_truth(x) = W_truth*x .+ b_truth
 
-#Define your model
+# Generate the ground truth training data as vectors-of-vectors
+x_train = [ 5 .* rand(5) for _ in 1:10_000 ]
+y_train = [ ground_truth(x) + 0.2 .* randn(2) for x in x_train ]
+
+# Define and initialize the model we want to train
 model(x) = W*x .+ b
-
-#Set initial random weights for your model
 W = rand(2, 5)
 b = rand(2)
 
-#Define a loss function
+# Define pieces we need to train: loss function, optimiser, examples, and params
 function loss(x, y)
-    ŷ = model(x)
-    sum((y .- ŷ).^2)
-  end
+  ŷ = model(x)
+  sum((y .- ŷ).^2)
+end
+opt = Descent(0.01)
+train_data = zip(x_train, y_train)
+ps = params(W, b)
 
-#Set an optimiser
-opt = Descent(0.1)
-
-# Place the training samples into a vector
-data = [(x, y)]
-
-# Track the derivatives of W and b
-ps = params([W, b])
-
-# Training process
-for d in data
-  gs = Flux.gradient(ps) do
-    loss(d...)
+# Execute a training epoch
+for (x,y) in train_data
+  gs = gradient(ps) do
+    loss(x,y)
   end
   Flux.Optimise.update!(opt, ps, gs)
 end
 
-# Execute one training step using the train! function
-Flux.train!(loss, params(model), data, opt)
+# An alternate way to execute a training epoch
+# Flux.train!(loss, params(W, b), train_data, opt)
+
+# Print out how well we did
+@show W
+@show maximum(abs, W .- W_truth)
 ```
 
 <br>
@@ -204,11 +227,11 @@ Flux.train!(loss, params(model), data, opt)
 
 ## What's next
 
-Congratulations! You have created your first model and ran a training step using Flux. Now, you can continue exploring Flux's capabilities:
+Congratulations! You have created and trained a model using Flux. Now, you can continue exploring Flux's capabilities:
 
 * [60-minute blitz tutorial](tutorials/2020/09/15/deep-learning-flux.html) is a quick intro to Flux loosely based on [PyTorch's tutorial](https://pytorch.org/tutorials/beginner/deep_learning_60min_blitz.html).
 * [Flux Model Zoo](https://github.com/FluxML/model-zoo) contains various demonstrations of Flux. 
 * [JuliaAcademy](https://juliaacademy.com/) offers introductory courses to Julia and Flux.
 * [Flux's official documentation](https://fluxml.ai/Flux.jl/stable/).
 
-As you countinue to progress through your Flux and Julia journey, please feel free to share it on [Twitter and tag us](https://twitter.com/FluxML), we would love to see what awesome things the #FluxML community is up to.
+As you continue to progress through your Flux and Julia journey, please feel free to share it on [Twitter and tag us](https://twitter.com/FluxML), we would love to see what awesome things the #FluxML community is up to.
