@@ -5,11 +5,18 @@ layout: blog
 tag: Learning Flux
 ---
 
-This is a beginner level tutorial for generating hand-written digits using a [Deep Convolutional Generative Adversial Network](https://arxiv.org/pdf/1511.06434.pdf)
+This is a beginner level tutorial for generating images hand-written digits using a [Deep Convolutional Generative Adversial Network](https://arxiv.org/pdf/1511.06434.pdf). This tutorial has been largely influced by the [TensorFlow tutorial on DCGAN](https://www.tensorflow.org/tutorials/generative/dcgan).
 
 
 ## What are GANs?
+[Generative Adversial Neural Netoworks or simply GANs](https://arxiv.org/abs/1406.2661) introduced by Goodfellow et. al 
 
+There are two models involved in a GAN:
+
+- The generator a.k.a the artist learns the art of generating(drawing) images.
+- The discriminator is an art critic that learns to tell real images apart from fakes.
+
+As you have already guessed, the generator and discriminatore by their definition act's against each other. During training, the generator progressively becomes better at creating images that look real, while the discriminator becomes better at telling them apart. The process reaches equilibrium when the discriminator can no longer distinguish real images from fakes.
 
 ## Setup
 
@@ -69,7 +76,11 @@ Our generator is a neural network that maps a low dimensional data to a high dim
 
 The [Flux.ConvTranspose](https://fluxml.ai/Flux.jl/stable/models/layers/#Flux.ConvTranspose) is used for the upsampling operation. The Dense layer can be used for taking the seed as input and then upsample several times until we reach the desired output size (In our case it is 28x28x1).
 
-We will be using [leakyrelu](https://fluxml.ai/Flux.jl/stable/models/nnlib/#NNlib.leakyrelu) as an activation function for each layer except the output layer where we use tanh.
+We will be using [leakyrelu](https://fluxml.ai/Flux.jl/stable/models/nnlib/#NNlib.leakyrelu) as an activation function for each layer except the output layer where we use tanh. We will also be using the the defined weight intialization mentioned in the original DCGAN paper.
+```julia
+# Function for intializing the generator weights
+dcgan_init(shape...) = randn(Float32, shape...) * 0.02
+```
 ```julia
 function Generator(latent_dim)
     Chain(
@@ -77,13 +88,13 @@ function Generator(latent_dim)
         BatchNorm(7*7*256, relu),
 
         x -> reshape(x, 7, 7, 256, :),
-        
+
         ConvTranspose((5, 5), 256 => 128; stride = 1, pad = 2, init = dcgan_init),
         BatchNorm(128, relu),
-        
+
         ConvTranspose((4, 4), 128 => 64; stride = 2, pad = 1, init = dcgan_init),
         BatchNorm(64, relu),
-        
+
         ConvTranspose((4, 4), 64 => 1; stride = 2, pad = 1, init = dcgan_init),
         x -> tanh.(x)
     )
@@ -116,7 +127,7 @@ function Discrimnator()
         Conv((4, 4), 1 => 64; stride = 2, pad = 1, init = dcgan_init),
         x->leakyrelu.(x, 0.3f0),
         Dropout(0.3),
-        
+
         Conv((4, 4), 64 => 128; stride = 2, pad = 1, init = dcgan_init),
         x->leakyrelu.(x, 0.3f0),
         Dropout(0.25),
@@ -169,7 +180,36 @@ gen_opt = ADAM(hparam.gen_lr)
 
 ## Training
 
+```julia
+function train_discriminator!(gen, disc, x, disc_opt, hparams)
+    noise = randn!(similar(x, (hparams.latent_dim, hparams.batch_size))) 
+    fake_input = gen(noise)
+    ps = Flux.params(disc)
+
+    loss, back = Flux.pullback(ps) do
+        discriminator_loss(disc(x), disc(fake_input))
+    end
+    grad = back(one(loss))
+    update!(disc_opt, ps, grad)
+    return loss
+end
+```
+
+```julia
+function train_generator!(gen, disc, x, gen_opt, hparams)
+    noise = randn!(similar(x, (hparams.latent_dim, hparams.batch_size))) 
+    ps = Flux.params(gen)
+
+    loss, back = Flux.pullback(ps) do
+        generator_loss(disc(gen(noise)))
+    end
+
+	grad = back(one(loss))
+    update!(gen_opt, ps, grad)
+    return loss
+end
+```
+
 
 ## Resources & References
 - [The DCGAN implementaion in Model Zoo.](https://github.com/FluxML/model-zoo/blob/master/vision/dcgan_mnist/dcgan_mnist.jl)
-- []
