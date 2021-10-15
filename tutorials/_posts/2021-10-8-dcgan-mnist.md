@@ -8,17 +8,17 @@ tag: Generative Adversarial Neural Networks
 This is a beginner level tutorial for generating images of hand-written digits using a [Deep Convolutional Generative Adverserial Network](https://arxiv.org/pdf/1511.06434.pdf) and is largely influenced by the [TensorFlow tutorial on DCGAN](https://www.tensorflow.org/tutorials/generative/dcgan).
 
 ## What are GANs?
-[Generative Adverserial Neural Netoworks or simply GANs](https://arxiv.org/abs/1406.2661) introduced by Goodfellow et al. is one of the most innovative ideas in modern-day machine learning. GANs are used extensively in the field of image and audio processing where it is used to generate high-quality synthetic data that can easily be passed off as real data.
+[Generative Adverserial Neural Netoworks or simply GANs](https://arxiv.org/abs/1406.2661) introduced by Goodfellow et al. is one of the most innovative ideas in modern-day machine learning. GANs are used extensively in the field of image and audio processing to generate high-quality synthetic data that can easily be passed off as real data.
 
 A GAN is composed of two sub-models acting against one another. One of the sub-models is a **generator** and the other one is called a **discriminator**. The generator can be considered as an artist who draws(generates) new images that look real, whereas the discriminator is a critic who learns to tell real images apart from fakes.
 
 <img src="/assets/2021-10-8-dcgan-mnist/cat_gan.png">
 
-The GAN starts off with a generator and discriminator which have very little/no idea about the underlying data. During training, the generator progressively becomes better at creating images that look real, while the discriminator becomes better at telling them apart. The process reaches equilibrium when the discriminator can no longer distinguish real images from fakes.
+The GAN starts off with a generator and discriminator which have very little or no idea about the underlying data. During training, the generator progressively becomes better at creating images that look real, while the discriminator becomes better at telling them apart. The process reaches equilibrium when the discriminator can no longer distinguish real images from fakes.
 
 <img src="https://www.tensorflow.org/tutorials/generative/images/gan2.png" width="70%">
 
-This tutorial demonstrates this process on the MNIST dataset. The following animation shows a series of images produced by the generator as it was trained for 25 epochs. The images begin as random noise, but over time the images become increasingly similar to handwritten numbers.
+This tutorial demonstrates the usage of GAN's leveraging the MNIST dataset. The following animation shows a series of images produced by the generator as it was trained for 25 epochs. The images begin as random noise, but over time, the images become increasingly similar to handwritten numbers.
 <br><br>
 <p align="center">
 <img src="/assets/2021-10-8-dcgan-mnist/output.gif" align="middle" width="200">
@@ -26,7 +26,7 @@ This tutorial demonstrates this process on the MNIST dataset. The following anim
 
 ## Setup
 
-We need to install some libraries before we start with our implementation of DCGAN. Since this is tutorial is aligned with the [DCGAN implementation in Model-Zoo](https://github.com/FluxML/model-zoo/tree/master/vision/dcgan_mnist), it is recommended to intialize your working environment using the [Project.toml](https://github.com/FluxML/model-zoo/blob/master/vision/dcgan_mnist/Project.toml) instead of installing dependencies manually.
+We need to install some Julia Packages before we start with our implementation of DCGAN. Since this tutorial is aligned with the [DCGAN implementation in Model-Zoo](https://github.com/FluxML/model-zoo/tree/master/vision/dcgan_mnist), it is recommended to initialize your working environment using the [Project.toml](https://github.com/FluxML/model-zoo/blob/master/vision/dcgan_mnist/Project.toml) instead of installing dependencies manually.
 
 Using the Julia REPL:
 ```julia
@@ -68,7 +68,7 @@ end
 ```
 
 ## Loading the data
-We will be using the [MNIST](http://yann.lecun.com/exdb/mnist/) dataset for hand written digits. You can find more about loading images in Flux in [this tutorial](https://fluxml.ai/tutorials/2021/01/21/data-loader.html).
+We will be using the [MNIST](http://yann.lecun.com/exdb/mnist/) dataset for hand written digits. You can find out more about loading images in Flux by reading [this tutorial](https://fluxml.ai/tutorials/2021/01/21/data-loader.html).
 
 ```julia
 function load_images(hparams::HyperParams)
@@ -93,14 +93,14 @@ end
 
 ### The generator
 
-Our generator a.k.a. the artist is a neural network that maps low dimensional data to a high dimensional form.
+Our generator, a.k.a. the artist, is a neural network that maps low dimensional data to a high dimensional form.
 
 - This low dimensional data(seed) is generally a vector of random values sampled from a normal distribution.
 - The high dimensional data here is the generated image.
 
-The [Flux.ConvTranspose](https://fluxml.ai/Flux.jl/stable/models/layers/#Flux.ConvTranspose) is used for the upsampling process. The Dense layer is used for taking the seed as input and then it is upsampled several times until we reach the desired output size (In our case it is 28x28x1).
+The [Flux.ConvTranspose](https://fluxml.ai/Flux.jl/stable/models/layers/#Flux.ConvTranspose) function is used for the upsampling process. The Dense layer is used for taking the seed as input and then it is upsampled several times until we reach the desired output size (in our case, 28x28x1).
 
-We will be using [leakyrelu](https://fluxml.ai/Flux.jl/stable/models/nnlib/#NNlib.leakyrelu) as an activation function for each layer except the output layer where we use tanh. We will also be using the weight initialization mentioned in the original DCGAN paper.
+We will be using the [leakyrelu](https://fluxml.ai/Flux.jl/stable/models/nnlib/#NNlib.leakyrelu) activation function for each layer except the output layer, where we use `tanh`. We will also be using the weight initialization mentioned in the original DCGAN paper.
 
 ```julia
 # Function for intializing the generator weights
@@ -148,7 +148,7 @@ Our generator model is yet to learn the correct weights, so it does not give us 
 The Disciminator is a simple CNN based image classifier. For a more detailed implementaion refer to [this tutorial](). 
 
 ```julia
-function Discrimnator()
+function Discriminator()
     Chain(
         Conv((5, 5), 1 => 64; stride = 2, pad = SamePad(), init = dcgan_init),
         x->leakyrelu.(x, 0.2f0),
@@ -164,7 +164,7 @@ function Discrimnator()
 end
 ```
 <br>
-Now let us check if our disciriminator is working:
+Now let us check if our discriminator is working:
 
 ```julia
 # Dummy Disc
@@ -174,13 +174,13 @@ results = disc(image)
 ```
 <br>
 
-Just like the generator, the untrained discriminator has no idea about what is real or a fake image. It is trained alongside generator  to output positive values for real images, and negative values for fake images.
+Just like the generator, the untrained discriminator has no idea about what is a real or fake image. It is trained alongside the generator to output positive values for real images, and negative values for fake images.
 
 ## Losses and Optimizers
 
-In our problem there are only only two labels(fake & real)  so will be using BinaryCrossEntropy as a prelinimary loss function. 
+In GAN problems, there are only two labels, fake and real, so we will be using `BinaryCrossEntropy` as a preliminary loss function. 
 
-Flux's `binarycrossentropy` does the job for us. But due to numerical stability it is always perfered to compute cross-entropy using logits. Flux provides [logitbinarycrossentropy](https://fluxml.ai/Flux.jl/stable/models/losses/#Flux.Losses.logitbinarycrossentropy) specifically for this purpose. Mathematically it equivalent to `binarycrossentropy(σ(ŷ), y, kwargs...).`
+Flux's `binarycrossentropy` does the job for us. But due to numerical stability, it is always preferred to compute cross-entropy using logits. Flux provides [logitbinarycrossentropy](https://fluxml.ai/Flux.jl/stable/models/losses/#Flux.Losses.logitbinarycrossentropy) specifically for this purpose. Mathematically it equivalent to `binarycrossentropy(σ(ŷ), y, kwargs...).`
 <br>
 
 ### Discriminator Loss
@@ -201,7 +201,7 @@ end
 ```
 <br>
 
-### Geneator Loss
+### Generator Loss
 
 The generator's loss quantifies how well it was able to trick the discriminator. Intuitively, if the generator is performing well, the discriminator will classify the fake images as real (or 1).
 
@@ -209,7 +209,7 @@ The generator's loss quantifies how well it was able to trick the discriminator.
 generator_loss(fake_output) = logitbinarycrossentropy(fake_output, 1)
 ```
 <br>
-We also need optimizers for our network. For both generator and discriminator we will use the ADAM optimizer.
+We also need optimizers for our network. Why you may ask? Read more [here](https://towardsdatascience.com/overview-of-various-optimizers-in-neural-networks-17c1be2df6d5). For both the generator and discriminator, we will use the [ADAM optimizer](https://fluxml.ai/Flux.jl/stable/training/optimisers/#Flux.Optimise.ADAM).
 
 ```julia
 disc_opt = ADAM(hparam.disc_lr)
