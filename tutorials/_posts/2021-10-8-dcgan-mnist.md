@@ -77,11 +77,11 @@ function load_MNIST_images(hparams::HyperParams)
     N = size(images)[end] # Save the number of images, N = 60000
 
     # Normalize to [-1, 1]
-    normalized_images = @.(2f0 * images - 1f0);
-    image_tensor = reshape(normalized_images, 28, 28, 1, :);
+    normalized_images = @. 2f0 * images - 1f0
+    image_tensor = reshape(normalized_images, 28, 28, 1, :)
 
     # Parition the image tensor into batches
-    dataloader = Flux.DataLoader(image_tensor, batchsize=hparams.batch_size, shuffle=true)
+    dataloader = Flux.Data.DataLoader(image_tensor, batchsize=hparams.batch_size, shuffle=true)
 
     return dataloader
 end
@@ -122,8 +122,7 @@ function Generator(latent_dim)
         ConvTranspose((5, 5), 128 => 64; stride = 2, pad = SamePad(), init = dcgan_init, bias=false),
         BatchNorm(64, relu),
 
-        ConvTranspose((5, 5), 64 => 1; stride = 2, pad = SamePad(), init = dcgan_init, bias=false),
-        x -> tanh.(x)
+        ConvTranspose((5, 5), 64 => 1, tanh; stride = 2, pad = SamePad(), init = dcgan_init, bias=false),
     )
 end
 ```
@@ -177,7 +176,7 @@ results = disc(image)
 
 Just like the generator, the untrained discriminator has no idea about what is a real or fake image. It is trained alongside the generator to output positive values for real images, and negative values for fake images.
 
-## Losses and Optimizers
+## Loss function for GAN
 
 In GAN problems, there are only two labels, fake and real, so we will be using `BinaryCrossEntropy` as a preliminary loss function. 
 
@@ -223,7 +222,7 @@ The output of the generator ranges from (-1, 1), so it needs to processed before
 
 ```julia
 function create_output_image(gen, fixed_noise, hparams)
-    fake_images = @. cpu(gen(fixed_noise))
+    fake_images = cpu(gen(fixed_noise))
     image_array = reduce(vcat, reduce.(hcat, partition(fake_images, hparams.output_dim)))
     image_array = permutedims(dropdims(image_array; dims=(3, 4)), (2, 1))
     image_array = @. Gray(image_array + 1f0) / 2f0
@@ -244,15 +243,12 @@ function train_discriminator!(gen, disc, x, disc_opt, hparams)
 
     ps = Flux.params(disc)
 
-    # Forward pass
-    loss, back = Flux.pullback(ps) do
+    loss, grads = Flux.withgradient(ps) do
         discriminator_loss(disc(x), disc(fake_input))
     end
-    # Backward pass
-    grad = back(one(loss))
 
     # Update the discriminator parameters
-    update!(disc_opt, ps, grad)
+    update!(disc_opt, ps, grads)
     return loss
 end
 ```
@@ -264,12 +260,11 @@ function train_generator!(gen, disc, x, gen_opt, hparams)
     noise = randn!(similar(x, (hparams.latent_dim, hparams.batch_size))) 
     ps = Flux.params(gen)
 
-    loss, back = Flux.pullback(ps) do
+    loss, grads = Flux.withgradient(ps) do
         generator_loss(disc(gen(noise)))
     end
 
-    grad = back(one(loss))
-    update!(gen_opt, ps, grad)
+    update!(gen_opt, ps, grads)
     return loss
 end
 ```
@@ -342,7 +337,7 @@ The generated images are stored inside the `output` folder. To visualize the out
 
 ```julia
 folder = "output"
-img_paths = [img_path for img_path in readdir(folder, join=true)]
+img_paths = readdir(folder, join=true)
 images = load.(img_path)
 gif_mat = cat(d..., dims=3)
 save("./output.gif", a)
