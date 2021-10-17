@@ -5,12 +5,12 @@ layout: blog
 tag: Generative Adversarial Neural Networks
 ---
 
-This is a beginner level tutorial for generating images of hand-written digits using a [Deep Convolutional Generative Adverserial Network](https://arxiv.org/pdf/1511.06434.pdf) and is largely influenced by the [TensorFlow tutorial on DCGAN](https://www.tensorflow.org/tutorials/generative/dcgan).
+This is a beginner level tutorial for generating images of handwritten digits using a [Deep Convolutional Generative Adversarial Network](https://arxiv.org/pdf/1511.06434.pdf) and is largely influenced by the [TensorFlow tutorial on DCGAN](https://www.tensorflow.org/tutorials/generative/dcgan).
 
 ## What are GANs?
-[Generative Adverserial Neural Netoworks or simply GANs](https://arxiv.org/abs/1406.2661) introduced by Goodfellow et al. is one of the most innovative ideas in modern-day machine learning. GANs are used extensively in the field of image and audio processing to generate high-quality synthetic data that can easily be passed off as real data.
+[Generative Adversarial Neural Networks or simply GANs](https://arxiv.org/abs/1406.2661) introduced by Goodfellow et al. is one of the most innovative ideas in modern-day machine learning. GANs are used extensively in the field of image and audio processing to generate high-quality synthetic data that can easily be passed off as real data.
 
-A GAN is composed of two sub-models acting against one another. One of the sub-models is a **generator** and the other one is called a **discriminator**. The generator can be considered as an artist who draws(generates) new images that look real, whereas the discriminator is a critic who learns to tell real images apart from fakes.
+A GAN is composed of two sub-models - the **generator** and the **discriminator** acting against one another. The generator can be considered as an artist who draws(generates) new images that look real, whereas the discriminator is a critic who learns to tell real images apart from fakes.
 
 <img src="/assets/2021-10-8-dcgan-mnist/cat_gan.png">
 
@@ -19,6 +19,7 @@ The GAN starts off with a generator and discriminator which have very little or 
 <img src="https://www.tensorflow.org/tutorials/generative/images/gan2.png" width="70%">
 
 This tutorial demonstrates the usage of GAN's leveraging the MNIST dataset. The following animation shows a series of images produced by the generator as it was trained for 25 epochs. The images begin as random noise, but over time, the images become increasingly similar to handwritten numbers.
+
 <br><br>
 <p align="center">
 <img src="/assets/2021-10-8-dcgan-mnist/output.gif" align="middle" width="200">
@@ -71,15 +72,15 @@ end
 We will be using the [MNIST](http://yann.lecun.com/exdb/mnist/) dataset for hand written digits. You can find out more about loading images in Flux by reading [this tutorial](https://fluxml.ai/tutorials/2021/01/21/data-loader.html).
 
 ```julia
-function load_images(hparams::HyperParams)
+function load_MNIST_images(hparams::HyperParams)
     images = MNIST.traintensor(Float32)
-    N = size(images)[end] # Save the number of images, usually N = 60000
+    N = size(images)[end] # Save the number of images, N = 60000
 
     # Normalize to [-1, 1]
     normalized_images = @.(2f0 * images - 1f0);
     image_tensor = reshape(normalized_images, 28, 28, 1, :);
 
-    # Parition the image tensor into batche using Flux dataloader.
+    # Parition the image tensor into batches
     dataloader = Flux.DataLoader(image_tensor, batchsize=hparams.batch_size, shuffle=true)
 
     return dataloader
@@ -127,7 +128,7 @@ function Generator(latent_dim)
 end
 ```
 <br>
-Time for a small test!! We will feed a random vector as a seed to the generator to check if our model is working:
+Time for a small test!! We create a dummy generator and feed a random vector as a seed to the generator. If our generator is initialized correctly it will return an array of size (28, 28, 1, `batch_size`). The `@assert` macro in julia will raise an exception for the wrong output size.
 
 ```julia
 # Create a dummy generator of latent dim 100
@@ -140,12 +141,12 @@ image = gen(noise)
 ```
 
 <br>
-Our generator model is yet to learn the correct weights, so it does not give us a recognizeable image for now. To train our poor generator we need its equal rival, the *discriminator*.
+Our generator model is yet to learn the correct weights, so it does not produce a recognizable image for now. To train our poor generator we need its equal rival, the *discriminator*.
 <br>
 
 ### Discriminator
 
-The Disciminator is a simple CNN based image classifier. For a more detailed implementaion refer to [this tutorial](). 
+The Discriminator is a simple CNN based image classifier. For a more detailed implementation refer to [this tutorial](https://fluxml.ai/tutorials/2021/02/07/convnet.html). 
 
 ```julia
 function Discriminator()
@@ -167,7 +168,7 @@ end
 Now let us check if our discriminator is working:
 
 ```julia
-# Dummy Disc
+# Dummy Discriminator
 disc = Discriminator()
 results = disc(image)
 @assert size(results) == (1, 3)
@@ -180,7 +181,7 @@ Just like the generator, the untrained discriminator has no idea about what is a
 
 In GAN problems, there are only two labels, fake and real, so we will be using `BinaryCrossEntropy` as a preliminary loss function. 
 
-Flux's `binarycrossentropy` does the job for us. But due to numerical stability, it is always preferred to compute cross-entropy using logits. Flux provides [logitbinarycrossentropy](https://fluxml.ai/Flux.jl/stable/models/losses/#Flux.Losses.logitbinarycrossentropy) specifically for this purpose. Mathematically it equivalent to `binarycrossentropy(σ(ŷ), y, kwargs...).`
+Flux's `binarycrossentropy` does the job for us. But due to numerical stability, it is always preferred to compute cross-entropy using logits. Flux provides [logitbinarycrossentropy](https://fluxml.ai/Flux.jl/stable/models/losses/#Flux.Losses.logitbinarycrossentropy) specifically for this purpose. Mathematically it is equivalent to `binarycrossentropy(σ(ŷ), y, kwargs...).`
 <br>
 
 ### Discriminator Loss
@@ -232,7 +233,7 @@ end
 
 ## Training
 
-For the sake of simplifying our training problem, we will divide the generator and discriminator training into two individual functions. 
+For the sake of simplifying our training problem, we will divide the generator and discriminator training into two separate functions. 
 
 ```julia
 function train_discriminator!(gen, disc, x, disc_opt, hparams)
@@ -256,7 +257,7 @@ function train_discriminator!(gen, disc, x, disc_opt, hparams)
 end
 ```
 <br>
-Now, we define a similar function for generator.
+Now, we define a similar function for the generator.
 
 ```julia
 function train_generator!(gen, disc, x, gen_opt, hparams)
@@ -274,7 +275,7 @@ end
 ```
 <br>
 
-Now that we defined almost everything we need, we integrate everything into the `train` function. 
+Now that we defined almost everything we need, we can integrate everything into a single `train` function. 
 
 ```julia
 function train(hparams)
@@ -337,7 +338,7 @@ train(hparams)
 ```
 
 ## Output
-The generated images are stored inside the `output` folder. To visualize the output of the generator over time, we create gif of the generate images.
+The generated images are stored inside the `output` folder. To visualize the output of the generator over time, we create a gif of the generated images.
 
 ```julia
 folder = "output"
