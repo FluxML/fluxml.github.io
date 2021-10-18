@@ -7,10 +7,20 @@ tag: Learning Flux
 
 This tutorial describes how to implement a vanilla Generative Adversarial
 Network using Flux and how train it on the MNIST dataset. It is based on this
-[Pytorch tutorial](https://medium.com/ai-society/gans-from-scratch-1-a-deep-introduction-with-code-in-pytorch-and-tensorflow-cb03cdcdba0f). The original GAN [paper](https://arxiv.org/abs/1406.2661) by Goodfellow et al. is also a great resource that describes the motivation and
-theory behind GANs.
+[Pytorch tutorial](https://medium.com/ai-society/gans-from-scratch-1-a-deep-introduction-with-code-in-pytorch-and-tensorflow-cb03cdcdba0f). The original GAN [paper](https://arxiv.org/abs/1406.2661) by Goodfellow et al. is a great resource that describes the motivation and theory behind GANs:
 
-Let's get started and import a few useful packages:
+```
+In the proposed adversarial nets framework, the generative model is pitted against an adversary: a
+discriminative model that learns to determine whether a sample is from the model distribution or the
+data distribution. The generative model can be thought of as analogous to a team of counterfeiters,
+trying to produce fake currency and use it without detection, while the discriminative model is
+analogous to the police, trying to detect the counterfeit currency. Competition in this game drives
+both teams to improve their methods until the counterfeits are indistiguishable from the genuine
+articles.
+```
+
+Let's implement a GAN in Flux. To get started we first import a few useful packages:
+
 
 ```julia
 using MLDatasets: MNIST
