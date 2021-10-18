@@ -21,38 +21,49 @@ using Zygote
 using UnicodePlots
 ```
 
+To download a package in the Julia REPL, type `]` to enter package mode and then
+type `add MLDatasets` or perform this operation with the Pkg module like this
+
+```julia
+> import Pkg
+> Pkg.add(MLDatasets)
+```
+
 While [UnicodePlots]() is not necessary, it can be used to plot generated samples
-into the terminal during training. And having direct feedback, instead of looking
+into the terminal during training. Having direct feedback, instead of looking
 at plots in a separate window, use fantastic for debugging.
 
 <br>
 
 Next, let us define values for learning rate, batch size, epochs, and other
-parameters. While we are at it, we also define optimizers for the generator
-and discriminator network.
+hyperparameters. While we are at it, we also define optimizers for the generator
+and discriminator network. More on what these are later.
 
 ```julia
-    η_g = 2e-4          # Learning rate of the generator network
-    η_d = 2e-4          # Learning rate of the discriminator network
+    lr_g = 2e-4          # Learning rate of the generator network
+    lr_d = 2e-4          # Learning rate of the discriminator network
     batch_size = 128    # batch size
     num_epochs = 1000   # Number of epochs to train for
     output_period = 100 # Period length for plots of generator samples
     n_features = 28 * 28# Number of pixels in each sample of the MNIST dataset
     latent_dim = 100    # Dimension of latent space
-    opt_dscr = ADAM(η_d)# Optimizer for the discriminator
-    opt_gen = ADAM(η_g) # Optimizer for the generator
+    opt_dscr = ADAM(lr_d)# Optimizer for the discriminator
+    opt_gen = ADAM(lr_g) # Optimizer for the generator
 ```
 
 <br>
 
 In this tutorial I'm assuming that a CUDA-enabled GPU is available on the
 system where the script is running. If this is not the case, simploy remove
-the `|>gpu` decorators.
+the `|>gpu` decorators: [piping](https://docs.julialang.org/en/v1/manual/functions/#Function-composition-and-piping).
 
 ## Data loading
 The MNIST data set is available from [MLDatasets](https://juliaml.github.io/MLDatasets.jl/latest/). The first time you instantiate it you will be prompted
-if you want to download it. Affirm this. GANs can be trained unsupervised, we
-therefore only keep the images from the training set and discard the labels.
+if you want to download it. Yo. GANs cau should agree to this. 
+
+GANs can be trained unsupervised. Therefore only keep the images from the training
+set and discard the labels.
+
 After we load the training data we re-scale the data from values in [0:1]
 to values in [-1:1]. GANs are notoriously tricky to train and this re-scaling
 is a recommended [GAN hack](https://github.com/soumith/ganhacks). The 
@@ -72,12 +83,15 @@ and shuffling the data.
 
 ## Defining the Networks
 
-A vanilla GAN, the discriminator and the generator are both plain feed-forward 
-mulitlayer perceptrons. We use leaky rectified linear units [leakyrelu](https://fluxml.ai/Flux.jl/stable/models/nnlib/#NNlib.leakyrelu) as non-linearities. 
-Here the coefficient α is set to 0.2. Empirically, this value allows for
-good training of the network. It has also been found empirically that Dropout
-ensures a good generalization of the learned network. As a final non-linearity
-we use a sigmoid.
+
+A vanilla GAN, the discriminator and the generator are both plain, [feed-forward 
+multilayer perceptrons](https://boostedml.com/2020/04/feedforward-neural-networks-and-multilayer-perceptrons.html). We use leaky rectified linear units [leakyrelu](https://fluxml.ai/Flux.jl/stable/models/nnlib/#NNlib.leakyrelu) to ensure out model is non-linear. 
+
+Here, the coefficient `α` (in the `leakyrelu` below), is set to 0.2. Empirically,  
+this value allows forgood training of the network (based on prior experiments). 
+It has also been found that Dropout ensures a good generalization of the learned 
+network, so we will use that below. As a final non-linearity, we use the `sigmoid` 
+activation function.
 
 ```julia
 discriminator = Chain(Dense(n_features, 1024, x -> leakyrelu(x, 0.2f0)),
@@ -90,9 +104,10 @@ discriminator = Chain(Dense(n_features, 1024, x -> leakyrelu(x, 0.2f0)),
 ```
 
 Let's define the generator in a similar fashion. This network maps a latent
-variable to the image space and we set the input and output dimension
-accordingly. A `tanh` squashes the output of the final layer to values in
-[-1:1], the same range that we squashed the training data onto.
+variable (a variable that is not directly observed but instead inferred) to the 
+image space and we set the input and output dimension accordingly. A `tanh` squashes 
+the output of the final layer to values in [-1:1], the same range that we squashed 
+the training data onto.
 
 ```julia
 generator = Chain(Dense(latent_dim, 256, x -> leakyrelu(x, 0.2f0)),
