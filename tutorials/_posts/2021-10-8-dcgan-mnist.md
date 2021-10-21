@@ -213,8 +213,8 @@ generator_loss(fake_output) = logitbinarycrossentropy(fake_output, 1)
 We also need optimizers for our network. Why you may ask? Read more [here](https://towardsdatascience.com/overview-of-various-optimizers-in-neural-networks-17c1be2df6d5). For both the generator and discriminator, we will use the [ADAM optimizer](https://fluxml.ai/Flux.jl/stable/training/optimisers/#Flux.Optimise.ADAM).
 
 ```julia
-disc_opt = ADAM(hparam.disc_lr)
-gen_opt = ADAM(hparam.gen_lr)
+disc_opt = ADAM(0.0002)
+gen_opt = ADAM(0.0002)
 ```
 
 ## Utility functions
