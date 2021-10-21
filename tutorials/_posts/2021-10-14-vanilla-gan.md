@@ -249,7 +249,10 @@ end
 
 For the hyperparameters shown in this example, the generator produces useful
 images after about 1000 epochs. And after about 5000 epochs the result look
-indistinguishable from real MNIST data.
+indistinguishable from real MNIST data. Taining 100 epochs takes about
+80 seconds on a Power9 CPU with NVidia V100 GPU, the GPU utilization is 
+between 30 and 40%. So training may take a while. To observer the network
+more frequently during training you can for example set `output_period=20`.
 
 ## Resources
 
