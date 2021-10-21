@@ -223,7 +223,7 @@ for n in 1:num_epochs
         real_data = flatten(x);
 
         # Train the discriminator
-        noise = randn(latent_dim, this_batch) |> gpu
+        noise = randn(latent_dim, size(x)[end]) |> gpu
         fake_data = generator(noise)
         loss_dscr = train_dscr!(discriminator, real_data, fake_data)
         loss_sum_dscr += loss_dscr
