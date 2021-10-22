@@ -5,7 +5,7 @@ layout: blog
 tag: Generative Adversarial Neural Networks
 ---
 
-This is a beginner level tutorial for generating images of handwritten digits using a [Deep Convolutional Generative Adversarial Network](https://arxiv.org/pdf/1511.06434.pdf) influenced by the [TensorFlow tutorial on DCGAN](https://www.tensorflow.org/tutorials/generative/dcgan).
+This is a beginner level tutorial for generating images of handwritten digits using a [Deep Convolutional Generative Adversarial Network](https://arxiv.org/pdf/1511.06434.pdf) inspired by the [TensorFlow tutorial on DCGAN](https://www.tensorflow.org/tutorials/generative/dcgan).
 
 ## What are GANs?
 [Generative Adversarial Neural Networks or simply GANs](https://arxiv.org/abs/1406.2661) introduced by Goodfellow et al. is one of the most innovative ideas in modern-day machine learning. GANs are used extensively in the field of image and audio processing to generate high-quality synthetic data that can easily be passed off as real data.
@@ -38,7 +38,6 @@ using Pkg
 Pkg.activate(".")
 # Add the required packages to the environment
 Pkg.add(["Images", "Flux", "MLDatasets", "CUDA", "Parameters"])
-end
 ```
 *Note: Depending on your internet speed, it may take a few minutes for the packages install.*
 
@@ -47,15 +46,15 @@ After installing the libraries, load the required packages and functions:
 ```julia
 using Base.Iterators: partition
 using Printf
+using Statistics
 using Random
 using Images
 using Parameters: @with_kw
 using Flux
-using Flux: DataLoader
+using Flux.Data: DataLoader
 using Flux.Optimise: update!
 using Flux.Losses: logitbinarycrossentropy
 using MLDatasets: MNIST
-using Statistics
 using CUDA
 ```
 <br>
@@ -77,14 +76,14 @@ end
 ## Loading the data
 As mentioned before, we will be using the MNIST dataset for handwritten digits. So we begin with a simple function for loading and pre-processing the MNIST images:
 ```julia
-function load_MNIST_images(hparams::HyperParams)
+function load_MNIST_images(hparams)
     images = MNIST.traintensor(Float32)
 
-    # Normalize to [-1, 1]
+    # Normalize the images to (-1, 1)
     normalized_images = @. 2f0 * images - 1f0
     image_tensor = reshape(normalized_images, 28, 28, 1, :)
 
-    # 
+    # Create a dataloader that iterates over mini-batches of the image tensor
     dataloader = DataLoader(image_tensor, batchsize=hparams.batch_size, shuffle=true)
 
     return dataloader
@@ -112,8 +111,8 @@ We will also apply the weight initialization method mentioned in the original DC
 
 ```julia
 # Function for intializing the model weights with values 
-# sampled from Normal distribution with μ=0 and σ=0.02
-dcgan_init(shape...) = randn(Float32, shape...) * 0.02f0
+# sampled from a Gaussian distribution with μ=0 and σ=0.02
+dcgan_init(shape...) = randn(Float32, shape) * 0.02f0
 ```
 <br>
 ```julia
@@ -127,10 +126,11 @@ function Generator(latent_dim)
         ConvTranspose((5, 5), 256 => 128; stride = 1, pad = 2, init = dcgan_init, bias=false),
         BatchNorm(128, relu),
 
-        ConvTranspose((5, 5), 128 => 64; stride = 2, pad = 2, init = dcgan_init, bias=false),
+        ConvTranspose((4, 4), 128 => 64; stride = 2, pad = 1, init = dcgan_init, bias=false),
         BatchNorm(64, relu),
 
-        ConvTranspose((5, 5), 64 => 1, tanh; stride = 2, pad = 2, init = dcgan_init, bias=false),
+        # The tanh activation ensures that output is in range of (-1, 1)
+        ConvTranspose((4, 4), 64 => 1, tanh; stride = 2, pad = 1, init = dcgan_init, bias=false),
     )
 end
 ```
@@ -139,12 +139,12 @@ Time for a small test!! We create a dummy generator and feed a random vector as 
 
 ```julia
 # Create a dummy generator of latent dim 100
-gen = Generator(100)
+generator = Generator(100)
 noise = randn(Float32, 100, 3) # The last axis is the batch size
 
 # Feed the random noise to the generator
-image = gen(noise)
-@assert size(image) == (28, 28, 1, 3)
+gen_image = generator(noise)
+@assert size(gen_image) == (28, 28, 1, 3)
 ```
 
 <br>
@@ -159,16 +159,17 @@ The Discriminator is a simple CNN based image classifier. The `Conv` layer a is 
 ```julia
 function Discriminator()
     Chain(
-        Conv((5, 5), 1 => 64; stride = 2, pad = 1, init = dcgan_init),
+        Conv((4, 4), 1 => 64; stride = 2, pad = 1, init = dcgan_init),
         x->leakyrelu.(x, 0.2f0),
         Dropout(0.3),
 
-        Conv((5, 5), 64 => 128; stride = 2, pad = 1, init = dcgan_init),
+        Conv((4, 4), 64 => 128; stride = 2, pad = 1, init = dcgan_init),
         x->leakyrelu.(x, 0.2f0),
         Dropout(0.3),
 
+        # The output is now of the shape (7, 7, 128, batch_size)
         flatten,
-        Dense(7 * 7 * 128, 1)
+        Dense(7 * 7 * 128, 1) 
     )
 end
 ```
@@ -178,24 +179,24 @@ Now let us check if our discriminator is working:
 
 ```julia
 # Dummy Discriminator
-disc = Discriminator()
+discriminator = Discriminator()
 # We pass the generated image to the discriminator
-results = disc(image)
-@assert size(results) == (1, 3)
+logits = discriminator(gen_image)
+@assert size(logits) == (1, 3)
 ```
 <br>
 Just like our dummy generator, the untrained discriminator has no idea about what is a real or fake image. It needs to be trained alongside the generator to output positive values for real images, and negative values for fake images.
 
 ## Loss functions for GAN
 
-In a GAN problem, there are only two labels involved: fake and real. So Binary CrossEntropy becomes an easy choice for a preliminary loss function. 
+In a GAN problem, there are only two labels involved: fake and real. So Binary CrossEntropy is an easy choice for a preliminary loss function. 
 
 But even if Flux's `binarycrossentropy` does the job for us, due to numerical stability it is always preferred to compute cross-entropy using logits. Flux provides [logitbinarycrossentropy](https://fluxml.ai/Flux.jl/stable/models/losses/#Flux.Losses.logitbinarycrossentropy) specifically for this purpose. Mathematically it is equivalent to `binarycrossentropy(σ(ŷ), y, kwargs...).`
 <br>
 
 ### Discriminator Loss
 
-The discriminator loss quantifies how well the discriminator can to distinguish real images from fakes. It compares 
+The discriminator loss quantifies how well the discriminator can distinguish real images from fakes. It compares 
 
 - discriminator's predictions on real images to an array of 1s, and
 - discriminator's predictions on fake (generated) images to an array of 0s.
@@ -226,7 +227,7 @@ The output of the generator ranges from (-1, 1), so it needs to be de-normalized
 
 ```julia
 function create_output_image(gen, fixed_noise, hparams)
-    fake_images = cpu(gen(fixed_noise))
+    fake_images = @. cpu(gen(fixed_noise))
     image_array = reduce(vcat, reduce.(hcat, partition(fake_images, hparams.output_dim)))
     image_array = permutedims(dropdims(image_array; dims=(3, 4)), (2, 1))
     image_array = @. Gray(image_array + 1f0) / 2f0
@@ -239,42 +240,34 @@ end
 For the sake of simplifying our training problem, we will divide the generator and discriminator training into two separate functions. 
 
 ```julia
-function train_discriminator!(gen, disc, x, disc_opt, hparams)
-    # Generate a noise of type similar to x
-    noise = randn!(similar(x, (hparams.latent_dim, hparams.batch_size))) 
-    # Generate noise
-    fake_input = gen(noise)
+function train_discriminator!(gen, disc, real_img, fake_img, opt, ps, hparams)
 
-    ps = Flux.params(disc)
-
-    loss, grads = Flux.withgradient(ps) do
-        discriminator_loss(disc(x), disc(fake_input))
+    disc_loss, grads = Flux.withgradient(ps) do
+        discriminator_loss(disc(real_img), disc(fake_img))
     end
 
     # Update the discriminator parameters
-    update!(disc_opt, ps, grads)
-    return loss
+    update!(opt, ps, grads)
+    return disc_loss
 end
 ```
 <br>
 We define a similar function for the generator.
 
 ```julia
-function train_generator!(gen, disc, x, gen_opt, hparams)
-    noise = randn!(similar(x, (hparams.latent_dim, hparams.batch_size))) 
-    ps = Flux.params(gen)
+function train_generator!(gen, disc, fake_img, opt, ps, hparams)
 
-    loss, grads = Flux.withgradient(ps) do
-        generator_loss(disc(gen(noise)))
+    gen_loss, grads = Flux.withgradient(gen_ps) do
+        generator_loss(disc(fake_img))
     end
 
-    update!(gen_opt, ps, grads)
-    return loss
+    update!(opt, ps, grads)
+    return gen_loss
 end
 ```
 <br>
 
-Now that we have defined every function we need, we integrate everything into a single `train` function.
+Now that we have defined every function we need, we integrate everything into a single `train` function where we first set up all the models and optimizers and then train the GAN for a specified number of epochs.
 
 ```julia
 function train(hparams)
@@ -295,22 +288,35 @@ function train(hparams)
     disc = Discriminator() |> dev
     gen =  Generator(hparams.latent_dim) |> dev
 
+    # Collect the generator and discriminator parameters
+    disc_ps = params(disc)
+    gen_ps = params(gen)
+
     # Initialize the ADAM optimizers for both the sub-models
+    # with respective learning rates
     opt_dscr = ADAM(hparams.disc_lr)
     opt_gen = ADAM(hparams.gen_lr)
 
     # Create a batch of fixed noise for visualizing the training of generator over time
     fixed_noise = [randn(Float32, hparams.latent_dim, 1) |> dev for _=1:hparams.output_dim^2]
 
-    # Training
+    # Training loop
     train_steps = 0
     for ep in 1:hparams.epochs
         @info "Epoch $ep"
-        for x in dataloader
-            x = x |> dev
+        for real_img in dataloader
+
+            # Transfer the data to the GPU
+            real_img = real_img |> dev
+
+            # Create a random noise
+            noise = randn!(similar(real_img, (hparams.latent_dim, hparams.batch_size)))
+            # Pass the noise to the generator to create a fake imagae
+            fake_img = gen(noise)
+
             # Update discriminator and generator
-            loss_disc = train_discriminator!(gen, disc, x, disc_opt, hparams)
-            loss_gen = train_generator!(gen, disc, x, gen_opt, hparams)
+            loss_disc = train_discriminator!(gen, disc, real_img, fake_img, disc_opt, disc_ps, hparams)
+            loss_gen = train_generator!(gen, disc, fake_img, gen_opt, gen_ps, hparams)
 
             if train_steps % hparams.verbose_freq == 0
                 @info("Train step $(train_steps), Discriminator loss = $(loss_disc), Generator loss = $(loss_gen)")
