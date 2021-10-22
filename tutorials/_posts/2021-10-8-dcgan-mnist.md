@@ -227,7 +227,7 @@ The output of the generator ranges from (-1, 1), so it needs to be de-normalized
 
 ```julia
 function create_output_image(gen, fixed_noise, hparams)
-    fake_images = @. cpu(gen(fixed_noise))
+    fake_images = cpu(gen.(fixed_noise))
     image_array = reduce(vcat, reduce.(hcat, partition(fake_images, hparams.output_dim)))
     image_array = permutedims(dropdims(image_array; dims=(3, 4)), (2, 1))
     image_array = @. Gray(image_array + 1f0) / 2f0
