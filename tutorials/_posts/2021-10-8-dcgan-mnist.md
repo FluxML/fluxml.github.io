@@ -5,20 +5,22 @@ layout: blog
 tag: Generative Adversarial Neural Networks
 ---
 
-This is a beginner level tutorial for generating images of handwritten digits using a [Deep Convolutional Generative Adversarial Network](https://arxiv.org/pdf/1511.06434.pdf) and is largely influenced by the [TensorFlow tutorial on DCGAN](https://www.tensorflow.org/tutorials/generative/dcgan).
+This is a beginner level tutorial for generating images of handwritten digits using a [Deep Convolutional Generative Adversarial Network](https://arxiv.org/pdf/1511.06434.pdf) influenced by the [TensorFlow tutorial on DCGAN](https://www.tensorflow.org/tutorials/generative/dcgan).
 
 ## What are GANs?
 [Generative Adversarial Neural Networks or simply GANs](https://arxiv.org/abs/1406.2661) introduced by Goodfellow et al. is one of the most innovative ideas in modern-day machine learning. GANs are used extensively in the field of image and audio processing to generate high-quality synthetic data that can easily be passed off as real data.
 
-A GAN is composed of two sub-models - the **generator** and the **discriminator** acting against one another. The generator can be considered as an artist who draws(generates) new images that look real, whereas the discriminator is a critic who learns to tell real images apart from fakes.
+A GAN is composed of two sub-models - the **generator** and the **discriminator** acting against one another. The generator can be considered as an artist who draws (generates) new images that look real, whereas the discriminator is a critic who learns to tell real images apart from fakes.
 
 <img src="/assets/2021-10-8-dcgan-mnist/cat_gan.png">
 
-The GAN starts off with a generator and discriminator which have very little or no idea about the underlying data. During training, the generator progressively becomes better at creating images that look real, while the discriminator becomes better at telling them apart. The process reaches equilibrium when the discriminator can no longer distinguish real images from fakes.
+The GAN starts with a generator and discriminator which have very little or no idea about the underlying data. During training, the generator progressively becomes better at creating images that look real, while the discriminator becomes better at telling them apart. The process reaches equilibrium when the discriminator can no longer distinguish real images from fakes.
 
 <img src="https://www.tensorflow.org/tutorials/generative/images/gan2.png" width="70%">
+<br>
+[[source]](https://www.tensorflow.org/tutorials/generative/dcgan)
 
-This tutorial demonstrates the usage of GAN's leveraging the MNIST dataset. The following animation shows a series of images produced by the generator as it was trained for 25 epochs. The images begin as random noise, but over time, the images become increasingly similar to handwritten numbers.
+This tutorial demonstrates the process of training a DC-GAN on the [MNIST dataset for handwritten digits](http://yann.lecun.com/exdb/mnist/). The following animation shows a series of images produced by the generator as it was trained for 25 epochs. The images begin as random noise, but over time, the images become increasingly similar to handwritten numbers.
 
 <br><br>
 <p align="center">
@@ -27,17 +29,19 @@ This tutorial demonstrates the usage of GAN's leveraging the MNIST dataset. The 
 
 ## Setup
 
-We need to install some Julia Packages before we start with our implementation of DCGAN. Since this tutorial is aligned with the [DCGAN implementation in Model-Zoo](https://github.com/FluxML/model-zoo/tree/master/vision/dcgan_mnist), it is recommended to initialize your working environment using the [Project.toml](https://github.com/FluxML/model-zoo/blob/master/vision/dcgan_mnist/Project.toml) instead of installing dependencies manually.
+We need to install some Julia packages before we start with our implementation of DCGAN.
 
-Using the Julia REPL:
 ```julia
-toml_link = "https://raw.githubusercontent.com/FluxML/model-zoo/master/vision/dcgan_mnist/Project.toml"
-download(toml_link, "./Project.toml")
-
 using Pkg
+
+# Activate a new project environment in the current directory
 Pkg.activate(".")
-Pkg.instantiate()
+# Add the required packages to the environment
+Pkg.add(["Images", "Flux", "MLDatasets", "CUDA", "Parameters"])
+end
 ```
+*Note: Depending on your internet speed, it may take a few minutes for the packages install.*
+
 <br>
 After installing the libraries, load the required packages and functions:
 ```julia
@@ -47,6 +51,7 @@ using Random
 using Images
 using Parameters: @with_kw
 using Flux
+using Flux: DataLoader
 using Flux.Optimise: update!
 using Flux.Losses: logitbinarycrossentropy
 using MLDatasets: MNIST
@@ -54,7 +59,8 @@ using Statistics
 using CUDA
 ```
 <br>
-Now we set default values for the learning rates, batch size, epochs, the usage of a GPU (if available) and other hyperparameters for our model:
+Now we set default values for the learning rates, batch size, epochs, the usage of a GPU (if available) and other hyperparameters for our model.
+
 ```julia
 @with_kw struct HyperParams
     batch_size::Int = 128
@@ -69,25 +75,24 @@ end
 ```
 
 ## Loading the data
-We will be using the [MNIST](http://yann.lecun.com/exdb/mnist/) dataset for hand written digits. You can find out more about loading images in Flux by reading [this tutorial](https://fluxml.ai/tutorials/2021/01/21/data-loader.html).
-
+As mentioned before, we will be using the MNIST dataset for handwritten digits. So we begin with a simple function for loading and pre-processing the MNIST images:
 ```julia
 function load_MNIST_images(hparams::HyperParams)
     images = MNIST.traintensor(Float32)
-    N = size(images)[end] # Save the number of images, N = 60000
 
     # Normalize to [-1, 1]
     normalized_images = @. 2f0 * images - 1f0
     image_tensor = reshape(normalized_images, 28, 28, 1, :)
 
-    # Parition the image tensor into batches
-    dataloader = Flux.Data.DataLoader(image_tensor, batchsize=hparams.batch_size, shuffle=true)
+    # 
+    dataloader = DataLoader(image_tensor, batchsize=hparams.batch_size, shuffle=true)
 
     return dataloader
 end
 ```
-<br>
-*Note: The data returned from the dataloader is loaded is on the CPU. If you plan to use GPU, we need to put the data to the GPU before/during training.*
+To learn more about loading images in Flux, you can check out [this tutorial](https://fluxml.ai/tutorials/2021/01/21/data-loader.html).
+
+*Note: The data returned from the dataloader is loaded is on the CPU. To train on the GPU, we need to transfer the data to the GPU beforehand.*
 
 ## Create the models
 
@@ -96,15 +101,18 @@ end
 
 Our generator, a.k.a. the artist, is a neural network that maps low dimensional data to a high dimensional form.
 
-- This low dimensional data(seed) is generally a vector of random values sampled from a normal distribution.
-- The high dimensional data here is the generated image.
+- This low dimensional data (seed) is generally a vector of random values sampled from a normal distribution.
+- The high dimensional data is the generated image.
 
-The [Flux.ConvTranspose](https://fluxml.ai/Flux.jl/stable/models/layers/#Flux.ConvTranspose) function is used for the upsampling process. The Dense layer is used for taking the seed as input and then it is upsampled several times until we reach the desired output size (in our case, 28x28x1).
+The `Dense` layer is used for taking the seed as an input which is upsampled several times using the [ConvTranspose](https://fluxml.ai/Flux.jl/stable/models/layers/#Flux.ConvTranspose) layer until we reach the desired output size (in our case, 28x28x1). Furthermore, after each `ConvTranspose` layer, we apply the Batch Normalization to stabilize the learning process.
 
-We will be using the [leakyrelu](https://fluxml.ai/Flux.jl/stable/models/nnlib/#NNlib.leakyrelu) activation function for each layer except the output layer, where we use `tanh`. We will also be using the weight initialization mentioned in the original DCGAN paper.
+We will be using the [relu](https://fluxml.ai/Flux.jl/stable/models/nnlib/#NNlib.relu) activation function for each layer except the output layer, where we use `tanh` activation.
+
+We will also apply the weight initialization method mentioned in the original DCGAN paper.
 
 ```julia
-# Function for intializing the generator weights
+# Function for intializing the model weights with values 
+# sampled from Normal distribution with μ=0 and σ=0.02
 dcgan_init(shape...) = randn(Float32, shape...) * 0.02f0
 ```
 <br>
@@ -116,18 +124,18 @@ function Generator(latent_dim)
 
         x -> reshape(x, 7, 7, 256, :),
 
-        ConvTranspose((5, 5), 256 => 128; stride = 1, pad = SamePad(), init = dcgan_init, bias=false),
+        ConvTranspose((5, 5), 256 => 128; stride = 1, pad = 2, init = dcgan_init, bias=false),
         BatchNorm(128, relu),
 
-        ConvTranspose((5, 5), 128 => 64; stride = 2, pad = SamePad(), init = dcgan_init, bias=false),
+        ConvTranspose((5, 5), 128 => 64; stride = 2, pad = 2, init = dcgan_init, bias=false),
         BatchNorm(64, relu),
 
-        ConvTranspose((5, 5), 64 => 1, tanh; stride = 2, pad = SamePad(), init = dcgan_init, bias=false),
+        ConvTranspose((5, 5), 64 => 1, tanh; stride = 2, pad = 2, init = dcgan_init, bias=false),
     )
 end
 ```
 <br>
-Time for a small test!! We create a dummy generator and feed a random vector as a seed to the generator. If our generator is initialized correctly it will return an array of size (28, 28, 1, `batch_size`). The `@assert` macro in julia will raise an exception for the wrong output size.
+Time for a small test!! We create a dummy generator and feed a random vector as a seed to the generator. If our generator is initialized correctly it will return an array of size (28, 28, 1, `batch_size`). The `@assert` macro in Julia will raise an exception for the wrong output size.
 
 ```julia
 # Create a dummy generator of latent dim 100
@@ -142,55 +150,57 @@ image = gen(noise)
 <br>
 Our generator model is yet to learn the correct weights, so it does not produce a recognizable image for now. To train our poor generator we need its equal rival, the *discriminator*.
 <br>
+<br>
 
 ### Discriminator
 
-The Discriminator is a simple CNN based image classifier. For a more detailed implementation refer to [this tutorial](https://fluxml.ai/tutorials/2021/02/07/convnet.html). 
+The Discriminator is a simple CNN based image classifier. The `Conv` layer a is used with a [leakyrelu](https://fluxml.ai/Flux.jl/stable/models/nnlib/#NNlib.leakyrelu) activation function. 
 
 ```julia
 function Discriminator()
     Chain(
-        Conv((5, 5), 1 => 64; stride = 2, pad = SamePad(), init = dcgan_init),
+        Conv((5, 5), 1 => 64; stride = 2, pad = 1, init = dcgan_init),
         x->leakyrelu.(x, 0.2f0),
         Dropout(0.3),
 
-        Conv((5, 5), 64 => 128; stride = 2, pad = SamePad(), init = dcgan_init),
+        Conv((5, 5), 64 => 128; stride = 2, pad = 1, init = dcgan_init),
         x->leakyrelu.(x, 0.2f0),
         Dropout(0.3),
 
-        x->reshape(x, 7 * 7 * 128, :),
+        flatten,
         Dense(7 * 7 * 128, 1)
     )
 end
 ```
-<br>
+For a more detailed implementation of a CNN-based image classifier, you can refer to [this tutorial](https://fluxml.ai/tutorials/2021/02/07/convnet.html).
+
 Now let us check if our discriminator is working:
 
 ```julia
 # Dummy Discriminator
 disc = Discriminator()
+# We pass the generated image to the discriminator
 results = disc(image)
 @assert size(results) == (1, 3)
 ```
 <br>
+Just like our dummy generator, the untrained discriminator has no idea about what is a real or fake image. It needs to be trained alongside the generator to output positive values for real images, and negative values for fake images.
 
-Just like the generator, the untrained discriminator has no idea about what is a real or fake image. It is trained alongside the generator to output positive values for real images, and negative values for fake images.
+## Loss functions for GAN
 
-## Loss function for GAN
+In a GAN problem, there are only two labels involved: fake and real. So Binary CrossEntropy becomes an easy choice for a preliminary loss function. 
 
-In GAN problems, there are only two labels, fake and real, so we will be using `BinaryCrossEntropy` as a preliminary loss function. 
-
-Flux's `binarycrossentropy` does the job for us. But due to numerical stability, it is always preferred to compute cross-entropy using logits. Flux provides [logitbinarycrossentropy](https://fluxml.ai/Flux.jl/stable/models/losses/#Flux.Losses.logitbinarycrossentropy) specifically for this purpose. Mathematically it is equivalent to `binarycrossentropy(σ(ŷ), y, kwargs...).`
+But even if Flux's `binarycrossentropy` does the job for us, due to numerical stability it is always preferred to compute cross-entropy using logits. Flux provides [logitbinarycrossentropy](https://fluxml.ai/Flux.jl/stable/models/losses/#Flux.Losses.logitbinarycrossentropy) specifically for this purpose. Mathematically it is equivalent to `binarycrossentropy(σ(ŷ), y, kwargs...).`
 <br>
 
 ### Discriminator Loss
 
-The discriminator loss quantifies how well the discriminator is able to distinguish real images from fakes. It compares 
+The discriminator loss quantifies how well the discriminator can to distinguish real images from fakes. It compares 
 
 - discriminator's predictions on real images to an array of 1s, and
 - discriminator's predictions on fake (generated) images to an array of 0s.
 
-These two losses are summed together to give a scalar discriminator loss. So we can write the loss function of discriminator as,
+These two losses are summed together to give a scalar loss. So we can write the loss function of the discriminator as:
 
 ```julia
 function discriminator_loss(real_output, fake_output)
@@ -200,7 +210,6 @@ function discriminator_loss(real_output, fake_output)
 end
 ```
 <br>
-
 ### Generator Loss
 
 The generator's loss quantifies how well it was able to trick the discriminator. Intuitively, if the generator is performing well, the discriminator will classify the fake images as real (or 1).
@@ -211,14 +220,9 @@ generator_loss(fake_output) = logitbinarycrossentropy(fake_output, 1)
 <br>
 We also need optimizers for our network. Why you may ask? Read more [here](https://towardsdatascience.com/overview-of-various-optimizers-in-neural-networks-17c1be2df6d5). For both the generator and discriminator, we will use the [ADAM optimizer](https://fluxml.ai/Flux.jl/stable/training/optimisers/#Flux.Optimise.ADAM).
 
-```julia
-disc_opt = ADAM(0.0002)
-gen_opt = ADAM(0.0002)
-```
-
 ## Utility functions
 
-The output of the generator ranges from (-1, 1), so it needs to processed before we can display it. Moreover, to visualize the output of the generator over time, we define a function to create a grid of generated images:
+The output of the generator ranges from (-1, 1), so it needs to be de-normalized before we can display it as an image. To make things a bit easier, we define a function to visualize the output of the generator as a grid of images. 
 
 ```julia
 function create_output_image(gen, fixed_noise, hparams)
@@ -253,7 +257,7 @@ function train_discriminator!(gen, disc, x, disc_opt, hparams)
 end
 ```
 <br>
-Now, we define a similar function for the generator.
+We define a similar function for the generator.
 
 ```julia
 function train_generator!(gen, disc, x, gen_opt, hparams)
@@ -270,7 +274,7 @@ end
 ```
 <br>
 
-Now that we defined almost everything we need, we can integrate everything into a single `train` function. 
+Now that we have defined every function we need, we integrate everything into a single `train` function.
 
 ```julia
 function train(hparams)
@@ -284,18 +288,19 @@ function train(hparams)
       end
     end
 
+    # Load the normalized MNIST images
     dataloader = load_MNIST_images(hparams)
 
-    # Create a fixed noise to visualizing the training of generator over time
-    fixed_noise = [randn(Float32, hparams.latent_dim, 1) |> dev for _=1:hparams.output_dim^2]
-
-    # Initialize the models
+    # Initialize the models and pass them to correct device
     disc = Discriminator() |> dev
     gen =  Generator(hparams.latent_dim) |> dev
 
-    # Initialize the optimizers
+    # Initialize the ADAM optimizers for both the sub-models
     opt_dscr = ADAM(hparams.disc_lr)
     opt_gen = ADAM(hparams.gen_lr)
+
+    # Create a batch of fixed noise for visualizing the training of generator over time
+    fixed_noise = [randn(Float32, hparams.latent_dim, 1) |> dev for _=1:hparams.output_dim^2]
 
     # Training
     train_steps = 0
@@ -323,11 +328,11 @@ function train(hparams)
     return nothing
 end
 ```
-
-Train the GAN:
+<br>
+Now we finally get to train the GAN:
 
 ```julia
-# Define the hyper-parameter
+# Define the hyper-parameters (here, we go with the default ones)
 hparams = HyperParams()
 train(hparams)
 ```
@@ -337,10 +342,13 @@ The generated images are stored inside the `output` folder. To visualize the out
 
 ```julia
 folder = "output"
+# Get the image filenames from the folder
 img_paths = readdir(folder, join=true)
+# Load all the images as an array
 images = load.(img_path)
+# Join all the images in the array to create a matrix of images
 gif_mat = cat(d..., dims=3)
-save("./output.gif", a)
+save("./output.gif", gif_mat)
 ```
 <br>
 <p align="center">
@@ -348,4 +356,5 @@ save("./output.gif", a)
 </p>
 
 ## Resources & References
-- [The DCGAN implementaion in Model Zoo.](http=s://github.com/FluxML/model-zoo/blob/master/vision/dcgan_mnist/dcgan_mnist.jl)
+- [The DCGAN implementation in Model Zoo.](http=s://github.com/FluxML/model-zoo/blob/master/vision/dcgan_mnist/dcgan_mnist.jl)
+
