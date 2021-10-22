@@ -15,7 +15,7 @@ discriminative model that learns to determine whether a sample is from the model
 data distribution. The generative model can be thought of as analogous to a team of counterfeiters,
 trying to produce fake currency and use it without detection, while the discriminative model is
 analogous to the police, trying to detect the counterfeit currency. Competition in this game drives
-both teams to improve their methods until the counterfeits are indistiguishable from the genuine
+both teams to improve their methods until the counterfeits are indistinguishable from the genuine
 articles.
 ```
 
@@ -46,7 +46,7 @@ at plots in a separate window, use fantastic for debugging.
 <br>
 
 Next, let us define values for learning rate, batch size, epochs, and other
-hyperparameters. While we are at it, we also define optimizers for the generator
+hyper-parameters. While we are at it, we also define optimizers for the generator
 and discriminator network. More on what these are later.
 
 ```julia
@@ -64,12 +64,12 @@ and discriminator network. More on what these are later.
 <br>
 
 In this tutorial I'm assuming that a CUDA-enabled GPU is available on the
-system where the script is running. If this is not the case, simploy remove
+system where the script is running. If this is not the case, simply remove
 the `|>gpu` decorators: [piping](https://docs.julialang.org/en/v1/manual/functions/#Function-composition-and-piping).
 
 ## Data loading
 The MNIST data set is available from [MLDatasets](https://juliaml.github.io/MLDatasets.jl/latest/). The first time you instantiate it you will be prompted
-if you want to download it. Yo. GANs cau should agree to this. 
+if you want to download it. You should agree to this. 
 
 GANs can be trained unsupervised. Therefore only keep the images from the training
 set and discard the labels.
@@ -98,7 +98,7 @@ A vanilla GAN, the discriminator and the generator are both plain, [feed-forward
 multilayer perceptrons](https://boostedml.com/2020/04/feedforward-neural-networks-and-multilayer-perceptrons.html). We use leaky rectified linear units [leakyrelu](https://fluxml.ai/Flux.jl/stable/models/nnlib/#NNlib.leakyrelu) to ensure out model is non-linear. 
 
 Here, the coefficient `α` (in the `leakyrelu` below), is set to 0.2. Empirically,  
-this value allows forgood training of the network (based on prior experiments). 
+this value allows for good training of the network (based on prior experiments). 
 It has also been found that Dropout ensures a good generalization of the learned 
 network, so we will use that below. As a final non-linearity, we use the `sigmoid` 
 activation function.
@@ -247,7 +247,7 @@ for n in 1:num_epochs
 end 
 ```
 
-For the hyperparameters shown in this example, the generator produces useful
+For the hyper-parameters shown in this example, the generator produces useful
 images after about 1000 epochs. And after about 5000 epochs the result look
 indistinguishable from real MNIST data. Using a Nvidia V100 GPU on a 2.7
 GHz Power9 CPU with 32 hardware threads, training 100 epochs takes about 80
@@ -255,7 +255,18 @@ seconds when using the GPU. The GPU utilization is between 30 and 40%.
 To observe the network more frequently during training you can for example set 
 `output_period=20`. Training the GAN using the CPU takes about 10 minutes 
 per epoch and is not recommended.
- 
+
+## Results
+
+Below you can see what some of the images output may look like after different numbers of epochs.
+
+<img width="652" alt="Screen Shot 2021-10-22 at 6 51 00 AM" src="https://user-images.githubusercontent.com/35577566/138465727-3729b867-2c2c-4f12-ba8e-e7b00c73d82c.png">
+
+<img width="652" alt="Screen Shot 2021-10-22 at 6 51 14 AM" src="https://user-images.githubusercontent.com/35577566/138465750-423f70fc-c8e7-489c-8cf4-f01b203a24dd.png">
+
+<img width="652" alt="Screen Shot 2021-10-22 at 6 51 35 AM" src="https://user-images.githubusercontent.com/35577566/138465777-5c8252ae-e43b-4708-a42a-b0b85324f79d.png">
+
+<img width="652" alt="Screen Shot 2021-10-22 at 6 51 46 AM" src="https://user-images.githubusercontent.com/35577566/138465803-07239e62-9e68-42b7-9bb7-57fdff748ba9.png">
 
 ## Resources
 
