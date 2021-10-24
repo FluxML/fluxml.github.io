@@ -17,7 +17,7 @@ A GAN is composed of two sub-models - the **generator** and the **discriminator*
 The GAN starts with a generator and discriminator which have very little or no idea about the underlying data. During training, the generator progressively becomes better at creating images that look real, while the discriminator becomes better at telling them apart. The process reaches equilibrium when the discriminator can no longer distinguish real images from fakes.
 
 <img src="https://www.tensorflow.org/tutorials/generative/images/gan2.png" width="70%">
-<br>
+
 [[source]](https://www.tensorflow.org/tutorials/generative/dcgan)
 
 This tutorial demonstrates the process of training a DC-GAN on the [MNIST dataset for handwritten digits](http://yann.lecun.com/exdb/mnist/). The following animation shows a series of images produced by the generator as it was trained for 25 epochs. The images begin as random noise, but over time, the images become increasingly similar to handwritten numbers.
@@ -115,6 +115,7 @@ We will also apply the weight initialization method mentioned in the original DC
 dcgan_init(shape...) = randn(Float32, shape) * 0.02f0
 ```
 <br>
+
 ```julia
 function Generator(latent_dim)
     Chain(
@@ -275,10 +276,10 @@ function train(hparams)
     dev = hparams.device
     # Check if CUDA is actually present
     if hparams.device == gpu
-      if !CUDA.has_cuda()
-      dev = cpu
-      @warn "No gpu found, falling back to CPU"
-      end
+        if !CUDA.has_cuda()
+        dev = cpu
+        @warn "No gpu found, falling back to CPU"
+        end
     end
 
     # Load the normalized MNIST images
@@ -294,8 +295,8 @@ function train(hparams)
 
     # Initialize the ADAM optimizers for both the sub-models
     # with respective learning rates
-    opt_dscr = ADAM(hparams.disc_lr)
-    opt_gen = ADAM(hparams.gen_lr)
+    disc_opt = ADAM(hparams.disc_lr)
+    gen_opt = ADAM(hparams.gen_lr)
 
     # Create a batch of fixed noise for visualizing the training of generator over time
     fixed_noise = [randn(Float32, hparams.latent_dim, 1) |> dev for _=1:hparams.output_dim^2]
@@ -351,7 +352,7 @@ folder = "output"
 # Get the image filenames from the folder
 img_paths = readdir(folder, join=true)
 # Load all the images as an array
-images = load.(img_path)
+images = load.(img_paths)
 # Join all the images in the array to create a matrix of images
 gif_mat = cat(d..., dims=3)
 save("./output.gif", gif_mat)
