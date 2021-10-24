@@ -258,7 +258,7 @@ We define a similar function for the generator.
 ```julia
 function train_generator!(gen, disc, fake_img, opt, ps, hparams)
 
-    gen_loss, grads = Flux.withgradient(gen_ps) do
+    gen_loss, grads = Flux.withgradient(ps) do
         generator_loss(disc(fake_img))
     end
 
