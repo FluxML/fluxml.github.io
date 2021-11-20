@@ -40,7 +40,7 @@ Our model would look something like so:
 We will use the [Dogs vs. Cats](https://www.kaggle.com/c/dogs-vs-cats/data?select=train.zip) dataset from Kaggle for our use here.
 Make sure to download the `train.zip` file and extract it into a `train` folder.
 
-The [`dataloader.jl`](https://github.com/FluxML/model-zoo/blob/master/tutorials/transfer_learning/dataloader.jl) script contains some functions that will help us load batches of images, shuffled between dogs and cats along with their correct labels.
+The [`dataloader.jl`](https://github.com/FluxML/model-zoo/blob/master/tutorials/transfer_learning/dataloader.jl) script contains a pre-written `load_batch` function which will load a set of images, shuffled between dogs and cats along with their correct labels.
 
 ```julia
 include("dataloader.jl")
