@@ -5,12 +5,12 @@ layout: blog
 tag: Learning Flux
 ---
  
-In this tutorial, we show how to load image data in Flux DataLoader and process it in mini-batches. We use the [DataLoader](https://fluxml.ai/Flux.jl/stable/data/dataloader/#Flux.Data.DataLoader) type to handle iteration over mini-batches of data. For this example, we load the [MNIST dataset](https://juliaml.github.io/MLDatasets.jl/latest/datasets/MNIST/) using the [MLDatasets](https://juliaml.github.io/MLDatasets.jl/latest/) package.
+In this tutorial, we show how to load image data in Flux DataLoader and process it in mini-batches. We use the [DataLoader](https://fluxml.ai/Flux.jl/stable/data/dataloader/#Flux.Data.DataLoader) type to handle iteration over mini-batches of data. For this example, we load the [MNIST dataset](https://juliaml.github.io/MLDatasets.jl/stable/datasets/MNIST/) using the [MLDatasets](https://juliaml.github.io/MLDatasets.jl/stable/) package.
  
 Before we start, make sure you have installed the following packages:
  
 * [Flux](https://github.com/FluxML/Flux.jl)
-* [MLDatasets]((https://juliaml.github.io/MLDatasets.jl/latest/))
+* [MLDatasets](https://juliaml.github.io/MLDatasets.jl/stable/)
  
 To install these packages, run the following in the REPL:
  
