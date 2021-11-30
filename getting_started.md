@@ -97,8 +97,9 @@ b = rand(2)
 You can learn more about defining models in this video:
 
 <div style="display: flex; justify-content: center;">
-            <iframe src="https://www.youtube.com/embed/XrAUGRX998E" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <iframe style="width: 60%; height:400px;" src="https://www.youtube.com/embed/XrAUGRX998E" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
+<br>
 
 ### Step 4: Define a loss function
 
