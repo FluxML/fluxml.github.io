@@ -78,8 +78,9 @@ loss(x,y) = Flux.Losses.logitcrossentropy(model(x), y)
 Now to train. As discussed earlier, we don’t need to pass all the parameters to our training loop. Only the ones we need to fine-tune. Note that we could have picked and chosen the layers we want to train individually as well, but this is sufficient for our use as of now.
 
 ```julia
-ps = Flux.params(model[2:end])  # ignore the already trained layers of the ResNet
+ps = Flux.params(model)
 ```
+Normally, you would only re-train the dense layers via `model[2:end]` but in this case, the pre-trained models from Metalhead.jl are not currently available. This will change in the future once the pre-trained models are once again available.
 <br>
 
 And now, let's train!
