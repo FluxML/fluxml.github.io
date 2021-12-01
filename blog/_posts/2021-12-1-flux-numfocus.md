@@ -1,6 +1,6 @@
 ---
 title: Flux <3 NumFOCUS
-author: Dhairya Gandhi
+author: Dhairya Gandhi, Logan Kilpatrick 
 layout: blog
 ---
 
