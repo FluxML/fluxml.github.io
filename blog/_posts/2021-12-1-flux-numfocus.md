@@ -8,7 +8,7 @@ layout: blog
   <img src="/assets/2021-12-1-flux-numfocus/flux_numfocus.png" height="300">
 </p>
 
-We are very excited to announce that FluxML is partnering with NumFOCUS as an affiliated project to further the cause of open and reproducible science and growing the adoption of the FluxML ecosystem. Flux has always had the mission of being a simple, hackable and performant approach to machine learning, which is extended to a number of domains in science by means of differentiable programming.
+We are very excited to announce that [FluxML](https://fluxml.ai) is partnering with [NumFOCUS](https://numfocus.org) as an affiliated project to further the cause of open and reproducible science and growing the adoption of the FluxML ecosystem. Flux has always had the mission of being a simple, hackable and performant approach to machine learning, which is extended to a number of domains in science by means of differentiable programming.
 
 This milestone is the result of the coming together of the Julia community to support the vision of producing high performance machine learning tools which are flexible towards the needs of novel use cases such as: graph neural networks, scientific machine learning, and differentiable programming. The support of the community as well as the contributions made to that end have helped catapult Flux to this stage, so we want to take this moment to thank the Julia community for their continued support, guidance, and encouragement.
 
