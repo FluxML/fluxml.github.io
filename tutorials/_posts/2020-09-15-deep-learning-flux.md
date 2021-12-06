@@ -275,13 +275,11 @@ We will do the following steps in order:
 
 ### Loading the Dataset
 
-[Metalhead.jl](https://github.com/FluxML/Metalhead.jl) is an excellent package that has a number of predefined and pretrained computer vision models. It also has a number of dataloaders that come in handy to load datasets.
 
 ```julia
 using Statistics
 using Flux, Flux.Optimise
-using Metalhead, Images
-using Metalhead: trainimgs
+using MLDatasets: CIFAR10
 using Images.ImageCore
 using Flux: onehotbatch, onecold
 using Base.Iterators: partition
@@ -294,34 +292,26 @@ This image will give us an idea of what we are dealing with.
 
 
 ```julia
-Metalhead.download(CIFAR10)
-X = trainimgs(CIFAR10)
-labels = onehotbatch([X[i].ground_truth.class for i in 1:50000],1:10)
+train_x, train_y = CIFAR10.traindata(Float32)
+labels = onehotbatch(train_y, 0:9)
 ```
 
-Let's take a look at a random image from the dataset
+The `train_x` contains 50000 images converted to 32 X 32 X 3 arrays with the third dimension being the 3 channels (R,G,B). Let's take a look at a random image from the train_x. For this, we need to permute the dimensions to 3 X 32 X 32 and use `colorview` to convert it back to an image. 
 
 ```julia
-image(x) = x.img # handy for use later
-ground_truth(x) = x.ground_truth
-image.(X[rand(1:end, 10)])
+using Plots
+image(x) = colorview(RGB, permutedims(x, (3, 2, 1)))
+plot(image(train_x[:,:,:,rand(1:end)]))
 ```
 
-The images are simply 32 X 32 matrices of numbers in 3 channels (R,G,B). We can now arrange them in batches of say, 1000 and keep a validation set to track our progress. This process is called minibatch learning, which is a popular method of training large neural networks. Rather that sending the entire dataset at once, we break it down into smaller chunks (called minibatches) that are typically chosen at random, and train only on them. It is shown to help with escaping [saddle points](https://en.wikipedia.org/wiki/Saddle_point).
+We can now arrange the training data in batches of say, 1000 and keep a validation set to track our progress. This process is called minibatch learning, which is a popular method of training large neural networks. Rather that sending the entire dataset at once, we break it down into smaller chunks (called minibatches) that are typically chosen at random, and train only on them. It is shown to help with escaping [saddle points](https://en.wikipedia.org/wiki/Saddle_point).
 
-Defining a `getarray` function would help in converting the matrices to `Float` type.
-
-```julia
-getarray(X) = float.(permutedims(channelview(X), (2, 3, 1)))
-imgs = [getarray(X[i].img) for i in 1:50000]
-```
-
-The first 49k images (in batches of 1000) will be our training set, and the rest is for validation. `partition` handily breaks down the set we give it in consecutive parts (1000 in this case). `cat` is a shorthand for concatenating multi-dimensional arrays along any dimension.
+The first 49k images (in batches of 1000) will be our training set, and the rest is for validation. `partition` handily breaks down the set we give it in consecutive parts (1000 in this case).
 
 ```julia
-train = ([(cat(imgs[i]..., dims = 4), labels[:,i]) for i in partition(1:49000, 1000)]) |> gpu
+train = ([(train_x[:,:,:,i], labels[:,i]) for i in partition(1:49000, 1000)]) |> gpu
 valset = 49001:50000
-valX = cat(imgs[valset]..., dims = 4) |> gpu
+valX = train_x[:,:,:,valset] |> gpu
 valY = labels[:, valset] |> gpu
 ```
 
@@ -355,7 +345,7 @@ opt = Momentum(0.01)
 We can start writing our train loop where we will keep track of some basic accuracy numbers about our model. We can define an `accuracy` function for it like so.
 
 ```julia
-accuracy(x, y) = mean(onecold(m(x), 1:10) .== onecold(y, 1:10))
+accuracy(x, y) = mean(onecold(m(x), 0:9) .== onecold(y, 0:9))
 ```
 
 ### Training the Classifier
@@ -392,17 +382,16 @@ We will check this by predicting the class label that the neural network outputs
 Okay, first step. Let us perform the exact same preprocessing on this set, as we did on our training set.
 
 ```julia
-valset = valimgs(CIFAR10)
-valimg = [getarray(valset[i].img) for i in 1:10000]
-labels = onehotbatch([valset[i].ground_truth.class for i in 1:10000],1:10)
-test = gpu.([(cat(valimg[i]..., dims = 4), labels[:,i]) for i in partition(1:10000, 1000)])
+test_x, test_y = CIFAR10.testdata(Float32)
+test_labels = onehotbatch(test_y, 0:9)
+
+test = gpu.([(test_x[:,:,:,i], labels[:,i]) for i in partition(1:10000, 1000)])
 ```
 
-Next, display some of the images from the test set.
+Next, display an image from the test set.
 
 ```julia
-ids = rand(1:10000, 10)
-image.(valset[ids])
+plot(image(test_x[:,:,:,rand(1:end)]))
 ```
 
 The outputs are energies for the 10 classes. Higher the energy for a class, the more the network thinks that the image is of the particular class. Every column corresponds to the output of one image, with the 10 floats in the column being the energies.
@@ -410,9 +399,9 @@ The outputs are energies for the 10 classes. Higher the energy for a class, the 
 Let's see how the model fared.
 
 ```julia
-rand_test = getarray.(image.(valset[ids]))
-rand_test = cat(rand_test..., dims = 4) |> gpu
-rand_truth = ground_truth.(valset[ids])
+ids = rand(1:10000, 5)
+rand_test = test_x[:,:,:,ids] |> gpu
+rand_truth = test_y[ids]
 m(rand_test)
 ```
 
