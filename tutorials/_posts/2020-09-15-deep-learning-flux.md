@@ -385,7 +385,7 @@ Okay, first step. Let us perform the exact same preprocessing on this set, as we
 test_x, test_y = CIFAR10.testdata(Float32)
 test_labels = onehotbatch(test_y, 0:9)
 
-test = gpu.([(test_x[:,:,:,i], labels[:,i]) for i in partition(1:10000, 1000)])
+test = gpu.([(test_x[:,:,:,i], test_labels[:,i]) for i in partition(1:10000, 1000)])
 ```
 
 Next, display an image from the test set.
