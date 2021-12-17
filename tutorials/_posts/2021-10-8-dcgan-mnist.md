@@ -354,7 +354,7 @@ img_paths = readdir(folder, join=true)
 # Load all the images as an array
 images = load.(img_paths)
 # Join all the images in the array to create a matrix of images
-gif_mat = cat(d..., dims=3)
+gif_mat = cat(images..., dims=3)
 save("./output.gif", gif_mat)
 ```
 <br>
