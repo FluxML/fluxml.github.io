@@ -80,7 +80,7 @@ Now to train. As discussed earlier, we don’t need to pass all the parameters t
 ```julia
 ps = Flux.params(model)
 ```
-Normally, you would only re-train the dense layers via `model[2:end]` but in this case, the pre-trained models from Metalhead.jl are not currently available. This will change in the future once the pre-trained models are once again available.
+**Note**: Normally, you would only re-train the dense layers via `model[2:end]` but in this case, the pre-trained models from Metalhead.jl are not currently available. This will change in the future once the pre-trained models are once again available.
 <br>
 
 And now, let's train!
