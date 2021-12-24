@@ -78,11 +78,12 @@ This section lists tools that complement Flux in typical machine learning and de
  
 ## Miscellaneous
  
-*[AdversarialPrediction.jl](https://github.com/rizalzaf/AdversarialPrediction.jl) provides a way to easily optimize generic performance metrics in supervised learning settings using the [Adversarial Prediction](https://arxiv.org/abs/1812.07526) framework.
+* [AdversarialPrediction.jl](https://github.com/rizalzaf/AdversarialPrediction.jl) provides a way to easily optimize generic performance metrics in supervised learning settings using the [Adversarial Prediction](https://arxiv.org/abs/1812.07526) framework.
 * [Mill](https://github.com/pevnak/Mill.jl) helps to prototype flexible multi-instance learning models.
 * [MLMetrics.jl](https://github.com/JuliaML/MLMetrics.jl) is a utility for scoring models in data science and machine learning.
 * [Torch.jl](https://github.com/FluxML/Torch.jl) exposes torch in Julia.
 * [ValueHistories.jl](https://github.com/JuliaML/ValueHistories.jl) is a utility for efficient tracking of optimization histories, training curves or other information of arbitrary types and at arbitrarily spaced sampling times
+* [InvertibleNetworks.jl](https://github.com/slimgroup/InvertibleNetworks.jl/) Building blocks for invertible neural networks in the Julia programming language.
  
 [⇧ back to top](#table-of-contents)
  
