@@ -61,7 +61,7 @@ Chain(
 To define activations, PyTorch typically uses built-in versions for example:
 
 ```python
->>> sequence = torch.nn.Sequential(
+>>> sequence = nn.Sequential(
 ...   nn.Linear(3,3),
 ...   nn.ReLU())
 ```
@@ -86,4 +86,18 @@ julia> Dense(3,3, x -> x .+ one(x))
 
 The `x -> ...` is an anonymous function; this is a regular Julia function albeit without a name. The closest analog in python is the `lambda` operator.
 
-Flux tries to keep its API minimal but effective, which is why you wouldn't see a `linear` or `dense` functional analog to the `Dense` layer. Of course, Flux has 
+Flux tries to keep its API minimal but effective, which is why you wouldn't see a `linear` or `dense` functional analog to the `Dense` layer. Of course, Flux has functional forms of most other popular layers (ex. `conv`, `maxpool`). More details can be found in the [documentation for the layers](https://fluxml.ai/Flux.jl/stable/models/layers/).
+
+## Handling Data
+
+* Link the JuliaData org for different types of data formats
+* Differences in batching (first dim (PyTorch) vs last dim (Flux))
+
+## Defining a Loss Function
+
+PyTorch loss functions can be built with a number of inbuilt loss functions as well as compositions of PyTorch implementations of base linear algebra methods.
+
+```python
+>>> mae = nn.L1Loss()
+>>> crossentropy = nn.CrossEntropyLoss()
+```
