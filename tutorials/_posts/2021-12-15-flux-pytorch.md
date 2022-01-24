@@ -312,10 +312,16 @@ julia> gradient(d) do d
 ---
 !!! Note:
     The `f(args...) do ... end` syntax is equivalent to passing an anonymous function as the first argument to `f`
+
 ---
 
 With calling `gradient` Flux returned the gradients of the models `d` in the same form as the object `d` itself. That is to say, the gradients follow the same type hierarchy as the original object, albeit represented as a `NamedTuple`. [Optimisers.jl](https://github.com/FluxML/Optimisers.jl) can easily then consume `d` and the gradients in this explicit form and produce a new model `d′` with updated parameters.
 
+## Training Models
+
+## Distributed and Large Scale Training
+
 ## Concluding Remarks
 
-As can be seen, there are several similarities between Flux and PyTorch. The dissimilarities are design choices that Flux has made in order to be generic across the Julia package ecosystem and make use of intelligent abstractions that the Julia Programming Language gives us access to. Further, we wish to support the scintific machine learning and differentiable programming use cases as a natural extension to the Flux design philosophy without limiting the flexiblity and performance that Julia's users have come to expect of it. Flux shares the same feature set as PyTorch but deliberately does not define some of the utilities which are better expressed as compositions of existing libraries and Base functions.
+As can be seen, there are several similarities between Flux and PyTorch. The dissimilarities are design choices that Flux has made in order to be generic across the Julia package ecosystem and make use of intelligent abstractions that the Julia Programming Language gives us access to. Further, we wish to support the scintific machine learning and differentiable programming use cases as a natural extension to the Flux design philosophy without limiting the flexiblity and performance that Julia's users have come to expect of it. Flux shares the same feature set as PyTorch but deliberately does not define some of the utilities which are better expressed as compositions of existing libraries and Base functions. The tradeoffs made in Flux are expected to make sense for training of conventional deep learning models (including training at scale), as well as for emergent techniques in the ML landscape as more and more domain knowledge is available to Flux users without needing to rewrite any of it with a limited section of operations available as would have been the case otherwise.
+
