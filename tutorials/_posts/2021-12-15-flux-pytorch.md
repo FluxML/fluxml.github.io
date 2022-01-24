@@ -131,10 +131,38 @@ julia> @btime gradient((m,x) -> sum(m(x)), $d, $x);
 
 ## Handling Data
 
-* Link the JuliaData org for different types of data formats
 * Differences in batching (first dim (PyTorch) vs last dim (Flux))
 
+As discussed previously, Julia `Array`s are column major. This inflenes how data is structured in Flux. PyTorch follows "NCHW" (or in general, batch-first) dimensions. Flux follows "WHCN" with the batch dimension last. This is because most fused operations written for column major arrays would iterate over the outermost dimension first.
+
+All the arrays used with Flux follow the convention of having the batch dimension in the end. While not a strict requirement, default implementations of layers in Flux are written with this assumption in mind, and therefore careful use of `transpose` and `permutedims` may be required to get correct results. This is in contrast to PyTorch (or more specifically, numpy) which is column major and requires users to stack their data accordingly.
+
+Both PyTorch and Flux implement a [standard `DataLoader`](https://fluxml.ai/Flux.jl/dev/data/dataloader/#DataLoader). The `DataLoader` in Flux acts very similarly to its PyTorch analog with some notable exceptions.
+
+It is helpful to recall how models are trained. Typically, a loss function takes in a number of arguments. In Flux, a `DataLoader` typically produces a tuple of arguments that can be input into the `loss`. In terms of pseudocode, this looks like:
+
+```julia
+dataloader = Flux.Data.DataLoader(...)
+ps = params(model)
+for args in dataloader
+  gs = gradient(ps) do
+    loss(args...)
+  end
+  Flux.Optimise.update!(opt, ps, gs)
+end
+```
+
+Note that `args` is a tuple of arguments to the loss function, and any iterable producing this tuple is a valid input to the `train!` function. The `DataLoader` is designed such that it can take as input a tuple of data corresponding to the structure of the tuple of `args` that is expected by the loss.
+
+```julia
+X = rand(Float32, 224, 224, 3, 128)
+Y = Flux.onehotbatch(rand(1:10, 128), 1:10)
+dataloader = Flux.Data.DataLoader((X,Y), batchsize = 16)
+```
+
 ## Defining a Loss Function
+
+In Flux, we don't have a strict demarkation between loss functions and layers and transforms. This simplifies library design at the cost of requiring more sophistacted tooling to analyse library code.
 
 PyTorch loss functions can be built with a number of inbuilt loss functions as well as compositions of PyTorch implementations of base linear algebra methods.
 
@@ -143,7 +171,7 @@ PyTorch loss functions can be built with a number of inbuilt loss functions as w
 >>> crossentropy = nn.CrossEntropyLoss()
 ```
 
-Since Flux is written to be generic, it can make use of functions defined in Base julia, or indeed any function written in Julia. Flux does come with a prebaked library of common loss functions in the `Flux.Losses` module.
+Since Flux is written to be generic, it can make use of functions defined in Base julia, or indeed any function written in Julia. Flux does come with a prebaked library of common loss functions in the [`Flux.Losses`](https://fluxml.ai/Flux.jl/dev/models/losses/#Loss-Functions) module. It houses a number of commonly used loss functions.
 
 ```julia
 help?> Flux.Losses.mae
