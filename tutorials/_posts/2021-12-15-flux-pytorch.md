@@ -319,9 +319,13 @@ With calling `gradient` Flux returned the gradients of the models `d` in the sam
 
 ## Training Models
 
+PyTorch famously does not have a training loop API, instead opting to use let users define their own training loops, to suit their own needs. Offshoot packages such as [ignite](https://pytorch-ignite.ai) also help fill that gap. Flux also supports a [first-class loop based training API](https://fluxml.ai/Flux.jl/stable/training/training/#Custom-Training-loops). In addition, Flux also exposes a [`Flux.train!`](https://fluxml.ai/Flux.jl/stable/training/training/#Flux.Optimise.train!) function which takes care of most of the common training cases seen in deep learning in practice.
+
 ## Distributed and Large Scale Training
 
 ## Concluding Remarks
 
-As can be seen, there are several similarities between Flux and PyTorch. The dissimilarities are design choices that Flux has made in order to be generic across the Julia package ecosystem and make use of intelligent abstractions that the Julia Programming Language gives us access to. Further, we wish to support the scintific machine learning and differentiable programming use cases as a natural extension to the Flux design philosophy without limiting the flexiblity and performance that Julia's users have come to expect of it. Flux shares the same feature set as PyTorch but deliberately does not define some of the utilities which are better expressed as compositions of existing libraries and Base functions. The tradeoffs made in Flux are expected to make sense for training of conventional deep learning models (including training at scale), as well as for emergent techniques in the ML landscape as more and more domain knowledge is available to Flux users without needing to rewrite any of it with a limited section of operations available as would have been the case otherwise.
+As can be seen, there are several similarities between Flux and PyTorch. The dissimilarities are design choices that Flux has made in order to be generic across the Julia package ecosystem and make use of intelligent abstractions that the Julia Programming Language gives us access to. Further, we wish to support the scintific machine learning and differentiable programming use cases as a natural extension to the Flux design philosophy without limiting the flexiblity and performance that Julia's users have come to expect of it. Flux shares the same feature set as PyTorch but deliberately does not define some of the utilities which are better expressed as compositions of existing libraries and Base functions.
+
+The tradeoffs made in Flux are expected to make sense for training of conventional deep learning models (including training at scale), as well as for emergent techniques in the ML landscape as more and more domain knowledge is available to Flux users. We wish to do this without requiring boilerplate code and without needing to rewrite any of the domain tooling as would have been the case otherwise.
 
