@@ -100,8 +100,10 @@ multilayer perceptrons](https://boostedml.com/2020/04/feedforward-neural-network
 Here, the coefficient `α` (in the `leakyrelu` below), is set to 0.2. Empirically,  
 this value allows for good training of the network (based on prior experiments). 
 It has also been found that Dropout ensures a good generalization of the learned 
-network, so we will use that below. As a final non-linearity, we use the `sigmoid` 
-activation function.
+network, so we will use that below. Dropout is usually active when training a 
+model and inactive in inference. Flux automatically sets the training mode when
+ alling the model in a gradient context.As a final non-linearity, we use the
+`sigmoid` activation function.
 
 ```julia
 discriminator = Chain(Dense(n_features, 1024, x -> leakyrelu(x, 0.2f0)),
@@ -177,9 +179,14 @@ generator is to fool the discriminator so we reward the generator when the discr
 predicts a high probability for its samples to be real data. In the training function
 we first need to sample some noise, i.e. normally distributed data. This has
 to be done outside the pullback since we don't want to get the gradients with
-respect to the noise, but to the generator parameters. Then we evaluate the
-pullback, call it with a seed gradient of 1.0 as above, update the parameters
-of the generator network and return the loss.
+respect to the noise, but to the generator parameters. Inside the pullback we need
+to first apply the generator to the noise since we will take the gradient with respect
+to the parameters of the generator. We also need to call the discriminator in order
+to evaluate the loss function inside the pullback. Here we need to remember to deactivate
+the dropout layers of the discriminator. We do this by setting the discriminator into
+test mode before the pullback. Immediately after the pullback we set it back into training
+mode. Then we evaluate the pullback, call it with a seed gradient of 1.0 as above, update the
+parameters of the generator network and return the loss.
 
 
 ```julia
@@ -189,6 +196,8 @@ function train_gen!(discriminator, generator)
 
     # Define parameters and get the pullback
     ps = Flux.params(generator)
+    # Set discriminator into test mode to disable dropout layers
+    testmode!(discriminator)
     # Evaluate the loss function while calculating the pullback. We get the loss for free
     loss, back = Zygote.pullback(ps) do
         preds = discriminator(generator(noise));
@@ -198,6 +207,8 @@ function train_gen!(discriminator, generator)
     # the parameters of the generator
     grads = back(1.0f0)
     Flux.update!(opt_gen, Flux.params(generator), grads)
+    # Set discriminator back into train mode
+    trainmode!(discriminator)
     return loss
 end
 ```
