@@ -102,7 +102,7 @@ this value allows for good training of the network (based on prior experiments).
 It has also been found that Dropout ensures a good generalization of the learned 
 network, so we will use that below. Dropout is usually active when training a 
 model and inactive in inference. Flux automatically sets the training mode when
- alling the model in a gradient context.As a final non-linearity, we use the
+calling the model in a gradient context. As a final non-linearity, we use the
 `sigmoid` activation function.
 
 ```julia
