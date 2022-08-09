@@ -207,8 +207,8 @@ function train_gen!(discriminator, generator)
     # the parameters of the generator
     grads = back(1.0f0)
     Flux.update!(opt_gen, Flux.params(generator), grads)
-    # Set discriminator back into train mode
-    trainmode!(discriminator)
+    # Set discriminator back into automatic mode
+    trainmode!(discriminator, mode=:auto)
     return loss
 end
 ```
