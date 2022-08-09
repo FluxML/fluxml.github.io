@@ -21,7 +21,9 @@ reflects the values of our community. Violations of the code should be
 reported to members of the steering council, where the offenses will be
 handled on a case-by-case basis.
 
-## Current Steering Council
+## Current Leadership
+
+### Current Steering Council
 
 - [Michael Abbott](https://github.com/mcabbott)
 - [Brian Chen](https://github.com/ToucheSir)
@@ -29,15 +31,15 @@ handled on a case-by-case basis.
 - [Carlo Lucibello](https://github.com/CarloLucibello)
 - [Lorenz Ohly](https://github.com/lorenzoh)
 
+### Advisory Committee
+
+To be decided.
+
 ### Former Steering Council
 
 - [Mike Innes](https://github.com/MikeInnes) (2016-2020)
 - [Dhairya Gandhi](https://github.com/DhairyaLGandhi) (2018-2020)
 - [Elliot Saba](https://github.com/staticfloat) (2018-2020)
-
-## Advisory Committee
-
-To be decided.
 
 # Governing Rules and Duties
 
