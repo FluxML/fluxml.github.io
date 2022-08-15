@@ -131,13 +131,13 @@ opt = Descent(0.01)
 
 Training a model is the process of computing the gradients with respect to the parameters for each input in the data. At every step, the optimiser updates all of the parameters until it finds a good value for them. This process can be written as a loop: we iterate over the examples in `x_train` and `y_train` and update the model for each example.
 
-To indicate that we want all derivatives of `W` and `b`, we write `ps = params(W, b)`. This is a convenience function that Flux provides so that we don't have to explicitly list every gradient we want. Check out the section on [Taking Gradients](https://fluxml.ai/Flux.jl/stable/models/basics/#Taking-Gradients) if you want to learn more about how this works.
+To indicate that we want all derivatives of `W` and `b`, we write `ps = Flux.params(W, b)`. This is a convenience function that Flux provides so that we don't have to explicitly list every gradient we want. Check out the section on [Taking Gradients](https://fluxml.ai/Flux.jl/stable/models/basics/#Taking-Gradients) if you want to learn more about how this works.
 
 We can now execute the training procedure for our model:
 
 ```julia
 train_data = zip(x_train, y_train)
-ps = params(W, b)
+ps = Flux.params(W, b)
 
 for (x,y) in train_data
   gs = Flux.gradient(ps) do
@@ -157,7 +157,7 @@ end
 While writing your own loop is powerful, sometimes you just want to do the simple thing without writing too much code. Flux lets you do this with [Flux.train!](https://fluxml.ai/Flux.jl/stable/training/training/#Training-1), which runs one training epoch over a dataset. `Flux.train!` computes gradients and updates model parameters for every sample or batch of samples. In our case, we could have replaced the above loop with the following statement:
 
 ```julia
-Flux.train!(loss, params(W, b), train_data, opt)
+Flux.train!(loss, Flux.params(W, b), train_data, opt)
 ```
 
 <br>
@@ -207,7 +207,7 @@ function loss(x, y)
 end
 opt = Descent(0.01)
 train_data = zip(x_train, y_train)
-ps = params(W, b)
+ps = Flux.params(W, b)
 
 # Execute a training epoch
 for (x,y) in train_data
@@ -218,7 +218,7 @@ for (x,y) in train_data
 end
 
 # An alternate way to execute a training epoch
-# Flux.train!(loss, params(W, b), train_data, opt)
+# Flux.train!(loss, Flux.params(W, b), train_data, opt)
 
 # Print out how well we did
 @show W
