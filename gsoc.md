@@ -17,7 +17,7 @@ Mentors: [Dhairya Gandhi](https://github.com/DhairyaLGandhi/).
 
 ### FermiNets: Generative Synthesis for Automating the Choice of Neural Architectures
 
-The application of machine learning requires an understanding a practictioner to optimize a neural architecture for a given problem, or does it? Recently techniques in automated machine learning, also known as AutoML, have dropped this requirement by allowing for good architectures to be found automatically. One such method is the [FermiNet](https://arxiv.org/abs/1809.05989) which employs generative synthesis to give a neural architecture which respects certain operational requirements. The goal of this project is to implement the FermiNet in Flux to allow for automated sythesis of neural networks.
+The application of machine learning requires an understanding a practictioner to optimize a neural architecture for a given problem, or does it? Recently, techniques in automated machine learning, also known as AutoML, have dropped this requirement by allowing for good architectures to be found automatically. One such method is the [FermiNet](https://arxiv.org/abs/1809.05989), which employs generative synthesis to give a neural architecture, which respects certain operational requirements. The goal of this project is to implement the FermiNet in Flux to allow for automated sythesis of neural networks.
 
 Mentors: [Chris Rackauckas](https://github.com/ChrisRackauckas) and [Dhairya Gandhi](https://github.com/DhairyaLGandhi/).
 
@@ -25,7 +25,7 @@ Mentors: [Chris Rackauckas](https://github.com/ChrisRackauckas) and [Dhairya Gan
 
 Expected Outcome: This is motivated to create SoftRasterizer/DiB-R based projects. We already have RayTracer.jl which is motivated by OpenDR. (Of course, if someone wants to implement NERF - like models they are most welcome to submit a proposal). We would ideally target at least 2 of these models.
 
-Skills: GPU Programming, Deep Learning, (deep) familiarity with the literature, familiarity with defining (a lot of) Custom Adjoints
+Skills: GPU programming, deep learning, (deep) familiarity with the literature, familiarity with defining (a lot of) custom adjoints
 
 Mentors: [Dhairya Gandhi](https://github.com/DhairyaLGandhi/), [Avik Pal](https://github.com/avik-pal)
 
@@ -38,7 +38,7 @@ Expected Outcomes:
 * Benchmarking with Tensorflow Graphics and Pytorch3D. We already have the scripts for kaolin, need to extend that.
 * Most of these problems are listed as issues in the main repo.
 
-Skills: GPU Programming, Deep Learning, familiarity with defining (a lot of) Custom Adjoints
+Skills: GPU programming, deep learning, familiarity with defining (a lot of) custom adjoints
 
 Mentors: [Dhairya Gandhi](https://github.com/DhairyaLGandhi/)
 
@@ -62,15 +62,15 @@ Mentors: [Kyle Daruwalla](https://github.com/darsnack)
 
 Expected Outcome:
 
-Create a library of utliity functions that can consume Julia's Imaging libraries to make them differentiable. With Zygote.jl, we have the platform to take a general purpose package and apply automatic differentiation to it. This project is motivated to use existing libraries that offer perform computer vision tasks, and augment them with AD to perform tasks such as homography regression.
+Create a library of utility functions that can consume Julia's imaging libraries to make them differentiable. With Zygote.jl, we have the platform to take a general purpose package and apply automatic differentiation to it. This project is motivated to use existing libraries that offer perform computer vision tasks, and augment them with AD to perform tasks such as homography regression.
 
-Skills: Familiarity with automatic differentiation, deep learning, and defining (a lot of) Custom Adjoints
+Skills: Familiarity with automatic differentiation, deep learning, and defining (a lot of) custom adjoints
 
 Mentors: [Dhairya Gandhi](https://github.com/DhairyaLGandhi/)
 
 ### Make the Model-Zoo Robust
 
-The model zoo has been a great resource for folks starting with Flux and machine learning in general. This time, we want to make the zoo significantly more useful. With Artifacts, we can have the models be completely reusable, and have high quality trained models availiable trivially. This would involve training the existing models and making the weights available through artifacts. We would also want to have ways to verify that the models perform well on the test datasets. For some more insight, we are looking out for more [Metalhead.jl](https://github.com/FluxML/Metalhead.jl) kind of workflows with a reference to how to use them in the zoo, plus finding high quality pretrained weights for the models, that have been verified to give the expected results, including numerical debugging.
+The model zoo has been a great resource for folks starting with Flux and machine learning in general. This time, we want to make the zoo significantly more useful. With Artifacts, we can have the models be completely reusable, and have high quality trained models available trivially. This would involve training the existing models and making the weights available through artifacts. We would also want to have ways to verify that the models perform well on the test datasets. For some more insight, we are looking out for more [Metalhead.jl](https://github.com/FluxML/Metalhead.jl) kind of workflows with a reference to how to use them in the zoo. We are also looking for high quality pretrained weights for the models that have been verified to give the expected results, including numerical debugging.
 
 Mentors: [Dhairya Gandhi](https://github.com/dhairyagandhi96/), [Elliot Saba](https://github.com/staticfloat).
 
@@ -88,13 +88,13 @@ Mentors: [Dhairya Gandhi](https://github.com/DhairyaLGandhi/), [Elliot Saba](htt
 
 ### Model Zoo on TPU
 
-Julia has experimental support for executing code on TPUs (https://github.com/JuliaTPU/XLA.jl) TPUs enable training cutting edge machine larning models written using Flux. However, TPUs are not able to execute arbitrary code and thus often require individual attention to fix new patterns in XLA.jl or other packages. Additionally, the performance characteristics of the TPU hardware are quite unlike that of CPU or even GPU and models may thus require TPU-specific adjustments to achieve peak performance. Lastly, the speed of TPUs presents signficant challenges to data input pipelines even at single-TPU levels of performance. Having a wide set of models available that are tuned for TPU will aid in finding common abstractions for models independent of hardware.
+Julia has experimental support for executing code on TPUs (https://github.com/JuliaTPU/XLA.jl) TPUs enable training cutting edge machine larning models written using Flux. However, TPUs are not able to execute arbitrary code and thus often require individual attention to fix new patterns in XLA.jl or other packages. Additionally, the performance characteristics of the TPU hardware are quite unlike that of CPU or even GPU, and models may thus require TPU-specific adjustments to achieve peak performance. Lastly, the speed of TPUs presents signficant challenges to data input pipelines even at single-TPU levels of performance. Having a wide set of models available that are tuned for TPU will aid in finding common abstractions for models independent of hardware.
 
 Mentors: [Keno Fischer](https://github.com/Keno)
 
 ### Benchmarks
 
-A benchmark suite would help us to keep Julia's performance for ML models in shape, as well as revealing opportunities for improvement. Like the model-zoo project, this would involve contributing standard models that exercise common ML use case (images, text etc) and profiling them. The project could extend to include improving performance where possible, or creating a "benchmarking CI" like Julia's own [nanosoldier](https://github.com/JuliaCI/Nanosoldier.jl).
+A benchmark suite would help us to keep Julia's performance for ML models in shape, as well as reveal opportunities for improvement. Like the model-zoo project, this would involve contributing standard models that exercise common ML use cases (images, text etc) and profiling them. The project could extend to include improving performance where possible, or creating a "benchmarking CI" like Julia's own [nanosoldier](https://github.com/JuliaCI/Nanosoldier.jl).
 
 Mentors: [Dhairya Gandhi](https://github.com/DhairyaLGandhi/), [Elliot Saba](https://github.com/staticfloat).
 
@@ -112,11 +112,11 @@ Mentors: [Valentin Churavy](https://github.com/vchuravy), [Tim Besard](https://g
 
 ### Sparse GPU and ML support
 
-While Julia supports dense GPU arrays well via [CUDA.jl](https://github.com/JuliaGPU/CUDA.jl), we lack up-to-date wrappers for sparse operations. This project would involve wrapping CUDA's sparse support, with [CUSPARSE.jl](https://github.com/JuliaGPU/CUSPARSE.jl) as a starting point, adding them to CUDA.jl, and perhaps demonstrating their use via a sparse machine learning model.
+While Julia supports dense GPU arrays well via [CUDA.jl](https://github.com/JuliaGPU/CUDA.jl), we lack up-to-date wrappers for sparse operations. This project would involve wrapping CUDA's sparse support with [CUSPARSE.jl](https://github.com/JuliaGPU/CUSPARSE.jl) as a starting point, adding them to CUDA.jl, and perhaps demonstrating their use via a sparse machine learning model.
 
 ### NLP Tools and Models
 
-Build deep learning models for Natural Language Processing in Julia. [TextAnalysis](https://github.com/juliatext/TextAnalysis.jl)  and [WordTokenizers](https://github.com/JuliaText/WordTokenizers.jl) contains the basic algorithms and data structures to work with textual data in Julia. On top of that base, we want to build modern deep learning models based on recent research. The following tasks can span multiple students and projects.
+Build deep learning models for Natural Language Processing in Julia. [TextAnalysis](https://github.com/juliatext/TextAnalysis.jl) and [WordTokenizers](https://github.com/JuliaText/WordTokenizers.jl) contain the basic algorithms and data structures to work with textual data in Julia. On top of that base, we want to build modern deep learning models based on recent research. The following tasks can span multiple students and projects.
 
 It is important to note that we want practical, usable solutions to be created, not just research models. This implies that a large part of the effort will need to be in finding and using training data, and testing the models over a wide variety of domains. Pre-trained models must be available to users, who should be able to start using these without supplying their own training data.
 
@@ -166,7 +166,7 @@ implement and benchmark against classical techniques.
 
 ### Accelerating optimization via machine learning with surrogate models
 
-In many cases, when attempting to optimize a function `f(p)` each calculation
+In many cases, when attempting to optimize a function `f(p)`, each calculation
 of `f` is very expensive. For example, evaluating `f` may require solving a
 PDE or other applications of complex linear algebra. Thus, instead of always
 directly evaluating `f`, one can develop a surrogate model `g` which is
@@ -208,7 +208,7 @@ estimation with the most high-powered and robust methodologies. Possible project
 include improving methods for Bayesian estimation of parameters via Stan.jl
 and Julia-based libraries like Turing.jl, or global optimization-based approaches.
 Novel techniques like classifying model outcomes via support vector machines
-and deep neural networks is can also be considered. Research and benchmarking
+and deep neural networks can also be considered. Research and benchmarking
 to attempt to find the most robust methods will take place in this project.
 Additionally, the implementation of methods for estimating structure, such
 as [topological sensitivity analysis](http://www.pnas.org/content/111/52/18507)
@@ -234,7 +234,7 @@ simultaneously.
 
 **Mentors**: [Chris Rackauckas](https://github.com/ChrisRackauckas), [Vaibhav Dixit](https://github.com/Vaibhavdixit02)
 
-## Integration of FEniCS.jl with dolfin-adjoint + Zygote.jl for Scientific Machine Learning
+### Integration of FEniCS.jl with dolfin-adjoint + Zygote.jl for Scientific Machine Learning
 
 Scientific machine learning requires mixing scientific computing libraries with machine learning.
 [This blog post highlights how the tooling of Julia is fairly advanced in this field](https://www.stochasticlifestyle.com/the-essential-tools-of-scientific-machine-learning-scientific-ml/) compared to alternatives such as Python,
