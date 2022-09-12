@@ -1,12 +1,12 @@
 ---
-title: FastAI.jl Time Series Development
+title: Adding Time Series Support to FastAI.jl
 author: Saksham
 layout: blog
 ---
 
 [FastAI.jl](https://github.com/FluxML/FastAI.jl) is a Julia library inspired by [fastai](https://github.com/fastai/fastai), and its goal is to create state-of-the-art deep learning models easily. FastAI.jl simplifies training fast and accurate neural nets using modern best practices.
 
-Time-Series models constitute an integral part of any machine learning stack. This blog post will demonstrate how to start working with time-series data with FastAI.jl and the [FastTimeSeries](https://github.com/FluxML/FastAI.jl/tree/master/FastTimeSeries) submodule. The work presented here was done as part of [GSoC'22](https://summerofcode.withgoogle.com/programs/2022/projects/Q9GVFW33) under the mentorship of Brian Chen, Kyle Daruwalla, and Lorenz Ohly.
+Models for time series data constitute an integral part of any machine learning stack. This blog post will demonstrate how to start working with time-series data with FastAI.jl and the [FastTimeSeries](https://github.com/FluxML/FastAI.jl/tree/master/FastTimeSeries) submodule. The FastTimeSeries submodule has been inspired by [tsai](https://timeseriesai.github.io/tsai/), a package built on top of fastai for time series tasks. The work presented here was done as part of [GSoC'22](https://summerofcode.withgoogle.com/programs/2022/projects/Q9GVFW33) under the mentorship of Brian Chen, Kyle Daruwalla, and Lorenz Ohly.
 
 
 ## Loading the data in a container
@@ -29,17 +29,15 @@ julia> numobs(data)
 
 ## Tasks
 
-The library supports `TSClassificationSingle(blocks, data)` and `TSRegression(blocks, data)` tasks. These are for single label time-series classification and single label time-series regression.
+The library supports `TSClassificationSingle` and `TSRegression` tasks--used for single label time-series classification and single label time-series regression, respectively. We will pass our `data` and `blocks` from the previous step into the task:
 
 ```julia
 julia> task = TSClassificationSingle(blocks, data);
 ```
 
-
 ## Data Preprocessing
 
-Although, we have loaded the data in a container which can be used later while creating a `DataLoader` and training, often we would like to perform transformations on it. We can encode a sample input using
-`encodesample(task, Phase(), sample)`
+Although `data` can already be passed to `DataLoader` for loading during training, we would often like to perform transformations on it. We can encode a sample input using `encodesample(task, Phase(), sample)` where `Phase` is a [FastAI.jl Context](https://fluxml.ai/FastAI.jl/dev/references/FastAI.Context).
 
 ```julia
 julia> input, class = sample = getobs(data, 25)
@@ -51,13 +49,13 @@ julia> encodesample(task, Training(), (input, class))
 ## Models
 
 The library contains implementation of the following models.
-- RNNs
+- Basic stacked RNNs
 ```julia
 julia> backbone = FastTimeSeries.Models.StackedLSTM(1, 16, 10, 2);
 julia> model = FastAI.taskmodel(task, backbone);
 ```
 
-- [InceptionTime](https://www.google.com/search?client=safari&rls=en&q=inceptiontime&ie=UTF-8&oe=UTF-8)
+- [InceptionTime](https://arxiv.org/abs/1909.04939)
 ```julia
 julia> model = FastTimeSeries.Models.InceptionTime(1, 5);
 ```
