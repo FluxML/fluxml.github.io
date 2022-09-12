@@ -33,7 +33,7 @@ handled on a case-by-case basis.
 
 ### Advisory Committee
 
-To be decided.
+- [Frames Catherine White](https://github.com/oxinabox)
 
 ### Former Steering Council
 
