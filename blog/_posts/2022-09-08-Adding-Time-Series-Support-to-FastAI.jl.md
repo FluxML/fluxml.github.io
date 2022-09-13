@@ -79,3 +79,8 @@ We can view the loss and accuracy on the training and validation data after the 
 ## Conclusion
 
 We saw how we can work on time-series data using FastAI.jl.
+
+## Future Work
+
+Future work would involve adding tools to the library to improve the experience of working with time series. These would include tools for visualizations and analysis. 
+FastTimeSeries would also be expanded to work on more complex tasks such as multi-class classification and single and multi-step forecasting. We would also implement more complex models such as [Transformers](https://arxiv.org/abs/2010.02803).
