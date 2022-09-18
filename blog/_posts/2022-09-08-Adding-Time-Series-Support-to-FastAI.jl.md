@@ -49,13 +49,26 @@ julia> encodesample(task, Training(), (input, class))
 ## Models
 
 The library contains implementation of the following models.
-- Basic stacked RNNs
+
+- Basic stacked RNNs.  
+  Stacked RNN network. Feeds the data through a chain of RNN layers, where the hidden state
+  of the previous layer gets fed to the next one. The Model has the following arguments.
+  - `c_in` : The number of input channels.
+  - `c_out` : The number of output classes.
+  - `hiddensize` : The number of "hidden channels" to use.
+  - `layers` : The number of RNN layers to use in the stacked network. 
+  
 ```julia
 julia> backbone = FastTimeSeries.Models.StackedLSTM(1, 16, 10, 2);
 julia> model = FastAI.taskmodel(task, backbone);
 ```
 
-- [InceptionTime](https://arxiv.org/abs/1909.04939)
+- [InceptionTime](https://arxiv.org/abs/1909.04939) 
+  An implementation of the InceptionTime Model. The Model has the following arguments. 
+  - `c_in` : The number of input channels.
+  - `c_out` : The number of output classes.
+  - `nf` : The number of "hidden channels" to use.
+
 ```julia
 julia> model = FastTimeSeries.Models.InceptionTime(1, 5);
 ```
@@ -78,7 +91,11 @@ We can view the loss and accuracy on the training and validation data after the 
 
 ## Conclusion
 
-We saw how we can work on time-series data using FastAI.jl.
+We saw how we could work on time-series data using FastAI.jl. The library now supports the following features. 
+
+- Load time series classification datasets and regression datasets from [UCR Classification](http://timeseriesclassification.com/index.php) and [Monash Regression](http://tseregression.org/) respectively.
+- Perform data transformations on the loaded data.
+- Perform classification and regression tasks using InceptionTime or stacked RNNs.
 
 ## Future Work
 
