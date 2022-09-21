@@ -3,7 +3,7 @@
 </p>
 
 
-This repository contains the source files of [Flux site](https://fluxml.github.io/Flux.jl/). 
+This repository contains the source files of [Flux website, fluxml.ai](https://fluxml.github.io/). 
 
 Flux is an elegant approach to machine learning. It's a 100% pure-Julia stack, and provides lightweight abstractions on top of Julia's native GPU and AD support. Flux makes the easy things easy while remaining fully hackable.
 
