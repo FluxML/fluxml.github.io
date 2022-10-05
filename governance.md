@@ -1,9 +1,10 @@
----
-layout: page
-title: Governance
----
++++
+title = "Governance"
++++
 
-# FluxML Governance
+~~~
+<h1>FluxML Governance</h1>
+~~~
 
 The following contains the formal governance structure of the FluxML
 project. This document clarifies how decisions are made with respect
@@ -25,25 +26,31 @@ handled on a case-by-case basis.
 
 ### Current Steering Council
 
+@@tight-list
 - [Michael Abbott](https://github.com/mcabbott)
 - [Brian Chen](https://github.com/ToucheSir)
 - [Kyle Daruwalla](https://github.com/darsnack)
 - [Carlo Lucibello](https://github.com/CarloLucibello)
 - [Lorenz Ohly](https://github.com/lorenzoh)
+@@
 
 ### Advisory Committee
 
+@@tight-list
 - [Frames Catherine White](https://github.com/oxinabox)
+@@
 
 ### Former Steering Council
 
+@@tight-list
 - [Mike Innes](https://github.com/MikeInnes) (2016-2020)
 - [Dhairya Gandhi](https://github.com/DhairyaLGandhi) (2018-2020)
 - [Elliot Saba](https://github.com/staticfloat) (2018-2020)
+@@
 
-# Governing Rules and Duties
+## Governing Rules and Duties
 
-## Steering Council
+### Steering Council
 
 The Project has a Steering Council that consists of Project
 Contributors who have produced contributions that are substantial in
@@ -81,7 +88,7 @@ Steering Council decisions are taken by simple majority, with the
 exception of changes to the Governance Documents which follow the
 procedure in the section 'Changing the Governance Documents'.
 
-### Steering Council membership
+#### Steering Council membership
 
 To become eligible for being a Steering Council Member, an individual
 must be a Project Contributor who has produced contributions that are
@@ -120,14 +127,14 @@ The Council reserves the right to eject current Members if they are
 deemed to be actively harmful to the Project's well-being, and
 attempts at communication and conflict resolution have failed.
 
-## Fiscal Decisions
+### Fiscal Decisions
 
 All fiscal decisions are made by the steering council to ensure any
 funds are spent in a manner that furthers the mission of the Project.
 Fiscal decisions require majority approval by acting steering council
 members.
 
-## Advisory Committee
+### Advisory Committee
 
 The Project has an Advisory Committee that works to ensure the long-term
 well-being of the Project. The Committee advises the Steering Council and
@@ -137,7 +144,7 @@ the Council, and the Committee will meet annually to review Project
 activities. Committee decisions are taken in consensus. Members of the
 Advisory Committee are appointed by the Steering Council.
 
-## Conflict of interest
+### Conflict of interest
 
 It is expected that Steering Council and Advisory Committee Members
 will be employed at a wide range of companies, universities and non-profit

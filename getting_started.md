@@ -1,7 +1,6 @@
----
-layout: page
-title: Getting Started
----
++++
+title = "Getting Started"
++++
 
 Welcome! This section contains information on how to create your first machine learning model using Flux.
 
@@ -18,20 +17,13 @@ After installing Julia, you can install Flux by running the following command in
 julia> ] add Flux
 ```
 
-<br>
-
-
 Alternatively, you can run the following:
 
 ```julia
 julia> using Pkg; Pkg.add("Flux")
 ```
 
-<br>
-
 Flux provides GPU support. For more information on obtaining GPU support, see [CUDA.jl](https://github.com/JuliaGPU/CUDA.jl) and [Flux documentation on GPU support](https://fluxml.ai/Flux.jl/stable/gpu/).
-
-<br>
 
 ## Getting Help
 
@@ -41,8 +33,6 @@ If you run into any issues on your journey learning Flux.jl, please post on Stac
 
 In this tutorial, you'll create your first machine learning model using Flux. This is a simple linear regression model that attempts to recover a linear function by looking at noisy examples.
 
-<br>
-
 ### Step 1: Import Flux
 
 To import Flux add the following:
@@ -50,7 +40,6 @@ To import Flux add the following:
 ```julia
 using Flux
 ```
-<br>
 
 ### Step 2: Create the training data
 First, we'll write a function that generates our "true" data. We'll use to use Flux to recover `W_truth` and `b_truth` by looking only at examples of the `ground_truth` function.
@@ -61,7 +50,6 @@ W_truth = [1 2 3 4 5;
 b_truth = [-1.0; -2.0]
 ground_truth(x) = W_truth*x .+ b_truth
 ```
-<br>
 
 Next, we generate our training data by passing random vectors into the ground truth function. We'll also add Gaussian noise using `randn()` so that it's not *too* easy for Flux to figure out the model.
 
@@ -84,7 +72,6 @@ Next, we define the model we want to use to learn the data. We'll use the same f
 ```julia
 model(x) = W*x .+ b
 ```
-<br>
 
 We need to set the parameters of the model (`W` and `b`) to some initial values. It's fairly common to use random values, so we'll do that:
 
@@ -92,14 +79,14 @@ We need to set the parameters of the model (`W` and `b`) to some initial values.
 W = rand(2, 5)
 b = rand(2)
 ```
-<br>
 
 You can learn more about defining models in this video:
 
+~~~
 <div style="display: flex; justify-content: center;">
             <iframe style="width: 60%; height:400px;" src="https://www.youtube.com/embed/XrAUGRX998E" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
-<br>
+~~~
 
 ### Step 4: Define a loss function
 
@@ -114,8 +101,6 @@ function loss(x, y)
 end
 ```
 
-<br>
-
 ### Step 5: Set an optimiser
 
 You train a machine learning model by running an optimization algorithm (optimiser) that finds the best parameters (`W` and `b`). The best parameters for a model are the ones that achieve the best score of the `loss` function. Flux provides [Optimisers](https://fluxml.ai/Flux.jl/stable/training/optimisers/) that you can use to train a model. 
@@ -125,7 +110,6 @@ For this tutorial, we'll use a classic gradient descent optimiser with learning 
 ```julia
 opt = Descent(0.01)
 ```
-<br>
 
 ### Step 6: Train your model
 
@@ -147,12 +131,7 @@ for (x,y) in train_data
 end
 ```
 
-<br>
-
-
->**Note:** With this pattern, it is easy to add more complex learning routines that make use of control flow, distributed compute, scheduling optimisations, etc. Note that the pattern above is a simple Julia *for loop* but it could also be replaced with a *while loop*.
-
-<br>
+> **Note:** With this pattern, it is easy to add more complex learning routines that make use of control flow, distributed compute, scheduling optimisations, etc. Note that the pattern above is a simple Julia *for loop* but it could also be replaced with a *while loop*.
 
 While writing your own loop is powerful, sometimes you just want to do the simple thing without writing too much code. Flux lets you do this with [Flux.train!](https://fluxml.ai/Flux.jl/stable/training/training/#Training-1), which runs one training epoch over a dataset. `Flux.train!` computes gradients and updates model parameters for every sample or batch of samples. In our case, we could have replaced the above loop with the following statement:
 
@@ -160,11 +139,7 @@ While writing your own loop is powerful, sometimes you just want to do the simpl
 Flux.train!(loss, Flux.params(W, b), train_data, opt)
 ```
 
-<br>
-
 For more ways to train a model in Flux, see [Training](https://fluxml.ai/Flux.jl/stable/training/training/#Training-1).
-
-<br>
 
 ### Step 7: Examine the Results
 
@@ -224,8 +199,6 @@ end
 @show W
 @show maximum(abs, W .- W_truth)
 ```
-
-<br>
 
 
 ## What's next

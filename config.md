@@ -12,7 +12,7 @@ website_footer = """
 website_twitter = "Follow @FluxML"
 website_twitter_url = "https://twitter.com/FluxML?ref_src=twsrc%5Etfw"
 
-ignore = ["_old/"]
+ignore = ["_old/", "CONTRIBUTING.md"]
 
 # Adjust when moving to prod (note: if fluxml.ai, then no need for prepath)
 prepath = "fluxml-franklin"

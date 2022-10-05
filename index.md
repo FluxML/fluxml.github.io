@@ -51,7 +51,6 @@
   @@
 @@
 
-<!-- Ecosystem -->
 @@features
   @@container
     @@row
@@ -59,10 +58,14 @@
         ~~~
         <h2>
           Ecosystem
-          <a class="btn btn-primary btn-lg" href="/ecosystem/" role="button" style="float: right;">See all <i class="fas fa-arrow-circle-right"></i> </a>
         </h2>
         ~~~
         Flux has a diverse ecosystem that includes models available for reuse and other useful packages.
+      @@
+      @@col-md-12,feature-title
+      ~~~
+      <a class="btn btn-primary btn-lg" href="https://fluxml.ai/Flux.jl/dev/ecosystem/" role="button" style="float: right;">See all <i class="fas fa-arrow-circle-right"></i> </a>
+      ~~~
       @@
     @@
 
@@ -120,7 +123,8 @@
         ~~~
         <h5>Community team</h5>
         ~~~
-        Join the [group of community maintainers](/governance) supporting the FluxML ecosystem. Talk to us on Zulip! 👉
+        Flux is maintained by community team (see our [governance model](/governance)).
+        Join us or talk to us on Zulip! 👉
       @@
       @@col-md,feature
         ~~~
@@ -149,11 +153,16 @@
         ~~~
         [Ask questions](https://stackoverflow.com/questions/tagged/flux.jl) about Flux.jl.
       @@
+      @@col-md,feature
+        ~~~
+        <h5>Contribute!</h5>
+        ~~~
+        Help us by [contributing code](https://github.com/FluxML/Flux.jl/blob/master/CONTRIBUTING.md)!
+      @@
     @@
   @@
 @@
 
-<!-- Why Flux? -->
 @@features
   @@container
     @@row
@@ -171,8 +180,6 @@
     @@
   @@
 @@
-
-<!-- Friends -->
 
 @@friends
   @@container

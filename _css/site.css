@@ -46,8 +46,20 @@ body {
 }
 
 .content h3 {
-  font-size: 12pt;
-  font-weight: bold
+  font-size: 14pt;
+  font-weight: bold;
+  margin-top: 2em
+}
+
+.content h4 {
+  font-size: 13pt;
+  margin-top: 2em
+}
+
+.content h5 {
+  font-size: 13pt;
+  font-style: italic;
+  margin-top: 2em
 }
 
 .content blockquote {
@@ -66,6 +78,22 @@ body {
 .content .attrib {
   font-style: italic;
   color: #003232
+}
+
+.container img {
+  max-width: 100%;
+}
+.container h1, .container h2, .container h3, .container h4, .container h5, .container p, .container blockquote, .container .hljs, .container ul :not(.navbar-nav) {
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.container p {
+  text-align:justify;
+}
+.container p.p-image {
+  max-width: 100%;
+  text-align: center;
 }
 
 .lighter {
@@ -126,7 +154,8 @@ pre code.hljs {
   border: 2px solid #c8f0f0;
   border-radius: 5px;
   padding-left: 1em;
-  padding-right: 1em
+  padding-right: 1em;
+  margin-bottom: 1em;
 }
 
 .navbar-collapse.collapse.in {
@@ -238,4 +267,8 @@ pre code.hljs {
   max-width: 200px;
   max-height: 100px;
   height: auto;
+}
+
+.tight-list p {
+  margin-bottom: 0;
 }
