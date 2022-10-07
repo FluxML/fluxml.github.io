@@ -34,8 +34,8 @@ using Flux: onehotbatch
 We load the MNIST train and test data from MLDatasets:
  
 ```julia
-train_x, train_y = MNIST.traindata(Float32)
-test_x, test_y = MNIST.testdata(Float32)
+train_x, train_y = MNIST(:train)[:]
+test_x, test_y = MNIST(:test)[:]
 ```
 <br>
  
