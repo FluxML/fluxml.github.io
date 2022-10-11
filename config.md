@@ -12,7 +12,7 @@ website_footer = """
 website_twitter = "Follow @FluxML"
 website_twitter_url = "https://twitter.com/FluxML?ref_src=twsrc%5Etfw"
 
-ignore = ["_old/", "CONTRIBUTING.md"]
+ignore = ["CONTRIBUTING.md"]
 
 prepath     = get(ENV, "PREVIEW_FRANKLIN_PREPATH", ".")
 website_url = get(ENV, "PREVIEW_FRANKLIN_WEBSITE_URL", "fluxml.ai")
