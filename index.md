@@ -192,22 +192,75 @@
     @@
 
     @@row
-      ~~~
-      <ul>
-        <li><a href="https://julia.mit.edu"><img src="/assets/friends/mit-logo.png"></a></li>
-        <li><a href="https://www.ucl.ac.uk"><img src="/assets/friends/ucl-logo.png"></a></li>
-        <li><a href="https://www.utoronto.ca"><img src="/assets/friends/uoft_logo.png"></a></li>
-        <li><a href="https://juliacomputing.com"><img src="/assets/friends/juliac-logo.png"></a></li>
-        <li><a href="https://www.turing.ac.uk/research/research-projects/machine-learning-julia"><img src="/assets/friends/alan-turing.jpg"></a></li>
-        <li><a href="https://www.ed.ac.uk"><img src="/assets/friends/edinburgh.png"></a></li>
-        <li><a href="https://www.relational.ai"><img src="/assets/friends/rai-logo.png"></a></li>
-        <li><a href="https://www.washington.edu"><img src="/assets/friends/washington.jpg"></a></li>
-        <li><a href="https://www.cam.ac.uk"><img src="/assets/friends/cambridge.jpg"></a></li>
-        <li><a href="https://www.cmu.edu"><img src="/assets/friends/cmu-logo.png"></a></li>
-        <li><a href="https://www.invenia.ca"><img src="/assets/friends/invenia-logo.png"></a></li>
-        <li><a href="https://beacon.bio"><img src="/assets/friends/beacon_biosignals.jpg"></a></li>
-      </ul>
-      ~~~
+      @@col-md
+        ~~~
+        <a href="https://julia.mit.edu"><img src="/assets/friends/mit-logo.png"></a>
+        ~~~
+      @@
+      @@col-md
+        ~~~
+        <a href="https://www.ucl.ac.uk"><img src="/assets/friends/ucl-logo.png"></a>
+        ~~~
+      @@
+      @@col-md
+        ~~~
+        <a href="https://www.utoronto.ca"><img src="/assets/friends/uoft_logo.png"></a>
+        ~~~
+      @@
+    @@
+
+    @@row
+      @@col-md
+        ~~~
+        <a href="https://juliacomputing.com"><img src="/assets/friends/juliac-logo.png"></a>
+        ~~~
+      @@
+      @@col-md
+        ~~~
+        <a href="https://www.turing.ac.uk/research/research-projects/machine-learning-julia"><img src="/assets/friends/alan-turing.jpg"></a>
+        ~~~
+      @@
+      @@col-md
+        ~~~
+        <a href="https://www.ed.ac.uk"><img src="/assets/friends/edinburgh.png"></a>
+        ~~~
+      @@
+    @@
+
+    @@row
+      @@col-md
+        ~~~
+        <a href="https://www.relational.ai"><img src="/assets/friends/rai-logo.png"></a>
+        ~~~
+      @@
+      @@col-md
+        ~~~
+        <a href="https://www.washington.edu"><img src="/assets/friends/washington.jpg"></a>
+        ~~~
+      @@
+      @@col-md
+        ~~~
+        <a href="https://www.cam.ac.uk"><img src="/assets/friends/cambridge.jpg"></a>
+        ~~~
+      @@
+    @@
+
+    @@row
+      @@col-md
+        ~~~
+        <a href="https://www.cmu.edu"><img src="/assets/friends/cmu-logo.png"></a>
+        ~~~
+      @@
+      @@col-md
+        ~~~
+        <a href="https://www.invenia.ca"><img src="/assets/friends/invenia-logo.png"></a>
+        ~~~
+      @@
+      @@col-md
+        ~~~
+        <a href="https://beacon.bio"><img src="/assets/friends/beacon_biosignals.jpg"></a>
+        ~~~
+      @@
     @@
   @@
 @@

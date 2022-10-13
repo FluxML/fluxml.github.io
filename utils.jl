@@ -12,7 +12,7 @@ function hfun_recentposts(params)
         url = postdir * "/" * postname
         pubdate = pagevar(url, :published)
         dates[i] = isnothing(pubdate) ? Date(1999) : Date(pubdate, dateformat"d U Y")
-        titles[i] = pagevar(url, :title)
+        titles[i] = something(pagevar(url, :title), "Post $i")
         externallink = pagevar(url, :external)
         links[i] = isnothing(externallink) ? ("/" * url * "/") : externallink
     end
