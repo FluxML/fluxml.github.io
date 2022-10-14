@@ -12,8 +12,8 @@ For popular object detection models - ResNet50, ResNet101 and VGG19 - we compare
 
 ~~~
 <p float="middle">
-  <img src="/assets/2020-06-29-acclerating-flux-torch/combined_benchmarks_2.png">
-  <img src="/assets/2020-06-29-acclerating-flux-torch/resnet101.png" height="300">
+  <img src="/assets/blogposts/2020-06-29-acclerating-flux-torch/combined_benchmarks_2.png">
+  <img src="/assets/blogposts/2020-06-29-acclerating-flux-torch/resnet101.png" height="300">
 </p>
 ~~~
 

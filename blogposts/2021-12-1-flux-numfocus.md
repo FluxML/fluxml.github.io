@@ -6,7 +6,7 @@ author = "Dhairya Gandhi, Logan Kilpatrick"
 
 ~~~
 <p float="middle">
-  <img src="/assets/2021-12-1-flux-numfocus/flux_numfocus.png" height="300">
+  <img src="/assets/blogposts/2021-12-1-flux-numfocus/flux_numfocus.png" height="300">
 </p>
 ~~~
 
