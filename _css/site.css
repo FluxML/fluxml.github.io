@@ -1,0 +1,274 @@
+@import url("https://fonts.googleapis.com/css?family=Lato:400,400i");
+
+.octicon {
+  display: inline-block;
+  vertical-align: text-bottom;
+  fill: currentColor
+}
+
+body {
+  background: #143c3c;
+  font-family: Lato, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.7
+}
+
+.logo {
+  font-style: italic
+}
+
+.navbar .logo {
+  text-shadow: 2px 2px 5px rgba(0,0,0,0.1)
+}
+
+.content {
+  background: #f0fafa
+}
+
+.content .container {
+  background: white;
+  padding-top: 2em;
+  padding-bottom: 2em
+}
+
+.content h1 {
+  font-size: 20pt;
+  padding-bottom: 0.2em;
+  border-bottom: 3px solid #ebf5eb;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 1em
+}
+
+.content h2 {
+  font-size: 18pt;
+  text-align: right;
+  margin-top: 2em
+}
+
+.content h3 {
+  font-size: 14pt;
+  font-weight: bold;
+  margin-top: 2em
+}
+
+.content h4 {
+  font-size: 13pt;
+  margin-top: 2em
+}
+
+.content h5 {
+  font-size: 13pt;
+  font-style: italic;
+  margin-top: 2em
+}
+
+.content blockquote {
+  font-style: italic;
+  border-left: 5px solid #ebf5eb;
+  padding-left: 1em;
+  margin-left: 1em
+}
+
+.content .author {
+  text-align: right;
+  font-style: italic;
+  color: #009696
+}
+
+.content .attrib {
+  font-style: italic;
+  color: #003232
+}
+
+.container img {
+  max-width: 100%;
+}
+.container h1, .container h2, .container h3, .container h4, .container h5, .container p, .container blockquote, .container .hljs, .container ul :not(.navbar-nav) {
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.container p {
+  text-align:justify;
+}
+.container p.p-image {
+  max-width: 100%;
+  text-align: center;
+}
+
+.lighter {
+  font-weight: 300;
+  letter-spacing: 1px
+}
+
+p a:hover, p a:visited:hover {
+  color: #006464;
+  text-decoration: none
+}
+
+p a, p a:visited {
+  color: #006464;
+  border-bottom: 2px solid #b4dcdc
+}
+
+p a:hover {
+  border-bottom: 2px solid #0aa
+}
+
+.feature a:hover, .feature a:visited:hover {
+  color: #006464;
+  text-decoration: none
+}
+
+.feature a, .feature a:visited {
+  color: #006464;
+  border-bottom: 2px solid #b4dcdc
+}
+
+.feature a:hover {
+  border-bottom: 2px solid #0aa
+}
+
+.call {
+  padding-top: 2em;
+  padding-bottom: 2em;
+  text-align: center
+}
+
+.call p:last-child {
+  margin: 0
+}
+
+.footer {
+  margin-top: 1.5rem;
+  margin-bottom: 3rem;
+  color: white
+}
+
+pre {
+  margin: 0
+}
+
+pre code.hljs {
+  background: #f5ffff;
+  border: 2px solid #c8f0f0;
+  border-radius: 5px;
+  padding-left: 1em;
+  padding-right: 1em;
+  margin-bottom: 1em;
+}
+
+.navbar-collapse.collapse.in {
+  display: block !important
+}
+
+.jumbotron {
+  margin-bottom: 0;
+  position: relative;
+  border-bottom: 1px thick;
+}
+
+.jumbotron .container {
+  max-width: 750px;
+  box-shadow: 2px;
+  position: relative;
+  padding: none;
+  text-align: center;
+}
+
+.jumbotron .buttons {
+  padding: 10px;
+}
+
+@media (min-width: 576px){
+  .jumbotron .container{
+    padding: calc(1rem + 30px) 15px;
+  }
+}
+
+.jumbotron hr {
+  border-top: 1px solid rgb(100, 150, 150);
+}
+
+.jumbotron h1 {
+  font-family: lato;
+  font-style: italic;
+}
+
+/* Description */
+.jumbotron {
+  padding: 0;
+}
+
+.jumbotron p {
+  font-size: 1.1em;
+  margin-bottom: 1.5rem;
+}
+
+.btn-primary {
+  color: rgb(30, 50, 50);
+  border-color: rgb(150, 200, 200);
+  background: none;
+  border-width: 2px;
+}
+
+.jumbotron .btn-primary:hover {
+  color: rgb(0, 0, 0);
+  border-color: rgb(30, 80, 80);
+  background: none;
+  border-width: 2px;
+}
+
+/*Features*/
+.features {
+  background:white;
+  padding-top:2em;
+}
+
+.feature {
+  padding-top: 1em;
+  padding-bottom: 2rem;
+  letter-spacing: 0.1px;
+}
+
+.feature-title {
+  text-align:center;
+  color:rgb(100,130,130)
+}
+
+.paper {
+  padding: 1em;
+}
+
+.feature h5, .paper h5 {
+  font-style: italic;
+  padding-bottom: 0.5em;
+}
+
+.friends{
+  background: #fff;
+}
+.friends *{
+  text-align: center;
+  padding:10px;
+}
+.friends h3{
+  margin-top: 50px;
+}
+.friends ul{
+  display: flex;
+  -webkit-justify-content: space-evenly;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  list-style: none;
+  align-items: center;
+}
+.friends ul li img{
+  max-width: 200px;
+  max-height: 100px;
+  height: auto;
+}
+
+.tight-list p {
+  margin-bottom: 0;
+}
