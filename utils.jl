@@ -1,6 +1,6 @@
 using Dates
 
-function hfun_recentposts(params)
+@delay function hfun_recentposts(params)
     postdir = only(params)
     list = readdir(postdir)
     filter!(f -> endswith(f, ".md"), list)
