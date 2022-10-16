@@ -2,7 +2,7 @@
 @@jumbotron,jumbotron-fluid,no-pad
   @@container
     ~~~
-    <img src="/assets/logo.png" style="max-width:100%;padding-bottom:20px"/>
+    <img src="./assets/logo.png" style="max-width:100%;padding-bottom:20px"/>
     <h2>The <i>Elegant</i> Machine Learning Stack</h2>
     Flux is a 100% pure-Julia stack and provides lightweight abstractions on top of Julia's native GPU and AD support. It makes the easy things easy while remaining fully hackable.
     ~~~
@@ -194,35 +194,17 @@
     @@row
       @@col-md
         ~~~
-        <a href="https://julia.mit.edu"><img src="/assets/friends/mit-logo.png"></a>
+        <a href="https://julia.mit.edu"><img src="./assets/friends/mit-logo.png"></a>
         ~~~
       @@
       @@col-md
         ~~~
-        <a href="https://www.ucl.ac.uk"><img src="/assets/friends/ucl-logo.png"></a>
+        <a href="https://www.ucl.ac.uk"><img src="./assets/friends/ucl-logo.png"></a>
         ~~~
       @@
       @@col-md
         ~~~
-        <a href="https://www.utoronto.ca"><img src="/assets/friends/uoft_logo.png"></a>
-        ~~~
-      @@
-    @@
-
-    @@row
-      @@col-md
-        ~~~
-        <a href="https://juliacomputing.com"><img src="/assets/friends/juliac-logo.png"></a>
-        ~~~
-      @@
-      @@col-md
-        ~~~
-        <a href="https://www.turing.ac.uk/research/research-projects/machine-learning-julia"><img src="/assets/friends/alan-turing.jpg"></a>
-        ~~~
-      @@
-      @@col-md
-        ~~~
-        <a href="https://www.ed.ac.uk"><img src="/assets/friends/edinburgh.png"></a>
+        <a href="https://www.utoronto.ca"><img src="./assets/friends/uoft_logo.png"></a>
         ~~~
       @@
     @@
@@ -230,17 +212,17 @@
     @@row
       @@col-md
         ~~~
-        <a href="https://www.relational.ai"><img src="/assets/friends/rai-logo.png"></a>
+        <a href="https://juliacomputing.com"><img src="./assets/friends/juliac-logo.png"></a>
         ~~~
       @@
       @@col-md
         ~~~
-        <a href="https://www.washington.edu"><img src="/assets/friends/washington.jpg"></a>
+        <a href="https://www.turing.ac.uk/research/research-projects/machine-learning-julia"><img src="./assets/friends/alan-turing.jpg"></a>
         ~~~
       @@
       @@col-md
         ~~~
-        <a href="https://www.cam.ac.uk"><img src="/assets/friends/cambridge.jpg"></a>
+        <a href="https://www.ed.ac.uk"><img src="./assets/friends/edinburgh.png"></a>
         ~~~
       @@
     @@
@@ -248,17 +230,35 @@
     @@row
       @@col-md
         ~~~
-        <a href="https://www.cmu.edu"><img src="/assets/friends/cmu-logo.png"></a>
+        <a href="https://www.relational.ai"><img src="./assets/friends/rai-logo.png"></a>
         ~~~
       @@
       @@col-md
         ~~~
-        <a href="https://www.invenia.ca"><img src="/assets/friends/invenia-logo.png"></a>
+        <a href="https://www.washington.edu"><img src="./assets/friends/washington.jpg"></a>
         ~~~
       @@
       @@col-md
         ~~~
-        <a href="https://beacon.bio"><img src="/assets/friends/beacon_biosignals.jpg"></a>
+        <a href="https://www.cam.ac.uk"><img src="./assets/friends/cambridge.jpg"></a>
+        ~~~
+      @@
+    @@
+
+    @@row
+      @@col-md
+        ~~~
+        <a href="https://www.cmu.edu"><img src="./assets/friends/cmu-logo.png"></a>
+        ~~~
+      @@
+      @@col-md
+        ~~~
+        <a href="https://www.invenia.ca"><img src="./assets/friends/invenia-logo.png"></a>
+        ~~~
+      @@
+      @@col-md
+        ~~~
+        <a href="https://beacon.bio"><img src="./assets/friends/beacon_biosignals.jpg"></a>
         ~~~
       @@
     @@

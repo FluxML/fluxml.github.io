@@ -11,7 +11,7 @@ This is a beginner level tutorial for generating images of handwritten digits us
 
 A GAN is composed of two sub-models - the **generator** and the **discriminator** acting against one another. The generator can be considered as an artist who draws (generates) new images that look real, whereas the discriminator is a critic who learns to tell real images apart from fakes.
 
-![](/assets/tutorialposts/2021-10-8-dcgan-mnist/cat_gan.png)
+![](../../assets/tutorialposts/2021-10-8-dcgan-mnist/cat_gan.png)
 
 The GAN starts with a generator and discriminator which have very little or no idea about the underlying data. During training, the generator progressively becomes better at creating images that look real, while the discriminator becomes better at telling them apart. The process reaches equilibrium when the discriminator can no longer distinguish real images from fakes.
 
@@ -25,7 +25,7 @@ This tutorial demonstrates the process of training a DC-GAN on the [MNIST datase
 ~~~
 <br><br>
 <p align="center">
-<img src="/assets/tutorialposts/2021-10-8-dcgan-mnist/output.gif" align="middle" width="200">
+<img src="../../assets/tutorialposts/2021-10-8-dcgan-mnist/output.gif" align="middle" width="200">
 </p>
 ~~~
 
@@ -361,7 +361,7 @@ save("./output.gif", gif_mat)
 ```
 <br>
 <p align="center">
-<img src="/assets/tutorialposts/2021-10-8-dcgan-mnist/output.gif" align="middle" width="200">
+<img src="../../assets/tutorialposts/2021-10-8-dcgan-mnist/output.gif" align="middle" width="200">
 </p>
 
 ## Resources & References
