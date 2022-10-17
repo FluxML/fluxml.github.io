@@ -1,0 +1,62 @@
+name: Build and Deploy
+on:
+  push:
+    branches:
+      - master
+      - main
+  pull_request:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        persist-credentials: false
+    # NOTE: Python is necessary for the pre-rendering (minification) step
+    - name: Install python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.8'
+    # NOTE: Here you can install dependencies such as matplotlib if you use
+    # packages such as PyPlot.
+    # - run: pip install matplotlib
+    - name: Install Julia
+      uses: julia-actions/setup-julia@v1
+    # NOTE
+    #   The steps below ensure that NodeJS and Franklin are loaded then it
+    #   installs highlight.js which is needed for the prerendering step
+    #   (code highlighting + katex prerendering).
+    #   Then the environment is activated and instantiated to install all
+    #   Julia packages which may be required to successfully build your site.
+    #   The last line should be `optimize()` though you may want to give it
+    #   specific arguments, see the documentation or ?optimize in the REPL.
+    - run: julia -e '
+            using Pkg; Pkg.add(["NodeJS", "Franklin"]);
+            using NodeJS; run(`$(npm_cmd()) install highlight.js`);
+            using Franklin;
+            Pkg.activate("."); Pkg.instantiate();
+            optimize()'
+    - name: Fix URLs for PR preview deployment (pull request previews)
+      if: github.event_name == 'pull_request'
+      run: |
+        echo "PREVIEW_FRANKLIN_WEBSITE_URL=https://fluxml.ai/previews/PR${{ github.event.number }}/" >> $GITHUB_ENV
+        echo "PREVIEW_FRANKLIN_PREPATH=previews/PR${{ github.event.number }}" >> $GITHUB_ENV
+    - name: Deploy (preview)
+      if: github.event_name == 'pull_request' && github.repository == github.event.pull_request.head.repo.full_name # if this build is a PR build and the PR is NOT from a fork
+      uses: JamesIves/github-pages-deploy-action@releases/v4
+      with:
+          branch: gh-pages # The branch where the PRs previews are stored
+          folder: __site
+          token: ${{ secrets.GITHUB_TOKEN }}
+          target-folder: "previews/PR${{ github.event.number }}" # The website preview is going to be stored in a subfolder
+    - name: Deploy (main)
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      uses: JamesIves/github-pages-deploy-action@releases/v4
+      with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages # Replace here the branch where your website is deployed
+          folder: __site
+          clean-exclude: |
+            previews/*
