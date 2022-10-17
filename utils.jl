@@ -14,7 +14,7 @@ using Dates
         dates[i] = isnothing(pubdate) ? Date(1999) : Date(pubdate, dateformat"d U Y")
         titles[i] = something(pagevar(url, :title), "Post $i")
         externallink = pagevar(url, :external)
-        links[i] = isnothing(externallink) ? ("/" * url * "/") : externallink
+        links[i] = isnothing(externallink) ? ("../" * url * "/") : externallink
     end
     perm = sortperm(dates, rev=true)
     io = IOBuffer()
