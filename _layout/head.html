@@ -50,8 +50,20 @@
 
     <!-- Bootstrap CSS (4.1) -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/script_default.css">
-    <link rel="stylesheet" href="/css/site.css">
+    {{ispage index || ispage 404}}
+      <link rel="stylesheet" href="./css/script_default.css">
+      <link rel="stylesheet" href="./css/site.css">
+    {{end}}
+
+    {{ispage blogposts/* || ispage tutorialposts/*}}
+      <link rel="stylesheet" href="../../css/script_default.css">
+      <link rel="stylesheet" href="../../css/site.css">
+    {{end}}
+
+    {{ispage getting_started || ispage blog || ispage governance || ispage gsoc || ispage tutorials}}
+      <link rel="stylesheet" href="../css/script_default.css">
+      <link rel="stylesheet" href="../css/site.css">
+    {{end}}
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">

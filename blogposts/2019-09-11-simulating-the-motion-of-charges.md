@@ -131,7 +131,7 @@ end
 
 Using some basic plotting functions, I graphed my charges at every training iteration and put them all together in a gif.
 
-![](/assets/charges/maingif.gif)
+![](../../assets/charges/maingif.gif)
 
 *Red charges are positive, Blue charges are negative and size of the dot is proportional to the absolute value of charge.*
 
@@ -143,18 +143,18 @@ Let’s prove this.
 
 Let’s take a trivial case and define a system of two charges: one positive and one negative. Let’s place them diametrically opposite with respect to the origin.
 
-![](/assets/charges/plot1.png)
+![](../../assets/charges/plot1.png)
 
 What do we expect to happen? The charges should move together.
 
-![](/assets/charges/plot2.png)
+![](../../assets/charges/plot2.png)
 
 And they do!
 
 _(What’s interesting is that they seem to have overshot and actually crossed each other at one point, only to get drawn to each other once more. An apt parallel is charges overshooting due to inertia of motion)_
 
 Let’s go back to that system of 100 charges and plot the potential energy at every training iteration.
-![](/assets/charges/plot3.png)
+![](../../assets/charges/plot3.png)
 
 It’s safe to say that the system has converged at a value of approximately -1360 .
 
