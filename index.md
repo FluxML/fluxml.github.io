@@ -261,6 +261,11 @@
         <a href="https://beacon.bio"><img src="./assets/friends/beacon_biosignals.jpg"></a>
         ~~~
       @@
+      @@col-md
+        ~~~
+        <a href="https://www.amd.com"><img src="./assets/friends/amd-logo.png"></a>
+        ~~~
+      @@
     @@
   @@
 @@
