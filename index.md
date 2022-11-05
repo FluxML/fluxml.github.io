@@ -123,7 +123,7 @@
         ~~~
         <h5>Community team</h5>
         ~~~
-        Flux is maintained by community team (see our [governance model](/governance)).
+        Flux is maintained by community team (see our [governance model](./governance)).
         Join us or talk to us on Zulip! 👉
       @@
       @@col-md,feature
@@ -259,6 +259,11 @@
       @@col-md
         ~~~
         <a href="https://beacon.bio"><img src="./assets/friends/beacon_biosignals.jpg"></a>
+        ~~~
+      @@
+      @@col-md
+        ~~~
+        <a href="https://www.amd.com"><img src="./assets/friends/amd-logo.png"></a>
         ~~~
       @@
     @@
