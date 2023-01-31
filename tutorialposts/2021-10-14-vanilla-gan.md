@@ -5,4 +5,4 @@ author = "Ralph Kube"
 external = "http://fluxml.ai/Flux.jl/stable/tutorials/2021-10-14-vanilla-gan/"
 +++
 
-{{redirect http://fluxml.ai/Flux.jl/stable/tutorials/2021-10-14-vanilla-gan/}}
+{{redirect /stable/tutorials/2021-10-14-vanilla-gan/}}
