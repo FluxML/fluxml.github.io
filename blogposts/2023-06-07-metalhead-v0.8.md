@@ -1,4 +1,8 @@
-# What's new in Metalhead 0.8.0
++++
+title = "What's new in Metalhead 0.8.0"
+published = "7 June 2023"
+author = "Abhirath Anand (@theabhirath)"
++++
 
 Metalhead v0.8.0 is one of the largest releases of the library in recent times. Here's a list of all the improvements that have been accumulated in the library over the last few months:
 
