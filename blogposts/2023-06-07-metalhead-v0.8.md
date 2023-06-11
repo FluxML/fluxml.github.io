@@ -14,8 +14,9 @@ Metalhead v0.8.0 ships with more exported models than any other previous Metalhe
 - [WideResNet, SE-ResNet and SE-ResNeXt](https://github.com/FluxML/Metalhead.jl/pull/174)
 - [Res2Net and Res2NeXt](https://github.com/FluxML/Metalhead.jl/pull/195)
 - [EfficientNetv2 and MNASNet](https://github.com/FluxML/Metalhead.jl/pull/198)
+- [The ViT model introduced in v0.7 is now more robust](https://github.com/FluxML/Metalhead.jl/pull/230) and comes with an option for [loading pre-trained weights on ImageNet](https://github.com/FluxML/Metalhead.jl/pull/235)
 
-In Metalhead v0.7, support was added for pre-trained models for VGG and ResNets. v0.8.0 takes this further by adding support for Wide ResNets (an architecture previously not supported by Metalhead), certain configurations of ResNeXt and SqueezeNet. This makes it easier for users to get started with transfer learning tasks. We also now export the `backbone` and `classifier` functions, which return the feature extractor and classifier head portions of the model respectively. This should make it easier for users to hit the ground running.
+In Metalhead v0.7, support was added for pre-trained models for VGG and ResNets. v0.8.0 takes this further by adding support for Wide ResNets (an architecture previously not supported by Metalhead), certain configurations of ResNeXt, and SqueezeNet. This makes it easier for users to get started with transfer learning tasks. We also now export the `backbone` and `classifier` functions, which return the feature extractor and classifier head portions of the model respectively. This should make it easier for users to hit the ground running.
 
 Metalhead is always looking for contributors to help with adding pre-trained weights for the models. To know how you can help with this effort, please check out the contributor’s guide in the documentation. We will be happy to help you work through any issues you may encounter!
 
@@ -42,7 +43,7 @@ v0.8 takes this to the next level by separating out the model interfaces into th
 
 The “high-level” interface caters to users who want a quick start and usually want to work with pre-trained models, either as feature extractors or to fine tune for transfer learning tasks. The notable improvement here has been that all of these functions now expose three keyword arguments mandatorily – `inchannels`, `nclasses`, and `pretrain`. The other big change is that there are no more default model configurations, doing away with ambiguous notation like `ResNet()`, which meant ResNet-50 in Metalhead v0.7. This work landed in [https://github.com/FluxML/Metalhead.jl/pull/190](https://github.com/FluxML/Metalhead.jl/pull/190).
 
-### New age training techniques at the mid level interface
+### Modern training techniques at the mid level interface
 
 The “mid-level” interface allows users looking for more advanced options to start working with models that offer a little more out of the box, without compromising on user ease. In particular, the ResNet family of models has undergone a *huge* revamp, with support for many new modifications added in [https://github.com/FluxML/Metalhead.jl/pull/174](https://github.com/FluxML/Metalhead.jl/pull/174). These modifications include a large number of recent advancements from papers such as [Bag of Tricks](https://arxiv.org/pdf/1812.01187):
 
