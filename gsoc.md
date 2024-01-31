@@ -6,11 +6,11 @@ title = "Google Summer of Code"
 <h1>FluxML Projects - Summer of Code</h1>
 ~~~
 
-Flux usually takes part in [Google Summer of Code](https://summerofcode.withgoogle.com) as a NumFocus organization. We follow the same [rules and application guidelines](https://julialang.org/jsoc/projects/) as Julia, so please check there for more information on applying. Below are a set of ideas for potential projects (though you are welcome to explore anything you are interested in). **Please note that year for the idea list. Project ideas from a previous year will not always carry over to a new year.**
+Flux usually takes part in [Google Summer of Code](https://summerofcode.withgoogle.com) as a NumFocus organization. We follow the same [rules and application guidelines](https://julialang.org/jsoc/projects/) as Julia, so please check there for more information on applying. Below are a set of ideas for potential projects (though you are welcome to explore anything you are interested in). **Please note the year by the ideas list below. Project ideas from a previous year will not always carry over to a new year.**
 
 Flux projects are typically very competitive; we encourage you to get started early, as successful contributors typically have early PRs or working prototypes as part of the application. It is a good idea to simply start contributing via issue discussion and PRs and let a project grow from there; you can take a look at [this list of issues](https://github.com/FluxML/Flux.jl/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22) for some starter contributions. Please see the [contributing guide](https://github.com/FluxML/Flux.jl/blob/master/CONTRIBUTING.md) for help first.
 
-# FluxML GSoC 2023 Ideas List
+# FluxML GSoC 2024 Ideas List
 
 ## Writing Julia-native kernels for common NN operations
 
@@ -52,17 +52,19 @@ The ideal candidate should have experience with what operations are used in popu
 - A proof-of-concept example showing the kernels being used with kernel fusion on device (GPU).
 
 
-## Benchmark tooling for common models and operations
+## Creating runnable training and testing workflows for computer vision models
 
-Create a benchmarking tool for the FluxML ecosystem that we can invoke on demand from PRs. This project will require previous experience with training machine learning models at a "low-level" (i.e. without the use of tools like PyTorch Lightning).
+Write a suite of scripts that demonstrate how to use [Metalhead.jl](https://github.com/FluxML/Metalhead.jl) models for a variety of computer vision tasks and allow for ongoing verification of model correctness.
 
 **Difficulty.** Moderate. **Duration.** 350 hours
 
 ### Description
 
-FluxML's machine learning stack is distributed across many packages, and each package is designed to function as independently as possible. This is done to maximize code-reuse across the Julia ML ecosystem. As a result, it is challenging for us to quantitively determine the performance impact of code changes without manual testing. The goal of this project is to develop a FluxML-specific benchmarking package. The package should allow us to install specific commits of various packages across the FluxML stack, then run a benchmarking suite. The test suite will include low-level operations like convolution or simple gradient calls, as well as complete end-to-end examples like a full forward/backward pass of Metalhead.jl models. 
+Metalhead.jl is Flux's computer vision library and contains a wide range of models along with pre-trained weights. However, it currently lacks a set of examples showcasing how to use the library in complete computer vision workflows. This includes aspects such as integrating data augmentation, manipulating hyperparameters, tracking metrics and evaluating trained models.
+Simultaneously, Metalhead does not have a comprehensive set of end-to-end tests to ensure all models can be trained to convergence and to catch less obvious performance or correctness regressions.
+This project will help fill both needs by creating a set of self-contained, runnable scripts which exercise the functionality of Metalhead models across a number of tasks. The choice of models and tasks may vary, but the top priority will be commonly-used ones such as ResNet and image classification.
 
-The ideal candidate should have experience with multiple ML task setups such as vision, autoregressive language modeling, time series forecasting, etc. Furthermore, some experience with Github Actions and continuous integration (CI) is suggested.
+The ideal candidate should have practical experience with training deep learning models for computer vision tasks, as well as sufficient familiarity with Julia to work independently with complex libraries (e.g. Flux) on a medium-sized codebase. Direct experience using Metalhead.jl is not required but highly recommended. 
 
 **Mentors.** [Brian Chen](https://github.com/ToucheSir), [Kyle Daruwalla](https://github.com/darsnack)
 
