@@ -66,7 +66,7 @@ This project will help fill both needs by creating a set of self-contained, runn
 
 The ideal candidate should have practical experience with training deep learning models for computer vision tasks, as well as sufficient familiarity with Julia to work independently with complex libraries (e.g. Flux) on a medium-sized codebase. Direct experience using Metalhead.jl is not required but highly recommended. 
 
-**Mentors.** [Brian Chen](https://github.com/ToucheSir), [Kyle Daruwalla](https://github.com/darsnack)
+**Mentors.** [Brian Chen](https://github.com/ToucheSir), [Kyle Daruwalla](https://github.com/darsnack), [Abhirath Anand](https://github.com/theabhirath) 
 
 ### Prerequisites
 
