@@ -84,3 +84,29 @@ The ideal candidate should have practical experience with training deep learning
 - A new FluxML package, FluxBenchmarks.jl, that will perform configurable benchmarking across our ML stack.
 - Github Actions integration for FluxBenchmarks.jl to invoke the tool from PRs.
 - A benchmarking suite that will build your experience with different types of ML models and operations across the stack.
+
+
+
+
+## Tape based automated differentiation engine in Julia
+
+Write a new AD engine in julia and integrate it into the FluxML environment.
+
+**Difficulty.** Hard. **Duration.** 350 hours
+
+### Description
+
+TODO: Why is this needed? State of the current ADs. Advantages of tape-based ADs.
+
+**Mentors.** [Marius Drulea](https://github.com/jpsamaroo), [Kyle Daruwalla](https://github.com/darsnack)
+
+### Prerequisites
+
+- Strong knowledge of graph processing algorightms
+- Familiarity with the machine learning methods: forward and backward pass and gradient descent
+- Good programming skills in any of the languages: Julia, Python, C++, Java, C# is required.
+- Julia language is nice to know, but not an absoute requierement. 
+
+### Your contributions
+
+TODO
