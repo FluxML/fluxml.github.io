@@ -98,7 +98,7 @@ Write a new AD engine in julia and integrate it into the FluxML environment.
 
 TODO: Why is this needed? State of the current ADs. Advantages of tape-based ADs.
 
-**Mentors.** [Marius Drulea](https://github.com/jpsamaroo), [Kyle Daruwalla](https://github.com/darsnack)
+**Mentors.** [Marius Drulea](https://github.com/MariusDrulea), [Kyle Daruwalla](https://github.com/darsnack)
 
 ### Prerequisites
 
