@@ -107,7 +107,7 @@ In this project we aim to solve this problem by using a simple and yet very effe
 - Familiarity with the machine learning methods: forward and backward pass and gradient descent
 - Familiarity with one of the machine learning libraries: FluxML, PyTorch, Tensorflow, Jax
 - Good programming skills in any of the folowing languages is required: Julia, Python, C/C++, Java, C#
-- Julia language is nice to know, but not an absoute requierement. 
+- Julia language is nice to know, but not an absoute requierement
 
 ### Your contributions
 - Write a new AD engine. This will lead to a new Julia package, or we can completely replace the content of the old Tracker.jl package.
