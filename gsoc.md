@@ -86,17 +86,18 @@ The ideal candidate should have practical experience with training deep learning
 - A benchmarking suite that will build your experience with different types of ML models and operations across the stack.
 
 
-
-
 ## Tape based automated differentiation engine in Julia
 
-Write a new AD engine in julia and integrate it into the FluxML environment.
+Write a new AD (automated differentiation) engine in julia and integrate it into the FluxML environment.
+The AD engine will be used for the typical DNN architectures.
 
 **Difficulty.** Hard. **Duration.** 350 hours
 
 ### Description
 
-TODO: Why is this needed? State of the current ADs. Advantages of tape-based ADs.
+The family of AD engines in Julia consists mostly of Zygote, Enzyme and the upcoming Diffractor. These packages operate on the LLVM intermediate representation (IR) output of the first compiler pass. They are very complex, takes many months or years to develop and requires specialized knowledge for this. Maintaining these packages is also big pain point: as the original developers often engage in other projects, over the years the community is left with these hard-to-maintain packages. These packages have their advantages of course, but we shall see them more like premium AD packages. They can be used, but we shall always have a baseline AD package which does the job and it's easy to maintain and improve.
+
+In this project we aim to solve this problem by using a simple and yet very effective approach: tapes. Tape based automated differentiation is in use in PyTorch, Tensorflow and Jax. Despite their simplicity, taped-based ADs are the main tool in such succesfull deep learning frameworks. While PyTorch, Tensorflow and Jax are monoliths, the FluxML ecosystem consists of several packages and a new AD engine can be added quite easily. We will make use of the excellent ChainRules and NNlib packages and make the AD integrate with Flux.jl and Lux.jl.
 
 **Mentors.** [Marius Drulea](https://github.com/MariusDrulea), [Kyle Daruwalla](https://github.com/darsnack)
 
@@ -104,9 +105,12 @@ TODO: Why is this needed? State of the current ADs. Advantages of tape-based ADs
 
 - Strong knowledge of graph processing algorightms
 - Familiarity with the machine learning methods: forward and backward pass and gradient descent
-- Good programming skills in any of the languages: Julia, Python, C++, Java, C# is required.
+- Familiarity with one of the machine learning libraries: FluxML, PyTorch, Tensorflow, Jax
+- Good programming skills in any of the folowing languages is required: Julia, Python, C/C++, Java, C#
 - Julia language is nice to know, but not an absoute requierement. 
 
 ### Your contributions
-
-TODO
+- Write a new AD engine. This will lead to a new Julia package, or we can completely replace the content of the old Tracker.jl package.
+- Integrate the new engine in the Julia ML ecosystem: Flux, Lux, ChainRules, NNlib.
+- Write extensive documentation and extensively document the code. This must be a package were the commnity can easily get involved if there will arise a need for it.
+- Provide a youtube video on how to use the package.
