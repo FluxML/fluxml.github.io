@@ -88,7 +88,7 @@ The ideal candidate should have practical experience with training deep learning
 
 ## Tape based automated differentiation engine in Julia
 
-Write a new AD (automated differentiation) engine in julia and integrate it into the FluxML environment.
+Write a new AD (automated differentiation) engine in Julia and integrate it into the FluxML environment.
 The AD engine will be used for the typical DNN architectures.
 
 **Difficulty.** Hard. **Duration.** 350 hours
