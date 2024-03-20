@@ -112,5 +112,5 @@ In this project we aim to solve this problem by using a simple and yet very effe
 ### Your contributions
 - Write a new AD engine. This will lead to a new Julia package, or we can completely replace the content of the old Tracker.jl package.
 - Integrate the new engine in the Julia ML ecosystem: Flux, Lux, ChainRules, NNlib.
-- Write extensive documentation and extensively document the code. This must be a package were the commnity can easily get involved if there will arise a need for it.
+- Write extensive documentation and extensively document the code. This must be a package were the community can easily get involved if there will arise a need for it.
 - Provide a youtube video on how to use the package.
