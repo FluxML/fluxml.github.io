@@ -84,3 +84,33 @@ The ideal candidate should have practical experience with training deep learning
 - A new FluxML package, FluxBenchmarks.jl, that will perform configurable benchmarking across our ML stack.
 - Github Actions integration for FluxBenchmarks.jl to invoke the tool from PRs.
 - A benchmarking suite that will build your experience with different types of ML models and operations across the stack.
+
+
+## Tape based automated differentiation engine in Julia
+
+Write a new AD (automated differentiation) engine in Julia and integrate it into the FluxML environment.
+The AD engine will be used for the typical DNN architectures.
+
+**Difficulty.** Hard. **Duration.** 350 hours
+
+### Description
+
+The family of reverse-mode AD engines in Julia consists mostly of Zygote, Enzyme and the upcoming Diffractor. These packages operate on the intermediate representation (IR) output of the compiler. They are very complex, and it takes many months or years to develop the specialized knowledge required to build these tools. As a result, fixing bugs or adding features is a time consuming task for non-expert developers. 
+
+In this project we aim to solve this problem by using a simple and yet very effective approach: tapes. This "lower-tech" tape-based AD engine will be easier to maintain while offering fewer features than the existing, complex engines. Tape based automated differentiation is in use in PyTorch, Tensorflow, and Jax. Despite their simplicity, taped-based ADs are the main tool in such successful deep learning frameworks. While PyTorch, Tensorflow and Jax are monoliths, the FluxML ecosystem consists of several packages and a new AD engine can be added quite easily. We will make use of the excellent ChainRules and NNlib packages and make the AD integrate with Flux.jl and Lux.jl.
+
+**Mentors.** [Marius Drulea](https://github.com/MariusDrulea), [Kyle Daruwalla](https://github.com/darsnack)
+
+### Prerequisites
+
+- Strong knowledge of graph processing algorightms
+- Familiarity with the machine learning methods: forward and backward pass and gradient descent
+- Familiarity with one of the machine learning libraries: FluxML, PyTorch, Tensorflow, Jax
+- Good programming skills in any of the folowing languages is required: Julia, Python, C/C++, Java, C#
+- Julia language is nice to know, but not an absoute requierement
+
+### Your contributions
+- Write a new AD engine. This will lead to a new Julia package, or we can completely replace the content of the old Tracker.jl package.
+- Integrate the new engine in the Julia ML ecosystem: Flux, Lux, ChainRules, NNlib.
+- Write extensive documentation and extensively document the code. This must be a package were the community can easily get involved if there will arise a need for it.
+- Provide a youtube video on how to use the package.
