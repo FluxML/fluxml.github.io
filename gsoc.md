@@ -6,9 +6,11 @@ title = "Google Summer of Code"
 <h1>FluxML Projects - Summer of Code</h1>
 ~~~
 
-Flux usually takes part in [Google Summer of Code](https://summerofcode.withgoogle.com) as a NumFocus organization. We follow the same [rules and application guidelines](https://julialang.org/jsoc/projects/) as Julia, so please check there for more information on applying. Below are a set of ideas for potential projects (though you are welcome to explore anything you are interested in). **Please note the year by the ideas list below. Project ideas from a previous year will not always carry over to a new year.**
+Flux usually takes part in [Google Summer of Code](https://summerofcode.withgoogle.com) as a NumFocus organization. We follow the same [rules and application guidelines](https://julialang.org/jsoc/projects/) as Julia, so please check there for more information on applying. Below are a set of ideas for potential projects (though you are welcome to explore anything you are interested in).
+<!--**Please note the year by the ideas list below. Project ideas from a previous year will not always carry over to a new year.**-->
+**We do not have any project available for GSoC this year. Please see the [Julia projects](https://julialang.org/jsoc/projects/) instead.**
 
-Flux projects are typically very competitive; we encourage you to get started early, as successful contributors typically have early PRs or working prototypes as part of the application. It is a good idea to simply start contributing via issue discussion and PRs and let a project grow from there; you can take a look at [this list of issues](https://github.com/FluxML/Flux.jl/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22) for some starter contributions. Please see the [contributing guide](https://github.com/FluxML/Flux.jl/blob/master/CONTRIBUTING.md) for help first.
+<!--Flux projects are typically very competitive; we encourage you to get started early, as successful contributors typically have early PRs or working prototypes as part of the application. It is a good idea to simply start contributing via issue discussion and PRs and let a project grow from there; you can take a look at [this list of issues](https://github.com/FluxML/Flux.jl/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22) for some starter contributions. Please see the [contributing guide](https://github.com/FluxML/Flux.jl/blob/master/CONTRIBUTING.md) for help first.
 
 # FluxML GSoC 2024 Ideas List
 
@@ -113,4 +115,4 @@ In this project we aim to solve this problem by using a simple and yet very effe
 - Write a new AD engine. This will lead to a new Julia package, or we can completely replace the content of the old Tracker.jl package.
 - Integrate the new engine in the Julia ML ecosystem: Flux, Lux, ChainRules, NNlib.
 - Write extensive documentation and extensively document the code. This must be a package were the community can easily get involved if there will arise a need for it.
-- Provide a youtube video on how to use the package.
+- Provide a youtube video on how to use the package.-->
